@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="黄成的博客">
 <meta property="og:description" content="本文主要是纪录一些常见的ARM汇编知识。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-10T16:18:26.594Z">
+<meta property="og:updated_time" content="2017-03-10T17:21:47.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="汇编总结">
 <meta name="twitter:description" content="本文主要是纪录一些常见的ARM汇编知识。">
@@ -201,16 +201,62 @@
 <p>第九行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mcr p15,0,r0,c15,c2,4</div></pre></td></tr></table></figure></p>
 <ul>
 <li>格式：mcr&emsp;协处理器编码，&emsp;协处理器操作码1，&emsp;源寄存器，&emsp;目的寄存器1，&emsp;目的寄存器2，&emsp;协处理器操作码2</li>
-<li>作用：将ARM处理器寄存器中的数据传送到协处理器寄存器中,若协处理器不能成功完成操作，则产生未定义指令异常。<br>其中<strong>协处理器操作码1</strong> 和<strong>协处理器操作码</strong>2 为协处理器将要执行的操作，<strong>源寄存器</strong>为ARM处理器的寄存器，<strong>目的寄存器1</strong>和<strong>目的寄存器2</strong>均为协处理器的寄存器。</li>
+<li>作用：将ARM处理器寄存器中的数据传送到协处理器寄存器中,若协处理器不能成功完成操作，则产生未定义指令异常。其中<strong>协处理器操作码1</strong> 和<strong>协处理器操作码2</strong> 为协处理器将要执行的操作，<strong>源寄存器</strong>为ARM处理器的寄存器，<strong>目的寄存器1</strong>和<strong>目的寄存器2</strong>均为协处理器的寄存器。</li>
 </ul>
 <hr>
 <p>第十五行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str r1, [r0]</div></pre></td></tr></table></figure></p>
 <ul>
 <li>格式：str&emsp;源寄存器&emsp;&lt;存储器地址&gt;</li>
-<li>作用：用于从<strong>源寄存器</strong>中将一个32位的字数据传送到存储器中。在ARM架构下, 数据从内存到CPU之间的移动只能通过ldr/str指令来完成。而mov只能在寄存器之间移动数据,或者把立即数移动到寄存器中,并且数据的长度不能超过8位</li>
+<li>作用：用于从<strong>源寄存器</strong>中将一个32位的字数据传送到存储器中。在ARM架构下, 数据从内存到CPU之间的移动只能通过ldr/str指令来完成。而mov只能在寄存器之间移动数据,或者把立即数移动到寄存器中,并且数据的长度不能超过8位。</li>
 </ul>
 <hr>
-<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本作品采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://hceng.github.io/" target="_blank" rel="external">Hceng’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+<p>第十八行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adr r0, _start</div></pre></td></tr></table></figure></p>
+<ul>
+<li>格式：adr&emsp;目的寄存器&emsp;程序相对的表达式</li>
+<li>作用：可将一个立即值与pc值相加，并将结果写入目标寄存器。adr可生成与位置无关的代码，因为地址相对于程序或寄存器。详见ARM指令<a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0204ic/Babcjaii.html" target="_blank" rel="external">adr</a>。</li>
+</ul>
+<hr>
+<p>第二十一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cmp r0, r1</div></pre></td></tr></table></figure></p>
+<ul>
+<li>格式：cmp&emsp;操作数1，&emsp;操作数2</li>
+<li>作用：用于把一个寄存器的内容和另一个寄存器的内容或立即数进行比较，同时更新CPSR中条件标志位的值。该指令进行一次减法运算，但不存储结果，只更改条件标志位。标志位表示的是<strong>操作数1</strong>与<strong>操作数2</strong>的关系(大、小、相等)，例如，当操作数1大于操作操作数2，则此后的有GT 后缀的指令将可以执行。<blockquote>
+<p><strong>CPSR注：</strong></p>
+<ul>
+<li>Z标志：是否为0；如比较指令产生相等的结果、计算结果为0；</li>
+<li>N标志：是否为负；如果指令的结果被认为是有符号数，而它的第31位为1，那就会被设置为1；</li>
+<li>C标志：是否有产生进位/借位，以及进行移位操作时作移出位使用；</li>
+<li>V标志：有符号数进行运算，结果是否有溢出。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<hr>
+<p>第二十二行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">beq clean_bss</div></pre></td></tr></table></figure></p>
+<ul>
+<li>格式：beq&emsp;标签</li>
+<li>作用：数据跳转指令，标志寄存器中Z标志位等于零时, 跳转到beq后标签处。</li>
+</ul>
+<hr>
+<p>第二十七行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bne copy_loop</div></pre></td></tr></table></figure></p>
+<ul>
+<li>格式：bne&emsp;标签</li>
+<li>作用：数据跳转指令，标志寄存器中Z标志位不等于零时, 跳转到BNE后标签处。</li>
+</ul>
+<hr>
+<p>第四十二行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bl main</div></pre></td></tr></table></figure></p>
+<ul>
+<li>格式：bl&emsp;子程序名</li>
+<li>作用：b或bl指令引起处理器转移到<strong>子程序名</strong>处开始执行。两者的不同之处在于bl指令在转移到子程序执行之前，将其下一条指令的地址拷贝到R14（LR,链接寄存器）。由于bl指令保存了下条指令的地址，因此使用指令“mov pc, lr”即可实现子程序的返回。而b指令则无法实现子程序的返回，只能实现单纯的跳转。</li>
+</ul>
+<blockquote>
+<p><strong>ARM处理器控制程序执行方式注：</strong></p>
+<ul>
+<li>流水方式执行程序：PC的值是下一条指令的地址，即每执行一条指令PC都加一个字的偏移。</li>
+<li>通过跳转指令来控制程序执行:b-跳转到指定的指令处执行;bl-跳转执行，保存子程序地址并返回;bx-跳转执行并切换到Thumb状态;blx-三种方式组合。</li>
+</ul>
+</blockquote>
+<hr>
+<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://hceng.github.io/" target="_blank" rel="external">Hceng’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
 
