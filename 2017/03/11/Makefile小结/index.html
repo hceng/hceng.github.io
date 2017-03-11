@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="黄成的博客">
 <meta property="og:description" content="本文主要是纪录一些遇到的Makefile知识。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-11T09:28:02.501Z">
+<meta property="og:updated_time" content="2017-03-11T14:26:27.638Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Makefile小结">
 <meta name="twitter:description" content="本文主要是纪录一些遇到的Makefile知识。">
@@ -183,7 +183,7 @@
       
         <p>本文主要是纪录一些遇到的Makefile知识。<br><a id="more"></a></p>
 <blockquote>
-<p>Makefile以韦东山老师第一期裸板视频中的 <em>第8课LCD实验的配套代码lcd_3.5_4.3</em> 中的Makefile为例，该工程有两个Makefile,分别位于根目录和lib目录中：<br><figure class="highlight makefile"><figcaption><span>[根文件Makefile]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">CC      = arm-linux-gcc</div><div class="line">LD      = arm-linux-ld</div><div class="line">AR      = arm-linux-ar</div><div class="line">OBJCOPY = arm-linux-objcopy</div><div class="line">OBJDUMP = arm-linux-objdump</div><div class="line"></div><div class="line">INCLUDEDIR 	:= <span class="variable">$(shell pwd)</span>/include</div><div class="line">CFLAGS 		:= -Wall -O2</div><div class="line">CPPFLAGS   	:= -nostdinc -I<span class="variable">$(INCLUDEDIR)</span></div><div class="line"></div><div class="line">export 	CC LD AR OBJCOPY OBJDUMP INCLUDEDIR CFLAGS CPPFLAGS</div><div class="line"></div><div class="line">objs := head.o init.o nand.o interrupt.o serial.o lcddrv.o/ </div><div class="line">framebuffer.o lcdlib.o main.o lib libc.a</div><div class="line"></div><div class="line">lcd.bin: $(objs)</div><div class="line">	$&#123;LD&#125; -Tlcd.lds -o lcd_elf $^</div><div class="line">	$&#123;OBJCOPY&#125; -O binary -S lcd_elf $@</div><div class="line">	$&#123;OBJDUMP&#125; -D -m arm lcd_elf &gt; lcd.dis</div><div class="line"></div><div class="line">.PHONY : lib/libc.a</div><div class="line">lib/libc.a:</div><div class="line">	cd lib; make; cd ..</div><div class="line">	</div><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="section">clean:</span></div><div class="line">	make  clean -C lib</div><div class="line">	rm -f lcd.bin lcd_elf lcd.dis *.o</div></pre></td></tr></table></figure></p>
+<p>Makefile以韦东山老师第一期裸板视频中的 <em>第8课LCD实验的配套代码lcd_3.5_4.3</em> 中的Makefile为例，该工程有两个Makefile,分别位于根目录和lib目录中：<br><figure class="highlight makefile"><figcaption><span>[根目录Makefile]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">CC      = arm-linux-gcc</div><div class="line">LD      = arm-linux-ld</div><div class="line">AR      = arm-linux-ar</div><div class="line">OBJCOPY = arm-linux-objcopy</div><div class="line">OBJDUMP = arm-linux-objdump</div><div class="line"></div><div class="line">INCLUDEDIR 	:= <span class="variable">$(shell pwd)</span>/include</div><div class="line">CFLAGS 		:= -Wall -O2</div><div class="line">CPPFLAGS   	:= -nostdinc -I<span class="variable">$(INCLUDEDIR)</span></div><div class="line"></div><div class="line">export 	CC LD AR OBJCOPY OBJDUMP INCLUDEDIR CFLAGS CPPFLAGS</div><div class="line"></div><div class="line">objs := head.o init.o nand.o interrupt.o serial.o lcddrv.o/ </div><div class="line">framebuffer.o lcdlib.o main.o lib libc.a</div><div class="line"></div><div class="line">lcd.bin: $(objs)</div><div class="line">	$&#123;LD&#125; -Tlcd.lds -o lcd_elf $^</div><div class="line">	$&#123;OBJCOPY&#125; -O binary -S lcd_elf $@</div><div class="line">	$&#123;OBJDUMP&#125; -D -m arm lcd_elf &gt; lcd.dis</div><div class="line"></div><div class="line">.PHONY : lib/libc.a</div><div class="line">lib/libc.a:</div><div class="line">	cd lib; make; cd ..</div><div class="line">	</div><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="section">clean:</span></div><div class="line">	make  clean -C lib</div><div class="line">	rm -f lcd.bin lcd_elf lcd.dis *.o</div></pre></td></tr></table></figure></p>
 </blockquote>
 <hr>
 <p>主Makefile总领全局的就这句:<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lcd.bin: $(objs)</div></pre></td></tr></table></figure><br>要生成lcd.bin，依赖于objs列举的一堆文件：<em>head.o init.o nand.o interrupt.o serial.o lcddrv.o framebuffer.o lcdlib.o main.o lib libc.a</em>，所以要先找到这些文件，几个.o，还有一个.a。</p>
@@ -194,10 +194,134 @@
 </blockquote>
 </li>
 </ul>
+<hr>
 <p>下面进行分析：</p>
-<blockquote>
-<figure class="highlight makefile"><figcaption><span>[lib目录中Makefile]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">objs := div64.o lib1funcs.o ctype.o muldi3.o printf.o string.o/</div><div class="line">vsprintf.o</div><div class="line"></div><div class="line">libc.a: $(objs)</div><div class="line">	$&#123;AR&#125; -r -o $@ $^</div><div class="line">	</div><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="section">clean:</span></div><div class="line">	rm -f libc.a *.o		</div><div class="line">	</div></pre></td></tr></table></figure>
+<p>第一至五行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">CC      = arm-linux-gcc</div><div class="line">LD      = arm-linux-ld</div><div class="line">AR      = arm-linux-ar</div><div class="line">OBJCOPY = arm-linux-objcopy</div><div class="line">OBJDUMP = arm-linux-objdump</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将右边工具链名赋值给左边变量，为了简化书写；</li>
+<li>分析：<ol>
+<li>arm-linux-gcc：编译.c或.s头的C文件或汇编程序；</li>
+<li>arm-linux-ld：连接器，把多个.o文件或库文件连接成一个可执行文件；</li>
+<li>arm-linux-ar：库管理器，把多个.o文件合并成一个.o文件或静态库文件（.a文件）；</li>
+<li>arm-linux-objcopy：转换可执行文件的格式；</li>
+<li>arm-linux-objdump：生成反汇编；</li>
+</ol>
+</li>
+</ul>
+<hr>
+<p>第七行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INCLUDEDIR 	:= <span class="variable">$(shell pwd)</span>/include</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将shell命令和include组成的路径立即赋值给左边变量，为了简化书写；</li>
+<li>分析：Makefile中调用shell命令：$(shell 命令)；<blockquote>
+<p><strong>‘ = ’与‘ := ’的区别注：</strong> - “ = ”：make会将整个Makefile展开后，再决定变量的值。也就是说，变量的值将会是整个,Makefile中最后被指定的值。看例子：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = foo</div><div class="line">y = <span class="variable">$(x)</span> bar</div><div class="line">x = xyz</div></pre></td></tr></table></figure>
+<p>在上例中，y的值将会是 xyz bar ，而不是 foo bar 。- “ := ”表示变量的值决定于它在makefile中的位置，而不是整个makefile展开后的最终值。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x := foo</div><div class="line">y := <span class="variable">$(x)</span> bar</div><div class="line">x := xyz</div></pre></td></tr></table></figure>
+<p>在上例中，y的值将会是 foo bar ，而不是 xyz bar 了。</p>
 </blockquote>
+</li>
+</ul>
+<hr>
+<p>第八行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CFLAGS 		:= -Wall -O2</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将gcc的编译参数赋值给左边变量，为了简化书写；</li>
+<li>分析：-Wall显示所有编译错误或警告；-O2优化选项，编译时使用2级优化</li>
+</ul>
+<hr>
+<p>第九行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CPPFLAGS   	:= -nostdinc -I<span class="variable">$(INCLUDEDIR)</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将gcc编译路径参数赋值给左边变量，为了简化书写；</li>
+<li>分析：-nostdinc忽略系统库目录（这里我们自定义了printf等系统函数，不能再包含系统文件里的相关函数）；-I指定搜索路径；</li>
+</ul>
+<hr>
+<p>第十一行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export 	CC LD AR OBJCOPY OBJDUMP INCLUDEDIR CFLAGS CPPFLAGS</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将变量传递到下级Makefile，类似于宏；</li>
+<li>分析：本文件中指的是生成lib/libc.a库文件时的Makefile；</li>
+</ul>
+<hr>
+<p>第十三行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">objs := head.o init.o nand.o interrupt.o serial.o lcddrv.o/ </div><div class="line">framebuffer.o lcdlib.o main.o lib libc.a</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：定义变量objs，包含了生成目标文件所需的文件，为了简化书写；</li>
+<li>分析：一行代码写不完，使用/符号可继续在下行写；</li>
+</ul>
+<hr>
+<p>第十六行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lcd.bin: $(objs)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：定义生成目标lcd.bin，依赖于objs对象；</li>
+<li>分析：执行这条命令时，先生成所有依赖文件，然后依次执行后面三条命令；</li>
+</ul>
+<hr>
+<p>第十七行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$&#123;LD&#125; -Tlcd.lds -o lcd_elf $^</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：根据链接脚本lcd.lds链接，输出目的文件lcd_elf,依赖全部文件；</li>
+<li>分析：-T指定链接脚本；$^表示全部依赖文件；</li>
+</ul>
+<hr>
+<p>第十八行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$&#123;OBJCOPY&#125; -O binary -S lcd_elf $@</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将lcd_elf文件转换成二进制文件；</li>
+<li>分析：-O表示输出格式;-S表示不从源文件中复制重定位信息和符号信息到目标文件中；$@表示全部目标文件；</li>
+</ul>
+<hr>
+<p>第十九行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$&#123;OBJDUMP&#125; -D -m arm lcd_elf &gt; lcd.dis</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：将lcd_elf文件反汇编为lcd.dis文件；</li>
+<li>分析：-m后面跟的是cpu构架;&gt;表示将这个程序的反汇编程序写入到led.dis这个文件中,在终端中不显示出来；</li>
+</ul>
+<hr>
+<p>第二十一行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.PHONY : lib/libc.a</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：.PHONY伪目标，不要管lib/libc.a文件是否存在，都执行后面的指令；</li>
+<li>分析：通常为了避免伪目标和文件重名的这种情况，使用特殊的记“.PHONY”来显示地指明一个目标是“伪目标”；</li>
+</ul>
+<hr>
+<p>第二十二、二十三行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">lib/libc.a:</div><div class="line">	cd lib; make; cd ..</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：执行lib文件夹的Makefile，从而生成libc.a；</li>
+<li>分析：执行shell指令，进入lib目录，make，退出；</li>
+</ul>
+<hr>
+<p>第二十五至二十九行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：依赖所有的.c和.S文件，生成所有的.o文件；</li>
+<li>分析：%通配符；-c编译不链接;$@表示目标文件;$&lt;表示第一个依赖文件;</li>
+</ul>
+<hr>
+<p>第三十一至三十三行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">%.o:%.S</div><div class="line"><span class="section">clean:</span></div><div class="line">	make  clean -C lib</div><div class="line">	rm -f lcd.bin lcd_elf lcd.dis *.o</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：清理所有生成文件；</li>
+<li>分析：-C lib即清理包括lib文件夹下生成的文件;</li>
+</ul>
+<hr>
+<p>下面是lib目录Makefile:</p>
+<blockquote>
+<figure class="highlight makefile"><figcaption><span>[lib目录Makefile]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">objs := div64.o lib1funcs.o ctype.o muldi3.o printf.o string.o/</div><div class="line">vsprintf.o</div><div class="line"></div><div class="line">libc.a: $(objs)</div><div class="line">	$&#123;AR&#125; -r -o $@ $^</div><div class="line">	</div><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="section">clean:</span></div><div class="line">	rm -f libc.a *.o		</div><div class="line">	</div></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<p>第一、二行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">objs := div64.o lib1funcs.o ctype.o muldi3.o printf.o string.o/</div><div class="line">vsprintf.o</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：定义变量objs，包含了生成目标文件所需的文件，为了简化书写；</li>
+<li>分析：一行代码写不完，使用/符号可继续在下行写；</li>
+</ul>
+<hr>
+<p>第四、五行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">libc.a: $(objs)</div><div class="line">	$&#123;AR&#125; -r -o $@ $^</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：使用库管理器生成lib.a；</li>
+<li>分析：$@表示目标文件;$^所有依赖文件；</li>
+</ul>
+<hr>
+<p>第七至十一行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：依赖所有的.c和.S文件，生成所有的.o文件；</li>
+<li>分析：%通配符；-c编译不链接;$@表示目标文件;$&lt;表示第一个依赖文件;</li>
+</ul>
+<hr>
+<p>第十三、十四行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">%.o:%.S</div><div class="line"><span class="section">clean:</span></div><div class="line">	rm -f libc.a *.o</div></pre></td></tr></table></figure></p>
+<ul>
+<li>作用：清理所有生成文件；</li>
+<li>分析：-f强制删除;</li>
+</ul>
 <p>参考博文：<a href="http://www.cnblogs.com/sekon/p/6437705.html" target="_blank" rel="external">sekon LCD实验学习笔记（一）：Makefile</a></p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://hceng.github.io/" target="_blank" rel="external">Hceng’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
