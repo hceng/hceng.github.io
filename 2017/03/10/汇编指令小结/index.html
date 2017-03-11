@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>汇编指令小结 | 黄成的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要是纪录一些遇到的的ARM汇编知识。">
+  <meta name="description" content="本文主要是纪录一些遇到的ARM汇编知识。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="汇编指令小结">
 <meta property="og:url" content="http://yoursite.com/2017/03/10/汇编指令小结/index.html">
 <meta property="og:site_name" content="黄成的博客">
-<meta property="og:description" content="本文主要是纪录一些遇到的的ARM汇编知识。">
+<meta property="og:description" content="本文主要是纪录一些遇到的ARM汇编知识。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-11T01:21:11.900Z">
+<meta property="og:updated_time" content="2017-03-11T06:59:10.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="汇编指令小结">
-<meta name="twitter:description" content="本文主要是纪录一些遇到的的ARM汇编知识。">
+<meta name="twitter:description" content="本文主要是纪录一些遇到的ARM汇编知识。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="黄成的博客" type="application/atom+xml">
@@ -181,9 +181,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要是纪录一些遇到的的ARM汇编知识。<br><a id="more"></a></p>
+        <p>本文主要是纪录一些遇到的ARM汇编知识。<br><a id="more"></a></p>
 <blockquote>
-<p>汇编代码以韦山东老师的 <em>第7章nand flash实验配套代码13th_link_4096</em> 中的start.S为例：<br><figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">.globl _start</div><div class="line">_start:</div><div class="line"></div><div class="line">/* 硬件相关的设置 : 把外设的基地址告诉CPU*/</div><div class="line">    /* Peri port setup */</div><div class="line">    ldr r0, =0x70000000</div><div class="line">    orr r0, r0, #0x13</div><div class="line">    mcr p15,0,r0,c15,c2,4       @ 256M(0x70000000-0x7fffffff)</div><div class="line">    </div><div class="line">/* 关看门狗 */</div><div class="line">/* 往WTCON(0x7E004000)写0 */</div><div class="line">	ldr r0, =0x7E004000</div><div class="line">	mov r1, #0</div><div class="line">	str r1, [r0]</div><div class="line"></div><div class="line">/* 重定位 */</div><div class="line">	adr r0, _start  /* _start当前指令地址 */</div><div class="line">	ldr r1, =_start /* _start的编译地址 */</div><div class="line">	ldr r2, =bss_start</div><div class="line">	cmp r0, r1</div><div class="line">	beq clean_bss</div><div class="line">copy_loop:</div><div class="line">	ldr r3, [r0], #4</div><div class="line">	str r3, [r1], #4</div><div class="line">	cmp r1, r2</div><div class="line">	bne copy_loop</div><div class="line">		</div><div class="line">/* 清BSS段 */</div><div class="line">clean_bss:</div><div class="line">	ldr r0, =bss_start</div><div class="line">	ldr r1, =bss_end</div><div class="line">	mov r2, #0</div><div class="line">clean_loop:</div><div class="line">	str r2, [r0], #4</div><div class="line">	cmp r0, r1</div><div class="line">	bne clean_loop	</div><div class="line"></div><div class="line">	/* 设置栈 */</div><div class="line">	ldr sp, =8*1024</div><div class="line">	ldr pc, =main /* 重定位完后, 使用位置相关的指令跳转 */</div><div class="line">	bl main</div><div class="line">halt:</div><div class="line">	b halt	</div></pre></td></tr></table></figure></p>
+<p>汇编代码以韦东山老师的 <em>第7章nand flash实验配套代码13th_link_4096</em> 中的start.S为例：<br><figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">.globl _start</div><div class="line">_start:</div><div class="line"></div><div class="line">/* 硬件相关的设置 : 把外设的基地址告诉CPU*/</div><div class="line">    /* Peri port setup */</div><div class="line">    ldr r0, =0x70000000</div><div class="line">    orr r0, r0, #0x13</div><div class="line">    mcr p15,0,r0,c15,c2,4       @ 256M(0x70000000-0x7fffffff)</div><div class="line">    </div><div class="line">/* 关看门狗 */</div><div class="line">/* 往WTCON(0x7E004000)写0 */</div><div class="line">	ldr r0, =0x7E004000</div><div class="line">	mov r1, #0</div><div class="line">	str r1, [r0]</div><div class="line"></div><div class="line">/* 重定位 */</div><div class="line">	adr r0, _start  /* _start当前指令地址 */</div><div class="line">	ldr r1, =_start /* _start的编译地址 */</div><div class="line">	ldr r2, =bss_start</div><div class="line">	cmp r0, r1</div><div class="line">	beq clean_bss</div><div class="line">copy_loop:</div><div class="line">	ldr r3, [r0], #4</div><div class="line">	str r3, [r1], #4</div><div class="line">	cmp r1, r2</div><div class="line">	bne copy_loop</div><div class="line">		</div><div class="line">/* 清BSS段 */</div><div class="line">clean_bss:</div><div class="line">	ldr r0, =bss_start</div><div class="line">	ldr r1, =bss_end</div><div class="line">	mov r2, #0</div><div class="line">clean_loop:</div><div class="line">	str r2, [r0], #4</div><div class="line">	cmp r0, r1</div><div class="line">	bne clean_loop	</div><div class="line"></div><div class="line">	/* 设置栈 */</div><div class="line">	ldr sp, =8*1024</div><div class="line">	ldr pc, =main /* 重定位完后, 使用位置相关的指令跳转 */</div><div class="line">	bl main</div><div class="line">halt:</div><div class="line">	b halt	</div></pre></td></tr></table></figure></p>
 </blockquote>
 <hr>
 <p>第七行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ldr r0, =0x70000000</div></pre></td></tr></table></figure></p>
@@ -344,6 +344,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2017/03/11/Makefile小结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Makefile小结
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/03/01/tags/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">blog tags</div>
@@ -472,11 +481,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
             
             <div class="clearfix"></div>
