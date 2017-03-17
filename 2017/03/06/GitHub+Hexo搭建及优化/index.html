@@ -15,8 +15,9 @@
 <meta property="og:site_name" content="黄成的博客">
 <meta property="og:description" content="本文主要是纪录本博客的搭建和优化。">
 <meta property="og:image" content="http://p1.bpimg.com/567571/2c26caa578ff096e.jpg">
+<meta property="og:image" content="http://i1.piimg.com/567571/aac5dcbb6a2c85d2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-12T10:15:39.470Z">
+<meta property="og:updated_time" content="2017-03-17T13:27:39.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
 <meta name="twitter:description" content="本文主要是纪录本博客的搭建和优化。">
@@ -180,7 +181,7 @@
       
         <p>本文主要是纪录本博客的搭建和优化。<br><a id="more"></a></p>
 <blockquote>
-<p>为什么做独立博客？<br>我想主要是<strong>激励自己去持续学习和思考</strong>。</p>
+<p>为什么做独立博客？<br>我想大概就是<strong>激励自己去持续学习和思考</strong>。</p>
 </blockquote>
 <hr>
 <p>首先说下本博客搭建的大致流程:<br>1.有一个GitHub账号，同时配置GitHub Pages；<br>2.安装、配置Hexo；<br>3.配置博客、Markdown写文章；<br>4.绑定自己域名（可选）；<br>5.优化日常操作（可选）；</p>
@@ -194,16 +195,44 @@
 </ul>
 </blockquote>
 <hr>
-<h1 id="2-安装、配置Hexo"><a href="#2-安装、配置Hexo" class="headerlink" title="2.安装、配置Hexo"></a>2.安装、配置Hexo</h1><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo</a> 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br>1、安装 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>;<br>2、下载<a href="https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip" target="_blank" rel="external">cmder</a>代替Windows自带cmd;<br>3、安装 <a href="https://github.com/waylau/git-for-win" target="_blank" rel="external">Git</a>;<br>4、添加本机密钥到GitHub;<br>5、安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，在Git上设置username和email；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git config --global user.name &quot;hceng&quot;</div><div class="line">$ git config --global user.email &quot;huangcheng.job@foxmail.com&quot;</div></pre></td></tr></table></figure><br>其中3-4步在前一篇博文<a href="http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/#more" target="_blank" rel="external">Git日常使用小结</a>中已设置过了，无需再设置。<br>6、安装 Hexo：使用 npm 安装 Hexo。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure><br>至此，已经安装完Hexo,后续进行相关配置。<br>7、在电脑上选一个盘，建个文件夹存放博客数据，例我的：E:\blog；然后打开cmder，输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ e:&amp;cd blog #进入所建文件夹</div><div class="line">$ hexo init blog #初始化blog</div></pre></td></tr></table></figure><br>成功初始化blog后将出现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO  Start blogging with Hexo!</div></pre></td></tr></table></figure><br>8、最后再生成静态网页，即可看到网页模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate # 启动本地服务器</div><div class="line">$ hexo server # 在浏览器输入 http://localhost:4000/就可以看见网页和模板了</div></pre></td></tr></table></figure><br>完成后，将会看到如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure><br>此时，打开浏览器，输入<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a>就可以看见默认的网页和模板了。</p>
+<h1 id="2-安装、配置Hexo"><a href="#2-安装、配置Hexo" class="headerlink" title="2.安装、配置Hexo"></a>2.安装、配置Hexo</h1><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo</a> 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br>1、安装 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>;<br>2、下载<a href="https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip" target="_blank" rel="external">Cmder</a>代替Windows自带cmd;<br>3、安装 <a href="https://github.com/waylau/git-for-win" target="_blank" rel="external">Git</a>;<br>4、添加本机密钥到GitHub;<br>5、安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，在Git上设置username和email；<br>其中3-5步在前一篇博文<a href="http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/#more" target="_blank" rel="external">Git日常使用小结</a>中已设置过了，无需再设置。<br>6、安装 Hexo：使用 npm 安装 Hexo。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure><br>至此，已经安装完Hexo,后续进行相关配置。<br>7、在电脑上选一个盘，建个文件夹存放博客数据，例我的：E:\blog；然后打开cmder，输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ e: &amp; cd blog   #进入所建文件夹</div><div class="line">$ hexo init blog #初始化blog</div></pre></td></tr></table></figure><br>成功初始化blog后将出现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO  Start blogging with Hexo!</div></pre></td></tr></table></figure><br>8、最后再生成静态网页，即可看到网页模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate # 启动本地服务器</div><div class="line">$ hexo server   # 在浏览器输入 http://localhost:4000/就可以看见网页和模板了</div></pre></td></tr></table></figure><br>完成后，将会看到如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure><br>此时，打开浏览器，输入<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a>就可以看见默认的网页和模板了。<br><img src="http://i1.piimg.com/567571/aac5dcbb6a2c85d2.jpg" alt=""></p>
 <hr>
-<h1 id="3-配置博客、发表文章"><a href="#3-配置博客、发表文章" class="headerlink" title="3.配置博客、发表文章"></a>3.配置博客、发表文章</h1><p>在blog目录下，用sublime打开_config.yml文件，修改参数信息；</p>
+<h1 id="3-配置博客、发表文章"><a href="#3-配置博客、发表文章" class="headerlink" title="3.配置博客、发表文章"></a>3.配置博客、发表文章</h1><p>在blog目录下，用<a href="http://www.sublimetext.com/3" target="_blank" rel="external">Sublime Text</a>(使用它的原因是默认是UTF-8编码，中文不会乱码)打开_config.yml文件，修改参数信息；</p>
 <blockquote>
-<p><strong>注：</strong><br>在每个参数的：后都要加一个空格修改网站相关信息</p>
+<p><strong>注：</strong><br>在每个参数的”：”后都要加一个<strong>空格</strong>修改网站相关信息;</p>
 </blockquote>
-<p><strong>修改网站相关信息：</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># Site</div><div class="line">title: 黄成的博客</div><div class="line">subtitle: Linux/Android驱动 </div><div class="line">description: 生命不息、折腾不止</div><div class="line">author: hceng</div><div class="line">language: zh-CN</div><div class="line">timezone: Asia/Shenzhen</div></pre></td></tr></table></figure></p>
-<p><strong>修改配置部署相关信息：</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repo: https://github.com/hceng/hceng.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
-<p><strong>修改主题：</strong><br>为了让博客更加美观和符合自己需求，可以修改Hexo主题来满足自己需求。Hexo 安装主题的方式非常简单，只需要将主题文件放置于站点目录的 themes 目录下，然后修改下配置文件即可。<br>Hexo 有两份主要的配置文件（_config.yml），一份位于站点根目录下，另一份位于主题目录下。为了描述方便，在以下说明中，将前者称为 <strong>站点配置文件</strong>，后者称为 <strong>主题配置文件</strong>。<br>下载<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">hexo-theme-yilia</a>主题,解压放入themes文件夹下，如：E:\blog\blog\themes，根据自己需求修改主题配置文件，最后再修改站点配置文件里的theme:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: hexo-theme-yilia</div></pre></td></tr></table></figure></p>
-<p>。。。未完待续</p>
+<p>3.1<strong>修改网站相关信息：</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># Site</div><div class="line">title: 黄成的博客</div><div class="line">subtitle: Linux/Android驱动 </div><div class="line">description: 生命不息、折腾不止</div><div class="line">author: hceng</div><div class="line">language: zh-CN</div><div class="line">timezone: Asia/Shenzhen</div></pre></td></tr></table></figure></p>
+<p>3.2<strong>修改配置部署相关信息：</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">- type: git</div><div class="line">  repo: 'git@github.com:hceng/hceng.github.io.git'</div><div class="line">  branch: master</div><div class="line">- type: git</div><div class="line">  repo: 'git@git.coding.net:hceng/hceng.git'</div><div class="line">  branch: coding-pages</div></pre></td></tr></table></figure><br>这里由于我同时提交到了GitHub和Coding,用于测试百度收录，所以有两个，写一个也没事。</p>
+<p>3.3<strong>修改主题：</strong><br>为了让博客更加美观和符合自己需求，可以修改Hexo主题来满足自己需求。Hexo 安装主题的方式非常简单，只需要将主题文件放置于站点目录的 themes 目录下，然后修改下配置文件即可。<br>Hexo 有<strong>两份</strong>主要的配置文件（_config.yml），一份位于站点根目录下，另一份位于主题目录下。为了描述方便，在以下说明中，将前者称为 <strong>站点配置文件</strong>，后者称为 <strong>主题配置文件</strong>。<br>下载<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">hexo-theme-yilia</a>主题,解压放入themes文件夹下，如：E:\blog\blog\themes，根据自己需求修改主题配置文件，最后再修改站点配置文件里的theme:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: hexo-theme-yilia</div></pre></td></tr></table></figure><br>在<strong>主题配置文件</strong>里，修改头像、颜色、标签等，都有相应的注释写得非常清楚，按需修改。</p>
+<p>3.4<strong>发表文章：</strong><br>在Cmder中输入：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo new "blog tags"</div><div class="line">INFO  Created: E:\blog\blog\source\_posts\blog-tags.md</div></pre></td></tr></table></figure><br>根据提示得路径，即可找到新建得文件，该文件使用Markdown语法，下载<a href="http://markdownpad.com/" target="_blank" rel="external">MarkdownPad2</a>进行编辑。<br>先修改相关的文章信息：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">---</span></div><div class="line"><span class="selector-tag">title</span>: <span class="selector-tag">blog</span> <span class="selector-tag">tags</span></div><div class="line"><span class="selector-tag">tags</span>:</div><div class="line">     <span class="selector-tag">-</span> 随笔</div><div class="line"><span class="selector-tag">---</span></div><div class="line">本文主要是总结<span class="selector-tag">blog</span>预计的标签，并不定时更新。</div></pre></td></tr></table></figure><br>可修改标题、标签（本有日期的修改选项，但有日期就不能显示文章，怀疑是主题或者其它地方干扰了，文章日期就是文件创建日期）。<br>然后简单说下<a href="http://www.appinn.com/markdown/" target="_blank" rel="external">Markdown</a>语法：</p>
+<p><strong>1、标题和引用</strong></p>
+<ul>
+<li><p>行首插入 1 到 6 个 # ，对应到标题 1 到 6 级标题：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section"># 一级标题</span></div><div class="line"><span class="section">## 二级标题</span></div><div class="line"><span class="section">## 三标题</span></div></pre></td></tr></table></figure>
+<p>效果：</p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h2 id="三标题"><a href="#三标题" class="headerlink" title="三标题"></a>三标题</h2></li>
+<li><p>区块引用则使用 ‘&gt;’ 角括号来表示：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="quote">&gt; 这是引用</span></div></pre></td></tr></table></figure>
+<p>效果：</p>
+<blockquote>
+<p>这是引用</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>2、列表和强调</strong></p>
+<ul>
+<li>列表分有序的1、2、3和无序的·：<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">- </span>列表1</div><div class="line"><span class="bullet">- </span>列表2</div></pre></td></tr></table></figure>
+效果：</li>
+<li>列表1</li>
+<li><p>列表2</p>
+</li>
+<li><p>强调有<strong>加粗</strong>和<em>斜体</em>，用”*”来表示：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="strong">**加粗**</span></div><div class="line"><span class="emphasis">*斜体*</span></div></pre></td></tr></table></figure>
+<p>效果：<br><strong>加粗</strong><br><em>斜体</em></p>
+</li>
+</ul>
+<p>3、链接和图片</p>
+<p>4、加入代码,使用单引号</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://hceng.github.io/" target="_blank" rel="external">Hceng’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -426,11 +455,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -438,7 +467,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
