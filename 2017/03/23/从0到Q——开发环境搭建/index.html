@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://i1.piimg.com/567571/0f60cd3cd2932fe0.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/56aa1c3bb497ea72.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-27T15:27:46.269Z">
+<meta property="og:updated_time" content="2017-03-27T16:08:38.675Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从0到Q——开发环境搭建">
 <meta name="twitter:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.">
@@ -209,7 +209,7 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-安装Ubuntu-16-04-1"><span class="toc-text">1.安装Ubuntu-16.04.1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-安装、配置必要软件"><span class="toc-text">2.安装、配置必要软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-检测虚拟机网络设置，设置成如下："><span class="toc-text">1.检测虚拟机网络设置，设置成如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-网络正常后，修改软件源以提高软件下载、更新速度："><span class="toc-text">2.网络正常后，修改软件源以提高软件下载、更新速度：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-安装、-配置网络服务："><span class="toc-text">3.安装、 配置网络服务：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-安装基本开发环境："><span class="toc-text">4.安装基本开发环境：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-安装基本开发环境"><span class="toc-text">3.安装基本开发环境</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-安装Ubuntu-16-04-1"><span class="toc-text">1.安装Ubuntu-16.04.1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-安装、配置必要软件"><span class="toc-text">2.安装、配置必要软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-安装基本开发环境"><span class="toc-text">3.安装基本开发环境</span></a></li></ol>
       </div>
       
         <p>该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.<br><a id="more"></a></p>
@@ -243,7 +243,8 @@
 </li>
 </ul>
 <hr>
-<h1 id="2-安装、配置必要软件"><a href="#2-安装、配置必要软件" class="headerlink" title="2.安装、配置必要软件"></a>2.安装、配置必要软件</h1><h2 id="1-检测虚拟机网络设置，设置成如下："><a href="#1-检测虚拟机网络设置，设置成如下：" class="headerlink" title="1.检测虚拟机网络设置，设置成如下："></a>1.检测虚拟机网络设置，设置成如下：</h2><ul>
+<h1 id="2-安装、配置必要软件"><a href="#2-安装、配置必要软件" class="headerlink" title="2.安装、配置必要软件"></a>2.安装、配置必要软件</h1><p><strong>1.检测虚拟机网络设置，设置成如下： </strong></p>
+<ul>
 <li><p>打开编辑-&gt;虚拟网络编辑器：<br><img src="http://i4.buimg.com/567571/ba647b3458e26358.png" alt=""></p>
 </li>
 <li><p>更改设置：<br><img src="http://i1.piimg.com/567571/d3ae2d2d714602a7.png" alt=""></p>
@@ -254,7 +255,8 @@
 <p><img src="http://i2.buimg.com/567571/aa4a4209185e7062.png" alt=""></p>
 <p><img src="http://i2.buimg.com/567571/aa4a4209185e7062.png" alt=""></p>
 <p>输入ifconfig查看网络配置，再ping www.baidu.com测试：<br><img src="http://i2.buimg.com/567571/832f3c849140590f.png" alt=""></p>
-<h2 id="2-网络正常后，修改软件源以提高软件下载、更新速度："><a href="#2-网络正常后，修改软件源以提高软件下载、更新速度：" class="headerlink" title="2.网络正常后，修改软件源以提高软件下载、更新速度："></a>2.网络正常后，修改软件源以提高软件下载、更新速度：</h2><ul>
+<p><strong>2.网络正常后，修改软件源以提高软件下载、更新速度：</strong> </p>
+<ul>
 <li>首先备份原来的文件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup</div></pre></td></tr></table></figure></li>
 <li>用vi编辑器打开编辑：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo vi /etc/apt/sources.list</div></pre></td></tr></table></figure></li>
 <li>删掉文件中的所有内容，替换为以下文本：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted</div><div class="line">deb-src http://archive.ubuntu.com/ubuntu xenial main restricted #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted multiverse universe #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted multiverse universe #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial universe</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial multiverse</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates multiverse</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse #Added by software-properties</div><div class="line">deb http://archive.canonical.com/ubuntu xenial partner</div><div class="line">deb-src http://archive.canonical.com/ubuntu xenial partner</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted multiverse universe #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse</div></pre></td></tr></table></figure>
@@ -271,7 +273,8 @@
 <li>完成上面的修改后，再更新软件列表和安装完整的vim：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install vim</div></pre></td></tr></table></figure>
 安装过程中根据提示输入yes确认，下同。</li>
 </ul>
-<h2 id="3-安装、-配置网络服务："><a href="#3-安装、-配置网络服务：" class="headerlink" title="3.安装、 配置网络服务："></a>3.安装、 配置网络服务：</h2><ul>
+<p><strong>3.安装、 配置网络服务：</strong> </p>
+<ul>
 <li>执行以下命令安装 ftp、 ssh、 nfs 服务：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install vsftpd openssh-server nfs-kernel-server portmap</div></pre></td></tr></table></figure></li>
 <li>配置 FTP 服务：<br>修改 vsftpd 的配置文件/etc/vsftpd.conf，检查下面两行前面的“#”号是否去掉。<br>第28行，默认没有#：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">local_enable=YES</div></pre></td></tr></table></figure>
 第31行，默认有#，去掉#：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#local_enable=YES</div></pre></td></tr></table></figure>
@@ -296,7 +299,8 @@
 <li>最后，关闭Ubuntu的防火墙：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo ufw disable     </div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="4-安装基本开发环境："><a href="#4-安装基本开发环境：" class="headerlink" title="4.安装基本开发环境："></a>4.安装基本开发环境：</h2><ul>
+<p><strong>4.安装基本开发环境： </strong></p>
+<ul>
 <li>这里使用韦东山老师第四期安卓视频环境搭建提供的脚本，这个脚本会自动安装诸如 g++等工具、 库。但该脚本是为Ubuntu12制作的，Ubuntu16使用需要做一些修改，主要是名字变了。修改变化如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">libgl1-mesa-glx-lts-quantal:i386 libgl1-mesa-dev-lts-quantal \</div></pre></td></tr></table></figure>
 改为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">libgl1-mesa-glx-lts-xenial:i386 libgl1-mesa-dev-lts-xenial \</div></pre></td></tr></table></figure>
 <img src="http://i2.buimg.com/567571/a6d6d4a0754ca08f.png" alt=""></li>
@@ -457,31 +461,31 @@
 
 
 
-/*toc*/
-.toc-article
-background #eee
-border 1px solid #bbb
-border-radius 10px
-margin 1.5em 0 0.3em 1.5em
-padding 1.2em 1em 0 1em
-max-width 28%
+  /*toc*/
+  .toc-article
+  background #eee
+  border 1px solid #bbb
+  border-radius 10px
+  margin 1.5em 0 0.3em 1.5em
+  padding 1.2em 1em 0 1em
+  max-width 28%
 
-.toc-title
-font-size 120%
+  .toc-title
+  font-size 120%
 
-#toc
-line-height 1em
-font-size 0.9em
-float right
-.toc
-padding 0
-margin 1em
-line-height 1.8em
-li
-list-style-type none
+  #toc
+  line-height 1em
+  font-size 0.9em
+  float right
+  .toc
+  padding 0
+  margin 1em
+  line-height 1.8em
+  li
+  list-style-type none
 
-.toc-child 
-margin-left 1em
+  .toc-child 
+  margin-left 1em
 
           </div>
         </div>
@@ -573,11 +577,11 @@ margin-left 1em
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
