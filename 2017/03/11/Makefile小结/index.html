@@ -177,6 +177,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+
+      <!-- Table of Contents -->
+      
         <p>本文主要是纪录一些遇到的Makefile知识。<br><a id="more"></a></p>
 <blockquote>
 <p>Makefile以韦东山老师第一期裸板视频中的 <em>第8课LCD实验的配套代码lcd_3.5_4.3</em> 中的Makefile为例，该工程有两个Makefile,分别位于根目录和lib目录中：<br><figure class="highlight makefile"><figcaption><span>[根目录Makefile]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">CC      = arm-linux-gcc</div><div class="line">LD      = arm-linux-ld</div><div class="line">AR      = arm-linux-ar</div><div class="line">OBJCOPY = arm-linux-objcopy</div><div class="line">OBJDUMP = arm-linux-objdump</div><div class="line"></div><div class="line">INCLUDEDIR 	:= <span class="variable">$(shell pwd)</span>/include</div><div class="line">CFLAGS 		:= -Wall -O2</div><div class="line">CPPFLAGS   	:= -nostdinc -I<span class="variable">$(INCLUDEDIR)</span></div><div class="line"></div><div class="line">export 	CC LD AR OBJCOPY OBJDUMP INCLUDEDIR CFLAGS CPPFLAGS</div><div class="line"></div><div class="line">objs := head.o init.o nand.o interrupt.o serial.o lcddrv.o/ </div><div class="line">framebuffer.o lcdlib.o main.o lib libc.a</div><div class="line"></div><div class="line">lcd.bin: $(objs)</div><div class="line">	$&#123;LD&#125; -Tlcd.lds -o lcd_elf $^</div><div class="line">	$&#123;OBJCOPY&#125; -O binary -S lcd_elf $@</div><div class="line">	$&#123;OBJDUMP&#125; -D -m arm lcd_elf &gt; lcd.dis</div><div class="line"></div><div class="line">.PHONY : lib/libc.a</div><div class="line">lib/libc.a:</div><div class="line">	cd lib; make; cd ..</div><div class="line">	</div><div class="line">%.o:%.c</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line">%.o:%.S</div><div class="line">	$&#123;CC&#125; <span class="variable">$(CPPFLAGS)</span> <span class="variable">$(CFLAGS)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="section">clean:</span></div><div class="line">	make  clean -C lib</div><div class="line">	rm -f lcd.bin lcd_elf lcd.dis *.o</div></pre></td></tr></table></figure></p>
@@ -455,6 +458,7 @@
 
 
 
+
           </div>
         </div>
       </div>
@@ -533,19 +537,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
