@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="黄成的博客">
 <meta property="og:description" content="本文主要汇总一些常用且不太熟练的Liunx命令，不定期更新。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-27T15:42:31.904Z">
+<meta property="og:updated_time" content="2017-03-31T11:57:50.873Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux常用命令">
 <meta name="twitter:description" content="本文主要汇总一些常用且不太熟练的Liunx命令，不定期更新。">
@@ -182,7 +182,7 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-tar"><span class="toc-text">1. tar</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-grep"><span class="toc-text">2. grep</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-find"><span class="toc-text">3. find</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-ifconfig"><span class="toc-text">4. ifconfig</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-mount"><span class="toc-text">5. mount</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-查看Linux版本信息"><span class="toc-text">6. 查看Linux版本信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-关闭防火墙"><span class="toc-text">7. 关闭防火墙</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-tar"><span class="toc-text">1. tar</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-grep"><span class="toc-text">2. grep</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-find"><span class="toc-text">3. find</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-ifconfig"><span class="toc-text">4. ifconfig</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-mount"><span class="toc-text">5. mount</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-查看Linux版本信息"><span class="toc-text">6. 查看Linux版本信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-关闭防火墙"><span class="toc-text">7. 关闭防火墙</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-source"><span class="toc-text">7. source</span></a></li></ol>
       </div>
       
         <p>本文主要汇总一些常用且不太熟练的Liunx命令，不定期更新。<br><a id="more"></a></p>
@@ -235,6 +235,10 @@
 <h1 id="6-查看Linux版本信息"><a href="#6-查看Linux版本信息" class="headerlink" title="6. 查看Linux版本信息"></a>6. 查看Linux版本信息</h1><p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ uname -a            #显示电脑以及操作系统的相关信；</div><div class="line">$ cat /proc/version   #正在运行的内核版本；</div><div class="line">$ cat /etc/issue      #显示的是发行版本信息；</div><div class="line">$ lsb_release -a      #列出所有版本信息；</div></pre></td></tr></table></figure></p>
 <hr>
 <h1 id="7-关闭防火墙"><a href="#7-关闭防火墙" class="headerlink" title="7. 关闭防火墙"></a>7. 关闭防火墙</h1><p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ufw disable            #关闭ubuntu的防火墙 ；</div><div class="line">$ ufw enable             #开启防火墙；</div></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="7-source"><a href="#7-source" class="headerlink" title="7. source"></a>7. source</h1><p>作用：<em>免重启更新环境变量</em>；<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ source /etc/environment </div></pre></td></tr></table></figure></p>
+<div align="right">最后修改时间：2017/3/31 19:57:49  </div>
+
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://hceng.github.io/" target="_blank" rel="external">hceng’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
