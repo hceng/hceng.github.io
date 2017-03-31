@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>黄成的博客</title>
+  <title>终端复用软件-Tmux | 黄成的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="生命不息、折腾不止">
-<meta property="og:type" content="website">
-<meta property="og:title" content="黄成的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="本文主要记录终端复用软件——Tmux的简单使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="终端复用软件-Tmux">
+<meta property="og:url" content="http://yoursite.com/2017/03/31/Tmux终端复用/index.html">
 <meta property="og:site_name" content="黄成的博客">
-<meta property="og:description" content="生命不息、折腾不止">
+<meta property="og:description" content="本文主要记录终端复用软件——Tmux的简单使用。">
+<meta property="og:image" content="http://i4.buimg.com/567571/f38e4882cb6ff07d.png">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2017-03-31T11:51:38.811Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黄成的博客">
-<meta name="twitter:description" content="生命不息、折腾不止">
+<meta name="twitter:title" content="终端复用软件-Tmux">
+<meta name="twitter:description" content="本文主要记录终端复用软件——Tmux的简单使用。">
+<meta name="twitter:image" content="http://i4.buimg.com/567571/f38e4882cb6ff07d.png">
   
     <link rel="alternative" href="/atom.xml" title="黄成的博客" type="application/atom+xml">
   
@@ -154,16 +158,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Tmux终端复用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Tmux终端复用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/31/Tmux终端复用/">终端复用软件-Tmux</a>
+    <h1 class="article-title" itemprop="name">
+      终端复用软件-Tmux
     </h1>
   
 
@@ -176,10 +178,82 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要记录终端复用软件——Tmux的简单使用。<br>
-        
-          <a class="article-more-a" href="/2017/03/31/Tmux终端复用/#more">展开全文 >></a>
-        
+
+      <!-- Table of Contents -->
+      
+        <p>本文主要记录终端复用软件——Tmux的简单使用。<br><a id="more"></a></p>
+<hr>
+<p><a href="http://tmux.github.io/" target="_blank" rel="external">Tmux</a>是一个可以把终端分屏的软件，最开始知道这货是在酷安下了<a href="http://www.coolapk.com/apk/com.termux" target="_blank" rel="external">Termux</a>，酷安大佬们真会完，刷Termu下面的评论中看到了Tmux，觉得还挺好玩的。最近Linux终端用得比较多，尝试安装玩玩，记录下。</p>
+<hr>
+<h1 id="1-安装tmux"><a href="#1-安装tmux" class="headerlink" title="1.安装tmux"></a>1.安装tmux</h1><p>在ubuntu终端中，使用以下命令安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install tmux</div></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="2-基本使用"><a href="#2-基本使用" class="headerlink" title="2.基本使用"></a>2.基本使用</h1><p>Tmux为了不和其它软件的快捷键影响，所以它的命令全要加前缀Ctrl+b后再操作，例如新建个窗口的操作步骤：</p>
+<ul>
+<li>按下组合键 Ctrl+b;</li>
+<li>放开组合键 Ctrl+b;</li>
+<li>按下 c 键;</li>
+</ul>
+<p>Tmux的操作很多，这里我只记录几个我常用的，后续自己有需求再增加：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">前缀操作</th>
+<th style="text-align:center">组合键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">创建新窗口</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">c</td>
+</tr>
+<tr>
+<td style="text-align:center">水平划分窗口</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">“</td>
+</tr>
+<tr>
+<td style="text-align:center">垂直划分窗口</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">%</td>
+</tr>
+<tr>
+<td style="text-align:center">调整窗口大小</td>
+<td style="text-align:center">Ctrl+b-&gt;不松住</td>
+<td style="text-align:center">方向键</td>
+</tr>
+<tr>
+<td style="text-align:center">切换窗口</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">方向键</td>
+</tr>
+<tr>
+<td style="text-align:center">显示窗口标号</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">q</td>
+</tr>
+<tr>
+<td style="text-align:center">关闭窗口</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">x-&gt;y</td>
+</tr>
+<tr>
+<td style="text-align:center">关闭Tmux</td>
+<td style="text-align:center">Ctrl+b-&gt;松开</td>
+<td style="text-align:center">&amp;-&gt;y</td>
+</tr>
+</tbody>
+</table>
+<h1 id="3-其它优化"><a href="#3-其它优化" class="headerlink" title="3.其它优化"></a>3.其它优化</h1><p>美化的话参考后面给的博客链接，这里我美化了底边状态栏：<br>进入home目录，新建.tmux.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd ~</div><div class="line">$ vi ~/.tmux.conf</div></pre></td></tr></table></figure><br>加入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># 状态栏</div><div class="line"># 颜色</div><div class="line">set -g status-bg black</div><div class="line">set -g status-fg white</div><div class="line"> </div><div class="line"># 对齐方式</div><div class="line">set-option -g status-justify centre</div><div class="line"> </div><div class="line"># 左下角</div><div class="line">set-option -g status-left &apos;#[bg=black,fg=green][#[fg=cyan]#S#[fg=green]]&apos;</div><div class="line">set-option -g status-left-length 20</div><div class="line"> </div><div class="line"># 窗口列表</div><div class="line">setw -g automatic-rename on</div><div class="line">set-window-option -g window-status-format &apos;#[dim]#I:#[default]#W#[fg=grey,dim]&apos;</div><div class="line">set-window-option -g window-status-current-format &apos;#[fg=cyan,bold]#I#[fg=blue]:#[fg=cyan]#W#[fg=dim]&apos;</div><div class="line"> </div><div class="line"># 右下角</div><div class="line">set -g status-right &apos;#[fg=green][#[fg=cyan]%Y-%m-%d#[fg=green]]&apos;</div></pre></td></tr></table></figure>
+<p>最终效果图：<br><img src="http://i4.buimg.com/567571/f38e4882cb6ff07d.png" alt=""></p>
+<p>参考博客：<br><a href="http://blog.jobbole.com/87584/" target="_blank" rel="external">Tmux 速成教程：技巧和调整</a><br><a href="http://blog.csdn.net/chenbang110/article/details/8520192" target="_blank" rel="external">Tmux简单教程</a></p>
+<div align="right">最后修改时间：2017/3/31 19:51:36 </div>
+
+<hr>
+<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://hceng.github.io/" target="_blank" rel="external">hceng’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+
       
 
       
@@ -207,74 +281,72 @@
       
 
       
-      <div class="clearfix"></div>
-    </div>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
   </div>
-</article>
+</div>
 
-
-
-
-
-
-
-  
-    <article id="post-从0到Q——U-Boot分析及移植" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/26/从0到Q——U-Boot分析及移植/">从0到Q——U-Boot分析及移植</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/26/从0到Q——U-Boot分析及移植/" class="archive-article-date">
-  	<time datetime="2017-03-26T13:24:05.545Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.<br>
-        
-          <a class="article-more-a" href="/2017/03/26/从0到Q——U-Boot分析及移植/#more">展开全文 >></a>
-        
-      
-
-      
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/31/Tmux终端复用/" alt="微信分享二维码">
     </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">环境搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
+</div>
 
-      
-
-      
-
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
 
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/26/从0到Q——U-Boot分析及移植/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从0到Q——U-Boot分析及移植</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
 
 
@@ -282,200 +354,27 @@
 
 
   
-    <article id="post-从0到Q——开发环境搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/23/从0到Q——开发环境搭建/">从0到Q——开发环境搭建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/23/从0到Q——开发环境搭建/" class="archive-article-date">
-  	<time datetime="2017-03-23T12:38:54.501Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.<br>
-        
-          <a class="article-more-a" href="/2017/03/23/从0到Q——开发环境搭建/#more">展开全文 >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">环境搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Tmux终端复用" data-title="终端复用软件-Tmux" data-url="http://yoursite.com/2017/03/31/Tmux终端复用/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"flase"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
   
-    <article id="post-设备驱动模型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/18/设备驱动模型/">设备驱动模型</a>
-    </h1>
-  
 
-        
-        <a href="/2017/03/18/设备驱动模型/" class="archive-article-date">
-  	<time datetime="2017-03-18T15:56:37.685Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学设备驱动模型，东西比较多，时间比较紧，占个坑，回头分析完了再写。<br>
-        
-          <a class="article-more-a" href="/2017/03/18/设备驱动模型/#more">展开全文 >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Linux常用命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/12/Linux常用命令/">Linux常用命令</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/12/Linux常用命令/" class="archive-article-date">
-  	<time datetime="2017-03-11T19:05:36.506Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要汇总一些常用且不太熟练的Liunx命令，不定期更新。<br>
-        
-          <a class="article-more-a" href="/2017/03/12/Linux常用命令/#more">展开全文 >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -505,8 +404,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
