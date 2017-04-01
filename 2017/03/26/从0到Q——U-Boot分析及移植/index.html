@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://i2.muimg.com/567571/f506947844751a7a.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/36ccbdd8d13c1f7c.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-04-01T09:03:25.429Z">
+<meta property="og:updated_time" content="2017-04-01T10:09:51.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从0到Q——U-Boot分析及移植">
 <meta name="twitter:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.">
@@ -236,12 +236,12 @@
 <li><strong>设置时钟</strong><figure class="highlight c"><figcaption><span>[smdk2410.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">board_init</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	S3C24X0_CLOCK_POWER * <span class="keyword">const</span> clk_power = S3C24X0_GetBase_CLOCK_POWER();</div><div class="line">	S3C24X0_GPIO * <span class="keyword">const</span> gpio = S3C24X0_GetBase_GPIO();</div><div class="line"></div><div class="line">	<span class="comment">/* to reduce PLL lock time, adjust the LOCKTIME register */</span></div><div class="line">	clk_power-&gt;LOCKTIME = <span class="number">0xFFFFFF</span>;</div><div class="line"></div><div class="line">	<span class="comment">/* configure MPLL */</span></div><div class="line">	clk_power-&gt;MPLLCON = ((M_MDIV &lt;&lt; <span class="number">12</span>) + (M_PDIV &lt;&lt; <span class="number">4</span>) + M_SDIV);</div><div class="line"></div><div class="line">	<span class="comment">/* some delay between MPLL and UPLL */</span></div><div class="line">	delay (<span class="number">4000</span>);</div><div class="line"></div><div class="line">	<span class="comment">/* configure UPLL */</span></div><div class="line">	clk_power-&gt;UPLLCON = ((U_M_MDIV &lt;&lt; <span class="number">12</span>) + (U_M_PDIV &lt;&lt; <span class="number">4</span>) + U_M_SDIV);</div><div class="line"></div><div class="line">	<span class="comment">/* some delay between MPLL and UPLL */</span></div><div class="line">	delay (<span class="number">8000</span>);</div><div class="line"></div><div class="line">	<span class="comment">/* set up the I/O ports */</span></div><div class="line">	gpio-&gt;GPACON = <span class="number">0x007FFFFF</span>;</div><div class="line">	gpio-&gt;GPBCON = <span class="number">0x00044555</span>;</div><div class="line">	gpio-&gt;GPBUP = <span class="number">0x000007FF</span>;</div><div class="line">	gpio-&gt;GPCCON = <span class="number">0xAAAAAAAA</span>;</div><div class="line">	gpio-&gt;GPCUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPDCON = <span class="number">0xAAAAAAAA</span>;</div><div class="line">	gpio-&gt;GPDUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPECON = <span class="number">0xAAAAAAAA</span>;</div><div class="line">	gpio-&gt;GPEUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPFCON = <span class="number">0x000055AA</span>;</div><div class="line">	gpio-&gt;GPFUP = <span class="number">0x000000FF</span>;</div><div class="line">	gpio-&gt;GPGCON = <span class="number">0xFF95FFBA</span>;</div><div class="line">	gpio-&gt;GPGUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPHCON = <span class="number">0x002AFAAA</span>;</div><div class="line">	gpio-&gt;GPHUP = <span class="number">0x000007FF</span>;</div><div class="line"></div><div class="line">	<span class="comment">/* arch number of SMDK2410-Board */</span></div><div class="line">	gd-&gt;bd-&gt;bi_arch_number = MACH_TYPE_SMDK2410;</div><div class="line"></div><div class="line">	<span class="comment">/* adress of boot parameters */</span></div><div class="line">	gd-&gt;bd-&gt;bi_boot_params = <span class="number">0x30000100</span>;</div><div class="line"></div><div class="line">	icache_enable();</div><div class="line">	dcache_enable();</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
 <li><strong>初始化串口</strong><figure class="highlight c"><figcaption><span>[serial.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">serial_init</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	serial_setbrg ();</div><div class="line"></div><div class="line">	<span class="keyword">return</span> (<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">/*</span></div><div class="line"> * Read a single byte from the serial port. Returns 1 on success, 0</div><div class="line"> * otherwise. When the function is succesfull, the character read is</div><div class="line"> * written into its argument c.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">serial_getc</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	S3C24X0_UART * <span class="keyword">const</span> uart = S3C24X0_GetBase_UART(UART_NR);</div><div class="line"></div><div class="line">	<span class="comment">/* wait for character to arrive  */</span></div><div class="line">	<span class="keyword">while</span> (!(uart-&gt;UTRSTAT &amp; <span class="number">0x1</span>));</div><div class="line"></div><div class="line">	<span class="keyword">return</span> uart-&gt;URXH &amp; <span class="number">0xff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
 <li><strong>监内存映射</strong><br>　　在smdk2410.c里的函数dram_init中设置的内存起始地址为0x3000 0000,大小为0x4000 0000:<figure class="highlight c"><figcaption><span>[smdk2410.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">dram_init</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	gd-&gt;bd-&gt;bi_dram[<span class="number">0</span>].start = PHYS_SDRAM_1;</div><div class="line">	gd-&gt;bd-&gt;bi_dram[<span class="number">0</span>].size = PHYS_SDRAM_1_SIZE;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-　　至此，U-Boot的启动过程基本分析完了，在启动U-Boot后，通过lib_arm/armlinux.c中的do_boot_linux来启动内核。这里总结画个图来记录下，中间的顺序可能有点小差异，但大致没问题：<br><div align="center"><br><img src="http://i1.piimg.com/567571/36ccbdd8d13c1f7c.png" alt=""><br></div><h1 id="3-U-Boot移植"><a href="#3-U-Boot移植" class="headerlink" title="3.U-Boot移植"></a>3.U-Boot移植</h1><h1 id="4-U-Boot使用"><a href="#4-U-Boot使用" class="headerlink" title="4.U-Boot使用"></a>4.U-Boot使用</h1>记录下平时使用U-Boot烧写内核/根文件系统和挂载根文件系统，这里假设如下：</li>
+　　至此，U-Boot的启动过程基本分析完了，在启动U-Boot后，通过lib_arm/armlinux.c中的do_boot_linux来启动内核。这里总结画个图来记录下，中间的顺序可能有点小差异，但大致没问题：<br><div align="center"><br><img src="http://i1.piimg.com/567571/36ccbdd8d13c1f7c.png" alt=""><br></div><h1 id="3-U-Boot移植"><a href="#3-U-Boot移植" class="headerlink" title="3.U-Boot移植"></a>3.U-Boot移植</h1>待补充。<h1 id="4-U-Boot使用"><a href="#4-U-Boot使用" class="headerlink" title="4.U-Boot使用"></a>4.U-Boot使用</h1>记录下平时使用U-Boot烧写内核/根文件系统和挂载根文件系统，这里假设如下：</li>
 </ul>
 <blockquote>
 <p>Ubuntu中待作为nfs挂载的路径：<code>/work/hceng/nfs_rootfs</code><br>Ubuntu IP：<code>192.168.1.141</code><br>开发板 IP：<code>192.168.1.142</code><br>网关 IP：<code>192.168.1.1</code></p>
 </blockquote>
-<p>这里要提前在Ubuntu虚拟机中进行NFS配置，参考上一篇文章中的：<a href="http://hceng.cn/2017/03/23/%E4%BB%8E0%E5%88%B0Q%E2%80%94%E2%80%94%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/#more" target="_blank" rel="external">2.3安装、 配置网络服务</a>；</p>
+<p>  这里要提前在Ubuntu虚拟机中进行NFS配置，参考上一篇文章中的：<a href="http://hceng.cn/2017/03/23/%E4%BB%8E0%E5%88%B0Q%E2%80%94%E2%80%94%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/#more" target="_blank" rel="external">2.3安装、 配置网络服务</a>；</p>
 <p>  启动U-Boot后，迅速按任意键进入U-Boot的下载模式，再输入”q”退出菜单。</p>
 <ul>
 <li><p>设置开发板ip和nfs挂载的服务ip：</p>
@@ -267,7 +267,7 @@
 </ul>
 <p>最后启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">boot</div></pre></td></tr></table></figure></p>
 <hr>
-<div align="right">最后修改时间：2017/4/1 0:19:20 </div>
+<div align="right">最后修改时间：2017/4/1 17:06:08 </div>
 
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
@@ -490,14 +490,6 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -506,11 +498,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
