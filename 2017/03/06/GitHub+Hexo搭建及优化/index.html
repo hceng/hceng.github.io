@@ -6,21 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>终端复用软件-Tmux | 黄成的博客</title>
+  <title>GitHub+Hexo博客搭建及优化 | 黄成的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要记录终端复用软件——Tmux的简单使用。">
+  <meta name="description" content="本文主要是纪录本博客的搭建和优化。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="终端复用软件-Tmux">
-<meta property="og:url" content="http://yoursite.com/2017/03/31/终端复用软件——Tmux/index.html">
+<meta property="og:title" content="GitHub+Hexo博客搭建及优化">
+<meta property="og:url" content="http://yoursite.com/2017/03/06/GitHub+Hexo搭建及优化/index.html">
 <meta property="og:site_name" content="黄成的博客">
-<meta property="og:description" content="本文主要记录终端复用软件——Tmux的简单使用。">
-<meta property="og:image" content="http://i4.buimg.com/567571/f38e4882cb6ff07d.png">
+<meta property="og:description" content="本文主要是纪录本博客的搭建和优化。">
+<meta property="og:image" content="http://p1.bpimg.com/567571/2c26caa578ff096e.jpg">
+<meta property="og:image" content="http://i1.piimg.com/567571/aac5dcbb6a2c85d2.jpg">
+<meta property="og:image" content="http://p1.bpimg.com/567571/f095edb33e3aa223.png">
+<meta property="og:image" content="http://p1.bqimg.com/567571/724a61dd2bfab8f0.png">
+<meta property="og:image" content="http://i2.muimg.com/567571/59cb8a3a7d865f03.png">
+<meta property="og:image" content="http://i4.buimg.com/567571/2ca5e3f41e1b144f.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-03-31T11:58:04.739Z">
+<meta property="og:updated_time" content="2017-04-05T12:55:49.270Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="终端复用软件-Tmux">
-<meta name="twitter:description" content="本文主要记录终端复用软件——Tmux的简单使用。">
-<meta name="twitter:image" content="http://i4.buimg.com/567571/f38e4882cb6ff07d.png">
+<meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
+<meta name="twitter:description" content="本文主要是纪录本博客的搭建和优化。">
+<meta name="twitter:image" content="http://p1.bpimg.com/567571/2c26caa578ff096e.jpg">
   
     <link rel="alternative" href="/atom.xml" title="黄成的博客" type="application/atom+xml">
   
@@ -158,20 +163,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-终端复用软件——Tmux" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-GitHub+Hexo搭建及优化" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      终端复用软件-Tmux
+      GitHub+Hexo博客搭建及优化
     </h1>
   
 
         
-        <a href="/2017/03/31/终端复用软件——Tmux/" class="archive-article-date">
-  	<time datetime="2017-03-31T10:00:54.358Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-31</time>
+        <a href="/2017/03/06/GitHub+Hexo搭建及优化/" class="archive-article-date">
+  	<time datetime="2017-03-06T07:17:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-06</time>
 </a>
         
       </header>
@@ -181,75 +186,102 @@
 
       <!-- Table of Contents -->
       
-        <p>本文主要记录终端复用软件——Tmux的简单使用。<br><a id="more"></a></p>
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Github-Pages"><span class="toc-text">1.Github Pages</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-安装、配置Hexo"><span class="toc-text">2.安装、配置Hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-配置博客、发表文章"><span class="toc-text">3.配置博客、发表文章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1修改网站相关信息："><span class="toc-text">3.1修改网站相关信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2修改配置部署相关信息："><span class="toc-text">3.2修改配置部署相关信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3修改主题："><span class="toc-text">3.3修改主题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4发表文章："><span class="toc-text">3.4发表文章：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-绑定自己域名（可选）"><span class="toc-text">4.绑定自己域名（可选）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1购买域名"><span class="toc-text">4.1购买域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2绑定域名"><span class="toc-text">4.2绑定域名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-优化日常操作（可选）"><span class="toc-text">5.优化日常操作（可选）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1hexo命令简写："><span class="toc-text">5.1hexo命令简写：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2添加版权信息："><span class="toc-text">5.2添加版权信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3自动添加目录："><span class="toc-text">5.3自动添加目录：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4添加访问人数统计："><span class="toc-text">5.4添加访问人数统计：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5脚本自动化："><span class="toc-text">5.5脚本自动化：</span></a></li></ol></li></ol>
+      </div>
+      
+        <p>本文主要是纪录本博客的搭建和优化。<br><a id="more"></a></p>
+<blockquote>
+<p>为什么做独立博客？<br>我想大概就是<strong>激励自己去持续学习和思考</strong>。</p>
+</blockquote>
 <hr>
-<p><a href="http://tmux.github.io/" target="_blank" rel="external">Tmux</a>是一个可以把终端分屏的软件，最开始知道这货是在酷安下了<a href="http://www.coolapk.com/apk/com.termux" target="_blank" rel="external">Termux</a>，酷安大佬们真会完，刷Termu下面的评论中看到了Tmux，觉得还挺好玩的。最近Linux终端用得比较多，尝试安装玩玩，记录下。</p>
+<p>首先说下本博客搭建的大致流程:<br>1.有一个GitHub账号，同时配置GitHub Pages；<br>2.安装、配置Hexo；<br>3.配置博客、Markdown写文章；<br>4.绑定自己域名（可选）；<br>5.优化日常操作（可选）；</p>
 <hr>
-<h1 id="1-安装tmux"><a href="#1-安装tmux" class="headerlink" title="1.安装tmux"></a>1.安装tmux</h1><p>在ubuntu终端中，使用以下命令安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install tmux</div></pre></td></tr></table></figure></p>
-<hr>
-<h1 id="2-基本使用"><a href="#2-基本使用" class="headerlink" title="2.基本使用"></a>2.基本使用</h1><p>Tmux为了不和其它软件的快捷键影响，所以它的命令全要加前缀Ctrl+b后再操作，例如新建个窗口的操作步骤：</p>
+<h1 id="1-Github-Pages"><a href="#1-Github-Pages" class="headerlink" title="1.Github Pages"></a>1.Github Pages</h1><p>　　Github Pages是GitHub提供的免费静态站点；<br>　　创建Github Pages后，在里面存放网页源码，然后在对应网址就可看到对应网页效果；<br>　　使用GitHub账号创建一个仓库，但是这个仓库是有规则的，其格式必须为：yourusername.github.io；<br><img src="http://p1.bpimg.com/567571/2c26caa578ff096e.jpg" alt=""></p>
+<blockquote>
+<p><strong>注：</strong></p>
 <ul>
-<li>按下组合键 Ctrl+b;</li>
-<li>放开组合键 Ctrl+b;</li>
-<li>按下 c 键;</li>
+<li>yourusername必须是自己的GitHub账号名；</li>
+<li>类型只能选Public；</li>
 </ul>
-<p>Tmux的操作很多，这里我只记录几个我常用的，后续自己有需求再增加：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">前缀操作</th>
-<th style="text-align:center">组合键</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">创建新窗口</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">c</td>
-</tr>
-<tr>
-<td style="text-align:center">水平划分窗口</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">“</td>
-</tr>
-<tr>
-<td style="text-align:center">垂直划分窗口</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">%</td>
-</tr>
-<tr>
-<td style="text-align:center">调整窗口大小</td>
-<td style="text-align:center">Ctrl+b-&gt;不松住</td>
-<td style="text-align:center">方向键</td>
-</tr>
-<tr>
-<td style="text-align:center">切换窗口</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">方向键</td>
-</tr>
-<tr>
-<td style="text-align:center">显示窗口标号</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">q</td>
-</tr>
-<tr>
-<td style="text-align:center">关闭窗口</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">x-&gt;y</td>
-</tr>
-<tr>
-<td style="text-align:center">关闭Tmux</td>
-<td style="text-align:center">Ctrl+b-&gt;松开</td>
-<td style="text-align:center">&amp;-&gt;y</td>
-</tr>
-</tbody>
-</table>
-<h1 id="3-其它优化"><a href="#3-其它优化" class="headerlink" title="3.其它优化"></a>3.其它优化</h1><p>美化的话参考后面给的博客链接，这里我只美化了底边状态栏：<br>进入home目录，新建.tmux.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd ~</div><div class="line">$ vi ~/.tmux.conf</div></pre></td></tr></table></figure><br>加入以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># 状态栏</div><div class="line"># 颜色</div><div class="line">set -g status-bg black</div><div class="line">set -g status-fg white</div><div class="line"> </div><div class="line"># 对齐方式</div><div class="line">set-option -g status-justify centre</div><div class="line"> </div><div class="line"># 左下角</div><div class="line">set-option -g status-left &apos;#[bg=black,fg=green][#[fg=cyan]#S#[fg=green]]&apos;</div><div class="line">set-option -g status-left-length 20</div><div class="line"> </div><div class="line"># 窗口列表</div><div class="line">setw -g automatic-rename on</div><div class="line">set-window-option -g window-status-format &apos;#[dim]#I:#[default]#W#[fg=grey,dim]&apos;</div><div class="line">set-window-option -g window-status-current-format &apos;#[fg=cyan,bold]#I#[fg=blue]:#[fg=cyan]#W#[fg=dim]&apos;</div><div class="line"> </div><div class="line"># 右下角</div><div class="line">set -g status-right &apos;#[fg=green][#[fg=cyan]%Y-%m-%d#[fg=green]]&apos;</div></pre></td></tr></table></figure>
-<p>最终效果图：<br><img src="http://i4.buimg.com/567571/f38e4882cb6ff07d.png" alt=""></p>
-<p>参考博客：<br><a href="http://blog.jobbole.com/87584/" target="_blank" rel="external">Tmux 速成教程：技巧和调整</a><br><a href="http://blog.csdn.net/chenbang110/article/details/8520192" target="_blank" rel="external">Tmux简单教程</a></p>
-<div align="right">最后修改时间：2017/3/31 19:51:36 </div>
+</blockquote>
+<hr>
+<h1 id="2-安装、配置Hexo"><a href="#2-安装、配置Hexo" class="headerlink" title="2.安装、配置Hexo"></a>2.安装、配置Hexo</h1><p>　　<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo</a> 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br>1、安装 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>;<br>2、下载<a href="https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip" target="_blank" rel="external">Cmder</a>代替Windows自带cmd;<br>3、安装 <a href="https://github.com/waylau/git-for-win" target="_blank" rel="external">Git</a>;<br>4、添加本机密钥到GitHub;<br>5、安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，在Git上设置username和email；<br>其中3-5步在前一篇博文<a href="http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/#more" target="_blank" rel="external">Git日常使用小结</a>中已设置过了，无需再设置。<br>6、安装 Hexo：使用 npm 安装 Hexo。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure><br>至此，已经安装完Hexo,后续进行相关配置。<br>7、在电脑上选一个盘，建个文件夹存放博客数据，例我的：E:\blog；然后打开cmder，输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ e: &amp; cd blog   #进入所建文件夹</div><div class="line">$ hexo init blog #初始化blog</div></pre></td></tr></table></figure><br>成功初始化blog后将出现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO  Start blogging with Hexo!</div></pre></td></tr></table></figure><br>8、最后再生成静态网页，即可看到网页模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate # 启动本地服务器</div><div class="line">$ hexo server   # 在浏览器输入 http://localhost:4000/就可以看见网页和模板了</div></pre></td></tr></table></figure><br>完成后，将会看到如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure><br>此时，打开浏览器，输入<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a>就可以看见默认的网页和模板了。<br><img src="http://i1.piimg.com/567571/aac5dcbb6a2c85d2.jpg" alt=""></p>
+<hr>
+<h1 id="3-配置博客、发表文章"><a href="#3-配置博客、发表文章" class="headerlink" title="3.配置博客、发表文章"></a>3.配置博客、发表文章</h1><p>　　在blog目录下，用<a href="http://www.sublimetext.com/3" target="_blank" rel="external">Sublime Text</a>(使用它的原因是默认是UTF-8编码，中文不会乱码)打开<strong>_config.yml</strong>文件，修改参数信息；</p>
+<blockquote>
+<p><strong>注：</strong><br>在每个参数的”：”后都要加一个<strong>空格</strong>修改网站相关信息;</p>
+</blockquote>
+<h2 id="3-1修改网站相关信息："><a href="#3-1修改网站相关信息：" class="headerlink" title="3.1修改网站相关信息："></a>3.1<strong>修改网站相关信息：</strong></h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># Site</div><div class="line">title: 黄成的博客</div><div class="line">subtitle: Linux/Android驱动 </div><div class="line">description: 生命不息、折腾不止</div><div class="line">author: hceng</div><div class="line">language: zh-CN</div><div class="line">timezone: Asia/Shenzhen</div></pre></td></tr></table></figure>
+<h2 id="3-2修改配置部署相关信息："><a href="#3-2修改配置部署相关信息：" class="headerlink" title="3.2修改配置部署相关信息："></a>3.2<strong>修改配置部署相关信息：</strong></h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">- type: git</div><div class="line">  repo: 'git@github.com:hceng/hceng.github.io.git'</div><div class="line">  branch: master</div><div class="line">- type: git</div><div class="line">  repo: 'git@git.coding.net:hceng/hceng.git'</div><div class="line">  branch: coding-pages</div></pre></td></tr></table></figure>
+<p>　　这里由于我同时提交到了GitHub和Coding,用于测试百度收录，所以有两个，写一个也没事。</p>
+<blockquote>
+<p>注:如果在执行 hexo deploy 后,出现 error deployer not found:github(git) 的错误，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="3-3修改主题："><a href="#3-3修改主题：" class="headerlink" title="3.3修改主题："></a>3.3<strong>修改主题：</strong></h2><p>　　为了让博客更加美观和符合自己需求，可以修改Hexo主题来满足自己需求。Hexo 安装主题的方式非常简单，只需要将主题文件放置于站点目录的 themes 目录下，然后修改下配置文件即可。<br>　　Hexo 有<strong>两份</strong>主要的配置文件（_config.yml），一份位于站点根目录下，另一份位于主题目录下。为了描述方便，在以下说明中，将前者称为 <strong>站点配置文件</strong>，后者称为 <strong>主题配置文件</strong>。<br>　　下载<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">hexo-theme-yilia</a>主题,解压放入themes文件夹下，如：E:\blog\blog\themes，根据自己需求修改主题配置文件，最后再修改站点配置文件里的theme:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: hexo-theme-yilia</div></pre></td></tr></table></figure><br>　　在<strong>主题配置文件</strong>里，修改头像、颜色、标签等，都有相应的注释写得非常清楚，按需修改。</p>
+<h2 id="3-4发表文章："><a href="#3-4发表文章：" class="headerlink" title="3.4发表文章："></a>3.4<strong>发表文章：</strong></h2><p>　　在Cmder中输入：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo new "blog tags"</div><div class="line">INFO  Created: E:\blog\blog\source\_posts\blog-tags.md</div></pre></td></tr></table></figure><br>　　根据提示得路径，即可找到新建得文件，该文件使用Markdown语法，下载<a href="http://markdownpad.com/" target="_blank" rel="external">MarkdownPad2</a>进行编辑。<br>先修改相关的文章信息：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">---</span></div><div class="line"><span class="selector-tag">title</span>: <span class="selector-tag">blog</span> <span class="selector-tag">tags</span></div><div class="line"><span class="selector-tag">tags</span>:</div><div class="line">     <span class="selector-tag">-</span> 随笔</div><div class="line"><span class="selector-tag">---</span></div><div class="line">　　本文主要是总结<span class="selector-tag">blog</span>预计的标签，并不定时更新。</div></pre></td></tr></table></figure><br>　　可修改标题、标签（本有日期的修改选项，但有日期就不能显示文章，怀疑是主题或者其它地方干扰了，文章日期就是文件创建日期）。<br>然后简单说下<a href="http://www.appinn.com/markdown/" target="_blank" rel="external">Markdown</a>语法：</p>
+<p><strong>3.4.1标题和引用</strong></p>
+<ul>
+<li><p>行首插入 1 到 6 个 # ，对应到标题 1 到 6 级标题：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section"># 一级标题</span></div><div class="line"><span class="section">## 二级标题</span></div><div class="line"><span class="section">## 三标题</span></div></pre></td></tr></table></figure>
+<p>效果：<br>见本文（影响目录效果，就不示例了）。</p>
+</li>
+<li><p>区块引用则使用 ‘&gt;’ 角括号来表示：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="quote">&gt; 这是引用</span></div></pre></td></tr></table></figure>
+<p>效果：</p>
+<blockquote>
+<p>这是引用</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>3.4.2列表和强调</strong></p>
+<ul>
+<li>列表分有序的1、2、3和无序的·：<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">- </span>列表1</div><div class="line"><span class="bullet">- </span>列表2</div></pre></td></tr></table></figure>
+效果：</li>
+<li>列表1</li>
+<li><p>列表2</p>
+</li>
+<li><p>强调有<strong>加粗</strong>和<em>斜体</em>，用”*”来表示：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="strong">**加粗**</span></div><div class="line"><span class="emphasis">*斜体*</span></div></pre></td></tr></table></figure>
+<p>效果：<br><strong>加粗</strong><br><em>斜体</em></p>
+</li>
+</ul>
+<p><strong>3.4.3超链接和图片</strong><br>　　在方括号”[]”写要显示标，在小括号”()”写链接：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">hceng blog</span>](<span class="link">http://hceng.cn/</span>)</div></pre></td></tr></table></figure><br>效果：<br><a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a><br>　　在文章如果需要加入图片，先需要把图片传到<a href="http://yotuku.cn/#/" target="_blank" rel="external">床图网站</a>，生成链接后插入使用，格式如下：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![](图片网址)</div></pre></td></tr></table></figure></p>
+<p><strong>3.4.4加入代码</strong><br>　　Markdown支持插入代码，使用单引号”`“来标注,注意是英文输入法下，左上角那个按键：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="code">`hello`</span></div></pre></td></tr></table></figure><br>效果：<br><code>hello</code><br>　　这种方式感觉不够醒目，而且不支持语法高亮，所以我一般使用<a href="http://octopress.org/docs/plugins/codeblock/" target="_blank" rel="external">Codeblock</a>，语法见网站，效果如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;   </div><div class="line">    <span class="built_in">printf</span>(<span class="string">"hello,world!"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125; </div></pre></td></tr></table></figure></p>
+<h1 id="4-绑定自己域名（可选）"><a href="#4-绑定自己域名（可选）" class="headerlink" title="4.绑定自己域名（可选）"></a>4.绑定自己域名（可选）</h1><p>　　完成以上步骤后，默认域名是GitHub提供的二级域名：yoursname.github.io,下面开始绑定自己的域名：</p>
+<h2 id="4-1购买域名"><a href="#4-1购买域名" class="headerlink" title="4.1购买域名"></a><strong>4.1购买域名</strong></h2><ul>
+<li>推荐<a href="https://sg.godaddy.com/zh/" target="_blank" rel="external">GoDaddy</a>或<a href="https://wanwang.aliyun.com/" target="_blank" rel="external">万网</a>；</li>
+<li>我是在万网买的，首推买.com，其次.me、.top、.cn系列，根据自己喜好来，各有特色优缺点；</li>
+<li>然后继续交实名认证、审核，还是比较快；<h2 id="4-2绑定域名"><a href="#4-2绑定域名" class="headerlink" title="4.2绑定域名"></a><strong>4.2绑定域名</strong></h2></li>
+<li>保证上述工作完成，域名可用；</li>
+<li>修改DNS，分别修改为：f1g1ns1.dnspod.net和f1g1ns2.dnspod.net<br><img src="http://p1.bpimg.com/567571/f095edb33e3aa223.png" alt=""></li>
+<li>本地站点目录里的source目录下添加一个CNAME文件，里面写上网址；<blockquote>
+<p>注:<br>CNAME不要有任何后缀；<br>网址不要写www或http：//,直接写hceng.cn这种；</p>
+</blockquote>
+</li>
+<li>注册DNSpod，然后添加域名，添加记录：<br>　　参考红线部分填写，一个主机纪录是@，记录类型是CNAME，线路类型填默认（图片中是我测试百度抓取用的），记录值写对应的GitHub Pages的地址；另一个主机纪录填www，其它和上面的一样。<br><img src="http://p1.bqimg.com/567571/724a61dd2bfab8f0.png" alt=""></li>
+<li>最后把本地的Hexo生成一下，再提交到Github pages上；</li>
+</ul>
+<hr>
+<h1 id="5-优化日常操作（可选）"><a href="#5-优化日常操作（可选）" class="headerlink" title="5.优化日常操作（可选）"></a>5.优化日常操作（可选）</h1><h2 id="5-1hexo命令简写："><a href="#5-1hexo命令简写：" class="headerlink" title="5.1hexo命令简写："></a><strong>5.1hexo命令简写：</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ hexo n “新文章” == hexo new “新文章”  #新建文章</div><div class="line">$ hexo c == hexo clear                #清理静态文件</div><div class="line">$ hexo g == hexo generate             #生成静态文件</div><div class="line">$ hexo s == hexo server               #启动本地预览</div><div class="line">$ hexo d == hexo deploy               #上传部署</div></pre></td></tr></table></figure>
+<h2 id="5-2添加版权信息："><a href="#5-2添加版权信息：" class="headerlink" title="5.2添加版权信息："></a><strong>5.2添加版权信息：</strong></h2><p>1.在博客根目录下（和 source 同级），新建一个名为 scripts 的文件夹；<br>2.在 scripts 文件夹内, 新建一个 AddTail.js 脚本文件，脚本具体内容详见下文；<br>3.在博客根目录下，新建一个 tail.md 文件，里面写想要展示的版本说明内容;<br>AddTail.js 脚本文件：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Filename: AddTail.js</span></div><div class="line"><span class="comment">// Author: Colin</span></div><div class="line"><span class="comment">// Date: 2016/06/02</span></div><div class="line"><span class="comment">// Based on the script by KUANG Qi: http://kuangqi.me/tricks/append-a-copyright-info-after-every-post/</span></div><div class="line"></div><div class="line"><span class="comment">// Add a tail to every post from tail.md</span></div><div class="line"><span class="comment">// Great for adding copyright info</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line">hexo.extend.filter.register(<span class="string">'before_post_render'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(data.copyright == <span class="literal">false</span>) <span class="keyword">return</span> data;</div><div class="line">	</div><div class="line">	<span class="comment">// Add seperate line</span></div><div class="line">	data.content += <span class="string">'\n___\n'</span>;</div><div class="line">	</div><div class="line">	<span class="comment">// Try to read tail.md</span></div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		<span class="keyword">var</span> file_content = fs.readFileSync(<span class="string">'tail.md'</span>);</div><div class="line">		<span class="keyword">if</span>(file_content &amp;&amp; data.content.length &gt; <span class="number">50</span>) </div><div class="line">		&#123;</div><div class="line">			data.content += file_content;</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">catch</span> (err) &#123;</div><div class="line">		<span class="keyword">if</span> (err.code !== <span class="string">'ENOENT'</span>) <span class="keyword">throw</span> err;</div><div class="line">		</div><div class="line">		<span class="comment">// No process for ENOENT error</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">  	<span class="comment">// 添加具体文章链接, 不需要去掉即可</span></div><div class="line">	<span class="comment">//var permalink = '\n本文链接：' + data.permalink;</span></div><div class="line">	<span class="comment">//data.content += permalink;</span></div><div class="line">  </div><div class="line">	<span class="keyword">return</span> data;</div><div class="line">&#125;);</div></pre></td></tr></table></figure><br>tail.md 文件：<br>去<a href="https://creativecommons.org/choose/" target="_blank" rel="external">Creative Commons</a>根据自己需求，生成合适的许可，然后复制到tail.md 文件中；</p>
+<p>参考博客：<a href="http://colin1994.github.io/2016/06/02/hexo-copyright-and-donate/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">如何添加版权信息</a></p>
+<h2 id="5-3自动添加目录："><a href="#5-3自动添加目录：" class="headerlink" title="5.3自动添加目录："></a><strong>5.3自动添加目录：</strong></h2><ul>
+<li>修改主题的ejs文件<br>　　打开文件：<code>themes/你的主题/layout/_partial/article.ejs</code><br>　　在这个文件中找到<code>&lt;%- post.content %&gt;</code>，并在这之前加入以下代码：<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Table <span class="keyword">of</span> Contents --&gt;</div><div class="line">&lt;% if (!index &amp;&amp; post.toc)&#123; %&gt;</div><div class="line">&lt;div id="toc" class="toc-article"&gt;</div><div class="line">&lt;strong class="toc-title"&gt;文章目录&lt;/strong&gt;</div><div class="line">&lt;%- toc(post.content, &#123;list_number: false&#125;) %&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+　　这里if语句中有两个条件，!index是为了不在首页的文章摘要中生成目录，post.toc确保了只在显式地标记了toc: true的文章中生成目录。若这两个条件满足，则创建一个目录的div。第五行表示不自动生成标号，不然加上自己的标号会有两个。</li>
+<li>为需要的文章添加标记<br><img src="http://i2.muimg.com/567571/59cb8a3a7d865f03.png" alt=""></li>
+</ul>
+<h2 id="5-4添加访问人数统计："><a href="#5-4添加访问人数统计：" class="headerlink" title="5.4添加访问人数统计："></a><strong>5.4添加访问人数统计：</strong></h2><ul>
+<li>安装脚本：<br>　　打开<code>themes/你的主题/layout/_partial/footer.ejs</code>添加下面脚本：<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"&gt;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></li>
+<li>在需要的位置添加添加显示：<br>　　这里我用的Yilia的主题，不蒜子官方给的例子没有成功，这里自己需求是在底部中间显示统计量，于是在<code>footer.ejs</code>中间添加如下代码：<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class="footer-centre"&gt;</div><div class="line">   &amp;hearts; Total view my blog &lt;span id="busuanzi_value_site_pv"&gt;&lt;/span&gt; times</div><div class="line">&lt;/div&gt; </div></pre></td></tr></table></figure>
+这里我浏览量数据是+2的增加，还无解中。。<br>参考链接：<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="external">不蒜子</a><h2 id="5-5脚本自动化："><a href="#5-5脚本自动化：" class="headerlink" title="5.5脚本自动化："></a><strong>5.5脚本自动化：</strong></h2>　　每次发布文章大致分为清理静态文件、生成静态文件、启动本地预览或上传部署，连续这么多命令何不合成一个，于是在windows下，可新建几个批处理脚本:<figure class="highlight plain"><figcaption><span>[make1.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#生成最新本地预览</div><div class="line">hexo clean &amp; hexo g &amp;hexo s</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>[make2.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#发布生成最新博客</div><div class="line">hexo clean &amp; hexo g &amp; hexo d</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>[make3.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#发成最新博客并上传源码到Coding私有库，以便在其它电脑上编辑</div><div class="line">hexo clean &amp; hexo g &amp; hexo d &amp; git add -A &amp; git commit -m &quot;from make3&quot; &amp; \</div><div class="line">git push origin master</div></pre></td></tr></table></figure>
+　　在Cmder中，输入对应的makeN,即可自动完成一系列命令。<br><img src="http://i4.buimg.com/567571/2ca5e3f41e1b144f.png" alt=""></li>
+</ul>
+<div align="right">最后修改时间：2017/3/31 20:42:06  </div>
 
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
@@ -266,11 +298,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Git</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux基础</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
         		</li>
       		
 		</ul>
@@ -326,7 +358,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/31/终端复用软件——Tmux/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/06/GitHub+Hexo搭建及优化/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -340,18 +372,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/04/01/从0到Q系列之三（Linux内核结构及移植）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/03/10/汇编指令小结/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          从0到Q系列之三（Linux内核结构及移植）
+          汇编指令小结
         
       </div>
     </a>
   
   
-    <a href="/2017/03/23/从0到Q系列之一（开发环境搭建）/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">从0到Q系列之一（开发环境搭建）</div>
+    <a href="/2017/03/02/Git日常使用小结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Git日常使用小结</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -365,7 +397,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="终端复用软件——Tmux" data-title="终端复用软件-Tmux" data-url="http://yoursite.com/2017/03/31/终端复用软件——Tmux/"></div>
+	<div class="ds-thread" data-thread-key="GitHub+Hexo搭建及优化" data-title="GitHub+Hexo博客搭建及优化" data-url="http://yoursite.com/2017/03/06/GitHub+Hexo搭建及优化/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
