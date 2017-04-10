@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://i2.muimg.com/567571/f506947844751a7a.png">
 <meta property="og:image" content="http://i1.piimg.com/567571/36ccbdd8d13c1f7c.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-04-06T00:43:23.363Z">
+<meta property="og:updated_time" content="2017-04-10T08:30:30.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从0到Q系列之二（U-Boot分析及移植）">
 <meta name="twitter:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.">
@@ -217,7 +217,7 @@
 <h2 id="2-1第一阶段"><a href="#2-1第一阶段" class="headerlink" title="2.1第一阶段"></a>2.1第一阶段</h2><p>　　该阶段的源码在<code>/arch/cpu/arm920t/start.S</code>中：首先进行硬件初始化，包括设置CPU模式，关闭看门狗、关闭中断。这里把时钟配置放在了第二阶段。</p>
 <ul>
 <li><strong>设置CPU模式</strong><br>  把CPU设置为<strong>SVC模式</strong>，将当前程序状态计数器CPSR的值保存到r0中，利用bic指令清除r0的0x1f并存入r0中，再利用orr指令或运算上0xd3并存入r0，最后r0写回CPSR,这一过程就把CPSR设置为SVC模式：<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">reset:</div><div class="line">/* set the cpu to SVC32 mode*/</div><div class="line">	mrs	r0,cpsr</div><div class="line">	bic	r0,r0,#0x1f</div><div class="line">	orr	r0,r0,#0xd3</div><div class="line">	msr	cpsr,r0</div></pre></td></tr></table></figure></li>
-<li><strong>设置看门狗和关闭中断</strong><br>　　根据S3C2440的datasheet，将0x00写入pWTCON对应寄存器的地址，完成看门狗的关闭。中断部分也类似，将INTMSK寄存器设置为0xffff ffff即可：<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/* turn off the watchdog */</div><div class="line"># define pWTCON		0x53000000</div><div class="line"># define INTMOD         0X4A000004</div><div class="line"># define INTMSK		0x4A000008	/* Interupt-Controller base addresses */</div><div class="line"># define INTSUBMSK	0x4A00001C</div><div class="line"># define CLKDIVN	0x4C000014	/* clock divisor register */</div><div class="line">/* turn off the int */</div><div class="line">	ldr	r1, =0x3ff</div><div class="line">	ldr	r0, =INTSUBMSK</div><div class="line">	str	r1, [r0]</div></pre></td></tr></table></figure></li>
+<li><strong>设置看门狗和关闭中断</strong><br>　　根据S3C2440的datasheet，将0x00写入pWTCON对应寄存器的地址，完成看门狗的关闭。中断部分也类似，将INTMSK寄存器设置为0xffff ffff即可：<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/* turn off the watchdog */</div><div class="line"># define pWTCON		0x53000000</div><div class="line"># define INTMOD         0X4A000004</div><div class="line"># define INTMSK		0x4A000008	/* Interupt-Controller base addresses */</div><div class="line"># define INTSUBMSK	0x4A00001C</div><div class="line"># define CLKDIVN	0x4C000014	/* clock divisor register */</div><div class="line">	ldr     r0, =pWTCON</div><div class="line">	mov     r1, #0x0</div><div class="line">	str     r1, [r0]</div><div class="line">/* turn off the int */</div><div class="line">	ldr	r1, =0x3ff</div><div class="line">	ldr	r0, =INTSUBMSK</div><div class="line">	str	r1, [r0]</div></pre></td></tr></table></figure></li>
 <li><strong>准备SDRAM</strong><br>start.S中没有初始化SDRAM，而是先跳转到函数cpu_init_crit中，再跳转至lowlevel_init.S中进行初始化SDRAM。adr是一个位置无关指令，将_start的地址读取到r0中，上电后，Flash中的前4k就被拷到S3C2440内部RAM，则这里r0=0。然后再用ldr指令将_TEXT_BASE这个地址（来自链接脚本，代表运行地址）的值放在r1中。然后比较r0和r1的值，如果是相等的，那么证明这个时候代码已经位于了其应该位于的地方，这个时候就不再需要初始化SDRAM去重定位了。如果r1和r0的值不相等，那么将直接跳转cpu_init_crit中。<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adr	r0, _start		/* r0 &lt;- current position of code   */</div><div class="line">ldr	r1, _TEXT_BASE		/* test if we run from flash or RAM */</div><div class="line">cmp     r0, r1                  /* don&apos;t reloc during debug         */</div><div class="line">blne	cpu_init_crit</div></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -490,14 +490,6 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
@@ -506,11 +498,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -518,7 +510,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
