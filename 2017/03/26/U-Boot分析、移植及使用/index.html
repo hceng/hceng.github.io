@@ -6,47 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>从0到Q系列之一（开发环境搭建） | hceng blog</title>
+  <title>从0到Q系列之二（U-Boot分析及移植） | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.">
+  <meta name="description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从0到Q系列之一（开发环境搭建）">
-<meta property="og:url" content="http://yoursite.com/2017/03/23/从0到Q系列之一（开发环境搭建）/index.html">
+<meta property="og:title" content="从0到Q系列之二（U-Boot分析及移植）">
+<meta property="og:url" content="http://yoursite.com/2017/03/26/U-Boot分析、移植及使用/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.">
-<meta property="og:image" content="http://i1.piimg.com/567571/28584c73ec064709.png">
-<meta property="og:image" content="http://i4.buimg.com/567571/4e747be2d3459454.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/3b98c35624a3df13.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/b5849941f499b5e4.png">
-<meta property="og:image" content="http://i4.buimg.com/567571/5f24e7c9b36bf829.png">
-<meta property="og:image" content="http://i4.buimg.com/567571/e1b2a95796a2e04c.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/43dd86450538a6e4.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/bff19a6ef1d62c55.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/e82bfb2d01d089b9.png">
-<meta property="og:image" content="http://i4.buimg.com/567571/69875883cb277435.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/fc03eb0baeabc6f6.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/05bdd33b4acef973.png">
-<meta property="og:image" content="http://i4.buimg.com/567571/ba647b3458e26358.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/d3ae2d2d714602a7.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/9d221aeb176b6e31.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/aa4a4209185e7062.png">
-<meta property="og:image" content="http://i2.muimg.com/567571/1c86a44e00e2a17b.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/832f3c849140590f.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/744f894f1ea15014.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/58801e5b0e5ac46a.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/a6d6d4a0754ca08f.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/710b0f92a8a3f9a3.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/eb0aec519a4cac06.png">
-<meta property="og:image" content="http://i2.buimg.com/567571/7555d229cf0719cb.png">
-<meta property="og:image" content="http://i4.buimg.com/567571/a79d9817a2caae6c.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/0f60cd3cd2932fe0.png">
-<meta property="og:image" content="http://i1.piimg.com/567571/56aa1c3bb497ea72.png">
+<meta property="og:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.">
+<meta property="og:image" content="http://i2.muimg.com/567571/f506947844751a7a.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/36ccbdd8d13c1f7c.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-05-24T08:25:31.362Z">
+<meta property="og:updated_time" content="2017-04-10T08:30:30.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从0到Q系列之一（开发环境搭建）">
-<meta name="twitter:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.">
-<meta name="twitter:image" content="http://i1.piimg.com/567571/28584c73ec064709.png">
+<meta name="twitter:title" content="从0到Q系列之二（U-Boot分析及移植）">
+<meta name="twitter:description" content="该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.">
+<meta name="twitter:image" content="http://i2.muimg.com/567571/f506947844751a7a.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -184,20 +159,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-从0到Q系列之一（开发环境搭建）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-U-Boot分析、移植及使用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      从0到Q系列之一（开发环境搭建）
+      从0到Q系列之二（U-Boot分析及移植）
     </h1>
   
 
         
-        <a href="/2017/03/23/从0到Q系列之一（开发环境搭建）/" class="archive-article-date">
-  	<time datetime="2017-03-23T09:19:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-23</time>
+        <a href="/2017/03/26/U-Boot分析、移植及使用/" class="archive-article-date">
+  	<time datetime="2017-03-26T10:39:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-26</time>
 </a>
         
       </header>
@@ -209,118 +184,91 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-安装Ubuntu-16-04-1"><span class="toc-text">1.安装Ubuntu-16.04.1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-安装、配置必要软件"><span class="toc-text">2.安装、配置必要软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1检查虚拟机网络设置"><span class="toc-text">2.1检查虚拟机网络设置 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2修改软件源"><span class="toc-text">2.2修改软件源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3安装、-配置网络服务"><span class="toc-text">2.3安装、 配置网络服务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-安装基本开发环境"><span class="toc-text">3.安装基本开发环境</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-U-Boot结构分析"><span class="toc-text">1.U-Boot结构分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-U-Boot源码分析"><span class="toc-text">2.U-Boot源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1第一阶段"><span class="toc-text">2.1第一阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2第二阶段"><span class="toc-text">2.2第二阶段</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-U-Boot移植"><span class="toc-text">3.U-Boot移植</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-U-Boot使用"><span class="toc-text">4.U-Boot使用</span></a></li></ol>
       </div>
       
-        <p>该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第一篇:在Ubuntu-16.04LTS上搭建好开发环境.<br><a id="more"></a></p>
+        <p>该系列主要是为驱动学习提供基石，从0到Qt。本文是该系列的第二篇:对U-Boot进行分析及移植.<br><a id="more"></a></p>
 <hr>
-<p><strong>所需材料：</strong></p>
+<h1 id="1-U-Boot结构分析"><a href="#1-U-Boot结构分析" class="headerlink" title="1.U-Boot结构分析"></a>1.U-Boot结构分析</h1><p>Bootloader一般可以分成<strong>两个阶段</strong>：</p>
 <ul>
-<li>虚拟机：<a href="https://my.vmware.com/web/vmware/info/slug/desktop_end_user_computing/vmware_workstation_pro/12_0" target="_blank" rel="external">VMware-workstation-full-12.0.0-2985596.exe</a></li>
-<li>Ubuntu系统镜像：<a href="http://releases.ubuntu.com/16.04/ubuntu-16.04.2-desktop-amd64.iso" target="_blank" rel="external">ubuntu-16.04.1-desktop-amd64.iso</a></li>
-<li>交叉工具链：<a href="https://github.com/hceng/share_env_qt/blob/master/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/arm-linux-gcc-4.4.3.tar.gz" target="_blank" rel="external">arm-linux-gcc-4.4.3.tar.gz</a></li>
-<li>安装脚本：<a href="https://github.com/hceng/share_env_qt/blob/master/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/install-devel-packages.sh" target="_blank" rel="external">install-devel-packages.sh</a>或<a href="https://github.com/hceng/share_env_qt/blob/master/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/install-devel-packages-for-16.sh" target="_blank" rel="external">install-devel-packages-for-16.sh</a></li>
+<li>第一个阶段通常使用汇编进行必要的<strong>硬件初始化</strong>，例如：关看门狗、关中断、设置时钟频率、RAM初始化等。除此之外，还要<strong>将第二阶段的代码复制到RAM</strong>中，<strong>设置好栈</strong>，然后<strong>跳到第二阶段</strong>，该阶段主要是与SOC平台相关。</li>
+<li>第二阶段一般是用c语言编写，该阶段主要和开发板板载资源相关。该阶段主要<strong>初始化后续的硬件</strong>，<strong>处理内存映射</strong>、以及将内核和根文件系统<strong>从Flash“搬运”到RAM中</strong>运行，然后<strong>传入启动参数</strong>，最后启动<strong>引导内核</strong>，完成使命。</li>
 </ul>
+<p>　　Linux中系统一般的分区结构，如下图：</p>
+<div align="center"><br><img src="http://i2.muimg.com/567571/f506947844751a7a.png" alt=""><br></div>
+
+<blockquote>
+<p>　　分区主要分为四个分区：Bootloader、Boot parameters、Kernel、Root filesystem。其中Boot parameters是待传入内核的参数，Kernel即内核、Root filesystem是根文件系统。Bootloader在第一个分区(假设该储存介质为Nand Flash)，则在Nand Flash的地址为0x0000 0000，S3C2440上电后，硬件自动把Nand Flash上前4k代码复杂到自己内部RAM中运行。该4k代码先要初始化一些必要的硬件，如看门狗，中断等，然后准备好SRAM，并将后续的代码复制到SDRAM中，再跳到SDRAM中运行，完成Bootloader第一阶段。此时在SDRAM中的第二阶段代码开始工作，首先还是初始化硬件，处理内存映射，把Nand Flash上内核和根文件系统“搬运”到SDRAM准备运行，然后根据用户通过串口传入的启动参数放在Boot parameters，然后内核启动，完成使命。内核启动后，开始去Boot parameters寻找启动参数，根据启动参数做出相应的操作，如：控制台输出、串口波特率、根文件系统位置。</p>
+</blockquote>
 <hr>
-<h1 id="1-安装Ubuntu-16-04-1"><a href="#1-安装Ubuntu-16-04-1" class="headerlink" title="1.安装Ubuntu-16.04.1"></a>1.安装Ubuntu-16.04.1</h1><ul>
-<li><p>打开安装好的虚拟机，选择创建新的虚拟机：<br><img src="http://i1.piimg.com/567571/28584c73ec064709.png" alt=""></p>
-</li>
-<li><p>选择典型配置：<br><img src="http://i4.buimg.com/567571/4e747be2d3459454.png" alt=""></p>
-</li>
-<li><p>选择浏览找到ubuntu-16.04.1-desktop-amd64.iso并选中：<br><img src="http://i2.buimg.com/567571/3b98c35624a3df13.png" alt=""></p>
-</li>
-<li><p>填入用户名、密码（本机密码：123456）：<br><img src="http://i2.buimg.com/567571/b5849941f499b5e4.png" alt=""></p>
-</li>
-<li><p>设置虚拟机名称和保存路径：<br><img src="http://i4.buimg.com/567571/5f24e7c9b36bf829.png" alt=""></p>
-</li>
-<li><p>设置虚拟机最大容量（60G差不多了）：<br><img src="http://i4.buimg.com/567571/e1b2a95796a2e04c.png" alt=""></p>
-</li>
-<li><p>在弹出的向导中选择自定义硬件，设置内存、CPU、网络：<br><img src="http://i2.buimg.com/567571/43dd86450538a6e4.png" alt=""><br><img src="http://i1.piimg.com/567571/bff19a6ef1d62c55.png" alt=""><br><img src="http://i2.buimg.com/567571/e82bfb2d01d089b9.png" alt=""><br><img src="http://i4.buimg.com/567571/69875883cb277435.png" alt=""></p>
-</li>
-<li><p>等待一会后，安装完毕，输入之前设置的密码进入系统：<br><img src="http://i2.buimg.com/567571/fc03eb0baeabc6f6.png" alt=""></p>
-</li>
-<li><p>点左上角的Ubuntu搜索图标，，输入t，将出现的Terminal控制台：<br><img src="http://i1.piimg.com/567571/05bdd33b4acef973.png" alt=""></p>
+<h1 id="2-U-Boot源码分析"><a href="#2-U-Boot源码分析" class="headerlink" title="2.U-Boot源码分析"></a>2.U-Boot源码分析</h1><p>　　这里根据u-boot-1.1.6的源码进行分析，，主要工作有：</p>
+<blockquote>
+<ul>
+<li>第一阶段的硬件初始化(CPU模式、看门狗、中断)</li>
+<li>准备SDRAM</li>
+<li>设置堆栈</li>
+<li>搬运FLASH中的代码到SDRAM</li>
+<li>清除.bss段并跳转至第二阶段</li>
+<li>第二阶段的硬件初始化（时钟、串口）</li>
+<li>内存映射</li>
+<li>根据传入参数启动内核</li>
+</ul>
+</blockquote>
+<h2 id="2-1第一阶段"><a href="#2-1第一阶段" class="headerlink" title="2.1第一阶段"></a>2.1第一阶段</h2><p>　　该阶段的源码在<code>/arch/cpu/arm920t/start.S</code>中：首先进行硬件初始化，包括设置CPU模式，关闭看门狗、关闭中断。这里把时钟配置放在了第二阶段。</p>
+<ul>
+<li><strong>设置CPU模式</strong><br>  把CPU设置为<strong>SVC模式</strong>，将当前程序状态计数器CPSR的值保存到r0中，利用bic指令清除r0的0x1f并存入r0中，再利用orr指令或运算上0xd3并存入r0，最后r0写回CPSR,这一过程就把CPSR设置为SVC模式：<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">reset:</div><div class="line">/* set the cpu to SVC32 mode*/</div><div class="line">	mrs	r0,cpsr</div><div class="line">	bic	r0,r0,#0x1f</div><div class="line">	orr	r0,r0,#0xd3</div><div class="line">	msr	cpsr,r0</div></pre></td></tr></table></figure></li>
+<li><strong>设置看门狗和关闭中断</strong><br>　　根据S3C2440的datasheet，将0x00写入pWTCON对应寄存器的地址，完成看门狗的关闭。中断部分也类似，将INTMSK寄存器设置为0xffff ffff即可：<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/* turn off the watchdog */</div><div class="line"># define pWTCON		0x53000000</div><div class="line"># define INTMOD         0X4A000004</div><div class="line"># define INTMSK		0x4A000008	/* Interupt-Controller base addresses */</div><div class="line"># define INTSUBMSK	0x4A00001C</div><div class="line"># define CLKDIVN	0x4C000014	/* clock divisor register */</div><div class="line">	ldr     r0, =pWTCON</div><div class="line">	mov     r1, #0x0</div><div class="line">	str     r1, [r0]</div><div class="line">/* turn off the int */</div><div class="line">	ldr	r1, =0x3ff</div><div class="line">	ldr	r0, =INTSUBMSK</div><div class="line">	str	r1, [r0]</div></pre></td></tr></table></figure></li>
+<li><strong>准备SDRAM</strong><br>start.S中没有初始化SDRAM，而是先跳转到函数cpu_init_crit中，再跳转至lowlevel_init.S中进行初始化SDRAM。adr是一个位置无关指令，将_start的地址读取到r0中，上电后，Flash中的前4k就被拷到S3C2440内部RAM，则这里r0=0。然后再用ldr指令将_TEXT_BASE这个地址（来自链接脚本，代表运行地址）的值放在r1中。然后比较r0和r1的值，如果是相等的，那么证明这个时候代码已经位于了其应该位于的地方，这个时候就不再需要初始化SDRAM去重定位了。如果r1和r0的值不相等，那么将直接跳转cpu_init_crit中。<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">adr	r0, _start		/* r0 &lt;- current position of code   */</div><div class="line">ldr	r1, _TEXT_BASE		/* test if we run from flash or RAM */</div><div class="line">cmp     r0, r1                  /* don&apos;t reloc during debug         */</div><div class="line">blne	cpu_init_crit</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<hr>
-<h1 id="2-安装、配置必要软件"><a href="#2-安装、配置必要软件" class="headerlink" title="2.安装、配置必要软件"></a>2.安装、配置必要软件</h1><h2 id="2-1检查虚拟机网络设置"><a href="#2-1检查虚拟机网络设置" class="headerlink" title="2.1检查虚拟机网络设置 "></a><strong>2.1检查虚拟机网络设置 </strong></h2><ul>
-<li><p>打开编辑-&gt;虚拟网络编辑器：<br><img src="http://i4.buimg.com/567571/ba647b3458e26358.png" alt=""></p>
+<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">cpu_init_crit:</div><div class="line">	/*flush v4 I/D caches*/</div><div class="line">	mov	r0, #0</div><div class="line">	mcr	p15, 0, r0, c7, c7, 0	/* flush v3/v4 cache */</div><div class="line">	mcr	p15, 0, r0, c8, c7, 0	/* flush v4 TLB */</div><div class="line"></div><div class="line">	/*disable MMU stuff and caches*/</div><div class="line">	mrc	p15, 0, r0, c1, c0, 0</div><div class="line">	bic	r0, r0, #0x00002300	@ clear bits 13, 9:8 (--V- --RS)</div><div class="line">	bic	r0, r0, #0x00000087	@ clear bits 7, 2:0 (B--- -CAM)</div><div class="line">	orr	r0, r0, #0x00000002	@ set bit 2 (A) Align</div><div class="line">	orr	r0, r0, #0x00001000	@ set bit 12 (I) I-Cache</div><div class="line">	mcr	p15, 0, r0, c1, c0, 0</div><div class="line"></div><div class="line">	/*</div><div class="line">	 * before relocating, we have to setup RAM timing</div><div class="line">	 * because memory timing is board-dependend, you will</div><div class="line">	 * find a lowlevel_init.S in your board directory.</div><div class="line">	 */</div><div class="line">	mov	ip, lr</div><div class="line">	bl	lowlevel_init</div><div class="line">	mov	lr, ip</div></pre></td></tr></table></figure> 
+<ul>
+<li><strong>设置栈</strong><br>　　通常为了保存调用C语言时传递参数和保存CPU运行时的现场，需要设置栈，根据定义_TEXT_BASED为代码段的开始地址，然后在代码段的下面留出一段内存实现malloc和全局参数，再留出一点给中断模式的栈和abort异常的栈，剩下的就是栈了：<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/* Set up the stack	*/</div><div class="line">stack_setup:</div><div class="line">	ldr	r0, _TEXT_BASE		/* upper 128 KiB: relocated uboot   */</div><div class="line">	sub	r0, r0, #CFG_MALLOC_LEN	/* malloc area                      */</div><div class="line">	sub	r0, r0, #CFG_GBL_DATA_SIZE /* bdinfo                        */</div><div class="line"></div><div class="line">#ifdef CONFIG_USE_IRQ</div><div class="line">	sub	r0, r0, #(CONFIG_STACKSIZE_IRQ+CONFIG_STACKSIZE_FIQ)</div><div class="line">#endif</div><div class="line">	sub	sp, r0, #12		/* leave 3 words for abort-stack    */</div></pre></td></tr></table></figure></li>
+<li><p><strong>搬运FLASH中的代码到SDRAM</strong><br>　　现在将Bootloader的全部代码复制到RAM中运行：</p>
+<figure class="highlight plain"><figcaption><span>[lowlevel_init.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">relocate:				/* relocate U-Boot to RAM	    */</div><div class="line">	adr	r0, _start		/* r0 &lt;- current position of code   */</div><div class="line">	ldr	r1, _TEXT_BASE		/* test if we run from flash or RAM */</div><div class="line">	cmp     r0, r1               　　/* don&apos;t reloc during debug */</div><div class="line">	beq     clear_bss</div><div class="line">	</div><div class="line">	ldr	r2, _armboot_start</div><div class="line">	ldr	r3, _bss_start</div><div class="line">	sub	r2, r3, r2		/* r2 &lt;- size of armboot     */</div><div class="line"></div><div class="line">	bl  CopyCode2Ram	　　　　　/* r0: source, r1: dest, r2: size */</div><div class="line"></div><div class="line">copy_loop:</div><div class="line">	ldmia	r0!, &#123;r3-r10&#125;		/* copy from source address [r0]    */</div><div class="line">	stmia	r1!, &#123;r3-r10&#125;		/* copy to   target address [r1]    */</div><div class="line">	cmp	r0, r2			/* until source end addreee [r2]    */</div><div class="line">	ble	copy_loop</div></pre></td></tr></table></figure>
 </li>
-<li><p>更改设置：<br><img src="http://i1.piimg.com/567571/d3ae2d2d714602a7.png" alt=""></p>
-</li>
-<li><p>检查这三个配置：<br><img src="http://i2.buimg.com/567571/9d221aeb176b6e31.png" alt=""></p>
+<li><p><strong>清除.bss段并跳转至第二阶段</strong><br>　　bss段部分保存有静态变量、没有初始化或初始化值为0的全局变量，为了减小体积和防止程序在读取它们时，读取的时上次的值，所以需要先清0：</p>
+<figure class="highlight plain"><figcaption><span>[start.S]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">clear_bss:</div><div class="line">	ldr	r0, _bss_start		/* find start of bss segment        */</div><div class="line">	ldr	r1, _bss_end		/* stop here                        */</div><div class="line">	mov 	r2, #0x00000000		/* clear                            */</div><div class="line"></div><div class="line">clbss_l:str	r2, [r0]		/* clear loop...                    */</div><div class="line">	add	r0, r0, #4</div><div class="line">	cmp	r0, r1</div><div class="line">	ble	clbss_l</div><div class="line">ldr	pc, _start_armboot</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="http://i2.buimg.com/567571/aa4a4209185e7062.png" alt=""></p>
-<p><img src="http://i2.muimg.com/567571/1c86a44e00e2a17b.png" alt=""></p>
-<p>输入ifconfig查看网络配置，再ping www.baidu.com测试：<br><img src="http://i2.buimg.com/567571/832f3c849140590f.png" alt=""></p>
-<h2 id="2-2修改软件源"><a href="#2-2修改软件源" class="headerlink" title="2.2修改软件源"></a><strong>2.2修改软件源</strong></h2><ul>
-<li>首先备份原来的文件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup</div></pre></td></tr></table></figure></li>
-<li>用vi编辑器打开编辑：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo vi /etc/apt/sources.list</div></pre></td></tr></table></figure></li>
-<li>删掉文件中的所有内容，替换为以下文本：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># deb cdrom:[Ubuntu 16.04 LTS _Xenial Xerus_ - Release amd64 (20160420.1)]/ xenial main restricted</div><div class="line">deb-src http://archive.ubuntu.com/ubuntu xenial main restricted #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted multiverse universe #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted multiverse universe #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial universe</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial multiverse</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates multiverse</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse #Added by software-properties</div><div class="line">deb http://archive.canonical.com/ubuntu xenial partner</div><div class="line">deb-src http://archive.canonical.com/ubuntu xenial partner</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted</div><div class="line">deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted multiverse universe #Added by software-properties</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe</div><div class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse</div></pre></td></tr></table></figure>
-<img src="http://i1.piimg.com/567571/744f894f1ea15014.png" alt=""></li>
+<h2 id="2-2第二阶段"><a href="#2-2第二阶段" class="headerlink" title="2.2第二阶段"></a>2.2第二阶段</h2><p>  第二阶段的代码在lib_arm/board.c中的start_armboot()函数开始，在内部调用各自函数进行设置：</p>
+<ul>
+<li><strong>设置时钟</strong><figure class="highlight c"><figcaption><span>[smdk2410.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">board_init</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	S3C24X0_CLOCK_POWER * <span class="keyword">const</span> clk_power = S3C24X0_GetBase_CLOCK_POWER();</div><div class="line">	S3C24X0_GPIO * <span class="keyword">const</span> gpio = S3C24X0_GetBase_GPIO();</div><div class="line"></div><div class="line">	<span class="comment">/* to reduce PLL lock time, adjust the LOCKTIME register */</span></div><div class="line">	clk_power-&gt;LOCKTIME = <span class="number">0xFFFFFF</span>;</div><div class="line"></div><div class="line">	<span class="comment">/* configure MPLL */</span></div><div class="line">	clk_power-&gt;MPLLCON = ((M_MDIV &lt;&lt; <span class="number">12</span>) + (M_PDIV &lt;&lt; <span class="number">4</span>) + M_SDIV);</div><div class="line"></div><div class="line">	<span class="comment">/* some delay between MPLL and UPLL */</span></div><div class="line">	delay (<span class="number">4000</span>);</div><div class="line"></div><div class="line">	<span class="comment">/* configure UPLL */</span></div><div class="line">	clk_power-&gt;UPLLCON = ((U_M_MDIV &lt;&lt; <span class="number">12</span>) + (U_M_PDIV &lt;&lt; <span class="number">4</span>) + U_M_SDIV);</div><div class="line"></div><div class="line">	<span class="comment">/* some delay between MPLL and UPLL */</span></div><div class="line">	delay (<span class="number">8000</span>);</div><div class="line"></div><div class="line">	<span class="comment">/* set up the I/O ports */</span></div><div class="line">	gpio-&gt;GPACON = <span class="number">0x007FFFFF</span>;</div><div class="line">	gpio-&gt;GPBCON = <span class="number">0x00044555</span>;</div><div class="line">	gpio-&gt;GPBUP = <span class="number">0x000007FF</span>;</div><div class="line">	gpio-&gt;GPCCON = <span class="number">0xAAAAAAAA</span>;</div><div class="line">	gpio-&gt;GPCUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPDCON = <span class="number">0xAAAAAAAA</span>;</div><div class="line">	gpio-&gt;GPDUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPECON = <span class="number">0xAAAAAAAA</span>;</div><div class="line">	gpio-&gt;GPEUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPFCON = <span class="number">0x000055AA</span>;</div><div class="line">	gpio-&gt;GPFUP = <span class="number">0x000000FF</span>;</div><div class="line">	gpio-&gt;GPGCON = <span class="number">0xFF95FFBA</span>;</div><div class="line">	gpio-&gt;GPGUP = <span class="number">0x0000FFFF</span>;</div><div class="line">	gpio-&gt;GPHCON = <span class="number">0x002AFAAA</span>;</div><div class="line">	gpio-&gt;GPHUP = <span class="number">0x000007FF</span>;</div><div class="line"></div><div class="line">	<span class="comment">/* arch number of SMDK2410-Board */</span></div><div class="line">	gd-&gt;bd-&gt;bi_arch_number = MACH_TYPE_SMDK2410;</div><div class="line"></div><div class="line">	<span class="comment">/* adress of boot parameters */</span></div><div class="line">	gd-&gt;bd-&gt;bi_boot_params = <span class="number">0x30000100</span>;</div><div class="line"></div><div class="line">	icache_enable();</div><div class="line">	dcache_enable();</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+<li><strong>初始化串口</strong><figure class="highlight c"><figcaption><span>[serial.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">serial_init</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	serial_setbrg ();</div><div class="line"></div><div class="line">	<span class="keyword">return</span> (<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">/*</span></div><div class="line"> * Read a single byte from the serial port. Returns 1 on success, 0</div><div class="line"> * otherwise. When the function is succesfull, the character read is</div><div class="line"> * written into its argument c.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">serial_getc</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	S3C24X0_UART * <span class="keyword">const</span> uart = S3C24X0_GetBase_UART(UART_NR);</div><div class="line"></div><div class="line">	<span class="comment">/* wait for character to arrive  */</span></div><div class="line">	<span class="keyword">while</span> (!(uart-&gt;UTRSTAT &amp; <span class="number">0x1</span>));</div><div class="line"></div><div class="line">	<span class="keyword">return</span> uart-&gt;URXH &amp; <span class="number">0xff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+<li><strong>监内存映射</strong><br>　　在smdk2410.c里的函数dram_init中设置的内存起始地址为0x3000 0000,大小为0x4000 0000:<figure class="highlight c"><figcaption><span>[smdk2410.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">dram_init</span> <span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">	gd-&gt;bd-&gt;bi_dram[<span class="number">0</span>].start = PHYS_SDRAM_1;</div><div class="line">	gd-&gt;bd-&gt;bi_dram[<span class="number">0</span>].size = PHYS_SDRAM_1_SIZE;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+　　至此，U-Boot的启动过程基本分析完了，在启动U-Boot后，通过lib_arm/armlinux.c中的do_boot_linux来启动内核。这里总结画个图来记录下，中间的顺序可能有点小差异，但大致没问题：<br><div align="center"><br><img src="http://i1.piimg.com/567571/36ccbdd8d13c1f7c.png" alt=""><br></div><h1 id="3-U-Boot移植"><a href="#3-U-Boot移植" class="headerlink" title="3.U-Boot移植"></a>3.U-Boot移植</h1>待补充。<h1 id="4-U-Boot使用"><a href="#4-U-Boot使用" class="headerlink" title="4.U-Boot使用"></a>4.U-Boot使用</h1>记录下平时使用U-Boot烧写内核/根文件系统和挂载根文件系统，这里假设如下：</li>
 </ul>
 <blockquote>
-<p>注：</p>
-<ol>
-<li>此时vi是不完全版的，很难用，编辑模式下方向键是乱的，使用gedit打开编辑，后面再更新vi：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo gedit /etc/apt/sources.list</div></pre></td></tr></table></figure></li>
-<li>此时Ubuntu默认装了VMware Tools，可以复制windows下的文本，然后ctrl+shift+v在Ubuntu里面粘贴文本。也支持windows里文件和Ubuntu的直接拖拽复制。</li>
-</ol>
+<p>Ubuntu中待作为nfs挂载的路径：<code>/work/hceng/nfs_rootfs</code><br>Ubuntu IP：<code>192.168.1.141</code><br>开发板 IP：<code>192.168.1.142</code><br>网关 IP：<code>192.168.1.1</code></p>
 </blockquote>
+<p>  这里要提前在Ubuntu虚拟机中进行NFS配置，参考上一篇文章中的：<a href="http://hceng.cn/2017/03/23/%E4%BB%8E0%E5%88%B0Q%E2%80%94%E2%80%94%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/#more" target="_blank" rel="external">2.3安装、 配置网络服务</a>；</p>
+<p>  启动U-Boot后，迅速按任意键进入U-Boot的下载模式，再输入”q”退出菜单。</p>
 <ul>
-<li>完成上面的修改后，再更新软件列表和安装完整的vim：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install vim</div></pre></td></tr></table></figure>
-安装过程中根据提示输入yes确认，下同。</li>
-</ul>
-<h2 id="2-3安装、-配置网络服务"><a href="#2-3安装、-配置网络服务" class="headerlink" title="2.3安装、 配置网络服务"></a><strong>2.3安装、 配置网络服务</strong></h2><ul>
-<li>执行以下命令安装 ftp、ssh、nfs服务：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install vsftpd openssh-server nfs-kernel-server portmap</div></pre></td></tr></table></figure></li>
-<li>配置 FTP 服务：<br>修改 vsftpd 的配置文件/etc/vsftpd.conf，检查下面两行前面的“#”号是否去掉。<br>第28行，默认没有#：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">local_enable=YES</div></pre></td></tr></table></figure>
-第31行，默认有#，去掉#：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># write_enable=YES</div></pre></td></tr></table></figure>
+<li><p>设置开发板ip和nfs挂载的服务ip：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setenv serverip 192.168.1.141  //设置服务器ubuntu ip</div><div class="line">setenv ipaddr   192.168.1.142 //设置开发板ip</div><div class="line">saveenv</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置u-boot各分区大小（内核也要相应设置匹配，在Linux-3.4.2内核中，文件在arch/arm/mach-s3c24xx/common-smdk.c中）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">setenv mtdparts mtdparts=nandflash0:256k@0(bootloader),128k(params),4m(kernel),-(root)</div><div class="line">saveenv</div></pre></td></tr></table></figure>
+</li>
+<li><p>下载、擦除、烧写内核：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nfs 30000000 192.168.1.141:/work/hceng/nfs_rootfs/uImage</div><div class="line">nand erase kernel</div><div class="line">nand write.jffs2 30000000 kernel</div></pre></td></tr></table></figure>
+</li>
+<li><p>下载、擦除、烧写根文件系统：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nfs 30000000 192.168.1.141:/work/hceng/nfs_rootfs/fs_mini_mdev_new.yaffs2</div><div class="line">nand erase root</div><div class="line">nand write.yaffs 30000000 4a0000 $(filesize)</div></pre></td></tr></table></figure>
+</li>
+<li><p>根文件系统采用nand启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">set bootargs noinitrd root=/dev/mtdblock3 rootfstype=yaffs2 init=/linuxrc console=ttySAC0,115200</div><div class="line">saveenv</div></pre></td></tr></table></figure>
+<p>启动后，对应的NFS挂载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mount -t nfs 192.168.1.141:/work/hceng/nfs_rootfs /tmp</div></pre></td></tr></table></figure>
+</li>
+<li><p>根文件系统采用nfs启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">set bootargs root=/dev/nfs nfsroot=192.168.1.141:/work/hceng/nfs_rootfs ip=192.168.1.142:192.168.1.141:192.168.1.1:255.255.255.0::eth0:off init=/linuxrc console=ttySAC0,115200 </div><div class="line">saveenv </div></pre></td></tr></table></figure>
 </li>
 </ul>
-<blockquote>
-<p>注：</p>
-<ol>
-<li>上面第一个表示是否允许本地用户登录，第二行个示是否允许上传文件。</li>
-<li>在vim的命令模式输入如下命令即可显示行号：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:set nu</div></pre></td></tr></table></figure>
-</li>
-</ol>
-</blockquote>
-<p>修改完华之后，执行以下命令重启 ftp 服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo /etc/init.d/vsftpd restart</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>配置 NFS 服务<br>修改/etc/exports，增加以下内容，以后开发板可以通过网络文件系统访问/work 目录和专门用来作为根文件系统挂载的/work/hceng/nfs_rootfs目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/work                     *(rw,sync,no_root_squash,no_subtree_check)</div><div class="line">/work/hceng/nfs_rootfs    *(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
-<p><img src="http://i2.buimg.com/567571/58801e5b0e5ac46a.png" alt=""></p>
-</li>
-<li><p>修改完华之后，执行以下命令重启 nfs 服务：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo /etc/init.d/nfs-kernel-server restart</div></pre></td></tr></table></figure></li>
-<li>最后，关闭Ubuntu的防火墙：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo ufw disable     </div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><strong>4.安装基本开发环境： </strong></p>
-<ul>
-<li>这里使用韦东山老师第四期安卓视频环境搭建提供的脚本，这个脚本会自动安装诸如 g++等工具、 库。但该脚本是为Ubuntu12制作的，Ubuntu16使用需要做一些修改，主要是名字变了。修改变化如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">libgl1-mesa-glx-lts-quantal:i386 libgl1-mesa-dev-lts-quantal \</div></pre></td></tr></table></figure>
-改为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">libgl1-mesa-glx-lts-xenial:i386 libgl1-mesa-dev-lts-xenial \</div></pre></td></tr></table></figure>
-<img src="http://i2.buimg.com/567571/a6d6d4a0754ca08f.png" alt=""></li>
-</ul>
-<p>将修改后的脚本文件改为：install-devel-packages-for-16.sh 拖拽到自己建的/work/tool里面，加入可执行权限，然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo chmod +x install-devel-packages-for-16.sh</div><div class="line">$ sudo ./install-devel-packages-for-16.sh</div></pre></td></tr></table></figure><br><img src="http://i2.buimg.com/567571/710b0f92a8a3f9a3.png" alt=""></p>
-<p>然后报错,提示差mingw32：<br><img src="http://i1.piimg.com/567571/eb0aec519a4cac06.png" alt=""></p>
-<p><strong>解决</strong>：<br>在源中加入如下部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deb http://cz.archive.ubuntu.com/ubuntu trusty main universe</div></pre></td></tr></table></figure><br><img src="http://i2.buimg.com/567571/7555d229cf0719cb.png" alt=""></p>
-<p>再更新列表，再执行就没问题了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo ./install-devel-packages-for-16.sh</div></pre></td></tr></table></figure><br><img src="http://i4.buimg.com/567571/a79d9817a2caae6c.png" alt=""></p>
+<p>最后启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">boot</div></pre></td></tr></table></figure></p>
 <hr>
-<h1 id="3-安装基本开发环境"><a href="#3-安装基本开发环境" class="headerlink" title="3.安装基本开发环境"></a>3.安装基本开发环境</h1><ul>
-<li>这里使用arm-linux-gcc-4.4.3.tar.gz，之前用的4.5出了问题，换成这个就好了，暂时用这个版本。把文件拖进/work/tool，解压到根目录：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo tar xzf arm-linux-gcc-4.4.3.tar.gz –C /</div></pre></td></tr></table></figure></li>
-<li><p>再修改环境变量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo vim /etc/ environment</div></pre></td></tr></table></figure>
-<p>把工具链目录添加到最后，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/FriendlyARM/toolschain/4.4.3/bin&quot;</div></pre></td></tr></table></figure>
-<p><img src="http://i1.piimg.com/567571/0f60cd3cd2932fe0.png" alt=""></p>
-</li>
-<li><p>重启Ubuntu，输入如下命令检测是否正常：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ arm-linux-gcc –v</div></pre></td></tr></table></figure>
-<p><img src="http://i1.piimg.com/567571/56aa1c3bb497ea72.png" alt=""></p>
-</li>
-</ul>
-<p>至此，开发环境以基本搭建完成。</p>
+<div align="right">最后修改时间：2017/4/1 17:06:08 </div>
+
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -396,7 +344,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/23/从0到Q系列之一（开发环境搭建）/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/26/U-Boot分析、移植及使用/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -410,18 +358,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/03/26/从0到Q系列之二（U-Boot分析及移植）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/03/31/终端复用软件——Tmux/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          从0到Q系列之二（U-Boot分析及移植）
+          终端复用软件-Tmux
         
       </div>
     </a>
   
   
-    <a href="/2017/03/18/设备驱动模型/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">设备驱动模型</div>
+    <a href="/2017/03/23/搭建嵌入式Linux开发环境/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">搭建嵌入式Linux开发环境</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -435,7 +383,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="从0到Q系列之一（开发环境搭建）" data-title="从0到Q系列之一（开发环境搭建）" data-url="http://yoursite.com/2017/03/23/从0到Q系列之一（开发环境搭建）/"></div>
+	<div class="ds-thread" data-thread-key="U-Boot分析、移植及使用" data-title="从0到Q系列之二（U-Boot分析及移植）" data-url="http://yoursite.com/2017/03/26/U-Boot分析、移植及使用/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -540,14 +488,6 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
@@ -556,19 +496,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -576,7 +512,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -584,7 +524,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
