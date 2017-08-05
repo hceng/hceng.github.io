@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Git | hceng blog</title>
+  <title>Linux开发环境配置及shell script | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="生命不息、折腾不止">
-<meta property="og:type" content="website">
-<meta property="og:title" content="hceng blog">
-<meta property="og:url" content="http://yoursite.com/tags/Git/index.html">
+  <meta name="description" content="本文主要是以快速搭建环境为目标学习shell script。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux开发环境配置及shell script">
+<meta property="og:url" content="http://yoursite.com/2017/08/05/Linux开发环境配置及shell-script/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="生命不息、折腾不止">
+<meta property="og:description" content="本文主要是以快速搭建环境为目标学习shell script。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2017-08-05T09:14:54.940Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hceng blog">
-<meta name="twitter:description" content="生命不息、折腾不止">
+<meta name="twitter:title" content="Linux开发环境配置及shell script">
+<meta name="twitter:description" content="本文主要是以快速搭建环境为目标学习shell script。">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -154,102 +158,170 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux开发环境配置及shell-script" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/06/GitHub+Hexo搭建及优化/" class="archive-article-date">
-  	<time datetime="2017-03-06T11:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-06</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/06/GitHub+Hexo搭建及优化/">GitHub+Hexo博客搭建及优化</a>
+    <h1 class="article-title" itemprop="name">
+      Linux开发环境配置及shell script
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/08/05/Linux开发环境配置及shell-script/" class="archive-article-date">
+  	<time datetime="2017-08-05T03:37:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-环境搭建的几个方面"><span class="toc-text">0.环境搭建的几个方面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-检测当前环境"><span class="toc-text">1.检测当前环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1检测网络状态"><span class="toc-text">1.1检测网络状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2检测是否是root用户"><span class="toc-text">1.2检测是否是root用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3检测设置的用户是否存在"><span class="toc-text">1.3检测设置的用户是否存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4获取系统版本信息"><span class="toc-text">1.4获取系统版本信息</span></a></li></ol></li></ol>
+      </div>
+      
+        <p>本文主要是以快速搭建环境为目标学习shell script。<br><a id="more"></a></p>
+<hr>
+<p>之前写过一个Linux嵌入式开发环境搭建的博客，后面每次搭环境都翻来复制上面的代码。感觉就像记事本一样，还是有点用，这也是写博客的一点动力吧。<br>用了Linux也有段时间了，它的魅力也逐渐展现出来了。以前还在熟悉Linux命令的过程中，shell script就是个老虎，觉得没接触过，害怕，每次都绕开它。<br>直到这周遇到了ti的SDK，尝试一边百度，一边测它的脚本，感觉有点小入门了，于是想练习下。想到每次搭建环境重复操作的痛点，就拿它开刀吧。</p>
+<h1 id="0-环境搭建的几个方面"><a href="#0-环境搭建的几个方面" class="headerlink" title="0.环境搭建的几个方面"></a>0.环境搭建的几个方面</h1><p>根据过去的经验，用虚拟机装好Ubuntu后，一般会做这样几个步骤：<br>1.安装vmware tools,以便复制粘贴和文件共享；<br>2.更新软件源，以便更快的下载软件；<br>3.安装及配置常用软件，比如：<br>　　3-1.安装git,方面后续的一些安装；<br>　　3-2.安装vim和简单配置；<br>　　3-3.安装ftp和简单配置；<br>　　3-4.安装ftp和简单配置；<br>　　3-5.安装samba和简单配置；<br>　　3-6.安装tmux、htop等；<br>4.安装开发所需的 g++等工具、库；<br>除了第一步，其它都计划用脚本实现。</p>
+<p>厌烦了每次编辑了驱动都要拖进Linux主机进行编译，然后还得复制到开发板。<br>重新打造了工作流，只需三步：<br><strong>编辑-&gt;make-&gt;insmod</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png" alt=""></p>
+<h1 id="1-检测当前环境"><a href="#1-检测当前环境" class="headerlink" title="1.检测当前环境"></a>1.检测当前环境</h1><p>在运行脚本前，需要检测一些东西：</p>
+<h2 id="1-1检测网络状态"><a href="#1-1检测网络状态" class="headerlink" title="1.1检测网络状态"></a>1.1检测网络状态</h2><p>如果不能联网，后续的没必要做了。之前想过自动检测修复网络的，但想了想，网络的情况比较多，暂时搁置。而且刚装好虚拟机肯定是联网的，如果不能联网肯定是虚拟机设置的问题，也不是脚本能解决的。<br>为了方便打印更改用户名，这里先设置几个变量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#define echo print color.</span></div><div class="line">RED_COLOR=<span class="string">'\E[1;31m'</span>        </div><div class="line">PINK_COLOR=<span class="string">'\E[1;35m'</span>       </div><div class="line">YELOW_COLOR=<span class="string">'\E[1;33m'</span>       </div><div class="line">BLUE_COLOR=<span class="string">'\E[1;34m'</span>       </div><div class="line">GREEN_COLOR=<span class="string">'\E[1;32m'</span>      </div><div class="line">END_COLOR=<span class="string">'\E[0m'</span>           </div><div class="line"></div><div class="line"><span class="comment">#set linux host user name.</span></div><div class="line">user_name=hceng</div></pre></td></tr></table></figure></p>
+<p>检测网络函数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">check_network</span></span>() &#123;</div><div class="line">	ping -c 1 www.baidu.com &gt; /dev/null 2&gt;&amp;1  </div><div class="line">	<span class="keyword">if</span> [ $? <span class="_">-eq</span> 0 ];<span class="keyword">then</span>  </div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;GREEN_COLOR&#125;</span>Network ok.<span class="variable">$&#123;END_COLOR&#125;</span>"</span> </div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;RED_COLOR&#125;</span>Network failure!<span class="variable">$&#123;END_COLOR&#125;</span>"</span>  </div><div class="line">		<span class="built_in">exit</span> 1</div><div class="line">	<span class="keyword">fi</span></div><div class="line">&#125;</div></pre></td></tr></table></figure><br>先ping一次百度，能够ping通就表示网络没问题。</p>
+<h2 id="1-2检测是否是root用户"><a href="#1-2检测是否是root用户" class="headerlink" title="1.2检测是否是root用户"></a>1.2检测是否是root用户</h2><p>很多操作都需要root权限，因此必须使用root用户权限运行脚本，这里先检测是否是root用户：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Check user must root.</span></div><div class="line"><span class="function"><span class="title">check_root</span></span>() &#123;</div><div class="line">	<span class="keyword">if</span> [ $(id -u) != <span class="string">"0"</span> ]; <span class="keyword">then</span></div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;RED_COLOR&#125;</span>Error: You must be root to run this script, please use root.<span class="variable">$&#123;END_COLOR&#125;</span>"</span></div><div class="line">		<span class="built_in">exit</span> 1</div><div class="line">	<span class="keyword">fi</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="1-3检测设置的用户是否存在"><a href="#1-3检测设置的用户是否存在" class="headerlink" title="1.3检测设置的用户是否存在"></a>1.3检测设置的用户是否存在</h2><p>现在用的用户名是hceng，后面为了方便其它用户使用，所以在前面定义了个变量，改变变量就可以修改用户。但为了防止设置的用户在系统中不存在，这里需要进行检测。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Check set linux host user name.</span></div><div class="line"><span class="function"><span class="title">check_user_name</span></span>() &#123;</div><div class="line">	cat /etc/passwd|grep <span class="variable">$user_name</span></div><div class="line">	<span class="keyword">if</span> [ $? <span class="_">-eq</span> 0 ];<span class="keyword">then</span></div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;GREEN_COLOR&#125;</span>Check the set user name OK.<span class="variable">$&#123;END_COLOR&#125;</span>"</span> </div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;RED_COLOR&#125;</span>Check the set user name failure!<span class="variable">$&#123;END_COLOR&#125;</span>"</span> </div><div class="line">		<span class="built_in">exit</span> 1</div><div class="line">	<span class="keyword">fi</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="1-4获取系统版本信息"><a href="#1-4获取系统版本信息" class="headerlink" title="1.4获取系统版本信息"></a>1.4获取系统版本信息</h2><p>后面更新源和装某些软件需要当前Ubuntu的版本代号。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Get the code name of the Linux host release to the caller.</span></div><div class="line"><span class="function"><span class="title">get_host_type</span></span>() &#123;</div><div class="line">    <span class="built_in">local</span>  __host_type=<span class="variable">$1</span></div><div class="line">    <span class="built_in">local</span>  the_host=`lsb_release <span class="_">-a</span> 2&gt;/dev/null | grep Codename: | awk &#123;<span class="string">'print $2'</span>&#125;`</div><div class="line">    <span class="built_in">eval</span> <span class="variable">$__host_type</span>=<span class="string">"'<span class="variable">$the_host</span>'"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<hr>
+<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Git</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">环境搭建</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">shell script</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/05/Linux开发环境配置及shell-script/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/02/Git日常使用小结/" class="archive-article-date">
-  	<time datetime="2017-03-02T06:14:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-02</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/02/Git日常使用小结/">Git日常使用小结</a>
-    </h1>
+  
+    <a href="/2017/07/28/AM437x裸机——LED/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AM437x裸机——LED</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Linux开发环境配置及shell-script" data-title="Linux开发环境配置及shell script" data-url="http://yoursite.com/2017/08/05/Linux开发环境配置及shell-script/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"flase"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -280,9 +352,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
