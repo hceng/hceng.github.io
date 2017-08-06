@@ -6,17 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: PCB | hceng blog</title>
+  <title>AM437X驱动——LED | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="生命不息、折腾不止">
-<meta property="og:type" content="website">
-<meta property="og:title" content="hceng blog">
-<meta property="og:url" content="http://yoursite.com/tags/PCB/index.html">
+  <meta name="description" content="本文主要记录AM437X驱动的LED。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AM437X驱动——LED">
+<meta property="og:url" content="http://yoursite.com/2017/08/06/AM437X驱动——LED/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="生命不息、折腾不止">
+<meta property="og:description" content="本文主要记录AM437X驱动的LED。">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2017-08-06T14:25:39.153Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hceng blog">
-<meta name="twitter:description" content="生命不息、折腾不止">
+<meta name="twitter:title" content="AM437X驱动——LED">
+<meta name="twitter:description" content="本文主要记录AM437X驱动的LED。">
+<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -154,64 +157,161 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-AM437X驱动——LED" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/18/PCB-Ruler/" class="archive-article-date">
-  	<time datetime="2017-05-18T13:48:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/18/PCB-Ruler/">PCB_Ruler</a>
+    <h1 class="article-title" itemprop="name">
+      AM437X驱动——LED
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/08/06/AM437X驱动——LED/" class="archive-article-date">
+  	<time datetime="2017-08-06T14:06:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-搭建开发环境"><span class="toc-text">0.搭建开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-驱动分析"><span class="toc-text">1.驱动分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-完整代码及心得"><span class="toc-text">2.完整代码及心得</span></a></li></ol>
+      </div>
+      
+        <p>本文主要记录AM437X驱动的LED。<br><a id="more"></a></p>
+<hr>
+<p>虽说LED是每个板子要做的第一个程序。但感觉这规律适用于裸机，不太适用于驱动，裸机搞定后，感觉驱动就玩不出新花样了。</p>
+<h1 id="0-搭建开发环境"><a href="#0-搭建开发环境" class="headerlink" title="0.搭建开发环境"></a>0.搭建开发环境</h1><h1 id="1-驱动分析"><a href="#1-驱动分析" class="headerlink" title="1.驱动分析"></a>1.驱动分析</h1><h1 id="2-完整代码及心得"><a href="#2-完整代码及心得" class="headerlink" title="2.完整代码及心得"></a>2.完整代码及心得</h1><hr>
+<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PCB</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/06/AM437X驱动——LED/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/08/05/Linux开发环境配置及shell-script/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux开发环境配置及shell script</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="AM437X驱动——LED" data-title="AM437X驱动——LED" data-url="http://yoursite.com/2017/08/06/AM437X驱动——LED/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"flase"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-    
 
 
           </div>
@@ -242,9 +342,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
