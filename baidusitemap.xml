@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
-    <lastmod>2017-08-06T13:56:46.123Z</lastmod>
+    <lastmod>2017-08-06T13:59:34.160Z</lastmod>
     <data>
         <display>
         <title>Linux开发环境配置及shell script</title>
@@ -83,9 +83,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -102,9 +102,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
