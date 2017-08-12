@@ -4,16 +4,16 @@
 
     
   <url>
-    <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
-    <lastmod>2017-08-10T02:20:28.349Z</lastmod>
+    <loc>http://hceng.cn/2017/08/12/AM437X%E9%A9%B1%E5%8A%A8%E2%80%94%E2%80%94LED/</loc>
+    <lastmod>2017-08-12T08:56:48.231Z</lastmod>
     <data>
         <display>
-        <title>Linux开发环境配置及shell script</title>
-        <pubTime>2017-08-05T03:37:41.000Z</pubTime>
+        <title>AM437X驱动——LED</title>
+        <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>环境搭建</tag>
+        <tag>AM437X</tag>
          
-        <tag>shell script</tag>
+        <tag>Linux驱动</tag>
          
          
            
@@ -23,16 +23,16 @@
 
     
   <url>
-    <loc>http://hceng.cn/2017/08/06/AM437X%E9%A9%B1%E5%8A%A8%E2%80%94%E2%80%94LED/</loc>
-    <lastmod>2017-08-06T14:25:39.153Z</lastmod>
+    <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
+    <lastmod>2017-08-12T08:54:30.081Z</lastmod>
     <data>
         <display>
-        <title>AM437X驱动——LED</title>
-        <pubTime>2017-08-06T14:06:46.000Z</pubTime>
+        <title>Linux开发环境配置及shell script</title>
+        <pubTime>2017-08-05T03:37:41.000Z</pubTime>
         
-        <tag>AM437X</tag>
+        <tag>环境搭建</tag>
          
-        <tag>Linux驱动</tag>
+        <tag>shell script</tag>
          
          
            
@@ -102,9 +102,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -121,9 +121,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            

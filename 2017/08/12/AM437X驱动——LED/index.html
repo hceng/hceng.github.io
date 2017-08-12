@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>AM437X驱动——LED | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要记录AM437X驱动的LED。">
+  <meta name="description" content="本文主要记录AM437X驱动的LED。含简单的字符驱动、设备驱动模型、设备树以及LED子系统。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AM437X驱动——LED">
-<meta property="og:url" content="http://yoursite.com/2017/08/06/AM437X驱动——LED/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/AM437X驱动——LED/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="本文主要记录AM437X驱动的LED。">
+<meta property="og:description" content="本文主要记录AM437X驱动的LED。含简单的字符驱动、设备驱动模型、设备树以及LED子系统。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-06T14:25:39.153Z">
+<meta property="og:updated_time" content="2017-08-12T08:56:48.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437X驱动——LED">
-<meta name="twitter:description" content="本文主要记录AM437X驱动的LED。">
+<meta name="twitter:description" content="本文主要记录AM437X驱动的LED。含简单的字符驱动、设备驱动模型、设备树以及LED子系统。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -169,8 +169,8 @@
   
 
         
-        <a href="/2017/08/06/AM437X驱动——LED/" class="archive-article-date">
-  	<time datetime="2017-08-06T14:06:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-06</time>
+        <a href="/2017/08/12/AM437X驱动——LED/" class="archive-article-date">
+  	<time datetime="2017-08-12T08:06:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-12</time>
 </a>
         
       </header>
@@ -185,9 +185,11 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-搭建开发环境"><span class="toc-text">0.搭建开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-驱动分析"><span class="toc-text">1.驱动分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-完整代码及心得"><span class="toc-text">2.完整代码及心得</span></a></li></ol>
       </div>
       
-        <p>本文主要记录AM437X驱动的LED。<br><a id="more"></a></p>
+        <p>本文主要记录AM437X驱动的LED。含简单的字符驱动、设备驱动模型、设备树以及LED子系统。<br><a id="more"></a></p>
 <hr>
-<p>虽说LED是每个板子要做的第一个程序。但感觉这规律适用于裸机，不太适用于驱动，裸机搞定后，感觉驱动就玩不出新花样了。</p>
+<blockquote>
+<p><strong>Linux驱动 = 裸机 + 框架</strong></p>
+</blockquote>
 <h1 id="0-搭建开发环境"><a href="#0-搭建开发环境" class="headerlink" title="0.搭建开发环境"></a>0.搭建开发环境</h1><h1 id="1-驱动分析"><a href="#1-驱动分析" class="headerlink" title="1.驱动分析"></a>1.驱动分析</h1><h1 id="2-完整代码及心得"><a href="#2-完整代码及心得" class="headerlink" title="2.完整代码及心得"></a>2.完整代码及心得</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -263,7 +265,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/06/AM437X驱动——LED/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/12/AM437X驱动——LED/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -293,7 +295,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="AM437X驱动——LED" data-title="AM437X驱动——LED" data-url="http://yoursite.com/2017/08/06/AM437X驱动——LED/"></div>
+	<div class="ds-thread" data-thread-key="AM437X驱动——LED" data-title="AM437X驱动——LED" data-url="http://yoursite.com/2017/08/12/AM437X驱动——LED/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -408,7 +410,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -428,14 +446,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
@@ -448,19 +458,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
             
             <div class="clearfix"></div>

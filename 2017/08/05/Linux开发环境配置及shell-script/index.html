@@ -15,8 +15,9 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要是以快速搭建环境为目标学习shell script。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/2.gif">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-10T02:20:28.349Z">
+<meta property="og:updated_time" content="2017-08-12T08:54:30.081Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux开发环境配置及shell script">
 <meta name="twitter:description" content="本文主要是以快速搭建环境为目标学习shell script。">
@@ -194,7 +195,7 @@
 <p>1.安装vmware tools,以便复制粘贴和文件共享；<br>2.更新软件源，以便更快的下载软件；<br>3.安装及配置常用软件，比如：<br>　　3-1.安装git,方面后续的一些安装；<br>　　3-2.安装vim和简单配置；<br>　　3-3.安装ftp和简单配置；<br>　　3-4.安装ftp和简单配置；<br>　　3-5.安装samba和简单配置；<br>　　3-6.安装tmux、htop等；<br>4.安装开发所需的 g++等工具、库；</p>
 </blockquote>
 <p>除了第一步，其它都计划用脚本实现。</p>
-<p>在开发中，厌烦了每次编辑了驱动都要拖进Linux主机进行编译，然后还得复制到开发板。<br>重新打造了工作流，只需三步：<br><strong>编辑-&gt;make编译-&gt;insmod加载</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png" alt=""></p>
+<p>在开发中，厌烦了每次编辑了驱动，都要拖进Linux主机进行编译，然后还要复制到开发板。<br>重新打造了工作流，只需要在电脑上操作三步：<br><strong>编辑-&gt;make编译-&gt;insmod加载</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/2.gif" alt=""></p>
 <h1 id="1-检测当前环境"><a href="#1-检测当前环境" class="headerlink" title="1.检测当前环境"></a>1.检测当前环境</h1><p>在运行脚本前，需要检测一些东西：</p>
 <h2 id="1-1检测网络状态"><a href="#1-1检测网络状态" class="headerlink" title="1.1检测网络状态"></a>1.1检测网络状态</h2><p>如果不能联网，后续的没必要做了。之前想过自动检测修复网络的，但想了想，网络的情况比较多，暂时搁置。而且刚装好虚拟机肯定是联网的，如果不能联网肯定是虚拟机设置的问题，也不是脚本能解决的。<br>为了方便打印醒目和更改用户名，这里先设置几个变量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#define echo print color.</span></div><div class="line">RED_COLOR=<span class="string">'\E[1;31m'</span>        </div><div class="line">PINK_COLOR=<span class="string">'\E[1;35m'</span>       </div><div class="line">YELOW_COLOR=<span class="string">'\E[1;33m'</span>       </div><div class="line">BLUE_COLOR=<span class="string">'\E[1;34m'</span>       </div><div class="line">GREEN_COLOR=<span class="string">'\E[1;32m'</span>      </div><div class="line">END_COLOR=<span class="string">'\E[0m'</span>           </div><div class="line"></div><div class="line"><span class="comment">#set linux host user name.</span></div><div class="line">user_name=hceng</div></pre></td></tr></table></figure></p>
 <p>检测网络函数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">check_network</span></span>() &#123;</div><div class="line">	ping -c 1 www.baidu.com &gt; /dev/null 2&gt;&amp;1  </div><div class="line">	<span class="keyword">if</span> [ $? <span class="_">-eq</span> 0 ];<span class="keyword">then</span>  </div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;GREEN_COLOR&#125;</span>Network ok.<span class="variable">$&#123;END_COLOR&#125;</span>"</span> </div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;RED_COLOR&#125;</span>Network failure!<span class="variable">$&#123;END_COLOR&#125;</span>"</span>  </div><div class="line">		<span class="built_in">exit</span> 1</div><div class="line">	<span class="keyword">fi</span></div><div class="line">&#125;</div></pre></td></tr></table></figure><br>先ping一次百度，能够ping通就表示网络没问题。</p>
@@ -300,7 +301,7 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/08/06/AM437X驱动——LED/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/08/12/AM437X驱动——LED/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
@@ -440,7 +441,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,14 +477,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
@@ -480,19 +489,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
             
             <div class="clearfix"></div>
