@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2017/08/12/AM437X%E9%A9%B1%E5%8A%A8%E2%80%94%E2%80%94LED/</loc>
-    <lastmod>2017-08-12T08:56:48.231Z</lastmod>
+    <lastmod>2017-08-12T09:49:38.059Z</lastmod>
     <data>
         <display>
         <title>AM437X驱动——LED</title>
@@ -102,9 +102,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -121,9 +121,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -286,9 +286,9 @@
         <title>设备驱动模型</title>
         <pubTime>2017-03-18T15:44:00.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -305,9 +305,9 @@
         <title>Linux并发控制机制</title>
         <pubTime>2017-04-05T15:55:00.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
