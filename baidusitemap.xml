@@ -4,6 +4,44 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E8%A3%B8%E6%9C%BA/</loc>
+    <lastmod>2017-08-24T07:05:05.929Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——RTC裸机</title>
+        <pubTime>2017-08-23T08:46:58.000Z</pubTime>
+        
+        <tag>AM437X</tag>
+         
+        <tag>裸机</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2017-08-24T03:59:43.672Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——RTC驱动</title>
+        <pubTime>2017-08-23T08:47:02.000Z</pubTime>
+        
+        <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/08/12/AM437x%E9%A9%B1%E5%8A%A8%E2%80%94%E2%80%94LED/</loc>
     <lastmod>2017-08-22T04:04:50.258Z</lastmod>
     <data>
@@ -286,9 +324,9 @@
         <title>设备驱动模型</title>
         <pubTime>2017-03-18T15:44:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -305,9 +343,9 @@
         <title>Linux并发控制机制</title>
         <pubTime>2017-04-05T15:55:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
