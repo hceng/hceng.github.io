@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2017-08-25T12:43:53.383Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——RTC驱动</title>
+        <pubTime>2017-08-23T08:47:02.000Z</pubTime>
+        
+        <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E8%A3%B8%E6%9C%BA/</loc>
     <lastmod>2017-08-24T07:05:05.929Z</lastmod>
     <data>
@@ -14,25 +33,6 @@
         <tag>AM437X</tag>
          
         <tag>裸机</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-08-24T03:59:43.672Z</lastmod>
-    <data>
-        <display>
-        <title>AM437x——RTC驱动</title>
-        <pubTime>2017-08-23T08:47:02.000Z</pubTime>
-        
-        <tag>AM437X</tag>
-         
-        <tag>Linux驱动</tag>
          
          
            

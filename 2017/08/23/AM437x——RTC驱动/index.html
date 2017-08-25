@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-24T03:59:43.672Z">
+<meta property="og:updated_time" content="2017-08-25T12:43:53.383Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——RTC驱动">
 <meta name="twitter:description" content="本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。">
@@ -187,7 +187,7 @@
       
         <p>本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。<br><a id="more"></a></p>
 <hr>
-<h1 id="x-测试驱动"><a href="#x-测试驱动" class="headerlink" title="x.测试驱动"></a>x.测试驱动</h1><p>Linux中有两个时间，<br>一个是系统时间，通过命令<code>date</code>获取；<br>一个是硬件时间，通过命<code>令hwclock</code>获取；</p>
+<h1 id="x-测试驱动"><a href="#x-测试驱动" class="headerlink" title="x.测试驱动"></a>x.测试驱动</h1><p>Linux中有两个时间，<br>一个是系统时间，通过命令<code>date</code>获取；<br>一个是硬件时间，通过命令<code>hwclock</code>获取；</p>
 <p>RTC驱动的一般测试如下：<br>1.获取系统时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">date</div></pre></td></tr></table></figure></p>
 <p>如果时间正常，则进行第二步，如果不正常，修改系统时间：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">date 082316432017.00//2017-08-23 16:43:00</div></pre></td></tr></table></figure></p>
 <p>2.获取硬件时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hwclock</div></pre></td></tr></table></figure></p>
@@ -408,15 +408,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -428,6 +424,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -436,7 +436,23 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -445,22 +461,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
