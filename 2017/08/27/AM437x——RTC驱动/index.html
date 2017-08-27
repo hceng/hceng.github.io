@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>AM437x——RTC驱动 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。">
+  <meta name="description" content="本文主要记录AM437X驱动的RTC。包含一个不标准的RTC驱动、一个标准的RTC驱动，以及其测试方式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AM437x——RTC驱动">
-<meta property="og:url" content="http://yoursite.com/2017/08/23/AM437x——RTC驱动/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/27/AM437x——RTC驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。">
+<meta property="og:description" content="本文主要记录AM437X驱动的RTC。包含一个不标准的RTC驱动、一个标准的RTC驱动，以及其测试方式。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-25T12:43:53.383Z">
+<meta property="og:updated_time" content="2017-08-27T12:52:26.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——RTC驱动">
-<meta name="twitter:description" content="本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。">
+<meta name="twitter:description" content="本文主要记录AM437X驱动的RTC。包含一个不标准的RTC驱动、一个标准的RTC驱动，以及其测试方式。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -169,8 +169,8 @@
   
 
         
-        <a href="/2017/08/23/AM437x——RTC驱动/" class="archive-article-date">
-  	<time datetime="2017-08-23T08:47:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-23</time>
+        <a href="/2017/08/27/AM437x——RTC驱动/" class="archive-article-date">
+  	<time datetime="2017-08-27T08:47:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-27</time>
 </a>
         
       </header>
@@ -182,11 +182,19 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#x-测试驱动"><span class="toc-text">x.测试驱动</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-本次关于驱动的新收获"><span class="toc-text">0.本次关于驱动的新收获</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-不标准的RTC驱动"><span class="toc-text">1.不标准的RTC驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1入口函数和出口函数"><span class="toc-text">1.1入口函数和出口函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2构造函数file-operations"><span class="toc-text">1.2构造函数file_operations</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#x-测试驱动"><span class="toc-text">x.测试驱动</span></a></li></ol>
       </div>
       
-        <p>本文主要记录AM437X驱动的RTC。包含简单的RTC驱动和测试方式。<br><a id="more"></a></p>
+        <p>本文主要记录AM437X驱动的RTC。包含一个不标准的RTC驱动、一个标准的RTC驱动，以及其测试方式。<br><a id="more"></a></p>
 <hr>
+<h1 id="0-本次关于驱动的新收获"><a href="#0-本次关于驱动的新收获" class="headerlink" title="0.本次关于驱动的新收获"></a>0.本次关于驱动的新收获</h1><p>写RTC驱动的时候，我先尝试的按标准的RTC框架来，写着写着，我想试试之前的一个猜想。<br>理论上任何字符驱动，我都可以通过填充<code>file_operations</code>里面的函数，实现对硬件的操作控制。<br>也就是说，写完裸机程序，按之前LED那套标准的字符驱动框架去写驱动，在应用层通过<code>open()</code>等函数去操作<code>/dev/</code>下的设备，是万能的。<br>实际上RTC驱动也是这样做的，但因为RTC的特殊性，内核提供的是<code>rtc_class_ops</code>这个结构体，而不是<code>file_operations</code>。正常所需做的就是去填充<code>rtc_class_ops</code>的函数，然后注册等。<br>想想这两个的区别，前面万能那个，应用层就没那么好受了，不通用，比如使用<code>hwclock</code>是不能调用到驱动函数的，因此需要自己去实现去RTC的访问，就像访问LED驱动一样。<br>后面标准RTC那个，其最后的实质、原理是一样的，只是提供了统一的框架，增强了通用性。</p>
+<h1 id="1-不标准的RTC驱动"><a href="#1-不标准的RTC驱动" class="headerlink" title="1.不标准的RTC驱动"></a>1.不标准的RTC驱动</h1><h2 id="1-1入口函数和出口函数"><a href="#1-1入口函数和出口函数" class="headerlink" title="1.1入口函数和出口函数"></a>1.1入口函数和出口函数</h2><p>先是入口函数，在<code>insmod</code>驱动的时候调用，<br>分配了主设备号，注册了字符设备驱动，创建了个类，使用cdev机制，自动在/dev/目录下创建设备，应用层就是通过对这个设备操作，调用驱动实现对硬件的操作。<br>再申请了内存，映射了寄存器地址，后面对这些映射出来的寄存器操作，就实现对硬件层的寄存器操作。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">rtc_drv_init</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">dev_t</span> devid;</div><div class="line">    </div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(alloc_chrdev_region(&amp;devid, <span class="number">0</span>, TI_RTC_CNT, <span class="string">"ti_rtc"</span>) &lt; <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        printk(KERN_INFO<span class="string">"%s ERROR.\n"</span>,__func__);</div><div class="line">        <span class="keyword">goto</span> error;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    major = MAJOR(devid);</div><div class="line"></div><div class="line">    cdev_init(&amp;rtc_cdev, &amp;rtc_fops);        </div><div class="line">    cdev_add(&amp;rtc_cdev, devid, TI_RTC_CNT);   </div><div class="line"></div><div class="line">    rtc_cls = class_create(THIS_MODULE, <span class="string">"ti_rtc"</span>);</div><div class="line"></div><div class="line">    device_create(rtc_cls, <span class="literal">NULL</span>, MKDEV(major, <span class="number">0</span>), <span class="literal">NULL</span>, <span class="string">"ti_rts0"</span>); </div><div class="line"></div><div class="line">    PRCM_CM_RTC_CLKSTCTRL = ioremap(<span class="number">0x44DF8500</span>+<span class="number">0x00</span>, <span class="number">0x04</span>*<span class="number">1</span>);</div><div class="line">    PRCM_CM_RTC_CLKCTRL   = ioremap(<span class="number">0x44DF8500</span>+<span class="number">0x20</span>, <span class="number">0x04</span>*<span class="number">1</span>);</div><div class="line">    </div><div class="line">    RTCSS_BASE            = ioremap(<span class="number">0x44E3E000</span>, <span class="number">0xA0</span>);</div><div class="line">    RTCSS_SECONDS         = RTCSS_BASE + <span class="number">0</span>;      </div><div class="line">    RTCSS_MINUTES         = RTCSS_BASE + <span class="number">1</span>; </div><div class="line">    RTCSS_HOURS           = RTCSS_BASE + <span class="number">2</span>;  </div><div class="line">    RTCSS_DAYS            = RTCSS_BASE + <span class="number">3</span>;</div><div class="line">    RTCSS_WEEKS           = RTCSS_BASE + <span class="number">4</span>; </div><div class="line">    RTCSS_MONTHS          = RTCSS_BASE + <span class="number">5</span>;</div><div class="line">    RTCSS_YEARS           = RTCSS_BASE + <span class="number">6</span>;  </div><div class="line">    RTCSS_ALARM_SECONDS   = RTCSS_BASE + <span class="number">8</span>;  </div><div class="line">    RTCSS_ALARM_MINUTES   = RTCSS_BASE + <span class="number">9</span>; </div><div class="line">    RTCSS_ALARM_HOURS     = RTCSS_BASE + <span class="number">10</span>;</div><div class="line">    RTCSS_ALARM_DAYS      = RTCSS_BASE + <span class="number">11</span>; </div><div class="line">    RTCSS_ALARM_MONTHS    = RTCSS_BASE + <span class="number">12</span>; </div><div class="line">    RTCSS_ALARM_YEARS     = RTCSS_BASE + <span class="number">13</span>;      </div><div class="line">    RTCSS_CTRL            = RTCSS_BASE + <span class="number">15</span>; </div><div class="line">    RTCSS_OSC             = RTCSS_BASE + <span class="number">20</span>;    </div><div class="line">    RTCSS_KICK0R          = RTCSS_BASE + <span class="number">25</span>;      </div><div class="line">    RTCSS_KICK1R          = RTCSS_BASE + <span class="number">26</span>;      </div><div class="line">   </div><div class="line">error:</div><div class="line">    unregister_chrdev_region(MKDEV(major, <span class="number">0</span>), TI_RTC_CNT);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后是出口函数，注册做什么，这里就反过来做什么。<br>清除设备，清除类，注销字符设备，释放映射的内存。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rtc_drv_exit</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> i;</div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;TI_RTC_CNT;i++)</div><div class="line">    &#123;</div><div class="line">        device_destroy(rtc_cls,  MKDEV(major, i));	</div><div class="line">    &#125;</div><div class="line">    class_destroy(rtc_cls);</div><div class="line">    cdev_del(&amp;rtc_cdev);</div><div class="line">    unregister_chrdev(major, <span class="string">"ti_rtc"</span>); </div><div class="line"></div><div class="line">    iounmap(PRCM_CM_RTC_CLKSTCTRL); </div><div class="line">    iounmap(PRCM_CM_RTC_CLKCTRL);   </div><div class="line">    iounmap(RTCSS_BASE);            </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>修饰下入口函数和出口函数，让这两个普通函数，能够通过<code>insmod</code>加载的时候被调用。<br>以及对该添加版权信息，驱动信息等。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">module_init(rtc_drv_init);</div><div class="line">module_exit(rtc_drv_exit);</div><div class="line"></div><div class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</div><div class="line">MODULE_AUTHOR(<span class="string">"hceng &lt;huangcheng.job@foxmail.com&gt;"</span>);</div><div class="line">MODULE_DESCRIPTION(<span class="string">"TI am437x board rtc drvice"</span>);</div><div class="line">MODULE_ALIAS(<span class="string">"character device:ti_rtc"</span>);</div><div class="line">MODULE_VERSION(<span class="string">"V1.0"</span>);</div></pre></td></tr></table></figure></p>
+<h2 id="1-2构造函数file-operations"><a href="#1-2构造函数file-operations" class="headerlink" title="1.2构造函数file_operations"></a>1.2构造函数file_operations</h2><p>这里添加<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> file_operations rtc_fops = &#123;</div><div class="line">    .owner  =   THIS_MODULE,  </div><div class="line">    .open   =   rtc_drv_open,    </div><div class="line">    .read   =   rtc_drv_read_time,	     </div><div class="line">    .write  =   rtc_drv_set_time,	   </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <h1 id="x-测试驱动"><a href="#x-测试驱动" class="headerlink" title="x.测试驱动"></a>x.测试驱动</h1><p>Linux中有两个时间，<br>一个是系统时间，通过命令<code>date</code>获取；<br>一个是硬件时间，通过命令<code>hwclock</code>获取；</p>
 <p>RTC驱动的一般测试如下：<br>1.获取系统时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">date</div></pre></td></tr></table></figure></p>
 <p>如果时间正常，则进行第二步，如果不正常，修改系统时间：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">date 082316432017.00//2017-08-23 16:43:00</div></pre></td></tr></table></figure></p>
@@ -271,7 +279,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/23/AM437x——RTC驱动/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/27/AM437x——RTC驱动/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,7 +309,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="AM437x——RTC驱动" data-title="AM437x——RTC驱动" data-url="http://yoursite.com/2017/08/23/AM437x——RTC驱动/"></div>
+	<div class="ds-thread" data-thread-key="AM437x——RTC驱动" data-title="AM437x——RTC驱动" data-url="http://yoursite.com/2017/08/27/AM437x——RTC驱动/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -408,11 +416,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -424,10 +432,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -436,15 +440,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -452,7 +452,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -4,16 +4,54 @@
 
     
   <url>
-    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-08-25T12:43:53.383Z</lastmod>
+    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2017-08-27T12:52:26.197Z</lastmod>
     <data>
         <display>
         <title>AM437x——RTC驱动</title>
-        <pubTime>2017-08-23T08:47:02.000Z</pubTime>
+        <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
         <tag>AM437X</tag>
          
         <tag>Linux驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/08/12/AM437x%E2%80%94%E2%80%94LED%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2017-08-27T12:27:21.104Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——LED驱动</title>
+        <pubTime>2017-08-12T08:06:46.000Z</pubTime>
+        
+        <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/07/28/AM437x%E2%80%94%E2%80%94LED%E8%A3%B8%E6%9C%BA/</loc>
+    <lastmod>2017-08-27T12:27:17.849Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——LED裸机</title>
+        <pubTime>2017-07-28T15:09:15.000Z</pubTime>
+        
+        <tag>AM437X</tag>
+         
+        <tag>裸机</tag>
          
          
            
@@ -42,25 +80,6 @@
 
     
   <url>
-    <loc>http://hceng.cn/2017/08/12/AM437x%E9%A9%B1%E5%8A%A8%E2%80%94%E2%80%94LED/</loc>
-    <lastmod>2017-08-22T04:04:50.258Z</lastmod>
-    <data>
-        <display>
-        <title>AM437x驱动——LED</title>
-        <pubTime>2017-08-12T08:06:46.000Z</pubTime>
-        
-        <tag>AM437X</tag>
-         
-        <tag>Linux驱动</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
     <lastmod>2017-08-12T08:54:30.081Z</lastmod>
     <data>
@@ -71,25 +90,6 @@
         <tag>环境搭建</tag>
          
         <tag>shell script</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/07/28/AM437x%E8%A3%B8%E6%9C%BA%E2%80%94%E2%80%94LED/</loc>
-    <lastmod>2017-08-05T09:15:27.893Z</lastmod>
-    <data>
-        <display>
-        <title>AM437x裸机——LED</title>
-        <pubTime>2017-07-28T15:09:15.000Z</pubTime>
-        
-        <tag>AM437X</tag>
-         
-        <tag>裸机</tag>
          
          
            
