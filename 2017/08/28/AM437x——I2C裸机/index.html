@@ -15,8 +15,12 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="记录AM437x的I2C裸机调试，包含GPIO模拟和寄存器控制。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/1.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/2.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/3.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/4.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/5.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-28T06:47:40.523Z">
+<meta property="og:updated_time" content="2017-08-28T07:06:00.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——I2C裸机">
 <meta name="twitter:description" content="记录AM437x的I2C裸机调试，包含GPIO模拟和寄存器控制。">
@@ -201,6 +205,16 @@
 <li>最后，主机给个停止信号，表示传输结束。</li>
 </ul>
 <h2 id="0-2-EEPROM"><a href="#0-2-EEPROM" class="headerlink" title="0.2 EEPROM"></a>0.2 EEPROM</h2><p>以CAT24C256这个EEPROM作为从设备为例。</p>
+<ul>
+<li><p>先看看CAT24C256的引脚有哪些：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/2.png" alt=""><br>SCL和SDA，时钟和数据。<br>A0,A1和A2，用来表示从设备的地址，在硬件电路上，设置这3个引脚的值。<br>WP，写保护引脚。高电平的时候写保护，因此在写EEPROM的时候得将该引脚置低。</p>
+</li>
+<li><p>再看看，前面说的 “一个 <em>包含从机地址</em> 和 <em>是读操作还是写操作</em> 的数据”：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/3.png" alt=""><br>可以看到前4位固定为”1010”，然后是3位地址，最后位表示是读操作还是写操作。</p>
+</li>
+<li><p>写操作的时序<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/4.png" alt=""><br>先来个开始信号，然后是从机地址(写)，然后是要写地址的高8位，再是低8位，再是要写的8位数据，最后是停止信号。<br>每次传输的后面都得有个响应信号。</p>
+</li>
+<li><p>读操作的时序<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170828/5.png" alt=""><br>先来个开始信号，然后是从机地址(写)，然后是要写地址的高8位，再是低8位。再来个开始信号，然后是从机地址(读)，获取8位数据，最后是停止信号。<br>每次传输的后面都得有个响应信号，但如果是最后一次接收数据可不要。</p>
+</li>
+</ul>
 <h1 id="1-GPIO模拟版本"><a href="#1-GPIO模拟版本" class="headerlink" title="1.GPIO模拟版本"></a>1.GPIO模拟版本</h1><h2 id="1-1硬件结构"><a href="#1-1硬件结构" class="headerlink" title="1.1硬件结构"></a>1.1硬件结构</h2><h2 id="1-2相关函数"><a href="#1-2相关函数" class="headerlink" title="1.2相关函数"></a>1.2相关函数</h2><h2 id="1-3测试效果"><a href="#1-3测试效果" class="headerlink" title="1.3测试效果"></a>1.3测试效果</h2><h1 id="2-I2C寄存器版本"><a href="#2-I2C寄存器版本" class="headerlink" title="2.I2C寄存器版本"></a>2.I2C寄存器版本</h1><h2 id="2-1硬件结构"><a href="#2-1硬件结构" class="headerlink" title="2.1硬件结构"></a>2.1硬件结构</h2><h2 id="2-2相关函数"><a href="#2-2相关函数" class="headerlink" title="2.2相关函数"></a>2.2相关函数</h2><h2 id="2-3测试效果"><a href="#2-3测试效果" class="headerlink" title="2.3测试效果"></a>2.3测试效果</h2><h1 id="3-完整代码"><a href="#3-完整代码" class="headerlink" title="3.完整代码"></a>3.完整代码</h1><h1 id="4-心得"><a href="#4-心得" class="headerlink" title="4.心得"></a>4.心得</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -422,15 +436,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -442,15 +456,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -474,15 +488,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
             
             <div class="clearfix"></div>
