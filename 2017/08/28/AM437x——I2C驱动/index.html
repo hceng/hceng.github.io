@@ -6,29 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>2017年中 | hceng blog</title>
+  <title>AM437x——I2C驱动 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="2017年中，毕业、工作之际。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="2017年中">
-<meta property="og:url" content="http://yoursite.com/2017/07/23/2017年中/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="AM437x——I2C驱动">
+<meta property="og:url" content="http://yoursite.com/2017/08/28/AM437x——I2C驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="2017年中，毕业、工作之际。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/1.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/2.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/3.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/4.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/5.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/6.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/7.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/8.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/9.jpg">
-<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-07-23T15:33:04.359Z">
+<meta property="og:updated_time" content="2017-08-28T06:12:36.882Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2017年中">
-<meta name="twitter:description" content="2017年中，毕业、工作之际。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/1.jpg">
+<meta name="twitter:title" content="AM437x——I2C驱动">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -166,20 +152,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-2017年中" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-AM437x——I2C驱动" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      2017年中
+      AM437x——I2C驱动
     </h1>
   
 
         
-        <a href="/2017/07/23/2017年中/" class="archive-article-date">
-  	<time datetime="2017-07-23T14:51:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-23</time>
+        <a href="/2017/08/28/AM437x——I2C驱动/" class="archive-article-date">
+  	<time datetime="2017-08-28T06:12:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-28</time>
 </a>
         
       </header>
@@ -189,9 +175,7 @@
 
       <!-- Table of Contents -->
       
-        <p>2017年中，毕业、工作之际。<br><a id="more"></a><br><strong>0x00:</strong><br>距离上次博客，过去两个月了。返校答辩后，不知为何，情绪低落了小半个月。<br><strong>0x01:</strong><br>过去的两个月里，搬出了公司，换了一个我还算比较喜欢的房子。接来女朋友，过上了两个人的小日子。趁着618免息，换了个快一万的笔记本。收到了毕业证和学位证，拿到了转正后的第一份工资。搭了梯子，翻了墙，看了看外面的世界……<br><strong>0x02:</strong><br>之前一直准备更新博客，但突然发现一些图片挂掉了，重新规划了一下图床的方案，却又突然好了。但不管怎样，博客还得继续做下去。<br><strong>0x03:</strong><br>工作内容挺杂的，唯一感到满足的终于开始独立的写Linux驱动了和看英文手册写裸机，虽然才是开始，路还很长，但至少开了头。<br><strong>0x04:</strong><br>确实还在迷茫，工作让我巩固基础，但也让我觉得没有跨越。其实很简单，想清楚自己目的是什么，需要什么，要做什么，先做什么，后做什么。给自己点压力，让自己跑起来。<br>2017年中，新的开始。<br><strong>0x05:</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/1.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/2.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/3.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/4.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/5.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/6.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/7.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/8.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170723/9.jpg" alt=""></p>
-<hr>
-<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+        <hr>
 
       
 
@@ -200,17 +184,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -261,7 +234,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/23/2017年中/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/28/AM437x——I2C驱动/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -275,18 +248,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/07/28/AM437x——LED裸机/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          AM437x——LED裸机
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/05/26/移植MiniGUI到JZ2440/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">移植MiniGUI到JZ2440</div>
+    <a href="/2017/08/28/AM437x——I2C裸机/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AM437x——I2C裸机</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -300,7 +264,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2017年中" data-title="2017年中" data-url="http://yoursite.com/2017/07/23/2017年中/"></div>
+	<div class="ds-thread" data-thread-key="AM437x——I2C驱动" data-title="AM437x——I2C驱动" data-url="http://yoursite.com/2017/08/28/AM437x——I2C驱动/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
