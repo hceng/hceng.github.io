@@ -16,7 +16,7 @@
 <meta property="og:description" content="本文主要是记录一些Git的配置和命令。">
 <meta property="og:image" content="http://i1.piimg.com/567571/e4c6ebde6b529dcb.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-04-06T00:44:10.360Z">
+<meta property="og:updated_time" content="2017-09-07T03:49:06.292Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git日常使用小结">
 <meta name="twitter:description" content="本文主要是记录一些Git的配置和命令。">
@@ -213,7 +213,7 @@
 <p>可以使用以下命令查看记录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git log --pretty=oneline</div></pre></td></tr></table></figure><br>得到类似信息，前面为版本号，后面为注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">12ewdqe2q... blog, add 1 files</div></pre></td></tr></table></figure><br>可以给某个版本号打上一个标签，命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git tag v1 12ew</div></pre></td></tr></table></figure><br>可以使用以下命令查看已有的标签：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git tag</div></pre></td></tr></table></figure></p>
 </blockquote>
 <h2 id="2-4提交文件到GitHub-Coding"><a href="#2-4提交文件到GitHub-Coding" class="headerlink" title="2.4提交文件到GitHub/Coding"></a><strong>2.4提交文件到GitHub/Coding</strong></h2><p>第一次提交前，需要将本机密钥上传到GitHub/Coding；<br><strong>2.4.1.创建SSH Key：</strong><br>在用户主目录下，看看有没有.ssh 目录，如果有，再看看这个目录下有没有id_rsa 和id_rsa.pub 这两个文件，如果已经有了，可直接跳到下一步。<br>如果没有，打开Git Bash，创建SSH Key，命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C &quot;huangcheng.job@foxmail.com&quot;</div></pre></td></tr></table></figure><br>然后一路回车，使用默认值即可。这样在用户主目录里就会生成.ssh 目录，里面有id_rsa 和id_rsa.pub 两个文件，它们是SSH Key 的秘钥对。id_rsa 是私钥，不能泄露出去；id_rsa.pub 是公钥，可以放心地告诉任何人。</p>
-<p><strong>2.4.2.在GitHub 里添加SSH Key：</strong><br>电脑登陆GitHub,在自己账户的”Settings”-“SSH Key”中添加id_rsa.pub 文件的内容；<br><strong>2.4.3.创建一个仓库</strong><br>如:git_hexo,第一次上传需要指定GitHub/Coding仓库，如Coding的git_hexo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git remote add origin https://git.coding.net/hceng/</div><div class="line">$ git_hexo.git</div></pre></td></tr></table></figure><br>然后根据提示输入账号、密码，最后执行以下指令提交至GitHub/Coding；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git push -u origin master</div><div class="line">$ git push origin --tags</div></pre></td></tr></table></figure></p>
+<p><strong>2.4.2.在GitHub 里添加SSH Key：</strong><br>电脑登陆GitHub,在自己账户的”Settings”-“SSH Key”中添加id_rsa.pub 文件的内容；<br><strong>2.4.3.创建一个仓库</strong><br>如:git_hexo,第一次上传需要指定GitHub/Coding仓库，如Coding的git_hexo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote add origin https://git.coding.net/hceng/git_hexo.git</div></pre></td></tr></table></figure><br>然后根据提示输入账号、密码，最后执行以下指令提交至GitHub/Coding；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git push -u origin master</div><div class="line">$ git push origin --tags</div></pre></td></tr></table></figure></p>
 <h2 id="2-5以后如果修改文件后再次提交"><a href="#2-5以后如果修改文件后再次提交" class="headerlink" title="2.5以后如果修改文件后再次提交"></a><strong>2.5以后如果修改文件后再次提交</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git add –A                    # 添加修改文件到临时空间；</div><div class="line">$ git commit -m &quot;blog, git use&quot; # 添加本地仓库和添加备注；</div><div class="line">$ git tag v2                    # 打标签；</div><div class="line">$ git push origin master        # 上传到服务器的master；</div><div class="line">$ git push origin --tags        # 上传标签到服务器；</div></pre></td></tr></table></figure>
 <hr>
 <h1 id="3-Git-获取GitHub-Coding源码"><a href="#3-Git-获取GitHub-Coding源码" class="headerlink" title="3.Git 获取GitHub/Coding源码"></a>3.Git 获取GitHub/Coding源码</h1><ul>
@@ -451,6 +451,14 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -459,7 +467,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -467,11 +475,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -483,11 +487,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -496,10 +500,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
