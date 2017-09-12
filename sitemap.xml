@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2017-09-12T01:06:35.077Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/08/28/AM437x%E2%80%94%E2%80%94I2C%E8%A3%B8%E6%9C%BA/</loc>
+    
+    <lastmod>2017-09-12T00:57:43.541Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2017/09/11/AM437x%E2%80%94%E2%80%94I2C%E9%A9%B1%E5%8A%A8/</loc>
     
-    <lastmod>2017-09-11T06:30:30.482Z</lastmod>
+    <lastmod>2017-09-12T00:54:48.112Z</lastmod>
     
   </url>
   
@@ -12,20 +26,6 @@
     <loc>http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/</loc>
     
     <lastmod>2017-09-07T03:49:06.292Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2017-08-31T07:34:32.316Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/28/AM437x%E2%80%94%E2%80%94I2C%E8%A3%B8%E6%9C%BA/</loc>
-    
-    <lastmod>2017-08-28T09:58:32.845Z</lastmod>
     
   </url>
   
