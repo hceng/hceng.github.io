@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/09/11/AM437x%E2%80%94%E2%80%94I2C%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2017-09-12T13:43:07.892Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——I2C驱动</title>
+        <pubTime>2017-09-11T06:30:36.000Z</pubTime>
+        
+        <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E8%A3%B8%E6%9C%BA/</loc>
     <lastmod>2017-09-12T01:33:00.624Z</lastmod>
     <data>
@@ -52,25 +71,6 @@
         <tag>AM437X</tag>
          
         <tag>裸机</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/09/11/AM437x%E2%80%94%E2%80%94I2C%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-09-12T00:54:48.112Z</lastmod>
-    <data>
-        <display>
-        <title>AM437x——I2C驱动</title>
-        <pubTime>2017-09-11T06:30:36.000Z</pubTime>
-        
-        <tag>AM437X</tag>
-         
-        <tag>Linux驱动</tag>
          
          
            
