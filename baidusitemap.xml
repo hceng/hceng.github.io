@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2017-09-13T02:30:42.562Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub+Hexo博客搭建及优化</title>
+        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Hexo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/09/11/AM437x%E2%80%94%E2%80%94I2C%E9%A9%B1%E5%8A%A8/</loc>
     <lastmod>2017-09-12T13:43:07.892Z</lastmod>
     <data>
@@ -217,25 +236,6 @@
         <tag>驱动相关</tag>
          
         <tag>环境搭建</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2017-07-23T13:48:59.016Z</lastmod>
-    <data>
-        <display>
-        <title>GitHub+Hexo博客搭建及优化</title>
-        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>Hexo</tag>
          
          
            

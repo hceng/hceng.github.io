@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://i2.muimg.com/567571/59cb8a3a7d865f03.png">
 <meta property="og:image" content="http://i4.buimg.com/567571/2ca5e3f41e1b144f.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-07-23T13:48:59.016Z">
+<meta property="og:updated_time" content="2017-09-13T02:30:42.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
 <meta name="twitter:description" content="本文主要是记录本博客的搭建和优化。">
@@ -276,7 +276,7 @@
 <h2 id="5-4添加访问人数统计："><a href="#5-4添加访问人数统计：" class="headerlink" title="5.4添加访问人数统计："></a><strong>5.4添加访问人数统计：</strong></h2><ul>
 <li>安装脚本：<br>　　打开<code>themes/你的主题/layout/_partial/footer.ejs</code>添加下面脚本：<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"&gt;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></li>
 <li>在需要的位置添加添加显示：<br>　　这里我用的Yilia的主题，不蒜子官方给的例子没有成功，这里自己需求是在底部中间显示统计量，于是在<code>footer.ejs</code>中间添加如下代码：<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class="footer-centre"&gt;</div><div class="line">   &amp;hearts; Total view my blog &lt;span id="busuanzi_value_site_pv"&gt;&lt;/span&gt; times</div><div class="line">&lt;/div&gt; </div></pre></td></tr></table></figure>
-这里我浏览量数据是+2的增加，还无解中。。<br>参考链接：<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="external">不蒜子</a><h2 id="5-5脚本自动化："><a href="#5-5脚本自动化：" class="headerlink" title="5.5脚本自动化："></a><strong>5.5脚本自动化：</strong></h2>　　每次发布文章大致分为清理静态文件、生成静态文件、启动本地预览或上传部署，连续这么多命令何不合成一个，于是在windows下，可新建几个批处理脚本:<figure class="highlight plain"><figcaption><span>[make1.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#生成最新本地预览</div><div class="line">hexo clean &amp; hexo g &amp;hexo s</div></pre></td></tr></table></figure>
+这里我浏览量数据是+2的增加，还无解中。。（已解决）<br>参考链接：<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="external">不蒜子</a><h2 id="5-5脚本自动化："><a href="#5-5脚本自动化：" class="headerlink" title="5.5脚本自动化："></a><strong>5.5脚本自动化：</strong></h2>　　每次发布文章大致分为清理静态文件、生成静态文件、启动本地预览或上传部署，连续这么多命令何不合成一个，于是在windows下，可新建几个批处理脚本:<figure class="highlight plain"><figcaption><span>[make1.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#生成最新本地预览</div><div class="line">hexo clean &amp; hexo g &amp;hexo s</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><figcaption><span>[make2.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#发布生成最新博客</div><div class="line">hexo clean &amp; hexo g &amp; hexo d</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><figcaption><span>[make3.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#发成最新博客并上传源码到Coding私有库，以便在其它电脑上编辑</div><div class="line">hexo clean &amp; hexo g &amp; hexo d &amp; git add -A &amp; git commit -m &quot;from make3&quot; &amp; \</div><div class="line">git push origin master</div></pre></td></tr></table></figure>
 　　在Cmder中，输入对应的makeN,即可自动完成一系列命令。<br><img src="http://i4.buimg.com/567571/2ca5e3f41e1b144f.png" alt=""><h2 id="5-6提交搜索引擎（百度-谷歌-必应）："><a href="#5-6提交搜索引擎（百度-谷歌-必应）：" class="headerlink" title="5.6提交搜索引擎（百度+谷歌+必应）："></a><strong>5.6提交搜索引擎（百度+谷歌+必应）：</strong></h2>稳定测试测试阶段。待完善。<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">site:hceng.cn</div></pre></td></tr></table></figure>
@@ -505,15 +505,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,7 +525,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -537,7 +545,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -545,19 +553,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,7 +565,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
             
             <div class="clearfix"></div>
