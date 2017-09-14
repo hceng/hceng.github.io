@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="记录AM437x的I2C适配器驱动和I2C设备驱动，以及去除am437x EEPROM验证ID功能。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-09-14T05:19:13.776Z">
+<meta property="og:updated_time" content="2017-09-14T06:15:00.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——I2C驱动">
 <meta name="twitter:description" content="记录AM437x的I2C适配器驱动和I2C设备驱动，以及去除am437x EEPROM验证ID功能。">
@@ -188,15 +188,17 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-I2C驱动"><span class="toc-text">1.I2C驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-I2C设备驱动的四种方式"><span class="toc-text">2.I2C设备驱动的四种方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-I2C适配器驱动"><span class="toc-text">3.I2C适配器驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-补充：去除am437x-EEPROM验证ID功能"><span class="toc-text">4.补充：去除am437x EEPROM验证ID功能</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-I2C驱动"><span class="toc-text">1.I2C驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-去除am437x-EEPROM验证ID功能"><span class="toc-text">2.去除am437x EEPROM验证ID功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-I2C设备驱动的四种方式"><span class="toc-text">3.I2C设备驱动的四种方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-I2C适配器驱动"><span class="toc-text">4.I2C适配器驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-心得"><span class="toc-text">5.心得</span></a></li></ol>
       </div>
       
         <p>记录AM437x的I2C适配器驱动和I2C设备驱动，以及去除am437x EEPROM验证ID功能。<br><a id="more"></a></p>
 <hr>
 <h1 id="1-I2C驱动"><a href="#1-I2C驱动" class="headerlink" title="1.I2C驱动"></a>1.I2C驱动</h1><p>在Linux中，I2C驱动有<strong>I2C适配器驱动</strong>（就是SOC的I2C控制器驱动）和<strong>I2C设备驱动</strong>（就是I2C设备，比如AT24C256）。<br>本次写驱动的过程，先是利用内核自带的I2C适配器驱动写了I2C设备驱动，待I2C设备驱动验证好了，再写的I2C适配器驱动。因此记录的顺序也是先是I2C设备驱动，再是I2C适配器驱动。</p>
-<h1 id="2-I2C设备驱动的四种方式"><a href="#2-I2C设备驱动的四种方式" class="headerlink" title="2.I2C设备驱动的四种方式"></a>2.I2C设备驱动的四种方式</h1><h1 id="3-I2C适配器驱动"><a href="#3-I2C适配器驱动" class="headerlink" title="3.I2C适配器驱动"></a>3.I2C适配器驱动</h1><h1 id="4-补充：去除am437x-EEPROM验证ID功能"><a href="#4-补充：去除am437x-EEPROM验证ID功能" class="headerlink" title="4.补充：去除am437x EEPROM验证ID功能"></a>4.补充：去除am437x EEPROM验证ID功能</h1><p>前面裸机的对EEPROM随意的测试读写，改变了里面的一些数据。<br>Ti发布的SDK需要在不更改代码的情况下运行在Ti不同的EVM上，所以Ti在代码中会添加对EVM板上EEPROM内部ID的判断。<br>这就尴尬了，没人给我说过不能改啊 = = 。验证ID的数据被我改了，现在Uboot没法引导内核了。<br>= = 没办法，要么改回EEPROM的数据，要么去除Uboot的验证，权衡后，选择了后者。<br>通过查阅和测试，相关代码在：<br><code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/board-support/u-boot-2014.07+gitAUTOINC+fb6ab76dad-gfb6ab76/board/ti/am43xx/</code>路径下的<code>board.c</code>和<code>board.h</code>。</p>
+<h1 id="2-去除am437x-EEPROM验证ID功能"><a href="#2-去除am437x-EEPROM验证ID功能" class="headerlink" title="2.去除am437x EEPROM验证ID功能"></a>2.去除am437x EEPROM验证ID功能</h1><p>前面裸机的对EEPROM随意的测试读写，改变了里面的一些数据。<br>Ti发布的SDK需要在不更改代码的情况下运行在Ti不同的EVM上，所以Ti在代码中会添加对EVM板上EEPROM内部ID的判断。<br>这就尴尬了，没人给我说过不能改啊 = = 。验证ID的数据被我改了，现在Uboot没法引导内核了。<br>= = 没办法，要么改回EEPROM的数据，要么去除Uboot的验证，权衡后，选择了后者。<br>通过查阅和测试，相关代码在：<br><code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/board-support/u-boot-2014.07+gitAUTOINC+fb6ab76dad-gfb6ab76/board/ti/am43xx/</code>路径下的<code>board.c</code>和<code>board.h</code>。</p>
 <p>修改原理是，屏蔽掉去读eeprom的数据，手动指定板子和版本信息。<br>在<code>read_eeprom()</code>函数中,注释掉原来的验证，在后面的<code>strncpy()</code>函数中指定板子信息。<br>修改后该部分代码如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * Read header information from EEPROM into global structure.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">read_eeprom</span><span class="params">(<span class="keyword">struct</span> am43xx_board_id *header)</span></span></div><div class="line">&#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></div><div class="line">    <span class="comment">/* Check if baseboard eeprom is available */</span></div><div class="line">	<span class="keyword">if</span> (i2c_probe(CONFIG_SYS_I2C_EEPROM_ADDR)) &#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"Could not probe the EEPROM at 0x%x\n"</span>,</div><div class="line">		       CONFIG_SYS_I2C_EEPROM_ADDR);</div><div class="line">        <span class="keyword">return</span> -ENODEV;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/* read the eeprom using i2c */</span></div><div class="line">	<span class="keyword">if</span> (i2c_read(CONFIG_SYS_I2C_EEPROM_ADDR, <span class="number">0</span>, <span class="number">2</span>, (uchar *)header,</div><div class="line">		     <span class="keyword">sizeof</span>(<span class="keyword">struct</span> am43xx_board_id))) &#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"Could not read the EEPROM\n"</span>);</div><div class="line">		<span class="keyword">return</span> -EIO;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (header-&gt;magic != <span class="number">0xEE3355AA</span>) &#123;</div><div class="line">		<span class="comment">/*</span></div><div class="line">		 * read the eeprom using i2c again,</div><div class="line">		 * but use only a 1 byte address</div><div class="line">		 */</div><div class="line">		<span class="keyword">if</span> (i2c_read(CONFIG_SYS_I2C_EEPROM_ADDR, <span class="number">0</span>, <span class="number">1</span>, (uchar *)header,</div><div class="line">			     <span class="keyword">sizeof</span>(<span class="keyword">struct</span> am43xx_board_id))) &#123;</div><div class="line">			<span class="built_in">printf</span>(<span class="string">"Could not read the EEPROM at 0x%x\n"</span>,</div><div class="line">			       CONFIG_SYS_I2C_EEPROM_ADDR);</div><div class="line">			<span class="keyword">return</span> -EIO;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (header-&gt;magic != <span class="number">0xEE3355AA</span>) &#123;</div><div class="line">			<span class="built_in">printf</span>(<span class="string">"Incorrect magic number (0x%x) in EEPROM\n"</span>,</div><div class="line">			       header-&gt;magic);</div><div class="line">            <span class="keyword">return</span> -EINVAL;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line">    <span class="comment">//strncpy(am43xx_board_name, (char *)header-&gt;name, sizeof(header-&gt;name));</span></div><div class="line">    <span class="built_in">strncpy</span>(am43xx_board_name, <span class="string">"AM43__SK"</span>, <span class="keyword">sizeof</span>(header-&gt;name));  </div><div class="line">    am43xx_board_name[<span class="keyword">sizeof</span>(header-&gt;name)] = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">//strncpy(am43xx_board_rev, (char *)header-&gt;version, sizeof(header-&gt;version));</span></div><div class="line">    <span class="built_in">strncpy</span>(am43xx_board_rev, <span class="string">"1.2"</span>,<span class="keyword">sizeof</span>(header-&gt;version));  </div><div class="line">    am43xx_board_rev[<span class="keyword">sizeof</span>(header-&gt;version)] = <span class="number">0</span>;</div><div class="line">	</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>修改后，重新编译Uboot，重新下载，又能愉快启动了。</p>
+<h1 id="3-I2C设备驱动的四种方式"><a href="#3-I2C设备驱动的四种方式" class="headerlink" title="3.I2C设备驱动的四种方式"></a>3.I2C设备驱动的四种方式</h1><p>在内核<code>linux-3.14.43+gitAUTOINC+875c69b2c3-g875c69b\Documentation\i2c\instantiating-devices</code>里面</p>
+<h1 id="4-I2C适配器驱动"><a href="#4-I2C适配器驱动" class="headerlink" title="4.I2C适配器驱动"></a>4.I2C适配器驱动</h1><h1 id="5-心得"><a href="#5-心得" class="headerlink" title="5.心得"></a>5.心得</h1><p>本次I2C适配器驱动，算是第一次写一个较复杂的驱动，目的是先写通，其次才是优化，因此存在以下一些问题：<br>1.没有使用系统提供的时钟、GPIO配置等函数，全是自己映射。<br>2.中断没有对总线空闲、没有ack进行判断。</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -409,11 +411,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -421,15 +423,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -441,6 +439,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -449,19 +451,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
