@@ -14,12 +14,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/15/PS基础/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要记录Photoshop相关理论基础。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170915/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-09-15T09:41:32.618Z">
+<meta property="og:updated_time" content="2017-09-15T11:29:12.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Photoshop基础">
 <meta name="twitter:description" content="本文主要记录Photoshop相关理论基础。">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170915/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -188,11 +189,47 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-色彩模式"><span class="toc-text">1.色彩模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-加色-减色模式"><span class="toc-text">2.加色/减色模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-分辨率"><span class="toc-text">3.分辨率</span></a></li></ol>
       </div>
       
         <p>本文主要记录Photoshop相关理论基础。<br><a id="more"></a></p>
 <p>又开始折腾了，在驱动的世界稍微能喘上口气，就又闲不住了。最近兼职了当了下美工，又燃起了对设计的热情，抽空余时间，学下设计基础。</p>
+<h1 id="1-色彩模式"><a href="#1-色彩模式" class="headerlink" title="1.色彩模式"></a>1.色彩模式</h1><p>色彩模式常用的有四种：</p>
+<blockquote>
+<p>①HSB:基于人眼视觉的颜色模式；<br>②RGB:基于光色的颜色模式，是加色模式，两者组合变亮；<br>③CMYK:基于印刷颜料的颜色模式，是减色模式，两者组合变暗；<br>④Lab:基于人对颜色的感觉，与设备无关，色域宽阔；</p>
+</blockquote>
+<p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170915/1.jpg" alt=""></p>
+<hr>
+<p><strong>（1） HSB：</strong></p>
+<ul>
+<li><strong>(色相H(Hue)</strong>：在0~360°的标准色环上，按照角度值标识。比如红是0°、橙色是30°等，黑白无色相;</li>
+<li><strong>饱和度S(Saturation)</strong>：是指颜色的强度或纯度。饱和度表示色相中彩色成分所占的比例，用从0%(灰色)~100%(完全饱和)的百分比来度量;</li>
+<li><strong>亮度B(Brightness)</strong>：是颜色的明暗程度，通常是从0(暗)~100%(亮)的百分比来度量的;</li>
+</ul>
+<hr>
+<p><strong>（2）RGB：</strong></p>
+<ul>
+<li><strong>R(Red)</strong>：0~255阶,一共256阶色;</li>
+<li><strong>G(Green)</strong>：0~255阶,一共256阶色;</li>
+<li><strong>B(Blue)</strong>：0~255阶,一共256阶色;<br>其中：白色：R G B:255 255 255；黑色：R G B:0   0   0；</li>
+</ul>
+<hr>
+<p><strong>（3）CMYK：</strong></p>
+<ul>
+<li><strong>C(Cyan青色)</strong>：0~100%;</li>
+<li><strong>M(Magenta品红色)</strong>：0~100%;</li>
+<li><strong>Y(Yellow黄色)</strong>：0~100%;</li>
+<li><strong>K(Key Plate黑墨印刷版)</strong>：0~100%;<br>CMKK放在一起可以综合出其他的色彩，<br>前3种都是0%的时候印刷成无色,即白色；都为100%的时候印不出纯黑色，工艺达不到，有杂质,所以加入K黑色用来印刷纯黑色;</li>
+</ul>
+<hr>
+<p><strong>（4）Lab：</strong></p>
+<ul>
+<li><strong>L(Luminosity亮度)</strong>：0~100%;</li>
+<li><strong>a</strong>：表示从洋红色至绿色的范围，+127~-128;</li>
+<li><strong>b</strong>：表示从黄色至蓝色的范围，+127~-128;<br>当a=0、b=0时显示灰色,同时L=100时为白色,L=0时为黑色;</li>
+</ul>
+<p>在表达色彩范围上，最全的是Lab模式，其次是RGB模式，最窄的是CMYK模式。<br>也就是说Lab模式所定义的色彩最多，且与光线及设备无关，并且处理速度与RGB模式同样快，比CMYK模式快数倍。<br>因此，可放心大胆的在图像编辑中使用Lab模式，而且，Lab模式保证在转换成CMYK模式时色彩最少丢失或被替代。因此，从理论上讲最佳避免色彩损失的方法是：应用Lab模式编辑图像，再转换CMYK模式打印。</p>
+<h1 id="2-加色-减色模式"><a href="#2-加色-减色模式" class="headerlink" title="2.加色/减色模式"></a>2.加色/减色模式</h1><h1 id="3-分辨率"><a href="#3-分辨率" class="headerlink" title="3.分辨率"></a>3.分辨率</h1><p>参考资料：<a href="https://helpx.adobe.com/cn/photoshop/user-guide.html" target="_blank" rel="external">Photoshop 用户指南——颜色模式</a></p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -405,19 +442,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -437,18 +474,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
@@ -457,15 +482,27 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
