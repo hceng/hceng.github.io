@@ -6,17 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 驱动相关 | hceng blog</title>
+  <title>Exynos4412——内核移植 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="生命不息、折腾不止">
-<meta property="og:type" content="website">
-<meta property="og:title" content="hceng blog">
-<meta property="og:url" content="http://yoursite.com/tags/驱动相关/index.html">
+  <meta name="description" content="Exynos 4412移植最新的Kernel4.13.9。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exynos4412——内核移植">
+<meta property="og:url" content="http://yoursite.com/2017/10/26/Exynos4412——内核移植/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="生命不息、折腾不止">
+<meta property="og:description" content="Exynos 4412移植最新的Kernel4.13.9。">
+<meta property="og:image" content="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/2.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/3.png">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2017-10-26T13:34:22.761Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hceng blog">
-<meta name="twitter:description" content="生命不息、折腾不止">
+<meta name="twitter:title" content="Exynos4412——内核移植">
+<meta name="twitter:description" content="Exynos 4412移植最新的Kernel4.13.9。">
+<meta name="twitter:image" content="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -164,236 +170,213 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Exynos4412——内核移植" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Exynos4412——内核移植
+    </h1>
+  
+
+        
+        <a href="/2017/10/26/Exynos4412——内核移植/" class="archive-article-date">
+  	<time datetime="2017-10-26T09:48:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-设置交叉编译工具链"><span class="toc-text">1.设置交叉编译工具链</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-修改、编译uboot"><span class="toc-text">2.修改、编译uboot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-关闭MMU"><span class="toc-text">2.1 关闭MMU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-修改u-boot的链接地址"><span class="toc-text">2.2 修改u-boot的链接地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-使uboot可以引导uImage"><span class="toc-text">2.3 使uboot可以引导uImage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-支持设备树"><span class="toc-text">2.4 支持设备树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-修改uboot的Makefile"><span class="toc-text">2.5 修改uboot的Makefile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-编译uboot"><span class="toc-text">2.6 编译uboot</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-移植、编译内核"><span class="toc-text">3.移植、编译内核</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-下载最新内核"><span class="toc-text">3.1 下载最新内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-修改Makefile"><span class="toc-text">3.2 修改Makefile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-修改设备树文件"><span class="toc-text">3.3 修改设备树文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-编译内核"><span class="toc-text">3.4 编译内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-编译设备树文件"><span class="toc-text">3.5 编译设备树文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-下载到开发板"><span class="toc-text">4.下载到开发板</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-准备SD卡"><span class="toc-text">4.1 准备SD卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-制作SD卡，烧uboot"><span class="toc-text">4.2 制作SD卡，烧uboot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-烧写内核、根文件系统、设备树文件"><span class="toc-text">4.3 烧写内核、根文件系统、设备树文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-启动开发板"><span class="toc-text">4.4 启动开发板</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-实际效果"><span class="toc-text">5.实际效果</span></a></li></ol>
+      </div>
+      
+        <p>Exynos 4412移植最新的Kernel4.13.9。<br><a id="more"></a><br>话说最近应该不会接触AM437x了，原因有多种，但学习不能停。<br>手头还有买来没开过几次机的Tiny4412，本想买来学Android驱动的。<br>Exynos4412与S3C2240差别相对AM437x小很多，因此过渡应该会更顺滑一点。<br>要学习的还很多，进度有点慢，先在板子上跑起Linux再说吧。</p>
+<h1 id="1-设置交叉编译工具链"><a href="#1-设置交叉编译工具链" class="headerlink" title="1.设置交叉编译工具链"></a>1.设置交叉编译工具链</h1><p>使用的交叉编译工具链是：<a href="http://www.veryarm.com/arm-none-linux-gnueabi-gcc" target="_blank" rel="external">arm-none-linux-gnueabi-gcc</a> （gcc version 4.8.3 20140320）<br>下载好后，放在Ubuntu中，解压：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar xjf arm-2014.05-29-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>记下交叉编译工具链的位置：<code>/work/arm-2014.05/bin</code><br>修改环境变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/environment</div></pre></td></tr></table></figure></p>
+<p>添加交叉编译工具链的路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/work/arm-2014.05/bin&quot;</div></pre></td></tr></table></figure></p>
+<p>更新环境变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source /etc/environment</div></pre></td></tr></table></figure></p>
+<p>检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">arm-none-linux-gnueabi-gcc -v</div></pre></td></tr></table></figure></p>
+<p><img src="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png" alt=""></p>
+<p><a href="http://blog.csdn.net/aiqing0119/article/details/46887581" target="_blank" rel="external">一些关于gcc的扩充资料</a></p>
+<h1 id="2-修改、编译uboot"><a href="#2-修改、编译uboot" class="headerlink" title="2.修改、编译uboot"></a>2.修改、编译uboot</h1><p>开始的时候使用的是Tiny4412光盘的uboot，但后续的做完了才发现不行。<br>原来是友善的tiny4412标准版有新旧之分，差别就是更换了不同eMMC，所以导致了有些没有更新eMMC控制器配置的uboot无法启动。<br>因此下了新版的uboot_tiny4412_0929.tar.gz即可。<a href="http://blog.csdn.net/u010245383/article/details/50946170" target="_blank" rel="external">参考链接</a></p>
+<p>目前首先需要实现如下功能：用<br>u-boot引导uImage或者zImage，同时将设备信息以设备树的形式传递给Linux内核，而根文件系统以ramdisk的形式传递给内核，因为目前SD卡驱动、eMMC驱动和usb网卡驱动都没有移植。</p>
+<h2 id="2-1-关闭MMU"><a href="#2-1-关闭MMU" class="headerlink" title="2.1 关闭MMU"></a>2.1 关闭MMU</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim include/configs/tiny4412.h</div></pre></td></tr></table></figure>
+<p>将<code>#define CONFIG_ENABLE_MMU</code>改为<code>#undef CONFIG_ENABLE_MMU</code>;</p>
+<h2 id="2-2-修改u-boot的链接地址"><a href="#2-2-修改u-boot的链接地址" class="headerlink" title="2.2 修改u-boot的链接地址"></a>2.2 修改u-boot的链接地址</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim board/samsung/tiny4412/config.mk</div></pre></td></tr></table></figure>
+<p>将<code>CONFIG_SYS_TEXT_BASE = 0xc3e00000</code>修改为<code>CONFIG_SYS_TEXT_BASE = 0x43e00000</code>;</p>
+<h2 id="2-3-使uboot可以引导uImage"><a href="#2-3-使uboot可以引导uImage" class="headerlink" title="2.3 使uboot可以引导uImage"></a>2.3 使uboot可以引导uImage</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim common/cmd_bootm.c</div></pre></td></tr></table></figure>
+<p>①在<code>boot_os_fn      *boot_fn;</code>后添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int             iszImage = 0;</div></pre></td></tr></table></figure></p>
+<p>②在<code>images.legacy_hdr_valid = 1;</code>后添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iszImage = 1;</div></pre></td></tr></table></figure></p>
+<p>③修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">images.os.os = hdr-&gt;ih_os;</div><div class="line">images.ep = image_get_ep (&amp;images.legacy_hdr_os_copy);</div></pre></td></tr></table></figure></p>
+<p>为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if(iszImage) &#123;</div><div class="line">    images.os.os = hdr-&gt;ih_os;</div><div class="line">    images.ep = image_get_ep (&amp;images.legacy_hdr_os_copy);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="2-4-支持设备树"><a href="#2-4-支持设备树" class="headerlink" title="2.4 支持设备树"></a>2.4 支持设备树</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim include/configs/tiny4412.h</div></pre></td></tr></table></figure>
+<p>添加如下两个宏：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#define CONFIG_OF_LIBFDT</div><div class="line">#define CONFIG_SYS_BOOTMAPSZ (20 &lt;&lt; 20)</div></pre></td></tr></table></figure></p>
+<h2 id="2-5-修改uboot的Makefile"><a href="#2-5-修改uboot的Makefile" class="headerlink" title="2.5 修改uboot的Makefile"></a>2.5 修改uboot的Makefile</h2><p>将原来的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ifeq ($(HOSTARCH),$(ARCH))</div><div class="line">CROSS_COMPILE ?=</div><div class="line">endif</div></pre></td></tr></table></figure></p>
+<p>改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ifeq ($(ARCH),arm)</div><div class="line">CROSS_COMPILE ?=/work/arm-2014.05/bin/arm-none-linux-gnueabi-</div><div class="line">endif</div></pre></td></tr></table></figure></p>
+<h2 id="2-6-编译uboot"><a href="#2-6-编译uboot" class="headerlink" title="2.6 编译uboot"></a>2.6 编译uboot</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">make distclean</div><div class="line">make tiny4412_config</div><div class="line">make</div></pre></td></tr></table></figure>
+<h1 id="3-移植、编译内核"><a href="#3-移植、编译内核" class="headerlink" title="3.移植、编译内核"></a>3.移植、编译内核</h1><h2 id="3-1-下载最新内核"><a href="#3-1-下载最新内核" class="headerlink" title="3.1 下载最新内核"></a>3.1 下载最新内核</h2><p>下载的当前最新的内核<a href="https://www.kernel.org/" title="Kernel-4.13.9" target="_blank" rel="external">Kernel-4.13.9</a>。<br>解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xz -d linux-4.13.9.tar.xz</div><div class="line">tar xf linux-4.13.9.tar</div></pre></td></tr></table></figure></p>
+<h2 id="3-2-修改Makefile"><a href="#3-2-修改Makefile" class="headerlink" title="3.2 修改Makefile"></a>3.2 修改Makefile</h2><p>将<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ARCH            ?= $(SUBARCH)</div><div class="line">CROSS_COMPILE   ?= $(CONFIG_CROSS_COMPILE:&quot;%&quot;=%)</div></pre></td></tr></table></figure></p>
+<p>改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ARCH            ?= arm</div><div class="line">CROSS_COMPILE   ?= /work/arm-2014.05/bin/arm-none-linux-gnueabi-</div></pre></td></tr></table></figure></p>
+<h2 id="3-3-修改设备树文件"><a href="#3-3-修改设备树文件" class="headerlink" title="3.3 修改设备树文件"></a>3.3 修改设备树文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim arch/arm/boot/dts/exynos4412-tiny4412.dts</div></pre></td></tr></table></figure>
+<p>在<code>stdout-path = &amp;serial_0;</code>添加启动参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bootargs = &quot;root=/dev/ram0 rw rootfstype=ext4 console=ttySAC0,115200 init=/linuxrc earlyprintk&quot;;</div></pre></td></tr></table></figure></p>
+<p>将<code>sdhci_2</code>节点下的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">status = &quot;okay&quot;;</div></pre></td></tr></table></figure></p>
+<p>改为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">status = &quot;disabled&quot;;</div></pre></td></tr></table></figure></p>
+<h2 id="3-4-编译内核"><a href="#3-4-编译内核" class="headerlink" title="3.4 编译内核"></a>3.4 编译内核</h2><p>Kernel-4.13.9对Exynos 4412支持还不错，直接就有配置文件，使用即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">make distclean</div><div class="line">make ARCH=arm exynos_defconfig</div><div class="line">make uImage LOADADDR=0x40008000</div></pre></td></tr></table></figure></p>
+<p>这里实测出现错误，显示找不到<code>mkimage</code>。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/2.png" alt=""><br><code>mkimage</code>是<code>/work/uboot_tiny4412_0929/tools</code>里面的，加入环境变量即可。<a href="解决参考" title="http://blog.csdn.net/armeasy/article/details/6540593">解决参考</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/bash.bashrc</div></pre></td></tr></table></figure>
+<p>加入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PATH=/work/uboot_tiny4412_0929/tools:$PATH</div></pre></td></tr></table></figure></p>
+<p>更新:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source /etc/bash.bashrc</div></pre></td></tr></table></figure></p>
+<p>重新编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make uImage LOADADDR=0x40008000</div></pre></td></tr></table></figure></p>
+<p>生成<code>uImage</code>在<code>arch/arm/boot</code>。</p>
+<h2 id="3-5-编译设备树文件"><a href="#3-5-编译设备树文件" class="headerlink" title="3.5 编译设备树文件"></a>3.5 编译设备树文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make dtbs</div></pre></td></tr></table></figure>
+<p>生成<code>exynos4412-tiny4412.dtb</code>在<code>arch/arm/boot/dts/</code>。   </p>
+<h1 id="4-下载到开发板"><a href="#4-下载到开发板" class="headerlink" title="4.下载到开发板"></a>4.下载到开发板</h1><h2 id="4-1-准备SD卡"><a href="#4-1-准备SD卡" class="headerlink" title="4.1 准备SD卡"></a>4.1 准备SD卡</h2><p>制作SD卡的工具在<code>uboot_tiny4412_0929</code>里面，<br>先编译下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sd_fuse</div><div class="line">make</div></pre></td></tr></table></figure></p>
+<p>插上SD卡，查看当前SD卡挂载位置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo fdisk -l</div></pre></td></tr></table></figure></p>
+<p>我的是<code>/dev/sdb</code>。</p>
+<h2 id="4-2-制作SD卡，烧uboot"><a href="#4-2-制作SD卡，烧uboot" class="headerlink" title="4.2 制作SD卡，烧uboot"></a>4.2 制作SD卡，烧uboot</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd tiny4412</div><div class="line">./sd_fusing.sh /dev/sdb</div></pre></td></tr></table></figure>
+<p>制作好了，插上开发板，选择SD卡启动，在串口上即可有打印信息。</p>
+<h2 id="4-3-烧写内核、根文件系统、设备树文件"><a href="#4-3-烧写内核、根文件系统、设备树文件" class="headerlink" title="4.3 烧写内核、根文件系统、设备树文件"></a>4.3 烧写内核、根文件系统、设备树文件</h2><p>这里的根文件系统用的网友做好的<a href="ramdisk镜像" title="http://files.cnblogs.com/files/pengdonglin137/ramdisk.zip">ramdisk镜像</a><br>由于tiny4412的uboot目前还不支持usb网卡，只能使用dnw来下载，并且tiny4412的u-boot中已经自带了dnw命令了，Ubuntu上使用<a href="http://files.cnblogs.com/files/pengdonglin137/dnw.tar.gz" title="网友的dnw" target="_blank" rel="external">网友的dnw</a>。</p>
+<p>①下载uImage<br>在u-boot里执行下载uImage的命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnw 0x40600000   (这个地址不唯一)</div></pre></td></tr></table></figure></p>
+<p>在Ubuntu中执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./dnw /work/linux-4.13.9/arch/arm/boot/uImage</div></pre></td></tr></table></figure></p>
+<p>②下载ramdisk<br>在u-boot里执行下载uImage的命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnw 0x41000000   (这个地址不唯一)</div></pre></td></tr></table></figure></p>
+<p>在开发机中执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./dnw /work/ramdisk/ramdisk.img</div></pre></td></tr></table></figure></p>
+<p>③下载设备树镜像<br>在u-boot里执行下载uImage的命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnw 0x42000000   (这个地址不唯一)</div></pre></td></tr></table></figure></p>
+<p>在开发机中执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./dnw /work/linux-4.13.9/arch/arm/boot/dts/exynos4412-tiny4412.dtb</div></pre></td></tr></table></figure></p>
+<h2 id="4-4-启动开发板"><a href="#4-4-启动开发板" class="headerlink" title="4.4 启动开发板"></a>4.4 启动开发板</h2><p>继续输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bootm 0x40600000 0x41000000 0x42000000</div></pre></td></tr></table></figure></p>
+<p>不要重启，现在数据都在RAM里面的，掉电就没了。</p>
+<h1 id="5-实际效果"><a href="#5-实际效果" class="headerlink" title="5.实际效果"></a>5.实际效果</h1><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/3.png" alt=""></p>
+<hr>
+<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/04/22/Linux自动挂载卸载U盘/" class="archive-article-date">
-  	<time datetime="2017-04-22T03:10:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/22/Linux自动挂载卸载U盘/">Linux自动挂载/卸载U盘</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Exynos4412</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">USB</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">内核移植</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/26/Exynos4412——内核移植/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/04/13/自己写bootloader/" class="archive-article-date">
-  	<time datetime="2017-04-13T00:35:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-13</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/13/自己写bootloader/">自己写bootloader</a>
-    </h1>
+  
+    <a href="/2017/10/12/QT应用设计——HexoBlogClient/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">QT应用设计——HexoBlogClient</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Exynos4412——内核移植" data-title="Exynos4412——内核移植" data-url="http://yoursite.com/2017/10/26/Exynos4412——内核移植/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"flase"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">bootloader</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/04/05/Linux并发控制/" class="archive-article-date">
-  	<time datetime="2017-04-05T15:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/05/Linux并发控制/">Linux并发控制机制</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/31/终端复用软件——Tmux/" class="archive-article-date">
-  	<time datetime="2017-03-31T11:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/31/终端复用软件——Tmux/">终端复用软件-Tmux</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/26/U-Boot分析、移植及使用/" class="archive-article-date">
-  	<time datetime="2017-03-26T10:39:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/26/U-Boot分析、移植及使用/">U-Boot分析、移植及使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">环境搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/tags/驱动相关/page/2/">2</a><a class="extend next" rel="next" href="/tags/驱动相关/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -424,9 +407,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
