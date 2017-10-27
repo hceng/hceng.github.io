@@ -14,15 +14,16 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/26/Exynos4412——内核移植/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="Exynos 4412移植最新的Kernel-4.13.9。">
-<meta property="og:image" content="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.2.png?v=1">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/2.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/3.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-10-27T01:04:04.056Z">
+<meta property="og:updated_time" content="2017-10-27T01:15:44.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——内核移植">
 <meta name="twitter:description" content="Exynos 4412移植最新的Kernel-4.13.9。">
-<meta name="twitter:image" content="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -204,7 +205,7 @@
 <p>添加交叉编译工具链的路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/work/arm-2014.05/bin&quot;</div></pre></td></tr></table></figure></p>
 <p>更新环境变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source /etc/environment</div></pre></td></tr></table></figure></p>
 <p>检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">arm-none-linux-gnueabi-gcc -v</div></pre></td></tr></table></figure></p>
-<p><img src="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png" alt=""></p>
+<p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png" alt=""></p>
 <p><a href="http://blog.csdn.net/aiqing0119/article/details/46887581" target="_blank" rel="external">一些关于gcc的扩充资料</a></p>
 <h1 id="2-修改、编译uboot"><a href="#2-修改、编译uboot" class="headerlink" title="2.修改、编译uboot"></a>2.修改、编译uboot</h1><p>开始的时候使用的是Tiny4412光盘的uboot，但后续的做完了才发现不行。<br>原来是友善的tiny4412标准版有新旧之分，差别就是更换了不同eMMC，所以导致了有些没有更新eMMC控制器配置的uboot无法启动。<br>因此下了新版的uboot_tiny4412_0929.tar.gz即可。<a href="http://blog.csdn.net/u010245383/article/details/50946170" target="_blank" rel="external">参考链接</a></p>
 <p>目前首先需要实现如下功能：<br>用u-boot引导uImage或者zImage，<br>同时将设备信息以设备树的形式传递给Linux内核，<br>而根文件系统以ramdisk的形式传递给内核，<br>因为目前SD卡驱动、eMMC驱动和usb网卡驱动都没有移植。</p>
@@ -222,7 +223,7 @@
 <h2 id="2-5-修改uboot的Makefile"><a href="#2-5-修改uboot的Makefile" class="headerlink" title="2.5 修改uboot的Makefile"></a>2.5 修改uboot的Makefile</h2><p>将原来的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ifeq ($(HOSTARCH),$(ARCH))</div><div class="line">CROSS_COMPILE ?=</div><div class="line">endif</div></pre></td></tr></table></figure></p>
 <p>改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ifeq ($(ARCH),arm)</div><div class="line">CROSS_COMPILE ?=/work/arm-2014.05/bin/arm-none-linux-gnueabi-</div><div class="line">endif</div></pre></td></tr></table></figure></p>
 <h2 id="2-6-编译uboot"><a href="#2-6-编译uboot" class="headerlink" title="2.6 编译uboot"></a>2.6 编译uboot</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">make distclean</div><div class="line">make tiny4412_config</div><div class="line">make</div></pre></td></tr></table></figure>
-<h1 id="3-移植、编译内核"><a href="#3-移植、编译内核" class="headerlink" title="3.移植、编译内核"></a>3.移植、编译内核</h1><h2 id="3-1-下载最新内核"><a href="#3-1-下载最新内核" class="headerlink" title="3.1 下载最新内核"></a>3.1 下载最新内核</h2><p>下载的当前最新的内核<a href="https://www.kernel.org/" title="Kernel-4.13.9" target="_blank" rel="external">Kernel-4.13.9</a>。<br>解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xz -d linux-4.13.9.tar.xz</div><div class="line">tar xf linux-4.13.9.tar</div></pre></td></tr></table></figure></p>
+<h1 id="3-移植、编译内核"><a href="#3-移植、编译内核" class="headerlink" title="3.移植、编译内核"></a>3.移植、编译内核</h1><h2 id="3-1-下载最新内核"><a href="#3-1-下载最新内核" class="headerlink" title="3.1 下载最新内核"></a>3.1 下载最新内核</h2><p>下载的当前最新的内核<a href="https://www.kernel.org/" title="Kernel-4.13.9" target="_blank" rel="external">Kernel-4.13.9</a>。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.2.png?v=1" alt=""><br>解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xz -d linux-4.13.9.tar.xz</div><div class="line">tar xf linux-4.13.9.tar</div></pre></td></tr></table></figure></p>
 <h2 id="3-2-修改Makefile"><a href="#3-2-修改Makefile" class="headerlink" title="3.2 修改Makefile"></a>3.2 修改Makefile</h2><p>将<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ARCH            ?= $(SUBARCH)</div><div class="line">CROSS_COMPILE   ?= $(CONFIG_CROSS_COMPILE:&quot;%&quot;=%)</div></pre></td></tr></table></figure></p>
 <p>改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ARCH            ?= arm</div><div class="line">CROSS_COMPILE   ?= /work/arm-2014.05/bin/arm-none-linux-gnueabi-</div></pre></td></tr></table></figure></p>
 <h2 id="3-3-修改设备树文件"><a href="#3-3-修改设备树文件" class="headerlink" title="3.3 修改设备树文件"></a>3.3 修改设备树文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim arch/arm/boot/dts/exynos4412-tiny4412.dts</div></pre></td></tr></table></figure>
@@ -473,19 +474,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -505,6 +498,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -517,14 +518,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
@@ -534,6 +527,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
