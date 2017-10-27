@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Exynos4412——内核移植 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Exynos 4412移植最新的Kernel4.13.9。">
+  <meta name="description" content="Exynos 4412移植最新的Kernel-4.13.9。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Exynos4412——内核移植">
 <meta property="og:url" content="http://yoursite.com/2017/10/26/Exynos4412——内核移植/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="Exynos 4412移植最新的Kernel4.13.9。">
+<meta property="og:description" content="Exynos 4412移植最新的Kernel-4.13.9。">
 <meta property="og:image" content="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/2.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171026/3.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-10-27T00:48:15.632Z">
+<meta property="og:updated_time" content="2017-10-27T01:04:04.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——内核移植">
-<meta name="twitter:description" content="Exynos 4412移植最新的Kernel4.13.9。">
+<meta name="twitter:description" content="Exynos 4412移植最新的Kernel-4.13.9。">
 <meta name="twitter:image" content="hhttp://oo2opkb6t.bkt.clouddn.com/image/blog/171026/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -198,7 +198,7 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-设置交叉编译工具链"><span class="toc-text">1.设置交叉编译工具链</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-修改、编译uboot"><span class="toc-text">2.修改、编译uboot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-关闭MMU"><span class="toc-text">2.1 关闭MMU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-修改u-boot的链接地址"><span class="toc-text">2.2 修改u-boot的链接地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-使uboot可以引导uImage"><span class="toc-text">2.3 使uboot可以引导uImage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-支持设备树"><span class="toc-text">2.4 支持设备树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-修改uboot的Makefile"><span class="toc-text">2.5 修改uboot的Makefile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-编译uboot"><span class="toc-text">2.6 编译uboot</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-移植、编译内核"><span class="toc-text">3.移植、编译内核</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-下载最新内核"><span class="toc-text">3.1 下载最新内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-修改Makefile"><span class="toc-text">3.2 修改Makefile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-修改设备树文件"><span class="toc-text">3.3 修改设备树文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-编译内核"><span class="toc-text">3.4 编译内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-编译设备树文件"><span class="toc-text">3.5 编译设备树文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-下载到开发板"><span class="toc-text">4.下载到开发板</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-准备SD卡"><span class="toc-text">4.1 准备SD卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-制作SD卡，烧uboot"><span class="toc-text">4.2 制作SD卡，烧uboot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-烧写内核、根文件系统、设备树文件"><span class="toc-text">4.3 烧写内核、根文件系统、设备树文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-启动开发板"><span class="toc-text">4.4 启动开发板</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-实际效果"><span class="toc-text">5.实际效果</span></a></li></ol>
       </div>
       
-        <p>Exynos 4412移植最新的Kernel4.13.9。<br><a id="more"></a><br>话说最近应该不会接触AM437x了，原因有多种，但学习不能停。<br>手头还有买来没开过几次机的Tiny4412，本想买来学Android驱动的。<br>Exynos4412与S3C2240差别相对AM437x小很多，因此过渡应该会更顺滑一点。<br>要学习的还很多，进度有点慢，先在板子上跑起Linux再说吧。</p>
+        <p>Exynos 4412移植最新的Kernel-4.13.9。<br><a id="more"></a><br>话说最近应该不会接触AM437x了，原因有多种，但学习不能停。<br>手头还有买来没开过几次机的Tiny4412，本想买来学Android驱动的。<br>Exynos4412与S3C2240差别相对AM437x小很多，因此过渡应该会更顺滑一点。<br>要学习的还很多，进度有点慢，先在板子上跑起Linux再说吧。</p>
 <h1 id="1-设置交叉编译工具链"><a href="#1-设置交叉编译工具链" class="headerlink" title="1.设置交叉编译工具链"></a>1.设置交叉编译工具链</h1><p>使用的交叉编译工具链是：<a href="http://www.veryarm.com/arm-none-linux-gnueabi-gcc" target="_blank" rel="external">arm-none-linux-gnueabi-gcc</a> （gcc version 4.8.3 20140320）<br>下载好后，放在Ubuntu中，解压：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar xjf arm-2014.05-29-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2</div></pre></td></tr></table></figure></p>
 <p>记下交叉编译工具链的位置：<code>/work/arm-2014.05/bin</code><br>修改环境变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/environment</div></pre></td></tr></table></figure></p>
 <p>添加交叉编译工具链的路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/work/arm-2014.05/bin&quot;</div></pre></td></tr></table></figure></p>
@@ -481,6 +481,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
@@ -497,26 +505,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -525,7 +513,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -537,15 +537,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
