@@ -5,12 +5,14 @@
     
   <url>
     <loc>http://hceng.cn/2017/10/31/Exynos4412%E2%80%94%E2%80%94%E7%BD%91%E5%8D%A1%E7%A7%BB%E6%A4%8D%E5%92%8CNFS%E5%90%AF%E5%8A%A8/</loc>
-    <lastmod>2017-10-31T08:10:39.590Z</lastmod>
+    <lastmod>2017-10-31T09:04:09.123Z</lastmod>
     <data>
         <display>
         <title>Exynos4412——网卡移植和NFS启动</title>
         <pubTime>2017-10-31T12:27:52.000Z</pubTime>
         
+        <tag>Linux驱动</tag>
+         
         <tag>Exynos4412</tag>
          
         <tag>网卡驱动</tag>
