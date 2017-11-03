@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/6.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/7.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-10-31T09:04:09.123Z">
+<meta property="og:updated_time" content="2017-10-31T10:17:19.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——网卡移植和NFS启动">
 <meta name="twitter:description" content="为Exynos4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
@@ -226,7 +226,7 @@
 <h2 id="2-7-USB4604驱动加入内核"><a href="#2-7-USB4604驱动加入内核" class="headerlink" title="2.7 USB4604驱动加入内核"></a>2.7 USB4604驱动加入内核</h2><p>将USB4604驱动加入内核<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/5.png" alt=""></p>
 <h2 id="2-8-重新编译、烧写、测试"><a href="#2-8-重新编译、烧写、测试" class="headerlink" title="2.8 重新编译、烧写、测试"></a>2.8 重新编译、烧写、测试</h2><ul>
 <li><p>编译：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make uImage LOADADDR=0x40008000</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make uImage LOADADDR=0x40008000 </div><div class="line">make dtbs</div></pre></td></tr></table></figure>
 </li>
 <li><p>烧写：<br>在开发板uboot界面输入：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnw 0x40600000;dnw 0x41000000;dnw 0x42000000</div></pre></td></tr></table></figure>
@@ -343,6 +343,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/11/03/Exynos4412——SD卡启动/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Exynos4412——SD卡启动
+        
+      </div>
+    </a>
   
   
     <a href="/2017/10/26/Exynos4412——内核移植/" id="article-nav-older" class="article-nav-link-wrap">
@@ -483,7 +492,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,31 +532,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,6 +548,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -555,11 +564,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>
