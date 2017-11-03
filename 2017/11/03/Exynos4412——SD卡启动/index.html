@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="实现Tiny4412从SD卡的启动内核与根文件系统。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-11-03T13:31:58.152Z">
+<meta property="og:updated_time" content="2017-11-03T14:49:00.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——SD卡启动">
 <meta name="twitter:description" content="实现Tiny4412从SD卡的启动内核与根文件系统。">
@@ -196,11 +196,11 @@
       </div>
       
         <p>实现Tiny4412从SD卡的启动内核与根文件系统。<br><a id="more"></a><br>前面启动开发板时，需要从SD卡启动Uboot，然后从DNW下载内核和根文件系统到RAM，或者NFS挂载根文件系统。<br>Uboot应该是支持SD卡的，可以从SD卡读取内核。<br>Uboot把控制权交给内核后，内核必须要支持SD卡，才能访问SD卡的根文件系统，因此需要移植SD卡驱动。</p>
-<h1 id="1-关于启动的理解"><a href="#1-关于启动的理解" class="headerlink" title="1.关于启动的理解"></a>1.关于启动的理解</h1><p>嵌入式Linux开发一般需要至少三个文件：Bootloader(Uboot)、Kernel(uImage)、根文件系统（rootfs）。Kernel-3.x加入设备树后，又多了个DTB设备树文件。<br>因此，本次要准备四个文件：Uboot、Kernel、rootfs、DTB。</p>
+<h1 id="1-关于启动的理解"><a href="#1-关于启动的理解" class="headerlink" title="1.关于启动的理解"></a>1.关于启动的理解</h1><p>嵌入式Linux开发一般需要至少三个文件：Bootloader(Uboot)、Kernel(uImage)、根文件系统（rootfs）。Kernel-3.x加入设备树后，又多了个DTB设备树文件。<br>因此，本次要准备四个文件：<strong>Uboot、Kernel、rootfs、DTB</strong>。</p>
 <p>一般开发板上有多个存储介质，如：Nand Flash、Nor Flash、mmc、emmc、SD卡、网络也算特殊的一种。</p>
 <p>前面的四个文件，理论上可以放在板上的任一存储介质里面，然后给SOC信号（开发板上的启动顺序拨码开关），告诉它从哪个存储介质读取相应文件。<br>但由于一些特殊原因，往往有所限制。比如，Nor Flash比较小，一般只放Uboot，放不下rootfs。好像也没有支持网络NFS启动的Uboot，至少我目前没遇到过。<br>因此，一般常见的方式是把Uboot放在Nor Flash，其它的放在Nand Flash，就像JZ2440；或者全都放在SD卡/TF卡，就像Ti的AM437X；又或者都放在emmc，像Tiny4412；<br>总之就是以上的存储介质组合，根据实际情况而定。<br>需要一提的是，很多SOC现在都在Uboot前封装了一层代码，或者搞了一个其它什么机制，上电后马上初始化了存储介质相关的寄存器，其次才加载用户的第一行代码。</p>
-<p>开发板上电后，先内部固化代码先初始化一些必要的东西（有的SOC没有这一机制），然后根据启动引脚的电平，读取相应介质上的Uboot到RAM，启动Uboot后，根据用户传的参数加载内核和根文件系统到RAM。<br>这一过程的Uboot所处的存储介质受限比较大，要根据SOC所支持的启动方式来选择。后面Uboot启动后，Uboot会初始化更多的硬件存储介质，也就有了更多的选择。</p>
-<p>启动过程其实是先将要启动的文件从存储位置拷贝到内存空间，再在内存中运行。因此所谓不同位置启动，也就是从不同位置拷贝而已。</p>
+<p>开发板上电后，先内部固化代码先初始化一些必要的东西（有的SOC没有这一机制），然后根据启动引脚的电平，读取相应的存储介质上的Uboot到RAM，启动Uboot后，根据用户传的参数加载内核、设备树、根文件系统到RAM。<br>这一过程的Uboot所处的存储介质受限比较大，要根据SOC所支持的启动方式来选择。后面Uboot启动后，Uboot会初始化更多的硬件存储介质，也就有了更多的选择。</p>
+<p><strong>启动过程其实是先将要启动的文件从存储位置拷贝到内存空间，再在内存中运行。因此所谓不同位置启动，也就是从不同位置拷贝而已。</strong></p>
 <h1 id="2-移植SD卡驱动"><a href="#2-移植SD卡驱动" class="headerlink" title="2.移植SD卡驱动"></a>2.移植SD卡驱动</h1><h1 id="3-制作SD卡"><a href="#3-制作SD卡" class="headerlink" title="3.制作SD卡"></a>3.制作SD卡</h1><h1 id="3-Uboot参数设置"><a href="#3-Uboot参数设置" class="headerlink" title="3.Uboot参数设置"></a>3.Uboot参数设置</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -216,11 +216,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SD卡</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Exynos4412</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Exynos4412</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SD卡</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -433,11 +433,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -450,10 +454,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -473,19 +473,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,11 +489,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,6 +502,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
