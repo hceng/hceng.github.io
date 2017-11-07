@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Exynos4412——网卡移植和NFS启动 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="为Exynos4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
+  <meta name="description" content="为Exynos 4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Exynos4412——网卡移植和NFS启动">
 <meta property="og:url" content="http://yoursite.com/2017/10/31/Exynos4412——网卡移植和NFS启动/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="为Exynos4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
+<meta property="og:description" content="为Exynos 4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/2.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/3.png">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/6.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/7.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-10-31T10:17:19.523Z">
+<meta property="og:updated_time" content="2017-11-07T07:54:46.113Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——网卡移植和NFS启动">
-<meta name="twitter:description" content="为Exynos4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
+<meta name="twitter:description" content="为Exynos 4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
 <meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -202,7 +202,7 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件结构"><span class="toc-text">1.硬件结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-移植网卡驱动"><span class="toc-text">2.移植网卡驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-修改设备树文件"><span class="toc-text">2.1 修改设备树文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-修改DM9621驱动"><span class="toc-text">2.2 修改DM9621驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-修改USB4604驱动"><span class="toc-text">2.3 修改USB4604驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-USB4604驱动头文件"><span class="toc-text">2.4 USB4604驱动头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-设备树头文件"><span class="toc-text">2.5 设备树头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-DM9621驱动加入内核"><span class="toc-text">2.6 DM9621驱动加入内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-USB4604驱动加入内核"><span class="toc-text">2.7 USB4604驱动加入内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-重新编译、烧写、测试"><span class="toc-text">2.8 重新编译、烧写、测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-NFS启动"><span class="toc-text">3.NFS启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-心得"><span class="toc-text">4.心得</span></a></li></ol>
       </div>
       
-        <p>为Exynos4412移植好网卡驱动，并采用NFS挂载根文件系统启动。<br><a id="more"></a><br>玩Exynos4412的第一个目标是想弄下LCD驱动。<br>在开始流畅的写驱动前，前期的准备工作又多又繁琐。</p>
+        <p>为Exynos 4412移植好网卡驱动，并采用NFS挂载根文件系统启动。<br><a id="more"></a><br>玩Exynos4412的第一个目标是想弄下LCD驱动。<br>在开始流畅的写驱动前，前期的准备工作又多又繁琐。</p>
 <p>上次移植好了内核，内核和根文件系统都是在RAM进行进行加载的，后面写驱动的时候，肯定不方便。<br>就以往的经验来看，uboot、kernel都应该在SD卡或者eMMC上，这样断电才不会丢失。根文件系统在调试驱动的时候应该是nfs挂载，调试完成了再烧写到SD卡或者eMMC上。</p>
 <p>因此，写驱动前至少还要移植好SD卡驱动、网卡驱动。eMMC可暂时不管。</p>
 <p>本次就先移植好网卡驱动，并尝试NFS挂载根文件系统。</p>
@@ -476,19 +476,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -508,15 +508,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -529,10 +525,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -552,15 +544,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -577,6 +569,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
             
             <div class="clearfix"></div>

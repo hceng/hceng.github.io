@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171107/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171107/2.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-11-07T07:42:29.967Z">
+<meta property="og:updated_time" content="2017-11-07T07:56:54.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——SD卡启动">
 <meta name="twitter:description" content="实现Tiny4412从SD卡的启动内核与根文件系统。">
@@ -205,7 +205,7 @@
 <p><strong>启动过程其实是先将要启动的文件从存储位置拷贝到内存空间，再在内存中运行。因此所谓不同位置启动，也就是从不同位置拷贝而已。</strong></p>
 <h1 id="2-移植SD卡驱动"><a href="#2-移植SD卡驱动" class="headerlink" title="2.移植SD卡驱动"></a>2.移植SD卡驱动</h1><p>SD卡移植的工作内容很少，仅对其设备树文件<code>arch/arm/boot/dts/exynos4412-tiny4412.dts</code>添加了一行代码即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">-- /work/tools/linux-4.13.9/arch/arm/boot/dts/exynos4412-tiny4412.dts  2017-10-21 08:55:07.000000000 -0700</div><div class="line">+++ /work/linux-4.13.9/arch/arm/boot/dts/exynos4412-tiny4412.dts        2017-10-31 03:34:04.609606802 -0700</div><div class="line"></div><div class="line">@@ -79,6 +101,7 @@</div><div class="line">        bus-width = &lt;4&gt;;</div><div class="line">        pinctrl-0 = &lt;&amp;sd2_clk &amp;sd2_cmd &amp;sd2_cd &amp;sd2_bus4&gt;;</div><div class="line">        pinctrl-names = &quot;default&quot;;</div><div class="line">+       vmmc-supply = &lt;&amp;mmc_reg&gt;;</div><div class="line">        status = &quot;okay&quot;;</div><div class="line"> &#125;;</div></pre></td></tr></table></figure></p>
 <p>然后奇迹般就可以了。。懵逼。</p>
-<h1 id="3-制作SD卡"><a href="#3-制作SD卡" class="headerlink" title="3.制作SD卡"></a>3.制作SD卡</h1><p>先将SD卡分为两个区，一个格式为fat32用于放内核和dtb，一个格式为ext3/4用于存放根文件系统。<br>可以使用<code>fdisk</code>命令分区，<code>mkfs</code>命令进行格式化。这里使用如下的<code>mkcard.sh</code>脚本更方便，原脚本里面的<code>sfdisk</code>是2.26版本的，在Ubuntu14.04运行正常，在Ubuntu16.04是无法运行的，Ubuntu16.014<code>sfdisk</code>的版本是2.27.1。顺便修改了下分区大小，看起来更舒服点，修改后的脚本如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">#! /bin/sh</div><div class="line"># mkcard.sh v0.4</div><div class="line"># (c) Copyright 2009 Graeme Gregory &lt;dp@xora.org.uk&gt;</div><div class="line"># Licensed under terms of GPLv2</div><div class="line">#</div><div class="line"># Parts of the procudure base on the work of Denys Dmytriyenko</div><div class="line"># http://wiki.omap.com/index.php/MMC_Boot_Format</div><div class="line"></div><div class="line">LC_ALL=C</div><div class="line"></div><div class="line">if [ $# -ne 1 ]; then</div><div class="line">	echo &quot;Usage: $0 &lt;drive&gt;&quot;</div><div class="line">	exit 1;</div><div class="line">fi</div><div class="line"></div><div class="line">DRIVE=$1</div><div class="line"></div><div class="line">dd if=/dev/zero of=$DRIVE bs=1024 count=1024</div><div class="line"></div><div class="line">SIZE=`fdisk -l $DRIVE | grep Disk | awk &apos;&#123;print $5&#125;&apos;`</div><div class="line"></div><div class="line">echo DISK SIZE - $SIZE bytes</div><div class="line"></div><div class="line">CYLINDERS=`echo $SIZE/255/63/512 | bc`</div><div class="line"></div><div class="line">echo CYLINDERS - $CYLINDERS</div><div class="line"></div><div class="line"># 将SD卡分成2个区</div><div class="line">sfdisk --no-reread $DRIVE &lt;&lt; EOF</div><div class="line"></div><div class="line">1024,1024000,0x0C,*</div><div class="line"></div><div class="line">1024100,,,-</div><div class="line"></div><div class="line">EOF</div><div class="line"></div><div class="line"></div><div class="line"># 格式化第1分区为fat32格式, 并且命名为boot</div><div class="line">if [ -b $&#123;DRIVE&#125;1 ]; then</div><div class="line">	mkfs.vfat -F 32 -n &quot;boot&quot; $&#123;DRIVE&#125;1</div><div class="line">else</div><div class="line">	if [ -b $&#123;DRIVE&#125;p1 ]; then</div><div class="line">		mkfs.vfat -F 32 -n &quot;boot&quot; $&#123;DRIVE&#125;p1</div><div class="line">	else</div><div class="line">		echo &quot;Cant find boot partition in /dev&quot;</div><div class="line">	fi</div><div class="line">fi</div><div class="line"></div><div class="line"># 格式化第2分区为ext3格式, 并且命名为rootfs</div><div class="line">if [ -b $&#123;DRIVE&#125;2 ]; then</div><div class="line">	mke2fs -j -L &quot;rootfs&quot; $&#123;DRIVE&#125;2</div><div class="line">else</div><div class="line">	if [ -b $&#123;DRIVE&#125;p2 ]; then</div><div class="line">		mke2fs -j -L &quot;rootfs&quot; $&#123;DRIVE&#125;p2</div><div class="line">	else</div><div class="line">		echo &quot;Cant find rootfs partition in /dev&quot;</div><div class="line">	fi</div><div class="line">fi</div><div class="line"></div><div class="line">sync</div><div class="line">sudo partprobe $DRIVE               </div><div class="line">sync </div></pre></td></tr></table></figure><br><a href="http://naeilproj.blogspot.ca/2016/06/linux-ti-sdksfdisk-invalid-option-d.html" target="_blank" rel="external">参考博客(需梯子)</a></p>
+<h1 id="3-制作SD卡"><a href="#3-制作SD卡" class="headerlink" title="3.制作SD卡"></a>3.制作SD卡</h1><p>先将SD卡分为两个区，一个格式为fat32用于放内核和dtb，一个格式为ext3/4用于存放根文件系统。<br>可以使用<code>fdisk</code>命令分区，<code>mkfs</code>命令进行格式化。这里使用如下的<code>mkcard.sh</code>脚本更方便，原脚本里面的<code>sfdisk</code>是2.26版本的，在Ubuntu14.04运行正常，在Ubuntu16.04是无法运行的，Ubuntu16.014<code>sfdisk</code>的版本是2.27.1。顺便修改了下分区大小，看起来更舒服点，修改后的脚本如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/sh</span></div><div class="line"><span class="comment"># mkcard.sh v0.4</span></div><div class="line"><span class="comment"># (c) Copyright 2009 Graeme Gregory &lt;dp@xora.org.uk&gt;</span></div><div class="line"><span class="comment"># Licensed under terms of GPLv2</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Parts of the procudure base on the work of Denys Dmytriyenko</span></div><div class="line"><span class="comment"># http://wiki.omap.com/index.php/MMC_Boot_Format</span></div><div class="line"></div><div class="line">LC_ALL=C</div><div class="line"></div><div class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> <span class="_">-ne</span> 1 ]; <span class="keyword">then</span></div><div class="line">	<span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$0</span> &lt;drive&gt;"</span></div><div class="line">	<span class="built_in">exit</span> 1;</div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line">DRIVE=<span class="variable">$1</span></div><div class="line"></div><div class="line">dd <span class="keyword">if</span>=/dev/zero of=<span class="variable">$DRIVE</span> bs=1024 count=1024</div><div class="line"></div><div class="line">SIZE=`fdisk <span class="_">-l</span> <span class="variable">$DRIVE</span> | grep Disk | awk <span class="string">'&#123;print $5&#125;'</span>`</div><div class="line"></div><div class="line"><span class="built_in">echo</span> DISK SIZE - <span class="variable">$SIZE</span> bytes</div><div class="line"></div><div class="line">CYLINDERS=`<span class="built_in">echo</span> <span class="variable">$SIZE</span>/255/63/512 | bc`</div><div class="line"></div><div class="line"><span class="built_in">echo</span> CYLINDERS - <span class="variable">$CYLINDERS</span></div><div class="line"></div><div class="line"><span class="comment"># 将SD卡分成2个区</span></div><div class="line">sfdisk --no-reread <span class="variable">$DRIVE</span> &lt;&lt; EOF</div><div class="line"></div><div class="line">1024,1024000,0x0C,*</div><div class="line"></div><div class="line">1024100,,,-</div><div class="line"></div><div class="line">EOF</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 格式化第1分区为fat32格式, 并且命名为boot</span></div><div class="line"><span class="keyword">if</span> [ -b <span class="variable">$&#123;DRIVE&#125;</span>1 ]; <span class="keyword">then</span></div><div class="line">	mkfs.vfat -F 32 -n <span class="string">"boot"</span> <span class="variable">$&#123;DRIVE&#125;</span>1</div><div class="line"><span class="keyword">else</span></div><div class="line">	<span class="keyword">if</span> [ -b <span class="variable">$&#123;DRIVE&#125;</span>p1 ]; <span class="keyword">then</span></div><div class="line">		mkfs.vfat -F 32 -n <span class="string">"boot"</span> <span class="variable">$&#123;DRIVE&#125;</span>p1</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">echo</span> <span class="string">"Cant find boot partition in /dev"</span></div><div class="line">	<span class="keyword">fi</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="comment"># 格式化第2分区为ext3格式, 并且命名为rootfs</span></div><div class="line"><span class="keyword">if</span> [ -b <span class="variable">$&#123;DRIVE&#125;</span>2 ]; <span class="keyword">then</span></div><div class="line">	mke2fs -j -L <span class="string">"rootfs"</span> <span class="variable">$&#123;DRIVE&#125;</span>2</div><div class="line"><span class="keyword">else</span></div><div class="line">	<span class="keyword">if</span> [ -b <span class="variable">$&#123;DRIVE&#125;</span>p2 ]; <span class="keyword">then</span></div><div class="line">		mke2fs -j -L <span class="string">"rootfs"</span> <span class="variable">$&#123;DRIVE&#125;</span>p2</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">echo</span> <span class="string">"Cant find rootfs partition in /dev"</span></div><div class="line">	<span class="keyword">fi</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line">sync</div><div class="line">sudo partprobe <span class="variable">$DRIVE</span>               </div><div class="line">sync </div></pre></td></tr></table></figure><br><a href="http://naeilproj.blogspot.ca/2016/06/linux-ti-sdksfdisk-invalid-option-d.html" target="_blank" rel="external">参考博客(需梯子)</a></p>
 <p>执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./mkcard.sh /dev/mmcblk0</div></pre></td></tr></table></figure></p>
 <p>等待一会，使用命令<code>sudo fdisk -l</code>查看分区，如果脚本工作完后，看起来没有分区成功，重启系统再来一次，有点莫名其妙的。</p>
 <p>搞定后，此时就会有两个分别名叫<code>boot</code>和<code>rootfs</code>的分区。<br>再使用制作Uboot的<code>sd_fusing.sh</code>脚本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd work/uboot_tiny4412_0929/sd_fuse/tiny4412  </div><div class="line">sudo ./sd_fusing.sh /dev/mmcblk0</div></pre></td></tr></table></figure></p>
@@ -437,19 +437,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -469,15 +469,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,10 +486,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -513,15 +505,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -538,6 +530,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
             
             <div class="clearfix"></div>
