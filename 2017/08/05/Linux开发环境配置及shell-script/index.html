@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/2.gif">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-12T08:54:30.081Z">
+<meta property="og:updated_time" content="2017-11-09T08:46:09.888Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux开发环境配置及shell script">
 <meta name="twitter:description" content="本文主要是以快速搭建环境为目标学习shell script。">
@@ -202,7 +202,7 @@
 <p>之前写过一个Linux嵌入式开发环境搭建的博客，后面每次搭环境都翻来复制上面的代码。感觉就像记事本一样，还是有点用，这也是写博客的一点动力吧。<br>用了Linux也有段时间了，它的魅力也逐渐展现出来了。以前还在熟悉Linux命令的过程中，shell script就是个老虎，觉得没接触过，害怕，每次都绕开它。<br>直到这周遇到了ti的SDK，尝试一边百度，一边测它的脚本，感觉有点小入门了，于是想练习下。想到每次搭建环境重复操作的痛点，就拿它开刀吧。</p>
 <h1 id="0-环境搭建的几个方面"><a href="#0-环境搭建的几个方面" class="headerlink" title="0.环境搭建的几个方面"></a>0.环境搭建的几个方面</h1><p>根据过去的经验，用虚拟机装好Ubuntu后，一般会做这样几个步骤：</p>
 <blockquote>
-<p>1.安装vmware tools,以便复制粘贴和文件共享；<br>2.更新软件源，以便更快的下载软件；<br>3.安装及配置常用软件，比如：<br>　　3-1.安装git,方面后续的一些安装；<br>　　3-2.安装vim和简单配置；<br>　　3-3.安装ftp和简单配置；<br>　　3-4.安装ftp和简单配置；<br>　　3-5.安装samba和简单配置；<br>　　3-6.安装tmux、htop等；<br>4.安装开发所需的 g++等工具、库；</p>
+<p>1.安装vmware tools,以便复制粘贴和文件共享；<br>2.更新软件源，以便更快的下载软件；<br>3.安装及配置常用软件，比如：<br>　　3-1.安装git,方面后续的一些安装；<br>　　3-2.安装vim和简单配置；<br>　　3-3.安装ftp和简单配置；<br>　　3-4.安装nfs和简单配置；<br>　　3-5.安装samba和简单配置；<br>　　3-6.安装tmux、htop等；<br>4.安装开发所需的 g++等工具、库；</p>
 </blockquote>
 <p>除了第一步，其它都计划用脚本实现。</p>
 <p>在开发中，厌烦了每次编辑了驱动，都要拖进Linux主机进行编译，然后还要复制到开发板。<br>重新打造了工作流，只需要在电脑上操作三步：<br><strong>编辑-&gt;make编译-&gt;insmod加载</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/1.png" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170805/2.gif" alt=""></p>
@@ -459,15 +459,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -479,7 +471,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -491,19 +487,27 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -511,7 +515,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -523,14 +531,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
@@ -539,11 +539,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
             
             <div class="clearfix"></div>
