@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2017/03/26/U-Boot%E5%88%86%E6%9E%90%E3%80%81%E7%A7%BB%E6%A4%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
+    
+    <lastmod>2017-11-09T09:54:36.938Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
     
     <lastmod>2017-11-09T08:46:09.888Z</lastmod>
@@ -117,13 +124,6 @@
     <loc>http://hceng.cn/2017/07/23/2017%E5%B9%B4%E4%B8%AD/</loc>
     
     <lastmod>2017-07-23T15:33:04.359Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/03/26/U-Boot%E5%88%86%E6%9E%90%E3%80%81%E7%A7%BB%E6%A4%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
-    
-    <lastmod>2017-07-23T13:56:14.463Z</lastmod>
     
   </url>
   
