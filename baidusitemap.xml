@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
+    <lastmod>2017-11-22T09:37:50.860Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——LCD之backligth</title>
+        <pubTime>2017-11-22T11:27:44.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/10/12/QT%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94HexoBlogClient/</loc>
     <lastmod>2017-11-17T11:47:58.899Z</lastmod>
     <data>
@@ -14,25 +33,6 @@
         <tag>QT</tag>
          
         <tag>hexo</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/11/17/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
-    <lastmod>2017-11-17T11:20:19.977Z</lastmod>
-    <data>
-        <display>
-        <title>Exynos4412——LCD之backligth</title>
-        <pubTime>2017-11-17T01:27:44.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
          
          
            
