@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
-    <lastmod>2017-11-22T09:53:54.295Z</lastmod>
+    <lastmod>2017-11-23T07:42:48.626Z</lastmod>
     <data>
         <display>
         <title>Exynos4412——LCD之backligth</title>
@@ -87,9 +87,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
