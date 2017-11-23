@@ -5,15 +5,15 @@
     
   <url>
     <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
-    <lastmod>2017-11-23T07:45:56.040Z</lastmod>
+    <lastmod>2017-11-23T08:23:33.284Z</lastmod>
     <data>
         <display>
         <title>Exynos4412——LCD之backligth</title>
         <pubTime>2017-11-22T11:27:44.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -108,9 +108,9 @@
         <title>Exynos4412——网卡移植和NFS启动</title>
         <pubTime>2017-10-31T12:27:52.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>Linux驱动</tag>
          
         <tag>网卡驱动</tag>
          
@@ -188,9 +188,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -207,9 +207,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -317,9 +317,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
