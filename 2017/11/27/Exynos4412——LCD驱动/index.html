@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-12-05T13:03:37.833Z">
+<meta property="og:updated_time" content="2017-12-07T07:36:20.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——LCD驱动">
 <meta name="twitter:description" content="Exynos4412的LCD驱动。">
@@ -221,7 +221,12 @@
 <blockquote>
 <p>1.分配一个fb_info<br>2.设置<br>　2.1 设置 fix 固定的参数<br>　2.2 设置 var 可变的参数<br>　2.3 设置操作函数<br>　2.4 其他的设置<br>3.硬件相关的操作<br>　3.1 配置GPIO用于LCD<br>　3.2 根据LCD手册设置LCD控制器, 比如VCLK的频率等<br>　3.3 分配显存(framebuffer), 并把地址告诉LCD控制器<br>4.注册fb_info</p>
 </blockquote>
+<hr>
 <p><strong>1.分配一个fb_info </strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tiny4412_lcd = framebuffer_alloc(<span class="number">0</span>, <span class="literal">NULL</span>); <span class="comment">//不要额外空间设置私有数据</span></div><div class="line"><span class="keyword">if</span>(!tiny4412_lcd) &#123;</div><div class="line">    <span class="keyword">return</span>  -ENOMEM;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>2.设置</strong><br><strong> <em>2.1 设置 fix 固定的参数</em> </strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">strcpy</span>(tiny4412_lcd-&gt;fix.id, <span class="string">"s702"</span>);                              <span class="comment">//设置fix名称</span></div><div class="line">tiny4412_lcd-&gt;fix.smem_len = LCD_LENTH*LCD_WIDTH*BITS_PER_PIXEL/<span class="number">8</span>; <span class="comment">//显存的长度=分辨率*每象素字节数</span></div><div class="line">tiny4412_lcd-&gt;fix.type     = FB_TYPE_PACKED_PIXELS;                <span class="comment">//类型:填充式像素(常用在TFT屏幕)</span></div><div class="line">tiny4412_lcd-&gt;fix.visual   = FB_VISUAL_TRUECOLOR;                  <span class="comment">//TFT 真彩色</span></div><div class="line">tiny4412_lcd-&gt;fix.line_length = LCD_LENTH*BITS_PER_PIXEL/<span class="number">8</span>;        <span class="comment">//每行的长度，以字节为单位</span></div></pre></td></tr></table></figure><br><strong> *2.2 设置 var 可变的参数</strong> *<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">tiny4412_lcd-&gt;var.xres           = LCD_LENTH;                      <span class="comment">//x方向分辨率</span></div><div class="line">tiny4412_lcd-&gt;var.yres           = LCD_WIDTH;                      <span class="comment">//y方向分辨率</span></div><div class="line">tiny4412_lcd-&gt;var.xres_virtual   = LCD_LENTH;                      <span class="comment">//x方向虚拟分辨率</span></div><div class="line">tiny4412_lcd-&gt;var.yres_virtual   = LCD_WIDTH;                      <span class="comment">//y方向虚拟分辨率</span></div><div class="line">tiny4412_lcd-&gt;var.xoffset        = <span class="number">0</span>;                              <span class="comment">//x方向真实值和虚拟值得差值</span></div><div class="line">tiny4412_lcd-&gt;var.yoffset        = <span class="number">0</span>;                              <span class="comment">//y方向真实值和虚拟值得差值</span></div><div class="line">tiny4412_lcd-&gt;var.bits_per_pixel = BITS_PER_PIXEL;                 <span class="comment">//每个像素占多少位</span></div><div class="line"><span class="comment">/* RGB:888 */</span></div><div class="line">tiny4412_lcd-&gt;var.red.length     = <span class="number">8</span>;</div><div class="line">tiny4412_lcd-&gt;var.red.offset     = <span class="number">16</span>;   <span class="comment">//红</span></div><div class="line">tiny4412_lcd-&gt;var.green.length   = <span class="number">8</span>;</div><div class="line">tiny4412_lcd-&gt;var.green.offset   = <span class="number">8</span>;    <span class="comment">//绿</span></div><div class="line">tiny4412_lcd-&gt;var.blue.length    = <span class="number">8</span>;</div><div class="line">tiny4412_lcd-&gt;var.blue.offset    = <span class="number">0</span>;    <span class="comment">//蓝</span></div><div class="line">tiny4412_lcd-&gt;var.activate       = FB_ACTIVATE_NOW;      <span class="comment">//使设置的值立即生效  </span></div></pre></td></tr></table></figure></p>
+<p><strong> *2.3 设置操作函数</strong> *<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tiny4412_lcd-&gt;fbops              = &amp;tiny4412_lcdfb_ops;  <span class="comment">//绑定操作函数</span></div></pre></td></tr></table></figure></p>
+<p><strong> *2.4 其他的设置</strong> *<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tiny4412_lcd-&gt;pseudo_palette     = pseudo_palette;       <span class="comment">//存放调色板所调颜色的数组</span></div><div class="line">tiny4412_lcd-&gt;screen_size        = LCD_LENTH * LCD_WIDTH * BITS_PER_PIXEL / <span class="number">8</span>;   <span class="comment">//显存大小</span></div></pre></td></tr></table></figure></p>
 <h1 id="5-测试程序"><a href="#5-测试程序" class="headerlink" title="5.测试程序"></a>5.测试程序</h1><h2 id="5-1移植libjpeg"><a href="#5-1移植libjpeg" class="headerlink" title="5.1移植libjpeg"></a>5.1移植libjpeg</h2><h1 id="6-实测结果"><a href="#6-实测结果" class="headerlink" title="6.实测结果"></a>6.实测结果</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -446,11 +451,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -459,6 +464,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -478,31 +491,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -514,6 +511,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
@@ -522,19 +527,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
