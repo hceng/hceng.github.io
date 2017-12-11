@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-12-11T10:49:10.351Z">
+<meta property="og:updated_time" content="2017-12-11T11:00:00.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——LCD驱动">
 <meta name="twitter:description" content="Exynos4412的LCD驱动。">
@@ -195,16 +195,22 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基础知识"><span class="toc-text">1.基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-颜色的量化"><span class="toc-text">1.1 颜色的量化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-图像的构成"><span class="toc-text">1.2 图像的构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-LCD显示原理"><span class="toc-text">1.3 LCD显示原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-原理图"><span class="toc-text">2.原理图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-设备树文件"><span class="toc-text">3.设备树文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-驱动分析"><span class="toc-text">4.驱动分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-lcd-probe"><span class="toc-text">4.1 lcd_probe</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-测试程序"><span class="toc-text">5.测试程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1移植libjpeg"><span class="toc-text">5.1移植libjpeg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2移除左上角光标"><span class="toc-text">5.2移除左上角光标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-实测结果"><span class="toc-text">6.实测结果</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基础知识"><span class="toc-text">1.基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-颜色的量化"><span class="toc-text">1.1 颜色的量化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-图像的构成"><span class="toc-text">1.2 图像的构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-LCD显示原理"><span class="toc-text">1.3 LCD显示原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-x-编写LCD硬件程序的思路"><span class="toc-text">1.x 编写LCD硬件程序的思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-原理图"><span class="toc-text">2.原理图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-设备树文件"><span class="toc-text">3.设备树文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-驱动分析"><span class="toc-text">4.驱动分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-lcd-probe"><span class="toc-text">4.1 lcd_probe</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-测试程序"><span class="toc-text">5.测试程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1移植libjpeg"><span class="toc-text">5.1移植libjpeg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2移除左上角光标"><span class="toc-text">5.2移除左上角光标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-实测结果"><span class="toc-text">6.实测结果</span></a></li></ol>
       </div>
       
         <p>Exynos4412的LCD驱动。<br><a id="more"></a><br>终于迎来了LCD驱动，本该10月初就搞定的事，一直拖到了12月份。<br>不过，晚来总比不来好，完成这个<strong>心结</strong>，才好进入下一个阶段。</p>
 <h1 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1.基础知识"></a>1.基础知识</h1><p>开发板的液晶屏型号S702，7寸电容型TFT触摸屏，分辨率为800X480。</p>
 <p>先记录下一些图像显示的基本知识。</p>
-<h2 id="1-1-颜色的量化"><a href="#1-1-颜色的量化" class="headerlink" title="1.1 颜色的量化"></a>1.1 颜色的量化</h2><p>显示器的颜色一般采用RGB标准，通过对红(RED)、绿(GREEN)，蓝(BLUE)三个颜色相互叠加得到各种不同的颜色。<br>1）通过对颜色的编码来对颜色进行量化（即转换成数字量，RGB是一种编码方式）；<br>2）每种颜色根据RGB格式不同，每种颜色的量化位不相同；<br>3) 常见的RGB格式有RGB565/RGB888:<br>　　RGB565: red :5  green : 6 blue:5<br>　　RGB888: red :8  green : 8 blue:8</p>
+<h2 id="1-1-颜色的量化"><a href="#1-1-颜色的量化" class="headerlink" title="1.1 颜色的量化"></a>1.1 颜色的量化</h2><p>显示器的颜色一般采用RGB标准，通过对红(RED)、绿(GREEN)，蓝(BLUE)三个颜色相互叠加得到各种不同的颜色。<br>1）通过对颜色的编码来对颜色进行量化（即转换成数字量，RGB是一种编码方式）；<br>2）每种颜色根据RGB格式不同，每种颜色的量化位不相同；<br>3) 常见的RGB格式有RGB565/RGB888:<br>　　RGB565: red :5  green : 6 blue:5（16BPP）<br>　　RGB888: red :8  green : 8 blue:8（24BPP）</p>
 <h2 id="1-2-图像的构成"><a href="#1-2-图像的构成" class="headerlink" title="1.2 图像的构成"></a>1.2 图像的构成</h2><p><strong>帧：</strong><br> 一幅图像被称为一帧，<br>每帧里面由行列排列的像素组成；</p>
 <p><strong>像素：</strong><br>显示的最小单位；<br>用若干位数据来表示一个像素，比如使用R8、G8、B8共24位来表示一个像素，这个也称为像素深度，单位为BPP 常见的有16BPP/24BPP；<br>像素越高，则一个像素点所显示的颜色就越多，所显示的颜色更广；</p>
-<h2 id="1-3-LCD显示原理"><a href="#1-3-LCD显示原理" class="headerlink" title="1.3 LCD显示原理"></a>1.3 LCD显示原理</h2><p>常见的TFT显示屏幕都会有如下控制信号：<br>1)使用HSYNC信号来控制一行的显示；<br>2)使用VSYNC信号来控制一帧(列)的显示；<br>3)使用VCLK信号来控制一个像素的显示；<br>4)使用VDEN信号来控制数据的输出；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0.jpg" alt=""><br>当发出一个HSYNC信号后，电子枪就会从行末花费HBP时长移动到行首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了行末后，再等待HFP时长待HSYNC信号到来，再移动到行首，如此往复。因此，HBP和HFP分别决定了左边和右边的黑框。<br>同理，当发出一个VSYNC信号后，电子枪就会从列末花费VBP时长移动到列首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了列末后，再等待VFP时长待VSYNC信号到来，再移动到列首，如此往复。因此，VBP和VFP分别决定了上边和下边的黑框。<br>真实显示区域为图中阴影部分。</p>
+<h2 id="1-3-LCD显示原理"><a href="#1-3-LCD显示原理" class="headerlink" title="1.3 LCD显示原理"></a>1.3 LCD显示原理</h2><p>常见的TFT显示屏幕都会有如下控制信号：<br>1)使用HSYNC信号来控制一行的显示；<br>2)使用VSYNC信号来控制一帧(列)的显示；<br>3)使用VCLK信号来控制一个像素的显示；<br>4)使用VDEN信号来控制数据的输出；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0.jpg" alt=""><br>想象每个像素点是由电子枪发射出来的，电子枪依次扫描整个LCD界面，就显示了一副完整的图像。<br>当发出一个HSYNC信号后，电子枪就会从行末花费HBP时长移动到行首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了行末后，再等待HFP时长待HSYNC信号到来，再移动到行首，如此往复。因此，HBP和HFP分别决定了左边和右边的黑框。<br>同理，当发出一个VSYNC信号后，电子枪就会从列末花费VBP时长移动到列首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了列末后，再等待VFP时长待VSYNC信号到来，再移动到列首，如此往复。因此，VBP和VFP分别决定了上边和下边的黑框。<br>真实显示区域为图中阴影部分。</p>
+<h2 id="1-x-编写LCD硬件程序的思路"><a href="#1-x-编写LCD硬件程序的思路" class="headerlink" title="1.x 编写LCD硬件程序的思路"></a>1.x 编写LCD硬件程序的思路</h2><ol>
+<li>查看LCD芯片手册，查看相关的时间参数、分辨率、引脚极性等；</li>
+<li>根据以上信息设置LCD控制器寄存器，让其发出正确信号；</li>
+<li>在内存里面分配一个FrameBuffer，在里面用若干位表示一个像素，再把首地址告诉LCD控制器；</li>
+</ol>
+<p>之后LCD控制器就能周而复始取出FrameBuffer里面的像素数据，配合其它控制信号，发送给电子枪，电子枪再让在LCD上显示出来。以后我们想显示图像，只需要编写程序向FrameBuffer填入相应数据即可，硬件会自动的完成显示操作。</p>
 <h1 id="2-原理图"><a href="#2-原理图" class="headerlink" title="2.原理图"></a>2.原理图</h1><ul>
 <li>Tiny4412SDK-1506-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png" alt=""><br>从上到下，接口依次是：</li>
 </ul>
@@ -462,15 +468,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -482,7 +488,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -494,15 +512,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -514,19 +524,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -538,15 +536,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -558,7 +556,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,6 +565,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>
