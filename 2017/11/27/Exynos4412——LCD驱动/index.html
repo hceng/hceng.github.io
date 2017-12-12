@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-12-12T03:48:58.310Z">
+<meta property="og:updated_time" content="2017-12-12T03:53:57.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——LCD驱动">
 <meta name="twitter:description" content="Exynos4412的LCD驱动。">
@@ -212,9 +212,11 @@
 </ol>
 <p>之后LCD控制器就能周而复始取出FrameBuffer里面的像素数据，配合其它控制信号，发送给电子枪，电子枪再让在LCD上显示出来。以后我们想显示图像，只需要编写程序向FrameBuffer填入相应数据即可，硬件会自动的完成显示操作。</p>
 <h1 id="2-原理图"><a href="#2-原理图" class="headerlink" title="2.原理图"></a>2.原理图</h1><ul>
-<li>Tiny4412SDK-1506-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png" alt=""><br>从上到下，接口依次是：<table><br><tr><br>  <th>接口</th><br>  <th>引脚</th><br>  <th>含义</th><br></tr><br><tr><br>  <td rowspan="3">1. 图片数据信号接口</td><br>  <td>B[0:7]</td><br>  <td>蓝色数据信号线</td><br></tr><br><tr><br>  <td>G[0:7]</td><br>  <td>绿色数据信号线</td><br></tr><br><tr><br>  <td>R[0:7]</td><br>  <td>红色数据信号线</td><br></tr><br><tr><br>  <td>2. “一线触摸”接口</td><br>  <td>XEINT10_OUT</td><br>  <td>用于 触摸/背光 控制</td><br></tr><br><tr><br>  <td rowspan="4">3. 时序信号控制接口</td><br>  <td>DEN</td><br>  <td>数据使能信号</td><br></tr><br><tr><br>  <td>VSYNC</td><br>  <td>垂直同步信号</td><br></tr><br><tr><br>  <td>HSYNC</td><br>  <td>水平同步信号</td><br></tr><br><tr><br>  <td>VLCK</td><br>  <td>LCD时钟信号</td><br></tr><br><tr><br>  <td rowspan="2">4. I2C接口</td><br>  <td>i2cSCL1_OUT</td><br>  <td rowspan="2">用于实现I2C接口的触摸屏驱动</td><br></tr><br><tr><br>  <td>i2cSDA1_OUT</td><br></tr><br></table>
-</li>
+<li>Tiny4412SDK-1506-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png" alt=""><br>从上到下，接口依次是：</li>
 </ul>
+<p><style type="text/css"><br>.tg  {border-collapse:collapse;border-spacing:0;}<br>.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}<br>.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}<br>.tg .tg-uqo3{background-color:#efefef;text-align:center;vertical-align:top}<br>.tg .tg-baqh{text-align:center;vertical-align:top}<br>.tg .tg-k5c1{font-weight:bold;background-color:#ffffc7;text-align:center;vertical-align:top}<br></style></p>
+<table class="tg"><br>  <tr><br>    <th class="tg-k5c1">接口</th><br>    <th class="tg-k5c1">引脚</th><br>    <th class="tg-k5c1">含义</th><br>  </tr><br>  <tr><br>    <td class="tg-baqh" rowspan="3">1. 图片数据信号接口</td><br>    <td class="tg-baqh">B[0:7]</td><br>    <td class="tg-baqh">蓝色数据信号线</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh">G[0:7]</td><br>    <td class="tg-baqh">绿色数据信号线</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh">R[0:7]</td><br>    <td class="tg-baqh">红色数据信号线</td><br>  </tr><br>  <tr><br>    <td class="tg-uqo3">2. “一线触摸”接口</td><br>    <td class="tg-uqo3">XEINT10_OUT</td><br>    <td class="tg-uqo3">用于 触摸/背光 控制</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh" rowspan="4">3. 时序信号控制接口</td><br>    <td class="tg-baqh">DEN</td><br>    <td class="tg-baqh">数据使能信号</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh">VSYNC</td><br>    <td class="tg-baqh">垂直同步信号</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh">HSYNC</td><br>    <td class="tg-baqh">水平同步信号</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh">VLCK</td><br>    <td class="tg-baqh">LCD时钟信号</td><br>  </tr><br>  <tr><br>    <td class="tg-uqo3" rowspan="2">4. I2C接口</td><br>    <td class="tg-uqo3">i2cSCL1_OUT</td><br>    <td class="tg-uqo3" rowspan="2">用于实现I2C接口的触摸屏驱动</td><br>  </tr><br>  <tr><br>    <td class="tg-baqh">i2cSDA1_OUT</td><br>  </tr><br></table>
+
 <hr>
 <ul>
 <li>Tiny4412-1412-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png" alt=""><br>LCD数据和控制部分使用了GPF0_0-GPF0_7、GPF1_0-GPF1_7、GPF2_0-GPF2_7、GPF3_0-GPF3_5，共3*8+4=28个引脚。</li>
@@ -497,6 +499,18 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -513,18 +527,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -533,11 +535,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -549,23 +559,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
