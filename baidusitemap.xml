@@ -4,6 +4,118 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/26/U-Boot%E5%88%86%E6%9E%90%E3%80%81%E7%A7%BB%E6%A4%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2017-12-13T08:43:42.884Z</lastmod>
+    <data>
+        <display>
+        <title>U-Boot分析、移植及使用</title>
+        <pubTime>2017-03-26T10:39:00.000Z</pubTime>
+        
+        <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/03/23/%E6%90%AD%E5%BB%BA%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</loc>
+    <lastmod>2017-12-13T08:43:12.898Z</lastmod>
+    <data>
+        <display>
+        <title>搭建嵌入式Linux开发环境</title>
+        <pubTime>2017-03-23T09:19:00.000Z</pubTime>
+        
+        <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2017-12-13T07:53:25.961Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub+Hexo博客搭建及优化</title>
+        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Hexo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/</loc>
+    <lastmod>2017-12-13T07:30:16.243Z</lastmod>
+    <data>
+        <display>
+        <title>Git日常使用小结</title>
+        <pubTime>2017-03-02T06:14:00.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/04/22/Linux%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E5%8D%B8%E8%BD%BDU%E7%9B%98/</loc>
+    <lastmod>2017-12-13T07:10:45.404Z</lastmod>
+    <data>
+        <display>
+        <title>Linux自动挂载/卸载U盘</title>
+        <pubTime>2017-04-22T03:10:55.000Z</pubTime>
+        
+        <tag>驱动相关</tag>
+         
+        <tag>USB</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/04/13/%E8%87%AA%E5%B7%B1%E5%86%99bootloader/</loc>
+    <lastmod>2017-12-13T07:09:23.712Z</lastmod>
+    <data>
+        <display>
+        <title>自己写bootloader</title>
+        <pubTime>2017-04-13T00:35:55.000Z</pubTime>
+        
+        <tag>驱动相关</tag>
+         
+        <tag>bootloader</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/03/18/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2017-12-13T06:15:35.091Z</lastmod>
     <data>
@@ -111,25 +223,6 @@
         <tag>QT</tag>
          
         <tag>hexo</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/26/U-Boot%E5%88%86%E6%9E%90%E3%80%81%E7%A7%BB%E6%A4%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2017-11-09T09:54:36.938Z</lastmod>
-    <data>
-        <display>
-        <title>U-Boot分析、移植及使用</title>
-        <pubTime>2017-03-26T10:39:00.000Z</pubTime>
-        
-        <tag>驱动相关</tag>
-         
-        <tag>环境搭建</tag>
          
          
            
@@ -314,25 +407,6 @@
 
     
   <url>
-    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2017-09-13T02:30:42.562Z</lastmod>
-    <data>
-        <display>
-        <title>GitHub+Hexo博客搭建及优化</title>
-        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>Hexo</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E8%A3%B8%E6%9C%BA/</loc>
     <lastmod>2017-09-12T01:33:00.624Z</lastmod>
     <data>
@@ -362,23 +436,6 @@
         <tag>AM437X</tag>
          
         <tag>裸机</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/</loc>
-    <lastmod>2017-09-07T03:49:06.292Z</lastmod>
-    <data>
-        <display>
-        <title>Git日常使用小结</title>
-        <pubTime>2017-03-02T06:14:00.000Z</pubTime>
-        
-        <tag>Git</tag>
          
          
            
@@ -434,25 +491,6 @@
         <pubTime>2017-07-23T14:51:19.000Z</pubTime>
         
         <tag>随笔</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/23/%E6%90%AD%E5%BB%BA%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</loc>
-    <lastmod>2017-07-23T13:51:12.725Z</lastmod>
-    <data>
-        <display>
-        <title>搭建嵌入式Linux开发环境</title>
-        <pubTime>2017-03-23T09:19:00.000Z</pubTime>
-        
-        <tag>驱动相关</tag>
-         
-        <tag>环境搭建</tag>
          
          
            
@@ -523,44 +561,6 @@
         <pubTime>2017-04-30T15:55:30.000Z</pubTime>
         
         <tag>Linux环境编程</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/04/22/Linux%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E5%8D%B8%E8%BD%BDU%E7%9B%98/</loc>
-    <lastmod>2017-04-22T10:34:45.357Z</lastmod>
-    <data>
-        <display>
-        <title>Linux自动挂载/卸载U盘</title>
-        <pubTime>2017-04-22T03:10:55.000Z</pubTime>
-        
-        <tag>驱动相关</tag>
-         
-        <tag>USB</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/04/13/%E8%87%AA%E5%B7%B1%E5%86%99bootloader/</loc>
-    <lastmod>2017-04-13T02:11:18.753Z</lastmod>
-    <data>
-        <display>
-        <title>自己写bootloader</title>
-        <pubTime>2017-04-13T00:35:55.000Z</pubTime>
-        
-        <tag>驱动相关</tag>
-         
-        <tag>bootloader</tag>
          
          
            
