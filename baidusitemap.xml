@@ -4,16 +4,73 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/18/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2017-12-13T06:15:35.091Z</lastmod>
+    <data>
+        <display>
+        <title>设备驱动模型</title>
+        <pubTime>2017-03-18T15:44:00.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>驱动相关</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/04/05/Linux%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</loc>
+    <lastmod>2017-12-13T03:54:45.832Z</lastmod>
+    <data>
+        <display>
+        <title>Linux并发控制机制</title>
+        <pubTime>2017-04-05T15:55:00.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>驱动相关</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/03/31/%E7%BB%88%E7%AB%AF%E5%A4%8D%E7%94%A8%E8%BD%AF%E4%BB%B6%E2%80%94%E2%80%94Tmux/</loc>
+    <lastmod>2017-12-13T03:44:37.345Z</lastmod>
+    <data>
+        <display>
+        <title>终端复用软件-Tmux</title>
+        <pubTime>2017-03-31T11:50:00.000Z</pubTime>
+        
+        <tag>驱动相关</tag>
+         
+        <tag>Linux基础</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/11/27/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-12-12T07:43:53.404Z</lastmod>
+    <lastmod>2017-12-12T07:48:44.049Z</lastmod>
     <data>
         <display>
         <title>Exynos4412——LCD驱动</title>
         <pubTime>2017-11-27T12:15:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>LCD</tag>
          
@@ -32,9 +89,9 @@
         <title>Exynos4412——LCD之backligth</title>
         <pubTime>2017-11-22T11:27:44.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
          
            
@@ -129,9 +186,9 @@
         <title>Exynos4412——网卡移植和NFS启动</title>
         <pubTime>2017-10-31T12:27:52.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>网卡驱动</tag>
          
@@ -209,9 +266,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -228,9 +285,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -338,9 +395,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -519,63 +576,6 @@
         <display>
         <title>Linux常用命令</title>
         <pubTime>2017-03-12T15:14:00.000Z</pubTime>
-        
-        <tag>驱动相关</tag>
-         
-        <tag>Linux基础</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/18/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/</loc>
-    <lastmod>2017-04-08T11:59:43.270Z</lastmod>
-    <data>
-        <display>
-        <title>设备驱动模型</title>
-        <pubTime>2017-03-18T15:44:00.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>驱动相关</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/04/05/Linux%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</loc>
-    <lastmod>2017-04-08T04:12:25.572Z</lastmod>
-    <data>
-        <display>
-        <title>Linux并发控制机制</title>
-        <pubTime>2017-04-05T15:55:00.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>驱动相关</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/31/%E7%BB%88%E7%AB%AF%E5%A4%8D%E7%94%A8%E8%BD%AF%E4%BB%B6%E2%80%94%E2%80%94Tmux/</loc>
-    <lastmod>2017-04-06T00:47:44.294Z</lastmod>
-    <data>
-        <display>
-        <title>终端复用软件-Tmux</title>
-        <pubTime>2017-03-31T11:50:00.000Z</pubTime>
         
         <tag>驱动相关</tag>
          
