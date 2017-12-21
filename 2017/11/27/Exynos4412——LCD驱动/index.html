@@ -16,6 +16,7 @@
 <meta property="og:description" content="Exynos4412的LCD驱动。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0_0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_1.png">
@@ -25,8 +26,10 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_5.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_6.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_7.png?v=1">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-12-21T03:30:53.619Z">
+<meta property="og:updated_time" content="2017-12-21T09:14:09.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——LCD驱动">
 <meta name="twitter:description" content="Exynos4412的LCD驱动。">
@@ -199,7 +202,7 @@
       
       <div id="toc" class="toc-article">
       <strong class="toc-title">文章目录</strong>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基础知识"><span class="toc-text">1. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-颜色的量化"><span class="toc-text">1.1 颜色的量化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-图像的构成"><span class="toc-text">1.2 图像的构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-LCD显示原理"><span class="toc-text">1.3 LCD显示原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-LCD硬件控制思路"><span class="toc-text">1.4 LCD硬件控制思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-LCD驱动框架"><span class="toc-text">1.5 LCD驱动框架</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-原理图"><span class="toc-text">2. 原理图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-设备树文件"><span class="toc-text">3. 设备树文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-驱动分析"><span class="toc-text">4. 驱动分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-lcd-probe"><span class="toc-text">4.1 lcd_probe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-分配一个fb-info"><span class="toc-text">4.1.1 分配一个fb_info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-设置fb-info"><span class="toc-text">4.1.2 设置fb_info</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-1-设置-fix-固定的参数"><span class="toc-text">4.1.2.1 设置 fix 固定的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-2-设置-var-可变的参数"><span class="toc-text">4.1.2.2 设置 var 可变的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-3-设置操作函数"><span class="toc-text">4.1.2.3 设置操作函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-4-其他的设置"><span class="toc-text">4.1.2.4 其他的设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-3-硬件相关的操作"><span class="toc-text">4.1.3 硬件相关的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-1-配置GPIO用于LCD"><span class="toc-text">4.1.3.1 配置GPIO用于LCD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-2-根据LCD手册设置LCD控制器-比如VCLK的频率等"><span class="toc-text">4.1.3.2 根据LCD手册设置LCD控制器, 比如VCLK的频率等</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-3-分配显存-framebuffer-并把地址告诉LCD控制器"><span class="toc-text">4.1.3.3 分配显存(framebuffer), 并把地址告诉LCD控制器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-4-注册fb-info"><span class="toc-text">4.1.4 注册fb_info</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-cfb-setcolreg"><span class="toc-text">4.2 cfb_setcolreg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-lcd-remove"><span class="toc-text">4.3 lcd_remove</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-测试程序"><span class="toc-text">5.测试程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-图像显示"><span class="toc-text">5.1 图像显示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1-移植libjpeg"><span class="toc-text">5.1.1 移植libjpeg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2-应用程序"><span class="toc-text">5.1.2 应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-3-实测效果"><span class="toc-text">5.1.3 实测效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-显示几何图形"><span class="toc-text">5.2 显示几何图形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3移除左上角光标"><span class="toc-text">5.3移除左上角光标</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基础知识"><span class="toc-text">1. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-颜色的量化"><span class="toc-text">1.1 颜色的量化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-图像的构成"><span class="toc-text">1.2 图像的构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-LCD显示原理"><span class="toc-text">1.3 LCD显示原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-LCD硬件控制思路"><span class="toc-text">1.4 LCD硬件控制思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-LCD驱动框架"><span class="toc-text">1.5 LCD驱动框架</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-原理图"><span class="toc-text">2. 原理图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-设备树文件"><span class="toc-text">3. 设备树文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-驱动分析"><span class="toc-text">4. 驱动分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-lcd-probe"><span class="toc-text">4.1 lcd_probe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-分配一个fb-info"><span class="toc-text">4.1.1 分配一个fb_info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-设置fb-info"><span class="toc-text">4.1.2 设置fb_info</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-1-设置-fix-固定的参数"><span class="toc-text">4.1.2.1 设置 fix 固定的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-2-设置-var-可变的参数"><span class="toc-text">4.1.2.2 设置 var 可变的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-3-设置操作函数"><span class="toc-text">4.1.2.3 设置操作函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-4-其他的设置"><span class="toc-text">4.1.2.4 其他的设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-3-硬件相关的操作"><span class="toc-text">4.1.3 硬件相关的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-1-配置GPIO用于LCD"><span class="toc-text">4.1.3.1 配置GPIO用于LCD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-2-根据LCD手册设置LCD控制器-比如VCLK的频率等"><span class="toc-text">4.1.3.2 根据LCD手册设置LCD控制器, 比如VCLK的频率等</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-3-分配显存-framebuffer-并把地址告诉LCD控制器"><span class="toc-text">4.1.3.3 分配显存(framebuffer), 并把地址告诉LCD控制器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-4-注册fb-info"><span class="toc-text">4.1.4 注册fb_info</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-cfb-setcolreg"><span class="toc-text">4.2 cfb_setcolreg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-lcd-remove"><span class="toc-text">4.3 lcd_remove</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-测试程序"><span class="toc-text">5.测试程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-图像显示"><span class="toc-text">5.1 图像显示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1-移植libjpeg"><span class="toc-text">5.1.1 移植libjpeg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2-编写应用程序"><span class="toc-text">5.1.2 编写应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-3-交叉编译应用程序"><span class="toc-text">5.1.3 交叉编译应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-4-运行应用程序"><span class="toc-text">5.1.4 运行应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-5-实际效果"><span class="toc-text">5.1.5 实际效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2移除左上角光标"><span class="toc-text">5.2移除左上角光标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-总结"><span class="toc-text">6.总结</span></a></li></ol>
       </div>
       
         <p>Exynos4412的LCD驱动。<br><a id="more"></a><br>终于迎来了LCD驱动，本该10月初就搞定的事，一直拖到了12月份。<br>不过，晚来总比不来好，完成这个<strong>心结</strong>，才好进入下一个阶段。</p>
@@ -216,7 +219,8 @@
 <li>在内存里面分配一个FrameBuffer，在里面用若干位表示一个像素，再把首地址告诉LCD控制器；</li>
 </ol>
 <p>之后LCD控制器就能周而复始取出FrameBuffer里面的像素数据，配合其它控制信号，发送给电子枪，电子枪再让在LCD上显示出来。以后我们想显示图像，只需要编写程序向FrameBuffer填入相应数据即可，硬件会自动的完成显示操作。</p>
-<h2 id="1-5-LCD驱动框架"><a href="#1-5-LCD驱动框架" class="headerlink" title="1.5 LCD驱动框架"></a>1.5 LCD驱动框架</h2><h1 id="2-原理图"><a href="#2-原理图" class="headerlink" title="2. 原理图"></a>2. 原理图</h1><ul>
+<h2 id="1-5-LCD驱动框架"><a href="#1-5-LCD驱动框架" class="headerlink" title="1.5 LCD驱动框架"></a>1.5 LCD驱动框架</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.png" alt=""><br>LCD框架的<code>fbmem.c</code>已经帮我们完成了日常驱动程序的工作，如：注册字符设备、分配设备号、创建类等。<br>也有了操作函数<code>fb_fops</code>，但它只是一个框架，在具体执行的时候需要知道硬件具体的一些参数，比如分辨率、数据基地址等信息。<br>因此，我们要利用这一框架，就得构造一个<code>fb_info</code>结构体，完成硬件初始化，设置相关参数等操作，再使用<code>register_framebuffer()</code>将<code>fb_info</code>向上注册。<br>这样，<code>fbmem.c</code>就可以从<code>registered_fb[]</code>这个数组获得<code>fb_info</code>参数，进行相关的硬件操作。<br>比如：应用层app想<code>read()</code>，就会调用<code>fbmem.c</code>的<code>fb_read()</code>，在<code>fb_read</code>里面会先尝试使用<code>xxfb.c</code>提供的<code>read()</code>操作函数，如果没有，再根据<code>fb_info</code><br>信息得到数据基地址，将基地址开始的数据，返回给应用层，实现读操作。</p>
+<h1 id="2-原理图"><a href="#2-原理图" class="headerlink" title="2. 原理图"></a>2. 原理图</h1><ul>
 <li>Tiny4412SDK-1506-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png" alt=""></li>
 </ul>
 <p>从上到下，接口依次是：</p>
@@ -341,7 +345,28 @@
 <h3 id="4-1-4-注册fb-info"><a href="#4-1-4-注册fb-info" class="headerlink" title="4.1.4 注册fb_info"></a>4.1.4 注册fb_info</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ret = register_framebuffer(tiny4412_lcd);</div><div class="line"><span class="keyword">return</span> ret;</div></pre></td></tr></table></figure>
 <h2 id="4-2-cfb-setcolreg"><a href="#4-2-cfb-setcolreg" class="headerlink" title="4.2 cfb_setcolreg"></a>4.2 cfb_setcolreg</h2><p>前面绑定的操作函数中，<code>cfb_fillrect()</code>，<code>cfb_copyarea()</code>、<code>cfb_imageblit()</code>都在内核的其它文件中实现了，无需再构造，剩下的<code>cfb_setcolreg()</code>是和调色板相关的函数，是为了兼容8BPP模式。<br>我们这里一直使用的24BPP，不提供这个函数的实现也行。<br>调色板的介绍前面说过了，就是为了减少数据量，fb只存放数据索引，根据索引再去内存找到对应的颜色数据传给LCD控制器，LCD控制器再控制时序和数据在LCD上显示出来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">static inline unsigned int chan_to_field(unsigned int chan, struct fb_bitfield *bf)</div><div class="line">&#123;</div><div class="line">    chan &amp;= 0xFFFF;//保留低16位</div><div class="line">    chan &gt;&gt;= 16 - bf-&gt;length;//保留高bf-&gt;length位</div><div class="line">    return chan &lt;&lt; bf-&gt;offset;//返回保留的位，且在原位置</div><div class="line">&#125;</div><div class="line">static int cfb_setcolreg(unsigned int regno, unsigned int red,</div><div class="line">                               unsigned int green, unsigned int blue,</div><div class="line">                               unsigned int transp, struct fb_info *info)</div><div class="line">&#123;</div><div class="line"></div><div class="line">    unsigned int color = 0;</div><div class="line">    uint32_t *p;</div><div class="line">    color  = chan_to_field(red,   &amp;info-&gt;var.red);</div><div class="line">    color |= chan_to_field(green, &amp;info-&gt;var.green);</div><div class="line">    color |= chan_to_field(blue,  &amp;info-&gt;var.blue);</div><div class="line">    </div><div class="line">    p = info-&gt;pseudo_palette;  </div><div class="line">    p[regno] = color;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="4-3-lcd-remove"><a href="#4-3-lcd-remove" class="headerlink" title="4.3 lcd_remove"></a>4.3 lcd_remove</h2><p>需要关闭LCD，注销和释放framebuffer，释放显存：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lcd_remove</span><span class="params">(<span class="keyword">struct</span> platform_device *pdev)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">//Direct Off: ENVID and ENVID_F are set to "0" simultaneously. </span></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> temp;</div><div class="line">    temp = readl(lcd_regs_base + VIDCON0);</div><div class="line">    temp &amp;= ~(<span class="number">0x01</span>&lt;&lt;<span class="number">1</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">0</span>); </div><div class="line">    writel(temp, lcd_regs_base + VIDCON0);</div><div class="line"></div><div class="line">    unregister_framebuffer(tiny4412_lcd);</div><div class="line">    dma_free_writecombine(<span class="literal">NULL</span>, tiny4412_lcd-&gt;fix.smem_len, tiny4412_lcd-&gt;screen_base, tiny4412_lcd-&gt;fix.smem_start);</div><div class="line">    framebuffer_release(tiny4412_lcd);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="5-测试程序"><a href="#5-测试程序" class="headerlink" title="5.测试程序"></a>5.测试程序</h1><h2 id="5-1-图像显示"><a href="#5-1-图像显示" class="headerlink" title="5.1 图像显示"></a>5.1 图像显示</h2><h3 id="5-1-1-移植libjpeg"><a href="#5-1-1-移植libjpeg" class="headerlink" title="5.1.1 移植libjpeg"></a>5.1.1 移植libjpeg</h3><h3 id="5-1-2-应用程序"><a href="#5-1-2-应用程序" class="headerlink" title="5.1.2 应用程序"></a>5.1.2 应用程序</h3><h3 id="5-1-3-实测效果"><a href="#5-1-3-实测效果" class="headerlink" title="5.1.3 实测效果"></a>5.1.3 实测效果</h3><h2 id="5-2-显示几何图形"><a href="#5-2-显示几何图形" class="headerlink" title="5.2 显示几何图形"></a>5.2 显示几何图形</h2><h2 id="5-3移除左上角光标"><a href="#5-3移除左上角光标" class="headerlink" title="5.3移除左上角光标"></a>5.3移除左上角光标</h2><hr>
+<h1 id="5-测试程序"><a href="#5-测试程序" class="headerlink" title="5.测试程序"></a>5.测试程序</h1><h2 id="5-1-图像显示"><a href="#5-1-图像显示" class="headerlink" title="5.1 图像显示"></a>5.1 图像显示</h2><p>前面完成了驱动，要想显示内容，只需要<code>mmap()</code>一块内存，然后向里面写数据即可。<br>但这种操作一般显示用于显示几何图形，像色块，圆形，矩形等，实用性不大，显示一张图片似乎更有意思。<br>显示图片没那么容易了，像常见的JPEG格式图片，它是一个“压缩文件”，需要解压得到RGB数据。</p>
+<p>这就要用到<a href="https://libjpeg-turbo.org/" target="_blank" rel="external"><code>libjpeg-turbo</code></a>，一个用C语言写的JPEG图像解码器。</p>
+<h3 id="5-1-1-移植libjpeg"><a href="#5-1-1-移植libjpeg" class="headerlink" title="5.1.1 移植libjpeg"></a>5.1.1 移植libjpeg</h3><p>下载目前最新的<a href="https://sourceforge.net/projects/libjpeg-turbo/files/" target="_blank" rel="external"><code>libjpeg-turbo</code></a>源码<a href="https://sourceforge.net/projects/libjpeg-turbo/files/1.5.3/" target="_blank" rel="external"><code>libjpeg-turbo-1.5.3.tar.gz</code></a>。<br>a. 解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar xzf libjpeg-turbo-1.5.3.tar.gz</div></pre></td></tr></table></figure></p>
+<p>b.设置配置文件<br><code>--prefix=</code>:指定安装路径<br><code>--host==</code>:指定目标程序运行主机类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">cd libjpeg-turbo-1.5.3 </div><div class="line">mkdir tmp //创建临时安装路径</div><div class="line">cd ..</div><div class="line">./configure --prefix=/work/drv/2_lcd/libjpeg_new/libjpeg-turbo-1.5.3/tmp --host=arm-none-linux-gnueabi</div><div class="line">make</div><div class="line">ma</div><div class="line">make install</div></pre></td></tr></table></figure></p>
+<h3 id="5-1-2-编写应用程序"><a href="#5-1-2-编写应用程序" class="headerlink" title="5.1.2 编写应用程序"></a>5.1.2 编写应用程序</h3><h3 id="5-1-3-交叉编译应用程序"><a href="#5-1-3-交叉编译应用程序" class="headerlink" title="5.1.3 交叉编译应用程序"></a>5.1.3 交叉编译应用程序</h3><p><strong>方法一：</strong><br><code>jpg_rgb.c</code>要想在开发板上运行，就得先交叉编译，里面用到了一非系统的头文件和函数，因此还需要指定头文件和库路径。<br><code>-I</code>:指定头文件路径<br><code>-L</code>:指定库路径<br><code>-i</code>:指定具体哪个库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">arm-none-linux-gnueabi-gcc -o jpg_rgb jpg_rgb.c \</div><div class="line">-I /work/drv/2_lcd/libjpeg_new/libjpeg-turbo-1.5.3/tmp/include \</div><div class="line">-L /work/drv/2_lcd/libjpeg_new/libjpeg-turbo-1.5.3/tmp/lib \</div><div class="line">-ljpeg</div></pre></td></tr></table></figure></p>
+<p><strong>方法二：</strong><br>前面的方法，每次编译都要指定一堆路径，比较麻烦，解决方法是将头文件和库复制到交叉编译工具链所在的路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//拷贝头文件</div><div class="line">cd /work/drv/2_lcd/show_jpeg/libjpeg-turbo-1.5.3/tmp/include/</div><div class="line">cp * /work/arm-2014.05/arm-none-linux-gnueabi/libc/usr/include</div><div class="line"></div><div class="line">//拷贝库</div><div class="line">cd /work/drv/2_lcd/show_jpeg/libjpeg-turbo-1.5.3/tmp/lib/</div><div class="line">cp * /work/arm-2014.05/arm-none-linux-gnueabi/libc/lib</div><div class="line"></div><div class="line">//编译</div><div class="line">arm-none-linux-gnueabi-gcc  -o jpg_rgb jpg_rgb.c -ljpeg</div></pre></td></tr></table></figure></p>
+<h3 id="5-1-4-运行应用程序"><a href="#5-1-4-运行应用程序" class="headerlink" title="5.1.4 运行应用程序"></a>5.1.4 运行应用程序</h3><p>a. 先把应用程序和动态库拷贝到开发板上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cp jpg_rgb /work/nfs_rootfs/</div><div class="line">cp libjpeg-turbo-1.5.3/tmp/lib/*so* /work/nfs_rootfs/lib/ -d</div></pre></td></tr></table></figure></p>
+<p>b. 加载背光和LCD驱动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">insmod backlight_drv.ko</div><div class="line">insmod lcd_drv.ko</div></pre></td></tr></table></figure></p>
+<p>c. 开启背光：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./app 200</div></pre></td></tr></table></figure></p>
+<p>d. 运行应用程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./jpg_rgb cq.jpg</div></pre></td></tr></table></figure></p>
+<h3 id="5-1-5-实际效果"><a href="#5-1-5-实际效果" class="headerlink" title="5.1.5 实际效果"></a>5.1.5 实际效果</h3><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.jpg" alt=""></p>
+<h2 id="5-2移除左上角光标"><a href="#5-2移除左上角光标" class="headerlink" title="5.2移除左上角光标"></a>5.2移除左上角光标</h2><p>现在已经实现了图片的显示，仔细观察，发现左上角有个小光标一直在闪烁。<br>查阅了<a href="http://blog.csdn.net/PengPengQian/article/details/49250089" target="_blank" rel="external">相关资料</a>，解决方案如下:</p>
+<p>修改Linux内核中的文件：<code>drivers/video/console/fbcon.c</code></p>
+<ul>
+<li><p>去掉光标闪烁：<br>将函数<code>static void fbcon_cursor(struct vc_data *vc, int mode)</code>改为空函数即可。</p>
+</li>
+<li><p>去掉光标显示：<br>将函数<code>static void fb_flashcursor(struct work_struct *work)</code> 改为空函数即可。</p>
+</li>
+</ul>
+<p>再重新编译、烧写内核。</p>
+<h1 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h1><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_2.jpg" alt=""></p>
+<hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -561,19 +586,23 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,35 +614,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -625,23 +634,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -653,15 +670,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>

@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2017/11/27/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-12-21T03:30:53.619Z</lastmod>
+    <lastmod>2017-12-21T09:14:09.420Z</lastmod>
     <data>
         <display>
         <title>Exynos4412——LCD驱动</title>
@@ -32,9 +32,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -51,9 +51,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
