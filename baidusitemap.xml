@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-12-26T01:11:25.770Z</lastmod>
+    <lastmod>2017-12-26T01:23:01.415Z</lastmod>
     <data>
         <display>
         <title>Exynos4412——LCD驱动</title>
@@ -258,9 +258,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          
