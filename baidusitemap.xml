@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2017-12-26T12:22:43.789Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——触摸屏驱动</title>
+        <pubTime>2017-12-26T01:34:47.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>触摸屏</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/03/12/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2017-12-26T01:29:49.323Z</lastmod>
     <data>
@@ -51,9 +72,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -70,9 +91,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -277,9 +298,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
