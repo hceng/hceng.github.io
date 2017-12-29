@@ -6,17 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | hceng blog</title>
+  <title>嵌入式Linux网络编程——TCP/UDP | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="生命不息、折腾不止">
-<meta property="og:type" content="website">
-<meta property="og:title" content="hceng blog">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式Linux网络编程——TCP/UDP">
+<meta property="og:url" content="http://yoursite.com/2017/12/30/嵌入式Linux网络编程——TCP_UDP/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="生命不息、折腾不止">
+<meta property="og:description" content="本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2017-12-29T02:22:26.317Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hceng blog">
-<meta name="twitter:description" content="生命不息、折腾不止">
+<meta name="twitter:title" content="嵌入式Linux网络编程——TCP/UDP">
+<meta name="twitter:description" content="本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。">
+<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -160,236 +163,174 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-嵌入式Linux网络编程——TCP_UDP" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      嵌入式Linux网络编程——TCP/UDP
+    </h1>
+  
+
+        
+        <a href="/2017/12/30/嵌入式Linux网络编程——TCP_UDP/" class="archive-article-date">
+  	<time datetime="2017-12-30T01:55:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      <!-- Table of Contents -->
+      
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-目标"><span class="toc-text">1.目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Linux网络编程基础"><span class="toc-text">2.Linux网络编程基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-嵌套字"><span class="toc-text">2.1 嵌套字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-网络地址"><span class="toc-text">2.2 网络地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-字节序"><span class="toc-text">2.3 字节序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-Socket编程常用函数"><span class="toc-text">2.4 Socket编程常用函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-TCP"><span class="toc-text">3.TCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-UDP"><span class="toc-text">4.UDP</span></a></li></ol>
+      </div>
+      
+        <p>本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。<br><a id="more"></a><br>回想去年校招那会，笔试题老是出现TCP/UDP相关的内容。<br>那时候的我，熟悉点硬件，勉强会点STM32，哪知道什么TCP/UDP……<br>渐渐的，TCP/UDP似乎就成了一个挥之不去的阴影。<br>赶在今年年底，简单的入下门，明年估计会用上。</p>
+<h1 id="1-目标"><a href="#1-目标" class="headerlink" title="1.目标"></a>1.目标</h1><p>暂时想不出什么好的应用场景，<br>目前想到目标就是实现让两个设备通过网络传输数据，<br>比如开发板和Linux主机之间传数据，<br>以后就可以实现<strong>开发板通过网络上报数据</strong>或者<strong>主机通过网络控制开发板</strong>。</p>
+<p>此外，暂时不想关心具体的网络模型，更注重于网络相关函数的直接使用。</p>
+<h1 id="2-Linux网络编程基础"><a href="#2-Linux网络编程基础" class="headerlink" title="2.Linux网络编程基础"></a>2.Linux网络编程基础</h1><h2 id="2-1-嵌套字"><a href="#2-1-嵌套字" class="headerlink" title="2.1 嵌套字"></a>2.1 嵌套字</h2><p>多个TCP连接或者多个应用程序进程 可能需要同一个TCP端口传输数据。<br>为了区分不同应用程序进程和连接，许多计算机操作系统为应用程序与TCP/IP交互提供了称为<strong>嵌套字(Socket)</strong>的接口。<br>Linux中的网络编程正是通过Socket接口实现的，Socket是一种文件描述符。</p>
+<p>常用的TCP/IP有以下三种类型的嵌套字：</p>
+<ul>
+<li><p>流式嵌套字（SOCK_STREAM）<br>用于提供面向连接的、可靠的数据传输服务，即使用TCP进行传输。</p>
+</li>
+<li><p>数据报嵌套字（SOCK_DGRAM）<br>用于提供无连接的服务，即使用UDP进行传输。</p>
+</li>
+<li><p>原始嵌套字（SOCK_RAW）<br>可以读写内核没有处理的IP数据报，而流式嵌套字只能读取TCP的数据，数据报嵌套字只能读取UDP的数据。<br>因此，如果要访问其它协议发送的数据必须使用原始嵌套字，它允许对底层协议(如IP或ICMP)直接访问。</p>
+</li>
+</ul>
+<h2 id="2-2-网络地址"><a href="#2-2-网络地址" class="headerlink" title="2.2 网络地址"></a>2.2 网络地址</h2><h2 id="2-3-字节序"><a href="#2-3-字节序" class="headerlink" title="2.3 字节序"></a>2.3 字节序</h2><h2 id="2-4-Socket编程常用函数"><a href="#2-4-Socket编程常用函数" class="headerlink" title="2.4 Socket编程常用函数"></a>2.4 Socket编程常用函数</h2><h1 id="3-TCP"><a href="#3-TCP" class="headerlink" title="3.TCP"></a>3.TCP</h1><p>TCP有专门的传递保证机制，收到数据时会自动发送确认消息，发送方收到确认消息后才会继续发送消息，否则继续等待。<br>这样的好处是传输的数据是<strong>可靠</strong>的，大多数网络传输都是用的TCP。</p>
+<h1 id="4-UDP"><a href="#4-UDP" class="headerlink" title="4.UDP"></a>4.UDP</h1><p>UDP没有传递保证机制，如果传输中数据丢失，协议不会有任何的检测或提示。<br>这样的好处是传输的数据是<strong>持续</strong>的，比如实时视频时，如果采用TCP，中途有一点点数据出错都会卡住，进行等待，产生延时。加入使用UDP，尽管有少量的丢帧，但数据是实时的。</p>
+<p>参考资料：<br>王粉花. 2016. 嵌入式Linux编程与实践教程.北京: 科学出版社.<br>韦东山第三期项目:第1课第6.1节<em>一小时学会网络编程</em>两个简单例子_tcp_udp</p>
+<hr>
+<p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/AM437x——I2C驱动/" class="archive-article-date">
-  	<time datetime="2017-09-11T06:30:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/AM437x——I2C驱动/">AM437x——I2C驱动</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux环境编程</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">TCP/UDP</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/12/30/嵌入式Linux网络编程——TCP_UDP/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/28/AM437x——I2C裸机/" class="archive-article-date">
-  	<time datetime="2017-08-28T06:12:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-28</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/28/AM437x——I2C裸机/">AM437x——I2C裸机</a>
-    </h1>
+  
+    <a href="/2017/12/26/Exynos4412——触摸屏驱动/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Exynos4412——触摸屏驱动</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="嵌入式Linux网络编程——TCP_UDP" data-title="嵌入式Linux网络编程——TCP/UDP" data-url="http://yoursite.com/2017/12/30/嵌入式Linux网络编程——TCP_UDP/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"flase"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">裸机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/27/AM437x——RTC驱动/" class="archive-article-date">
-  	<time datetime="2017-08-27T08:47:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/27/AM437x——RTC驱动/">AM437x——RTC驱动</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/23/AM437x——RTC裸机/" class="archive-article-date">
-  	<time datetime="2017-08-23T08:46:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/23/AM437x——RTC裸机/">AM437x——RTC裸机</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">裸机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/12/AM437x——LED驱动/" class="archive-article-date">
-  	<time datetime="2017-08-12T08:06:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/12/AM437x——LED驱动/">AM437x——LED驱动</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -420,8 +361,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

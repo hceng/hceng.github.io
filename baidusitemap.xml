@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/12/30/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94TCP_UDP/</loc>
+    <lastmod>2017-12-29T02:22:26.317Z</lastmod>
+    <data>
+        <display>
+        <title>嵌入式Linux网络编程——TCP/UDP</title>
+        <pubTime>2017-12-30T01:55:13.000Z</pubTime>
+        
+        <tag>Linux环境编程</tag>
+         
+        <tag>TCP/UDP</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
     <lastmod>2017-12-26T12:22:43.789Z</lastmod>
     <data>
@@ -72,9 +91,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -91,9 +110,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
