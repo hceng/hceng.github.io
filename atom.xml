@@ -445,7 +445,7 @@
     <link href="http://yoursite.com/2017/05/18/PCB-Ruler/"/>
     <id>http://yoursite.com/2017/05/18/PCB-Ruler/</id>
     <published>2017-05-18T13:48:04.000Z</published>
-    <updated>2017-05-31T07:13:17.149Z</updated>
+    <updated>2018-01-05T12:34:50.630Z</updated>
     
     <content type="html"><![CDATA[<p>这是一个毕业的故事。<br><a id="more"></a><br><strong>0x00 初衷：</strong></p><p>　　即将大学毕业，大家在一起了四年，所以想在毕业之际准备个小东西作为纪念品。在考虑专业特色、有意义（有一定实用性）且价格不贵这些因素后，我想到做这个PCB_Ruler也许可以。</p><p><strong>0x01 过程：</strong></p><p>　　整个过程 两个人利用空闲时间制作，进行了一个多月，进行了三次大修改和PCB打样，投入1000多元。最后做了150块，分别送给了两个班87名同学、若干本专业的任课老师和行政老师等。</p><p><strong>0x02 功能：</strong></p><p>　　主要功能是测量，有cm和mil两种，其中cm是日常常用的，mil是pcb制作中一种比较通用的单位。</p><p>　　<strong>正面</strong>：直尺功能、有常见的电阻电容、元器件的封装参考；过孔的孔径大小参考；</p><p>　　<strong>背面</strong>：走线线宽参考；元器件的脚间距参考；纪念信息；</p><p><strong>0x03 效果：</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012525239.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012547867.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012600362.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012131729.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012141273.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012150289.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170521/233611302.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170521/233651884.jpg" alt="mark"></p><p><strong>0x04 致谢：</strong></p><p>　　感谢和我一起制作的同学@小冲冲，抽出空余时间，一同完成本设计。</p><p><strong>0x05 权限：</strong><br>东西开源啦，开源地址：<br><a href="https://github.com/hceng/learn/tree/master/PCB_Ruler" target="_blank" rel="external">https://github.com/hceng/learn/tree/master/PCB_Ruler</a></p><p><strong>0x06 毕业照：</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/151202366.png?imageslim" alt="mark"></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/151251552.png?imageslim" alt="mark"></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/151308054.png?imageslim" alt="mark"></p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
@@ -459,6 +459,8 @@
       <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
     
       <category term="PCB" scheme="http://yoursite.com/tags/PCB/"/>
+    
+      <category term="设计" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
