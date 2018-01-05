@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/23/%E6%90%AD%E5%BB%BA%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</loc>
+    <lastmod>2018-01-05T11:14:47.988Z</lastmod>
+    <data>
+        <display>
+        <title>搭建嵌入式Linux开发环境</title>
+        <pubTime>2017-03-23T09:19:00.000Z</pubTime>
+        
+        <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2018-01-05T09:50:30.884Z</lastmod>
     <data>
@@ -49,9 +68,9 @@
         <title>Exynos4412——触摸屏驱动</title>
         <pubTime>2017-12-26T01:34:47.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>触摸屏</tag>
          
@@ -89,9 +108,9 @@
         <title>Exynos4412——LCD驱动</title>
         <pubTime>2017-12-22T12:15:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>LCD</tag>
          
@@ -110,28 +129,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
          
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/23/%E6%90%AD%E5%BB%BA%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</loc>
-    <lastmod>2017-12-13T08:43:12.898Z</lastmod>
-    <data>
-        <display>
-        <title>搭建嵌入式Linux开发环境</title>
-        <pubTime>2017-03-23T09:19:00.000Z</pubTime>
-        
         <tag>环境搭建</tag>
-         
-        <tag>驱动相关</tag>
          
          
            
@@ -260,9 +260,9 @@
         <title>Exynos4412——LCD之backligth</title>
         <pubTime>2017-11-22T11:27:44.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
          
            
@@ -338,9 +338,9 @@
         <title>Exynos4412——网卡移植和NFS启动</title>
         <pubTime>2017-10-31T12:27:52.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>网卡驱动</tag>
          
