@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-03T02:55:50.237Z</updated>
+  <updated>2018-01-08T09:48:10.774Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux电源管理</title>
+    <link href="http://yoursite.com/2018/01/08/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/"/>
+    <id>http://yoursite.com/2018/01/08/Linux电源管理/</id>
+    <published>2018-01-08T06:32:20.000Z</published>
+    <updated>2018-01-08T09:48:10.774Z</updated>
+    
+    <content type="html"><![CDATA[<p>探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。<br><a id="more"></a><br>这是2018的第一篇博客，选了一个几乎没有接触过的角度作为开篇，希望2018年学习更多，记录更多。</p><h1 id="电源管理概述"><a href="#电源管理概述" class="headerlink" title="电源管理概述"></a>电源管理概述</h1><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
+    
+      <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
+    
+      <category term="电源管理" scheme="http://yoursite.com/tags/%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
   
   <entry>
     <title>嵌入式Linux网络编程——TCP/UDP</title>
@@ -124,9 +148,9 @@
     </summary>
     
     
-      <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
-    
       <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
+    
+      <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
     
       <category term="Uboot" scheme="http://yoursite.com/tags/Uboot/"/>
     
@@ -437,30 +461,6 @@
     
     
       <category term="环境搭建" scheme="http://yoursite.com/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PCB_Ruler</title>
-    <link href="http://yoursite.com/2017/05/18/PCB-Ruler/"/>
-    <id>http://yoursite.com/2017/05/18/PCB-Ruler/</id>
-    <published>2017-05-18T13:48:04.000Z</published>
-    <updated>2018-01-05T12:34:50.630Z</updated>
-    
-    <content type="html"><![CDATA[<p>这是一个毕业的故事。<br><a id="more"></a><br><strong>0x00 初衷：</strong></p><p>　　即将大学毕业，大家在一起了四年，所以想在毕业之际准备个小东西作为纪念品。在考虑专业特色、有意义（有一定实用性）且价格不贵这些因素后，我想到做这个PCB_Ruler也许可以。</p><p><strong>0x01 过程：</strong></p><p>　　整个过程 两个人利用空闲时间制作，进行了一个多月，进行了三次大修改和PCB打样，投入1000多元。最后做了150块，分别送给了两个班87名同学、若干本专业的任课老师和行政老师等。</p><p><strong>0x02 功能：</strong></p><p>　　主要功能是测量，有cm和mil两种，其中cm是日常常用的，mil是pcb制作中一种比较通用的单位。</p><p>　　<strong>正面</strong>：直尺功能、有常见的电阻电容、元器件的封装参考；过孔的孔径大小参考；</p><p>　　<strong>背面</strong>：走线线宽参考；元器件的脚间距参考；纪念信息；</p><p><strong>0x03 效果：</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012525239.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012547867.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012600362.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012131729.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012141273.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170513/012150289.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170521/233611302.jpg" alt="mark"><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170521/233651884.jpg" alt="mark"></p><p><strong>0x04 致谢：</strong></p><p>　　感谢和我一起制作的同学@小冲冲，抽出空余时间，一同完成本设计。</p><p><strong>0x05 权限：</strong><br>东西开源啦，开源地址：<br><a href="https://github.com/hceng/learn/tree/master/PCB_Ruler" target="_blank" rel="external">https://github.com/hceng/learn/tree/master/PCB_Ruler</a></p><p><strong>0x06 毕业照：</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/151202366.png?imageslim" alt="mark"></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/151251552.png?imageslim" alt="mark"></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/151308054.png?imageslim" alt="mark"></p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这是一个毕业的故事。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-      <category term="PCB" scheme="http://yoursite.com/tags/PCB/"/>
-    
-      <category term="设计" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
