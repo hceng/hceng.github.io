@@ -4,27 +4,8 @@
 
     
   <url>
-    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2018-01-11T02:49:19.094Z</lastmod>
-    <data>
-        <display>
-        <title>GitHub+Hexo博客搭建及优化</title>
-        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>Hexo</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://hceng.cn/2018/01/08/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2018-01-08T09:48:10.774Z</lastmod>
+    <lastmod>2018-01-15T08:04:59.036Z</lastmod>
     <data>
         <display>
         <title>Linux电源管理</title>
@@ -35,6 +16,25 @@
         <tag>Exynos4412</tag>
          
         <tag>电源管理</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2018-01-11T02:49:19.094Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub+Hexo博客搭建及优化</title>
+        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Hexo</tag>
          
          
            
