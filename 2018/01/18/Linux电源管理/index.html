@@ -11,15 +11,17 @@
   <meta name="description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux电源管理">
-<meta property="og:url" content="http://yoursite.com/2018/01/08/Linux电源管理/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/01/18/Linux电源管理/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/1.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/2.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-01-15T08:04:59.036Z">
+<meta property="og:updated_time" content="2018-01-18T09:17:20.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux电源管理">
 <meta name="twitter:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -177,8 +179,8 @@
   
 
         
-        <a href="/2018/01/08/Linux电源管理/" class="archive-article-date">
-  	<time datetime="2018-01-08T06:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-08</time>
+        <a href="/2018/01/18/Linux电源管理/" class="archive-article-date">
+  	<time datetime="2018-01-18T06:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
 </a>
         
       </header>
@@ -206,7 +208,9 @@
 </blockquote>
 <p>需要设置以上模式，只需<code>echo mem &gt; /sys/power/state</code>即可。</p>
 <h2 id="1-2Runtime电源管理模型"><a href="#1-2Runtime电源管理模型" class="headerlink" title="1.2Runtime电源管理模型"></a>1.2Runtime电源管理模型</h2><p>Runtime电源管理模型给我的感觉是以<strong>模块角度</strong>进行省电。<br>某种程度上是“高内聚和低耦合”的体现。<br>每个设备（包括CPU）都处理好自身的电源管理工作，尽量以最低的能耗完成交代的任务，尽量在不需要工作的时候进入低功耗状态，尽量不和其它模块有过多耦合。每个设备都是最节省的话，整个系统一定是最节省的。</p>
-<h1 id="2-系统睡眠模型suspend"><a href="#2-系统睡眠模型suspend" class="headerlink" title="2.系统睡眠模型suspend"></a>2.系统睡眠模型suspend</h1><h1 id="3-Runtime电源管理模型"><a href="#3-Runtime电源管理模型" class="headerlink" title="3.Runtime电源管理模型"></a>3.Runtime电源管理模型</h1><h1 id="4-regulator系统"><a href="#4-regulator系统" class="headerlink" title="4.regulator系统"></a>4.regulator系统</h1><hr>
+<h1 id="2-系统睡眠模型suspend"><a href="#2-系统睡眠模型suspend" class="headerlink" title="2.系统睡眠模型suspend"></a>2.系统睡眠模型suspend</h1><h2 id="2-1suspend流程分析"><a href="#2-1suspend流程分析" class="headerlink" title="2.1suspend流程分析"></a>2.1suspend流程分析</h2><p>suspend的流程还是挺复杂的，向<code>/sys/power/state</code>写入命令后再到唤醒，将进行以下流程：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/1.jpg" alt=""></p>
+<p>对源码进行分析，其<strong>休眠过程</strong>如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/2.png" alt=""></p>
+<h1 id="3-Runtime电源管理模型"><a href="#3-Runtime电源管理模型" class="headerlink" title="3.Runtime电源管理模型"></a>3.Runtime电源管理模型</h1><h1 id="4-regulator系统"><a href="#4-regulator系统" class="headerlink" title="4.regulator系统"></a>4.regulator系统</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -285,7 +289,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/01/08/Linux电源管理/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/01/18/Linux电源管理/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -328,7 +332,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-电源管理的两种模型"><span class="toc-number">1.</span> <span class="toc-text">1.电源管理的两种模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1系统睡眠模型suspend"><span class="toc-number">1.1.</span> <span class="toc-text">1.1系统睡眠模型suspend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2Runtime电源管理模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2Runtime电源管理模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统睡眠模型suspend"><span class="toc-number">2.</span> <span class="toc-text">2.系统睡眠模型suspend</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Runtime电源管理模型"><span class="toc-number">3.</span> <span class="toc-text">3.Runtime电源管理模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-regulator系统"><span class="toc-number">4.</span> <span class="toc-text">4.regulator系统</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-电源管理的两种模型"><span class="toc-number">1.</span> <span class="toc-text">1.电源管理的两种模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1系统睡眠模型suspend"><span class="toc-number">1.1.</span> <span class="toc-text">1.1系统睡眠模型suspend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2Runtime电源管理模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2Runtime电源管理模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统睡眠模型suspend"><span class="toc-number">2.</span> <span class="toc-text">2.系统睡眠模型suspend</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1suspend流程分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1suspend流程分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Runtime电源管理模型"><span class="toc-number">3.</span> <span class="toc-text">3.Runtime电源管理模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-regulator系统"><span class="toc-number">4.</span> <span class="toc-text">4.regulator系统</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -353,7 +357,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/2018/01/08/Linux电源管理/",
+  id: "http://yoursite.com/2018/01/18/Linux电源管理/",
   owner: 'hceng',
   repo: 'hceng.github.io',
   oauth: {
@@ -465,15 +469,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -485,19 +497,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -529,19 +533,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -550,6 +546,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
