@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/4.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/5.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-01-19T08:56:28.891Z">
+<meta property="og:updated_time" content="2018-01-20T03:54:14.671Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux电源管理">
 <meta name="twitter:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
@@ -220,8 +220,8 @@
 </ul>
 <p>对于驱动程序，我们主要关心<code>Device PM</code>(针对每一个驱动)和少量<code>Platform dependent PM</code>(针对CPU芯片相关)的内容。</p>
 <h2 id="2-2为驱动添加suspend功能"><a href="#2-2为驱动添加suspend功能" class="headerlink" title="2.2为驱动添加suspend功能"></a>2.2为驱动添加suspend功能</h2><p>进入Tiny4412内核，尝试休眠<code>echo mem &gt; /sys/power/state</code>，系统提示<strong><code>No wake-up sources!</code></strong>。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/4.png" alt=""><br>可见，要进入休眠，必须要有唤醒源，没有唤醒源，休眠也没有意义。</p>
-<p>唤醒源最常见的就是按键中断，就如同手机进入锁屏状态下，按下电源键唤醒一样，因此先写一个按键驱动。</p>
-<h3 id="2-2-1设置唤醒源"><a href="#2-2-1设置唤醒源" class="headerlink" title="2.2.1设置唤醒源"></a>2.2.1设置唤醒源</h3><ul>
+<h3 id="2-2-1设置唤醒源"><a href="#2-2-1设置唤醒源" class="headerlink" title="2.2.1设置唤醒源"></a>2.2.1设置唤醒源</h3><p>唤醒源最常见的就是按键中断，就如同手机进入锁屏状态下，按下电源键唤醒一样，因此先写一个按键驱动。</p>
+<ul>
 <li><p>原理图：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/5.png" alt=""><br>底板上有四个按键，分别连在GPX3_2、GPX3_3、GPX3_4、GPX3_5，引脚状态常高，按键按下变低电平。</p>
 </li>
 <li><p><a href="https://github.com/hceng/learn/blob/master/power_management/exynos4412-tiny4412.dts" target="_blank" rel="external">设备树</a>：</p>
@@ -234,7 +234,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">#ifdef CONFIG_PM_SLEEP</div><div class="line">static int usb4604_i2c_suspend(struct device *dev)</div><div class="line">&#123;</div><div class="line">	struct i2c_client *client = to_i2c_client(dev);</div><div class="line">	struct usb4604 *hub = i2c_get_clientdata(client);</div><div class="line"></div><div class="line">	usb4604_switch_mode(hub, USB4604_MODE_STANDBY);</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">static int usb4604_i2c_resume(struct device *dev)</div><div class="line">&#123;</div><div class="line">	struct i2c_client *client = to_i2c_client(dev);</div><div class="line">	struct usb4604 *hub = i2c_get_clientdata(client);</div><div class="line"></div><div class="line">	usb4604_switch_mode(hub, hub-&gt;mode);</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line">#endif</div><div class="line"></div><div class="line">static SIMPLE_DEV_PM_OPS(usb4604_i2c_pm_ops, usb4604_i2c_suspend,</div><div class="line">		usb4604_i2c_resume);</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1 id="3-Runtime电源管理模型"><a href="#3-Runtime电源管理模型" class="headerlink" title="3.Runtime电源管理模型"></a>3.Runtime电源管理模型</h1><h1 id="4-regulator系统"><a href="#4-regulator系统" class="headerlink" title="4.regulator系统"></a>4.regulator系统</h1><hr>
+<h3 id="2-2-2更换Uboot"><a href="#2-2-2更换Uboot" class="headerlink" title="2.2.2更换Uboot"></a>2.2.2更换Uboot</h3><h1 id="3-Runtime电源管理模型"><a href="#3-Runtime电源管理模型" class="headerlink" title="3.Runtime电源管理模型"></a>3.Runtime电源管理模型</h1><h1 id="4-regulator系统"><a href="#4-regulator系统" class="headerlink" title="4.regulator系统"></a>4.regulator系统</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -356,7 +356,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-电源管理的两种模型"><span class="toc-number">1.</span> <span class="toc-text">1.电源管理的两种模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1系统睡眠模型suspend"><span class="toc-number">1.1.</span> <span class="toc-text">1.1系统睡眠模型suspend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2Runtime电源管理模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2Runtime电源管理模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统睡眠模型suspend"><span class="toc-number">2.</span> <span class="toc-text">2.系统睡眠模型suspend</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1suspend流程分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1suspend流程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2为驱动添加suspend功能"><span class="toc-number">2.2.</span> <span class="toc-text">2.2为驱动添加suspend功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1设置唤醒源"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1设置唤醒源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Runtime电源管理模型"><span class="toc-number">3.</span> <span class="toc-text">3.Runtime电源管理模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-regulator系统"><span class="toc-number">4.</span> <span class="toc-text">4.regulator系统</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-电源管理的两种模型"><span class="toc-number">1.</span> <span class="toc-text">1.电源管理的两种模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1系统睡眠模型suspend"><span class="toc-number">1.1.</span> <span class="toc-text">1.1系统睡眠模型suspend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2Runtime电源管理模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2Runtime电源管理模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统睡眠模型suspend"><span class="toc-number">2.</span> <span class="toc-text">2.系统睡眠模型suspend</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1suspend流程分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1suspend流程分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2为驱动添加suspend功能"><span class="toc-number">2.2.</span> <span class="toc-text">2.2为驱动添加suspend功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1设置唤醒源"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1设置唤醒源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2更换Uboot"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2更换Uboot</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Runtime电源管理模型"><span class="toc-number">3.</span> <span class="toc-text">3.Runtime电源管理模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-regulator系统"><span class="toc-number">4.</span> <span class="toc-text">4.regulator系统</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -485,15 +485,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -513,18 +513,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -533,11 +521,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -545,7 +533,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -561,15 +553,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -577,11 +561,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -593,15 +589,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>
