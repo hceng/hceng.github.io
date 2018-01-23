@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2018-01-23T07:26:07.914Z</lastmod>
+    <lastmod>2018-01-23T08:05:50.537Z</lastmod>
     <data>
         <display>
         <title>Linux电源管理</title>
@@ -16,6 +16,27 @@
         <tag>Exynos4412</tag>
          
         <tag>电源管理</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2018-01-23T08:04:15.945Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——触摸屏驱动</title>
+        <pubTime>2017-12-26T01:34:47.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>触摸屏</tag>
          
          
            
@@ -70,9 +91,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
@@ -111,27 +132,6 @@
         <tag>Linux环境编程</tag>
          
         <tag>TCP/UDP</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2017-12-26T12:22:43.789Z</lastmod>
-    <data>
-        <display>
-        <title>Exynos4412——触摸屏驱动</title>
-        <pubTime>2017-12-26T01:34:47.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-        <tag>触摸屏</tag>
          
          
            
