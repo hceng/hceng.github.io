@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/8.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/9.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-01-25T05:05:27.498Z">
+<meta property="og:updated_time" content="2018-01-25T05:24:00.076Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux电源管理">
 <meta name="twitter:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
@@ -319,6 +319,7 @@
 <p>同时，<code>release()</code>也要修改:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">s702_lcd_open</span><span class="params">(<span class="keyword">struct</span> fb_info *info, <span class="keyword">int</span> user)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> device *dev = info-&gt;dev;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    ret = pm_runtime_get_sync(dev);</div><div class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span> &amp;&amp; ret != -EACCES)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//pm_runtime_put_sync(dev);</span></div><div class="line">        pm_runtime_mark_last_busy(dev);</div><div class="line">        pm_runtime_put_autosuspend(dev);</div><div class="line">        <span class="keyword">return</span> ret;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">s702_lcd_release</span><span class="params">(<span class="keyword">struct</span> fb_info *info, <span class="keyword">int</span> user)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> device *dev = info-&gt;dev;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="comment">//pm_runtime_put_sync(dev);</span></div><div class="line">    pm_runtime_mark_last_busy(dev);</div><div class="line">    pm_runtime_put_sync_autosuspend(dev);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>此时，加载驱动后，运行应用程序，屏幕显示，5s后，屏幕自动熄灭，再次运行程序或者修改<code>control</code>来重新显示。</p>
 <p>通过函数<code>pm_runtime_set_autosuspend_delay()</code>或修改<code>echo xx &gt;  /sys/devices/.../power/autosuspend_delay_ms</code>来修改自动休眠时间。</p>
+<p>完整代码见<a href="https://github.com/hceng/learn/tree/master/tiny4412/04_power_management/runtime" target="_blank" rel="external">Github</a>。</p>
 <h1 id="4-regulator系统"><a href="#4-regulator系统" class="headerlink" title="4.regulator系统"></a>4.regulator系统</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -586,11 +587,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -598,11 +603,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -614,15 +615,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -642,11 +643,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -658,15 +659,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -682,11 +683,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
             
             <div class="clearfix"></div>
