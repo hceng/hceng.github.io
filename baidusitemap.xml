@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2018-02-23T08:02:04.563Z</lastmod>
+    <lastmod>2018-02-23T08:05:37.938Z</lastmod>
     <data>
         <display>
         <title>Linux电源管理</title>
@@ -376,9 +376,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          
