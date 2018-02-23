@@ -5,15 +5,15 @@
     
   <url>
     <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2018-02-23T07:47:18.685Z</lastmod>
+    <lastmod>2018-02-23T08:02:04.563Z</lastmod>
     <data>
         <display>
         <title>Linux电源管理</title>
         <pubTime>2018-01-18T06:32:20.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>电源管理</tag>
          
@@ -32,9 +32,9 @@
         <title>Exynos4412——LCD之backligth</title>
         <pubTime>2017-11-22T11:27:44.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
          
            
@@ -51,9 +51,9 @@
         <title>Exynos4412——LCD驱动</title>
         <pubTime>2017-12-22T12:15:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>LCD</tag>
          
@@ -72,9 +72,9 @@
         <title>Exynos4412——触摸屏驱动</title>
         <pubTime>2017-12-26T01:34:47.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>触摸屏</tag>
          
@@ -376,9 +376,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
@@ -397,9 +397,9 @@
         <title>Exynos4412——网卡移植和NFS启动</title>
         <pubTime>2017-10-31T12:27:52.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>网卡驱动</tag>
          

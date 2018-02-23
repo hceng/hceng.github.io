@@ -24,8 +24,9 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/8.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/9.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/10.png?v=1">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/11.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-02-23T07:47:18.685Z">
+<meta property="og:updated_time" content="2018-02-23T08:02:04.563Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux电源管理">
 <meta name="twitter:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
@@ -327,7 +328,8 @@
 <p>①Regulator(稳定器):指可以自动维持恒定电压(voltage)或电流(current)的装置，一般指电源芯片。在嵌入式设备中，基本上每一种电压，都是经过regulator输出的；<br>②③Consumer(使用者):使用电源的装置，Regulator是给Consumer供电的；<br>④Machine(单板):使用软件语言(struct regulator_init_data)，静态的描述regulator在板级的物理现状，包含：<br>　　a.级联关系:Regulator A的输出是Regulator B的输入，Regulator A就是<strong>Supply regulator</strong>，B是<strong>Consumer regulator</strong>；<br>　　b.约束限制:Regulator Constraints，比如电压/电流最大值/最小值、允许的操作等；</p>
 </blockquote>
 <p>从设备驱动的角度看，regulator系统比较简单，<br>Machine提供Supply与Consumer的对应关系、单板相关的约束条件(device)；<br>Regulator提供电源芯片的控制函数，如使能/去能、设置电压/电流等(driver)；<br>Consumer调用Regulator相关函数控制电源的开关、调节(use)；<br>即一个描述关系,一个提供相关函数，一个调用相关函数。</p>
-<h2 id="4-2-regulator流程"><a href="#4-2-regulator流程" class="headerlink" title="4.2 regulator流程"></a>4.2 regulator流程</h2><h2 id="4-3-regulator驱动"><a href="#4-3-regulator驱动" class="headerlink" title="4.3 regulator驱动"></a>4.3 regulator驱动</h2><p>regulator系统仍然是采用<strong><em>总线设备驱动模型</em></strong>。<br>device采用c文件或设备树的形式，提供硬件相关信息;<br>driver加载后，一但和device名字匹配，就调用<code>probe()</code>函数注册<code>register</code>，并绑定操作函数；</p>
+<h2 id="4-2-regulator流程"><a href="#4-2-regulator流程" class="headerlink" title="4.2 regulator流程"></a>4.2 regulator流程</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/11.png" alt=""></p>
+<h2 id="4-3-regulator驱动"><a href="#4-3-regulator驱动" class="headerlink" title="4.3 regulator驱动"></a>4.3 regulator驱动</h2><p>regulator系统仍然是采用<strong><em>总线设备驱动模型</em></strong>。<br>device采用c文件或设备树的形式，提供硬件相关信息;<br>driver加载后，一但和device名字匹配，就调用<code>probe()</code>函数注册<code>register</code>，并绑定操作函数；</p>
 <p>后面将使用两种实现regulator驱动。<br>这两种方式的核心都是一样的，<br><code>device</code>先提供Supply与Consumer的对应关系、单板相关的约束条件;<br><code>driver</code>提供电源芯片的控制函数，如使能/去能、设置电压/电流等。</p>
 <h3 id="4-3-1-C文件方式"><a href="#4-3-1-C文件方式" class="headerlink" title="4.3.1 C文件方式"></a>4.3.1 C文件方式</h3><ul>
 <li><p>device:<br>在一个单板C文件里，提供级联关系<code>regulator_consumer_supply</code>,约束条件<code>regulator_init_data</code>:</p>
@@ -373,11 +375,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Exynos4412</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Exynos4412</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -621,7 +623,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -629,19 +631,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -653,6 +651,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
@@ -661,27 +667,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -697,14 +703,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
@@ -714,6 +712,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
