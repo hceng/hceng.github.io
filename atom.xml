@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-01T05:11:35.352Z</updated>
+  <updated>2018-03-01T05:16:28.372Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="http://yoursite.com/2018/03/01/%E5%8D%9A%E5%AE%A2%E4%B8%80%E5%91%A8%E5%B9%B4/"/>
     <id>http://yoursite.com/2018/03/01/博客一周年/</id>
     <published>2018-03-01T05:02:26.000Z</published>
-    <updated>2018-03-01T05:11:35.352Z</updated>
+    <updated>2018-03-01T05:16:28.372Z</updated>
     
-    <content type="html"><![CDATA[<p>博客一周年数据统计。<br><a id="more"></a><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/1.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/2.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/3.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/4.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/5.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/6.PNG" alt=""></p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
+    <content type="html"><![CDATA[<p>2017-2018，博客一周年数据统计。<br><a id="more"></a><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/1.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/2.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/3.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/4.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/5.PNG" alt=""></p><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180301/6.PNG" alt=""></p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;博客一周年数据统计。&lt;br&gt;
+      &lt;p&gt;2017-2018，博客一周年数据统计。&lt;br&gt;
     
     </summary>
     
@@ -168,9 +168,9 @@
     </summary>
     
     
-      <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
-    
       <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
+    
+      <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
     
       <category term="Uboot" scheme="http://yoursite.com/tags/Uboot/"/>
     
