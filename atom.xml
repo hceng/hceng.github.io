@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-08T11:49:22.102Z</updated>
+  <updated>2018-03-08T12:05:54.368Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Linux摄像头驱动1——虚拟视频驱动vivid</title>
-    <link href="http://yoursite.com/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94%E8%99%9A%E6%8B%9F%E8%A7%86%E9%A2%91%E9%A9%B1%E5%8A%A8vivid/"/>
-    <id>http://yoursite.com/2018/03/08/Linux摄像头驱动1——虚拟视频驱动vivid/</id>
+    <title>Linux摄像头驱动1——vivid</title>
+    <link href="http://yoursite.com/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94vivid/"/>
+    <id>http://yoursite.com/2018/03/08/Linux摄像头驱动1——vivid/</id>
     <published>2018-03-08T07:59:30.000Z</published>
-    <updated>2018-03-08T11:49:22.102Z</updated>
+    <updated>2018-03-08T12:05:54.368Z</updated>
     
     <content type="html"><![CDATA[<p>Linux摄像头驱动学习第一篇，对虚拟视频驱动vivid(Virtual Video Driver)进行测试、分析、编写。<br><a id="more"></a></p><h1 id="1-V4L2框架分析"><a href="#1-V4L2框架分析" class="headerlink" title="1.V4L2框架分析"></a>1.V4L2框架分析</h1><h1 id="2-测试vivid"><a href="#2-测试vivid" class="headerlink" title="2.测试vivid"></a>2.测试vivid</h1><h1 id="3-分析vivid"><a href="#3-分析vivid" class="headerlink" title="3.分析vivid"></a>3.分析vivid</h1><h1 id="4-编写vivid"><a href="#4-编写vivid" class="headerlink" title="4.编写vivid"></a>4.编写vivid</h1><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
@@ -190,9 +190,9 @@
     </summary>
     
     
-      <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
-    
       <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
+    
+      <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
     
       <category term="Uboot" scheme="http://yoursite.com/tags/Uboot/"/>
     

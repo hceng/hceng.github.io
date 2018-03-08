@@ -4,11 +4,11 @@
 
     
   <url>
-    <loc>http://hceng.cn/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94%E8%99%9A%E6%8B%9F%E8%A7%86%E9%A2%91%E9%A9%B1%E5%8A%A8vivid/</loc>
-    <lastmod>2018-03-08T11:49:22.102Z</lastmod>
+    <loc>http://hceng.cn/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94vivid/</loc>
+    <lastmod>2018-03-08T12:05:54.368Z</lastmod>
     <data>
         <display>
-        <title>Linux摄像头驱动1——虚拟视频驱动vivid</title>
+        <title>Linux摄像头驱动1——vivid</title>
         <pubTime>2018-03-08T07:59:30.000Z</pubTime>
         
         <tag>Linux驱动</tag>
@@ -412,9 +412,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          
