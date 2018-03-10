@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180308/2.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180308/5.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-03-10T08:30:53.750Z">
+<meta property="og:updated_time" content="2018-03-10T08:36:11.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动1——vivid">
 <meta name="twitter:description" content="Linux摄像头驱动学习第一篇，对虚拟视频驱动Virtual Video Driver(vivid)进行测试、分析、编写。">
@@ -209,7 +209,7 @@
 <p>当前内核版本是<code>4.4.0-116-generic</code>，然后去<a href="https://www.kernel.org/pub/linux/kernel/v4.x/" target="_blank" rel="external">Linux内核官网</a>下载对应的内核，提取出其中的<code>linux-4.13.9/drivers/media/</code>文件夹。</p>
 <p>修改<code>media/platform/vivid/</code>下的<code>Makefile</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">KERN_DIR = /usr/src/linux-headers-4.4.0-116-generic</div><div class="line"></div><div class="line">vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \</div><div class="line">		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \</div><div class="line">		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \</div><div class="line">		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \</div><div class="line">		vivid-osd.o vivid-tpg.o vivid-tpg-colors.o</div><div class="line">		</div><div class="line">all:</div><div class="line">	make -C $(KERN_DIR) M=`pwd` modules </div><div class="line"></div><div class="line">clean:</div><div class="line">	make -C $(KERN_DIR) M=`pwd` modules clean</div><div class="line">	rm -rf modules.order</div><div class="line"></div><div class="line">obj-$(CONFIG_VIDEO_VIVID) += vivid.o</div></pre></td></tr></table></figure></p>
 <p>然后执行<code>make</code>编译，获得<code>vivid.ko</code><br>此时加载模块<code>sudo insmod vivid.ko</code>，发现报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">insmod: ERROR: could not insert module vivid.ko: Unknown symbol in module</div></pre></td></tr></table></figure></p>
-<p>原因是模块中的一些依赖函数的模块，没有加载，通过<code>dmesg</code>命令，可以看到得到很多函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[  488.786285] vivid: Unknown symbol vb2_queue_init (err 0)</div><div class="line">[  488.786295] vivid: Unknown symbol v4l2_ctrl_poll (err 0)</div><div class="line">[  488.786304] vivid: Unknown symbol v4l2_enum_dv_timings_cap (err 0)</div><div class="line">[  488.786314] vivid: Unknown symbol video_ioctl2 (err 0)</div><div class="line">[  488.786364] vivid: Unknown symbol v4l2_get_timestamp (err 0)</div><div class="line">[  488.786389] vivid: Unknown symbol v4l2_device_put (err 0)</div><div class="line">[  488.786418] vivid: Unknown symbol vb2_ioctl_streamoff (err 0)</div><div class="line">…………</div></pre></td></tr></table></figure></p>
+<p>原因是模块中的一些依赖函数的模块，没有加载，通过<code>dmesg</code>命令，可以看到很多函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[  488.786285] vivid: Unknown symbol vb2_queue_init (err 0)</div><div class="line">[  488.786295] vivid: Unknown symbol v4l2_ctrl_poll (err 0)</div><div class="line">[  488.786304] vivid: Unknown symbol v4l2_enum_dv_timings_cap (err 0)</div><div class="line">[  488.786314] vivid: Unknown symbol video_ioctl2 (err 0)</div><div class="line">[  488.786364] vivid: Unknown symbol v4l2_get_timestamp (err 0)</div><div class="line">[  488.786389] vivid: Unknown symbol v4l2_device_put (err 0)</div><div class="line">[  488.786418] vivid: Unknown symbol vb2_ioctl_streamoff (err 0)</div><div class="line">…………</div></pre></td></tr></table></figure></p>
 <p>需要先加载这些函数所在的模块才行。<br>这里有两个方法：<br>一是找到函数对应的文件，修改<code>Makefile</code>，编译出来，先加载。<br>二是找到函数对应的文件，其实模块都已经编译好了，路径在<code>/lib/modules/4.4.0-116-generic/kernel/drivers/media/v4l2-core/</code>里面，直接加载即可。</p>
 <p>这两种方式都需要慢慢找对应的文件，比较麻烦，直接:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo modprobe vivid     //安装自带vivid及依赖</div><div class="line">sudo rmmod vivid        //卸载自带的vivid</div><div class="line">sudo insmod ./vivid.ko  //安装自己编译的vivid.ko</div></pre></td></tr></table></figure></p>
 <p>这里先使用<code>modprobr</code>加载vivid，会将其依赖一并加载，然后再卸载vivid，最后加载上我们编译的<code>vivid.ko</code>。</p>
@@ -509,10 +509,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -521,11 +517,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -538,10 +542,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -573,6 +573,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -581,7 +585,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -593,19 +597,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -621,11 +621,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
