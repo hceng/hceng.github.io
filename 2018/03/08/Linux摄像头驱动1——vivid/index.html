@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180308/2.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180308/5.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-03-10T08:36:11.754Z">
+<meta property="og:updated_time" content="2018-03-14T07:04:10.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动1——vivid">
 <meta name="twitter:description" content="Linux摄像头驱动学习第一篇，对虚拟视频驱动Virtual Video Driver(vivid)进行测试、分析、编写。">
@@ -251,7 +251,7 @@
 <p><strong>7.读取对应地址缓冲区</strong><br>应用程序根据VIDIOC_DQBUF所得到缓冲区状态，知道是哪一个缓冲区有数据,就去读对应的地址(该地址来自前面的mmap)    </p>
 <p><strong>调试技巧:</strong></p>
 <blockquote>
-<p>1.得到xawtv进行了哪些系统调用:<br><code>sudo strace -o xawtv.log xawtv</code><br>2.当无法修改Ubuntu打印等级(sudo echo “8  4    1    7” &gt;/proc/sys/kernel/printk 提示权限不够)时：<br><code>tail -f /var/log/kern.log &amp;</code><br>可实现内核打印增量显示。   </p>
+<p>1.得到xawtv进行了哪些系统调用:<br><code>sudo strace -o xawtv.log xawtv</code><br>2.在串口终端下，修改打印等级：<br><code>sudo echo &quot;8 4 1 7&quot; &gt;/proc/sys/kernel/printk</code><br>3.当无串口，即前面方法无效时，在SSH登陆时：<br><code>tail -f /var/log/kern.log &amp;</code><br>可实现内核打印增量显示。  </p>
 </blockquote>
 <h1 id="4-编写vivid"><a href="#4-编写vivid" class="headerlink" title="4.编写vivid"></a>4.编写vivid</h1><p>根据前面的分析，简单记录下虚拟视频驱动的编写流程：</p>
 <blockquote>
@@ -509,15 +509,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -529,19 +529,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,15 +553,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,15 +581,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -621,7 +613,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -629,7 +621,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
             
             <div class="clearfix"></div>
