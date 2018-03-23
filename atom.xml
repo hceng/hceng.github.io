@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-23T01:20:25.162Z</updated>
+  <updated>2018-03-23T01:23:27.144Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>Linux摄像头驱动2——UVC</title>
-    <link href="http://yoursite.com/2018/03/21/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/"/>
-    <id>http://yoursite.com/2018/03/21/Linux摄像头驱动2——UVC/</id>
-    <published>2018-03-21T12:18:08.000Z</published>
-    <updated>2018-03-23T01:20:25.162Z</updated>
+    <link href="http://yoursite.com/2018/03/23/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/"/>
+    <id>http://yoursite.com/2018/03/23/Linux摄像头驱动2——UVC/</id>
+    <published>2018-03-23T12:18:08.000Z</published>
+    <updated>2018-03-23T01:23:27.144Z</updated>
     
     <content type="html"><![CDATA[<p>Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。<br><a id="more"></a><br>这次要写一个真正的摄像头驱动，内容有点多，要是放在以前，心态肯定崩了，坚持不下去。<br>但现在不一样了，学习的“惯性”让我越学越快，一口气拿下UVC!</p><h1 id="1-UVC概况"><a href="#1-UVC概况" class="headerlink" title="1.UVC概况"></a>1.UVC概况</h1><h1 id="2-移植摄像头驱动"><a href="#2-移植摄像头驱动" class="headerlink" title="2.移植摄像头驱动"></a>2.移植摄像头驱动</h1><h1 id="3-USB描述符"><a href="#3-USB描述符" class="headerlink" title="3.USB描述符"></a>3.USB描述符</h1><h1 id="4-编写UVC驱动"><a href="#4-编写UVC驱动" class="headerlink" title="4.编写UVC驱动"></a>4.编写UVC驱动</h1><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
