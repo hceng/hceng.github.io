@@ -8,19 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>iMX6ULL上手体验 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手裸机的技巧，思维的方式。">
+  <meta name="description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手的技巧和思维的方式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iMX6ULL上手体验">
 <meta property="og:url" content="http://yoursite.com/2018/03/28/iMX6ULL上手体验/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手裸机的技巧，思维的方式。">
+<meta property="og:description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手的技巧和思维的方式。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/1.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/2.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-03-28T07:35:19.444Z">
+<meta property="og:updated_time" content="2018-03-28T12:59:58.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iMX6ULL上手体验">
-<meta name="twitter:description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手裸机的技巧，思维的方式。">
+<meta name="twitter:description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手的技巧和思维的方式。">
 <meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -187,7 +188,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手裸机的技巧，思维的方式。<br><a id="more"></a><br>iMX6ULL感觉还是很有优势的，除了之前接触的NanoPi(全志H3)，就没见过几个运行Linux，只卖100多元的开发板。<br>Cortex-A7架构，主频528MHz，一些普通的嵌入式Linux应用领域足够了。<br>感觉未来几年，运行Linux的板子会越来越便宜，嵌入式Linux会越来越普及。</p>
+        <p>第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手的技巧和思维的方式。<br><a id="more"></a><br>iMX6ULL感觉还是很有优势的，除了之前接触的NanoPi(全志H3)，就没见过几个运行Linux，只卖100多元的开发板。<br>Cortex-A7架构，主频528MHz，一些普通的嵌入式Linux应用领域足够了。<br>感觉未来几年，运行Linux的板子会越来越便宜，嵌入式Linux会越来越普及。</p>
 <h1 id="1-准备资料"><a href="#1-准备资料" class="headerlink" title="1.准备资料"></a>1.准备资料</h1><p>对于一个陌生的SOC，首先就是要准备相关的资料，核心的就是<strong>参考手册</strong>和<strong>电路图</strong>。<br>资料的来源无非有三个：</p>
 <ul>
 <li><p>芯片官网<br>官网是<strong>参考手册</strong>的来源；<br>NXP的官网做得还是比较清晰，很容易就找到了i.MX6ULL提供的<a href="https://www.nxp.com/cn/products/processors-and-microcontrollers/applications-processors/i.mx-applications-processors/i.mx-6-processors/i.mx-6ull-single-core-processor-with-arm-cortex-a7-core:i.MX6ULL?tab=Documentation_Tab" target="_blank" rel="external">文档</a>。</p>
@@ -200,10 +201,54 @@
 <h1 id="2-观察开发板"><a href="#2-观察开发板" class="headerlink" title="2.观察开发板"></a>2.观察开发板</h1><p>拿到一个板子，首先是观察板子上大致有什么资源。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/1.png" alt=""><br>比如看到SOC附近有两个芯片，一般一个是RAM，一个Flash；<br>有个TF卡接口和拨动开关，多半是TF卡启动和Flash的启动选择；<br>一个网口、USB接口、Micro USB接口、电源接口，USB接口可能用于下载或串口或供电；<br>三组排针，其中三针上的丝印有RX、TX、GND，肯定是串口接口；<br>两个按键和几个LED灯，背后还有一个FPC插座，多半是接显示屏；<br>以及我的是IOT版，还有一个WIFI天线。</p>
 <p>再查看厂家提供的资料，验证一些猜想。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/2.jpg" alt=""></p>
 <p>上面的猜想几乎八九不离十，现在知道了可以通过“Boot Select”来TF/Nand启动。</p>
-<p>现在有三个方向，<br>一是做应用，比如搞个微型服务器，此时插上电源、串口、网络，基本就可以直接使用了，无需再关系其它细节。<br>二是做驱动，比如试试写个iMX6ULL的LED驱动，这就需要部署开发环境，在Ubuntu里安装交叉编译工具链、编译提供内核、编写驱动，再运行测试。<br>三是做裸机，比如试试在裸机上点个LED灯，这就需要编写裸机程序，然后启动验证。</p>
-<p>其实，这三个领域，都能玩，但都比较尴尬，<br>做应用，感觉没有好项目，树莓派还在吃灰；<br>做驱动，手里的Tiny4412还在研究，没必要另起炉灶，也没工作的需求；<br>做裸机，应该没人拿跑Linux的板子做裸机吧，单片机可选的一大堆。</p>
-<p>既然这样，就做无资料的裸机吧，开启hard模式。</p>
-<h1 id="2-烧写Uboot"><a href="#2-烧写Uboot" class="headerlink" title="2.烧写Uboot"></a>2.烧写Uboot</h1><h1 id="3-烧写LED"><a href="#3-烧写LED" class="headerlink" title="3.烧写LED"></a>3.烧写LED</h1><hr>
+<p>现在有三个方向，</p>
+<ul>
+<li>一是做应用，比如搞个微型服务器，此时插上电源、串口、网络，基本就可以直接使用了，无需再关系其它细节；</li>
+<li>二是做驱动，比如试试写个iMX6ULL的LED驱动，这就需要部署开发环境，在Ubuntu里安装交叉编译工具链、编译提供内核、编写驱动等；</li>
+<li>三是做裸机，比如试试在裸机上点个LED灯，这就需要编写裸机程序，然后启动验证；</li>
+</ul>
+<p>其实，这三个领域，都能玩，但都比较尴尬，</p>
+<ul>
+<li>做应用，感觉没有好项目，树莓派还在吃灰；</li>
+<li>做驱动，手里的Tiny4412还在研究，没必要另起炉灶，也没工作的需求；</li>
+<li>做裸机，应该没人拿跑Linux的板子做裸机吧，单片机可选的一大堆；</li>
+</ul>
+<p>既然这样，就做无任何资料的裸机吧，开启hard模式。</p>
+<h1 id="3-系统更新"><a href="#3-系统更新" class="headerlink" title="3.系统更新"></a>3.系统更新</h1><p>确定了方向，先是做裸机，<br>首先就需要知道如何将裸机代码放到存储介质(Nand或TF卡)，然后启动裸机代码。</p>
+<p>如何下手呢？<br>我也不知道，跟着厂家提供的资料，重新烧写一遍系统，这个过程中肯定包含Uboot，Uboot就是一个大裸机程序，只要炮制Uboot的烧写方式烧写裸机即可。</p>
+<p>i.MX6ULL系统更新使用两种方法，<strong>MfgTool更新</strong>和<strong>SD卡更新</strong>。</p>
+<ul>
+<li>MFGTools</li>
+</ul>
+<p>MFGTools是NXP官方推荐的一个使用OTG来升级镜像的软件。可以用来升级Linux、升级Android；单独刷写某一系统分区，如 android的boot.img分区等；独立地刷写spi nor、emmc 等等；<br>操作方式按着厂商的操作即可。</p>
+<p>另外，MfgTool的文件更新有两个部分：<strong>firmware</strong>和<strong>files</strong>。<br>firmware是烧写系统的镜像文件(<strong>作为媒介用途的镜像</strong>)，路径为”MYS-6ULXmfgtools/<br>Profiles/Linux/OS Firmware/firmware/“。<br>files目录下为烧写的目标镜像文件(<strong>真正烧录到emmc或者nand的镜像文件</strong>)，路径为”MYS-6ULX-mfgtools/Profiles/Linux/OS<br>Firmware/files/“。<br>之所以存着这两种镜像，是因为MFGTools的烧写<strong>原理是先将媒介镜像下载到到ddr内存里面，然后启动linux，再通过这个启动的linux把目标镜像固化到emmc或者nand里</strong><br>因此，当更新系统的分区大小或烧写方式时才需要更新firmware中的文件。</p>
+<p>更新完，重新启动开开发板即是新系统。</p>
+<ul>
+<li>SD卡更新<br>和前面的原理类似，即先将一个媒介镜像烧写到SD卡上，SD卡启动后，再通过SD卡的系统烧写Nand，从而更新系统。<br>因此需要先做一个“用于SD启动更新的镜像”，使用厂商提供的<code>build-sdcard.sh</code>脚本即可。<br>同样的，“firmware”目录下是烧写系统的镜像文件(<strong>作为媒介用途的镜像</strong>)，一般情况下不需要修改。<br>”mfgimages-mys-imx6ull-ddr256m-nand256m“目录下是烧写的目标镜像文件(<strong>真正烧录到emmc或者nand的镜像文件</strong>)。<br>使用脚本后，会生成一个<code>.sdcard</code>后缀的文件，即是“用于SD启动更新的镜像”，下面需要将它烧到SD卡上，可以使用Linux下的<code>dd</code>命令。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo dd if=mys6ull-xx.rootfs.sdcard of=/dev/sdb conv=fsync</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后改为SD卡启动，就可以进入SD卡的系统，并在系统里自动的烧写Nand。<br>完成后，改为Nand启动，即可进入新系统。</p>
+<p>综上两个方法，都可以实现烧写Uboot到Nand上，但却都是通过进入“媒介系统”完成的烧写，看来直接烧写裸机到Nand是比较麻烦的。<br>反观SD卡启动，是通过先使用脚本制作一个<code>.sdcard</code>后缀的文件，再通过<code>dd</code>命令，完整的复制到SD卡上。<br>因此只需要分析下脚本如何操作即可。</p>
+<p>通过过脚本<code>build-sdcard.sh</code>进行分析:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dd if=$&#123;FIRMWARE_DIR&#125;/u-boot-$&#123;MACHINE&#125;.$&#123;UBOOT_SUFFIX_SDCARD&#125; of=$&#123;SDCARD&#125; conv=notrunc seek=2 bs=512</div></pre></td></tr></table></figure></p>
+<p>以及<a href="https://blog.csdn.net/wofeile880_jian/article/details/64444029" target="_blank" rel="external">博客</a>参考。<br>确定了Uboot是被放在了SD卡开始的512<em>2=1K处。<br>即，<em>*裸机代码必须放在SD卡的偏移地址1K位置处</em></em>。</p>
+<h1 id="4-裸机文件加头"><a href="#4-裸机文件加头" class="headerlink" title="4.裸机文件加头"></a>4.裸机文件加头</h1><p>这时候，按理说下一步是编写个LED裸机程序，使用<code>dd</code>命令放在偏移地址1K位置处。<br>但是，如厂商提供资料文档里说的：</p>
+<blockquote>
+<p>由于i.MX6ULL/i.MX6UL烧写bootloaer时需要使用kobs-ng工具添加头部信<br>息，需要在操作系统上才可以烧写。</p>
+</blockquote>
+<p>同时，Uboot文件名为<code>x.imx</code>后缀，因此这里的裸机文件还需要先加一个头。</p>
+<p>那么问题来了，这个头怎么加？<br>肯定还是从Uboot切入，使用厂家提供Uboot，重新编译生成Uboot，在这个过程中，肯定会将<code>u-boot.bin</code>变为<code>u-boot.imx</code>。</p>
+<p>编译Uboot的过程参考厂家文档，先安装交叉编译工具链，再指定配置文件编译即可。<br>这里编译完后，是不会有什么提示信息的，这里就需要<code>--just-print</code>编译参数，将整个编译过程打印出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- --just-print  &gt; 123.txt</div></pre></td></tr></table></figure></p>
+<p>在生成的<code>123.txt</code>里搜索<code>u-boot.bin</code>，很快就能定位到加头操作附近：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &apos;  MKIMAGE u-boot.imx&apos;; ./tools/mkimage -n board/myir/mys_imx6ull/imximage.cfg.cfgtmp -T imximage -e 0x87800000 -d u-boot.bin u-boot.imx  &gt;/dev/null;</div></pre></td></tr></table></figure></p>
+<p>这里的<code>./tools/mkimage -n board/myir/mys_imx6ull/imximage.cfg.cfgtmp -T imximage -e 0x87800000 -d u-boot.bin u-boot.imx</code>命令就是加头操作。<br>需要<code>mkimage</code>工具和<code>imximage.cfg.cfgtmp</code>配置文件，而且文件路径也可以从命令得到。</p>
+<p>此时，将编译好的<code>u-boot.bin</code>，使用上面的命令完成加头操作，得到自己的<code>u-boot.imx</code>，尝试烧到SD卡上，看能否启动。</p>
+<p>这里的烧写有一个坑，当使用<code>dd</code>命令进行烧写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo dd if=u-boot.imx of=/dev/sdb bs=512 seek=2 conv=fsync</div></pre></td></tr></table></figure></p>
+<p>还是先介绍下<code>dd</code>命令，<code>dd</code>是对块进行操作，<code>cp</code>是对文件操作，<br>比如复制一个数据从A-&gt;B，<code>dd</code>是放在指定的位置，<code>cp</code>是放在空闲的位置。</p>
+<p>同时结合SD卡的分区简图：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/3.jpg" alt=""></p>
+<p>可以看出，烧写到SD卡上，是无法直观的从SD上得知是否烧写成功的，烧写的偏移地址1K位置处，无法从SD卡的分区剩余大小上判断。</p>
+<p>解决方法是，通过<code>dd</code>命令读取出数据，再将读取的数据和烧写的数据进行简单比较，因此烧写完成后，要使用以下命令进行检查，判断是否烧写成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo dd if=/dev/sdb of=read_uboot.bin  bs=512 skip=2 count=2</div><div class="line"></div><div class="line">hexdump u-boot.imx | more</div><div class="line">hexdump read_uboot.bin | more</div></pre></td></tr></table></figure></p>
+<p>比较两者前面部分数据相同即可。</p>
+<p>然后把SD卡插上开发板，设置为SD卡启动，成功启动Uboot，且打印的Uboot生成日期是当前日期，怎么裸机文件加头的方式是正确的。</p>
+<h1 id="3-烧写LED"><a href="#3-烧写LED" class="headerlink" title="3.烧写LED"></a>3.烧写LED</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -321,7 +366,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-准备资料"><span class="toc-number">1.</span> <span class="toc-text">1.准备资料</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-观察开发板"><span class="toc-number">2.</span> <span class="toc-text">2.观察开发板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-烧写Uboot"><span class="toc-number">3.</span> <span class="toc-text">2.烧写Uboot</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-烧写LED"><span class="toc-number">4.</span> <span class="toc-text">3.烧写LED</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-准备资料"><span class="toc-number">1.</span> <span class="toc-text">1.准备资料</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-观察开发板"><span class="toc-number">2.</span> <span class="toc-text">2.观察开发板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-系统更新"><span class="toc-number">3.</span> <span class="toc-text">3.系统更新</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-裸机文件加头"><span class="toc-number">4.</span> <span class="toc-text">4.裸机文件加头</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-烧写LED"><span class="toc-number">5.</span> <span class="toc-text">3.烧写LED</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -470,15 +515,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -498,6 +547,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -506,23 +567,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -534,19 +587,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -558,11 +607,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -570,11 +619,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
             
             <div class="clearfix"></div>
