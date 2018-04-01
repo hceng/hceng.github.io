@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/03/23/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
+    <lastmod>2018-04-01T11:00:02.579Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动2——UVC</title>
+        <pubTime>2018-03-23T12:18:08.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/</loc>
     <lastmod>2018-03-30T17:47:54.938Z</lastmod>
     <data>
@@ -14,25 +33,6 @@
         <tag>裸机</tag>
          
         <tag>i.MX6ULL</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/03/23/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
-    <lastmod>2018-03-23T01:23:27.144Z</lastmod>
-    <data>
-        <display>
-        <title>Linux摄像头驱动2——UVC</title>
-        <pubTime>2018-03-23T12:18:08.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>摄像头</tag>
          
          
            
