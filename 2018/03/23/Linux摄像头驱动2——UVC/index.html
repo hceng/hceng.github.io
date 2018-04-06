@@ -14,12 +14,15 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/23/Linux摄像头驱动2——UVC/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/2.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/3.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-03T07:12:55.358Z">
+<meta property="og:updated_time" content="2018-04-06T14:45:53.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/2.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -186,9 +189,137 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。<br><a id="more"></a><br>这次要写一个真正的摄像头驱动，内容有点多，要是放在以前，心态肯定崩了，坚持不下去。<br>但现在不一样了，学习的“惯性”让我越学越快，一口气拿下UVC!</p>
-<h1 id="1-UVC概况"><a href="#1-UVC概况" class="headerlink" title="1.UVC概况"></a>1.UVC概况</h1><p>UVC是USB video class的简写，也就是USB接口的视频设备。<br>UVC其实很好理解，就是<strong>V4L2+USB</strong>。<br>前面的虚拟摄像头驱动，数据的来源是自己构造的虚拟数据，现在V4L2的数据来源则是通过USB传进来的真实摄像头视频数据。<br>除了视频数据，摄像头还把自己的特性(比如支持哪几种分辨率)告诉驱动，驱动则要配置摄像头(指定何种分辨率)。</p>
-<h2 id="1-1-UVC硬件模型"><a href="#1-1-UVC硬件模型" class="headerlink" title="1.1 UVC硬件模型"></a>1.1 UVC硬件模型</h2><p>首先从<a href="http://www.usb.org/developers/docs/devclass_docs/" target="_blank" rel="external">USB官网</a>下载标准协议相关资料：<code>Video Class -&gt; Video Class 1.5 document set (.zip format, size 6.58MB)</code>。<br>在<code>USB_Video_Example 1.5.pdf</code>里，可以得知硬件模型分为两部分：<code>VC interface</code>和<code>VS interface</code>。</p>
-<h2 id="1-2-USB描述符"><a href="#1-2-USB描述符" class="headerlink" title="1.2 USB描述符"></a>1.2 USB描述符</h2><h1 id="2-内核摄像头驱动"><a href="#2-内核摄像头驱动" class="headerlink" title="2.内核摄像头驱动"></a>2.内核摄像头驱动</h1><p>对UVC进行学习，步骤大致如下:<br>首先分析内核自带的UVC是如何实现的;<br>然后让手里的摄像头工作起来，可能内核自带的驱动可以直接用，也可能需要移植；<br>最后再尝试写一个精简版的UVC驱动，深入理解。</p>
+<h1 id="1-UVC基础"><a href="#1-UVC基础" class="headerlink" title="1.UVC基础"></a>1.UVC基础</h1><p>UVC是USB video class的简写，也就是USB接口的视频设备。<br>UVC其实很好理解，就是<strong>V4L2+USB</strong>。<br>前面的虚拟摄像头驱动，数据的来源是自己构造的虚拟数据，现在V4L2的数据来源则是通过USB传进来的真实摄像头视频数据。<br>除了视频数据，摄像头还把自己的特性(比如支持哪几种分辨率)告诉驱动，驱动则要配置摄像头(指定何种分辨率)。</p>
+<h2 id="1-1-USB基础知识"><a href="#1-1-USB基础知识" class="headerlink" title="1.1 USB基础知识"></a>1.1 USB基础知识</h2><p>USB分主从系统，一般而言，PC中的USB系统就是作主系统，而一般的USB鼠标、U盘则是典型的USB从系统。<br>为了方便开发，USB定义了一套标准，只要是支持USB的主机，就可以支持任何一个厂商的USB鼠标、U盘，只要是被USB系统包含的设备，只要这些设备支持相应的标准，就无需重新设计驱动而直接使用。<br>下面简单的列出了USB设备类型，理想情况的USB系统要对这些设备作完整的支持，设备也必须符合USB规范中的要求。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Base Class</th>
+<th style="text-align:center">Descriptor Usage</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">00h</td>
+<td style="text-align:center">Device</td>
+<td style="text-align:center">Use class information in the Interface Descriptors</td>
+</tr>
+<tr>
+<td style="text-align:center">01h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Audio</td>
+</tr>
+<tr>
+<td style="text-align:center">02h</td>
+<td style="text-align:center">Both</td>
+<td style="text-align:center">Communications and CDC Control(通讯设备)</td>
+</tr>
+<tr>
+<td style="text-align:center">03h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">HID (Human Interface Device)</td>
+</tr>
+<tr>
+<td style="text-align:center">05h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Physical</td>
+</tr>
+<tr>
+<td style="text-align:center">06h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Image</td>
+</tr>
+<tr>
+<td style="text-align:center">07h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Printer</td>
+</tr>
+<tr>
+<td style="text-align:center">08h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Mass Storage(存储)</td>
+</tr>
+<tr>
+<td style="text-align:center">09h</td>
+<td style="text-align:center">Device</td>
+<td style="text-align:center">Hub</td>
+</tr>
+<tr>
+<td style="text-align:center">0Ah</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">CDC-Data</td>
+</tr>
+<tr>
+<td style="text-align:center">0Bh</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Smart Card</td>
+</tr>
+<tr>
+<td style="text-align:center">0Dh</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Content Security</td>
+</tr>
+<tr>
+<td style="text-align:center">0Eh</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Video</td>
+</tr>
+<tr>
+<td style="text-align:center">0Fh</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Personal Healthcare</td>
+</tr>
+<tr>
+<td style="text-align:center">10h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Audio/Video Devices</td>
+</tr>
+<tr>
+<td style="text-align:center">11h</td>
+<td style="text-align:center">Device</td>
+<td style="text-align:center">Billboard Device Class</td>
+</tr>
+<tr>
+<td style="text-align:center">12h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">USB Type-C Bridge Class</td>
+</tr>
+<tr>
+<td style="text-align:center">DCh</td>
+<td style="text-align:center">Both</td>
+<td style="text-align:center">Diagnostic Device</td>
+</tr>
+<tr>
+<td style="text-align:center">E0h</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Wireless Controller</td>
+</tr>
+<tr>
+<td style="text-align:center">EFh</td>
+<td style="text-align:center">Both</td>
+<td style="text-align:center">Miscellaneous</td>
+</tr>
+<tr>
+<td style="text-align:center">FEh</td>
+<td style="text-align:center">Interface</td>
+<td style="text-align:center">Application Specific</td>
+</tr>
+<tr>
+<td style="text-align:center">FFh</td>
+<td style="text-align:center">Both</td>
+<td style="text-align:center">Vendor Specific</td>
+</tr>
+</tbody>
+</table>
+<p>其中UVC就是Video类。</p>
+<p>为了更好地描述USB设备的特征，USB提出了设备架构的概念。<br>从这个角度来看，可以认为USB设备是由一些<strong>配置</strong>，<strong>接口</strong>和<strong>端点</strong>；<br>即一个USB设备可以含有一个或多个配置，在每个配置中可含有一个或多个接口，在每个接口中可含有若干个端点。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/2.png" alt=""><br>此外，驱动是绑定到USB接口上，而不是整个设备</p>
+<p>体现到驱动上，就是一个一个的结构体，对应设备、配置、接口、端点。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/3.jpg" alt=""></p>
+<h2 id="1-3-USB描述符"><a href="#1-3-USB描述符" class="headerlink" title="1.3 USB描述符"></a>1.3 USB描述符</h2><p>前面提到摄像头要把自己的特性(比如支持哪几种分辨率)告诉驱动，这个特性就是被放在USB描述符里面。</p>
+<h2 id="1-2-UVC硬件模型"><a href="#1-2-UVC硬件模型" class="headerlink" title="1.2 UVC硬件模型"></a>1.2 UVC硬件模型</h2><p>首先从<a href="http://www.usb.org/developers/docs/devclass_docs/" target="_blank" rel="external">USB官网</a>下载标准协议相关资料：<code>Video Class -&gt; Video Class 1.5 document set (.zip format, size 6.58MB)</code>。<br>在<code>USB_Video_Example 1.5.pdf</code>里，可以得知硬件模型分为两部分：<code>VC interface</code>和<code>VS interface</code>。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/1.jpg" alt=""><br><code>VC interface</code>用于控制，内部又分为多个<code>unit</code>和<code>terminal</code>，<code>unit</code>用于内部处理，<code>terminal</code>用于内外链接；<br><code>VS interface</code>用于传输，内部包括视频数据传输的端点以及摄像头支持的视频格式等信息；</p>
+<p>每个视频有且仅有一个<code>Vieo Control</code>接口和可有多个<code>Video Streaming</code>接口;</p>
+<p>一个接口，就相当于一个逻辑上的USB设备。<br>现在，想象一下当USB摄像头插上主机，就相当于同时插上了两个设备，可通过函数去选中其中一个设备，从而去操作它。<br>一个设备用于控制，比如设置亮度等；<br>一个设备用于获取数据，选择所支持的某个格式等；<br>这样就基本把控制和数据分开，要控制则操作控制接口，要数据则通过数据接口。</p>
+<h1 id="2-内核摄像头驱动"><a href="#2-内核摄像头驱动" class="headerlink" title="2.内核摄像头驱动"></a>2.内核摄像头驱动</h1><p>对UVC进行学习，步骤大致如下:<br>首先分析内核自带的UVC是如何实现的;<br>然后让手里的摄像头工作起来，可能内核自带的驱动可以直接用，也可能需要移植；<br>最后再尝试写一个精简版的UVC驱动，深入理解。</p>
 <h2 id="2-1分析内核摄像头驱动"><a href="#2-1分析内核摄像头驱动" class="headerlink" title="2.1分析内核摄像头驱动"></a>2.1分析内核摄像头驱动</h2><p>在4.13.9内核中，UVC驱动在<code>drivers/media/usb/uvc/</code>文件夹里，下面对<code>uvc_driver.c</code>进行分析。<br><strong>a.构造usb_driver</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">struct uvc_driver &#123;</div><div class="line">	struct usb_driver driver;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct uvc_driver uvc_driver = &#123;</div><div class="line">	.driver = &#123;</div><div class="line">		.name		= &quot;uvcvideo&quot;,</div><div class="line">		.probe		= uvc_probe,</div><div class="line">		.disconnect	= uvc_disconnect,</div><div class="line">		.suspend	= uvc_suspend,</div><div class="line">		.resume		= uvc_resume,</div><div class="line">		.reset_resume	= uvc_reset_resume,</div><div class="line">		.id_table	= uvc_ids,</div><div class="line">		.supports_autosuspend = 1,</div><div class="line">	&#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 <p>其中<code>.id_table</code>里列举了驱动支持哪些USB设备。</p>
 <p><strong>b.设置usb_driver</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">uvc_probe</div><div class="line">    kzalloc //分配video_device</div><div class="line">        uvc_register_chains  </div><div class="line">            uvc_register_terms  </div><div class="line">                uvc_register_video</div><div class="line">                    vdev-&gt;v4l2_dev = &amp;dev-&gt;vdev; //设置video_device</div><div class="line">                    vdev-&gt;fops = &amp;uvc_fops; </div><div class="line">                    vdev-&gt;ioctl_ops = &amp;uvc_ioctl_ops;</div><div class="line">                    vdev-&gt;release = uvc_release;</div><div class="line">                    video_register_device //注册video_device</div></pre></td></tr></table></figure></p>
@@ -202,7 +333,23 @@
 <li>VIDIOC_QUERYCAP<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">uvc_ioctl_querycap </div><div class="line">    cap-&gt;capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING | chain-&gt;caps;</div><div class="line">    if (stream-&gt;type == V4L2_BUF_TYPE_VIDEO_CAPTURE)</div><div class="line">        cap-&gt;device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;</div><div class="line">    else</div><div class="line">        cap-&gt;device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>用于</p>
+<p>用于表示是一个摄像头设备。</p>
+<ul>
+<li>VIDIOC_ENUM_FMT<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vc_ioctl_enum_fmt_vid_cap </div><div class="line">    uvc_ioctl_enum_fmt</div><div class="line">        format = &amp;stream-&gt;format[fmt-&gt;index];</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>列举摄像头支持格式。</p>
+<ul>
+<li><p>VIDIOC_G_FMT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+</li>
+<li><p>VIDIOC_G_FMT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+</li>
+<li><p>VIDIOC_G_FMT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+</li>
+</ul>
 <h2 id="2-2移植内核摄像头驱动"><a href="#2-2移植内核摄像头驱动" class="headerlink" title="2.2移植内核摄像头驱动"></a>2.2移植内核摄像头驱动</h2><h1 id="3-编写UVC驱动"><a href="#3-编写UVC驱动" class="headerlink" title="3.编写UVC驱动"></a>3.编写UVC驱动</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -330,7 +477,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-UVC概况"><span class="toc-number">1.</span> <span class="toc-text">1.UVC概况</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-UVC硬件模型"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 UVC硬件模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-USB描述符"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 USB描述符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-内核摄像头驱动"><span class="toc-number">2.</span> <span class="toc-text">2.内核摄像头驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1分析内核摄像头驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1分析内核摄像头驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2移植内核摄像头驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2移植内核摄像头驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写UVC驱动"><span class="toc-number">3.</span> <span class="toc-text">3.编写UVC驱动</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-UVC基础"><span class="toc-number">1.</span> <span class="toc-text">1.UVC基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-USB基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 USB基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-USB描述符"><span class="toc-number">1.2.</span> <span class="toc-text">1.3 USB描述符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-UVC硬件模型"><span class="toc-number">1.3.</span> <span class="toc-text">1.2 UVC硬件模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-内核摄像头驱动"><span class="toc-number">2.</span> <span class="toc-text">2.内核摄像头驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1分析内核摄像头驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1分析内核摄像头驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2移植内核摄像头驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2移植内核摄像头驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写UVC驱动"><span class="toc-number">3.</span> <span class="toc-text">3.编写UVC驱动</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -459,11 +606,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -471,11 +618,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -483,7 +626,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -495,7 +646,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,6 +666,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -515,19 +678,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -543,10 +706,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
@@ -559,23 +718,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,7 +726,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>

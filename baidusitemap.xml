@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/03/23/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
-    <lastmod>2018-04-03T07:12:55.358Z</lastmod>
+    <lastmod>2018-04-06T14:45:53.967Z</lastmod>
     <data>
         <display>
         <title>Linux摄像头驱动2——UVC</title>
@@ -450,9 +450,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
