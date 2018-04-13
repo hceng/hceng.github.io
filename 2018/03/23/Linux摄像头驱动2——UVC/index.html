@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/4.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/5.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-13T08:37:42.041Z">
+<meta property="og:updated_time" content="2018-04-13T15:41:49.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
@@ -369,8 +369,8 @@
 <h1 id="3-编写UVC驱动"><a href="#3-编写UVC驱动" class="headerlink" title="3.编写UVC驱动"></a>3.编写UVC驱动</h1><p>UVC的驱动有点长，我尽量根据功能将其分解若干部分，逐一编写。<br>当USB插上主机，就会产生两个接口(VC和VS)，然后获取到USB描述符并解析，从而设置摄像头(比如分辨率、格式)；然后分配缓冲区，启动摄像头，便从USB得到摄像头采集数据，保存到缓冲区供应用程序使用。<br>整个流程就大致这样，因此将其分为了6个部分进行编写。</p>
 <ul>
 <li>1.注册(USB和Video)</li>
-<li>2.设置相关</li>
-<li>3.缓冲区相关</li>
+<li>2.数据格式设置相关</li>
+<li>3.缓冲区操作相关</li>
 <li>4.属性相关(以亮度控制为例)</li>
 <li>5.启动/停止</li>
 <li>6.测试/效果</li>
@@ -380,13 +380,15 @@
 <p>在<code>probe()</code>函数里，需要先得到<code>usb_device</code>，用于对usb设备的操作，以及分别得到两个接口的编号，用于后面分别调用每个接口。<br>再在<code>probe()</code>函数里做常规的分配、设置、注册<code>video_device</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_probe</span><span class="params">(<span class="keyword">struct</span> usb_interface *intf, <span class="keyword">const</span> <span class="keyword">struct</span> usb_device_id *id)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> cnt = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="comment">//usb_device_id会使probe()调用两次,然而创建video_device只需要一次</span></div><div class="line">    cnt++;</div><div class="line"></div><div class="line">    my_uvc_udev = interface_to_usbdev(intf); <span class="comment">//获取usb设备</span></div><div class="line">    <span class="keyword">if</span> (cnt == <span class="number">1</span>) <span class="comment">//获取编号</span></div><div class="line">        my_uvc_control_intf = intf-&gt;cur_altsetting-&gt;desc.bInterfaceNumber;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (cnt == <span class="number">2</span>)</div><div class="line">        my_uvc_streaming_intf = intf-&gt;cur_altsetting-&gt;desc.bInterfaceNumber;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (cnt == <span class="number">2</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">/* 1.分配一个video_device结构体 */</span></div><div class="line">        my_uvc_vdev = video_device_alloc();</div><div class="line">        <span class="keyword">if</span> (<span class="literal">NULL</span> == my_uvc_vdev)</div><div class="line">        &#123;</div><div class="line">            printk(<span class="string">"Faile to alloc video device (%d)\n"</span>, ret);</div><div class="line">            <span class="keyword">return</span> -ENOMEM;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">/* 2.设置 */</span></div><div class="line">        my_uvc_vdev-&gt;release   = my_uvc_release;</div><div class="line">        my_uvc_vdev-&gt;fops      = &amp;my_uvc_fops;</div><div class="line">        my_uvc_vdev-&gt;ioctl_ops = &amp;my_uvc_ioctl_ops;</div><div class="line">        my_uvc_vdev-&gt;v4l2_dev  = &amp;v4l2_dev;</div><div class="line"></div><div class="line">        <span class="comment">/* 3. 注册 */</span></div><div class="line">        ret = video_register_device(my_uvc_vdev, VFL_TYPE_GRABBER, <span class="number">-1</span>);</div><div class="line">        <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            printk(<span class="string">"Faile to video_register_device.\n"</span>);</div><div class="line">            <span class="keyword">return</span> ret;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            printk(<span class="string">"video_register_device ok.\n"</span>);</div><div class="line"></div><div class="line">        <span class="comment">/* 为了确定带宽,使用哪一个setting */</span></div><div class="line">        my_uvc_try_streaming_params(&amp;my_uvc_params); <span class="comment">//测试参数</span></div><div class="line">        my_uvc_get_streaming_params(&amp;my_uvc_params); <span class="comment">//取出参数</span></div><div class="line">        my_uvc_set_streaming_params(&amp;my_uvc_params); <span class="comment">//设置参数</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>对应的<code>disconnect</code>也会被调用两次，但只做一次释放操作：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">my_uvc_disconnect</span><span class="params">(<span class="keyword">struct</span> usb_interface *intf)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span> cnt = <span class="number">0</span>;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    cnt++;</div><div class="line">    <span class="keyword">if</span> (cnt == <span class="number">2</span>)</div><div class="line">    &#123;</div><div class="line">        video_unregister_device(my_uvc_vdev);</div><div class="line">        video_device_release(my_uvc_vdev);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>现在，就完成了<strong>USB设备</strong>和<strong>Video设备</strong>的注册。<br>且为Video设备绑定了操作函数，后续的工作就是完善操作函数。</p>
-<h2 id="3-2-设置相关"><a href="#3-2-设置相关" class="headerlink" title="3.2 设置相关"></a>3.2 设置相关</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="3-2-数据格式设置相关"><a href="#3-2-数据格式设置相关" class="headerlink" title="3.2 数据格式设置相关"></a>3.2 数据格式设置相关</h2><p>前面Video设备绑定了<code>fops</code>，这里主要有五个操作函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">struct</span> v4l2_file_operations my_uvc_fops =</div><div class="line">&#123;</div><div class="line">    .owner		    = THIS_MODULE,</div><div class="line">    .open           = my_uvc_open,</div><div class="line">    .release        = my_uvc_close,</div><div class="line">    .mmap           = my_uvc_mmap,</div><div class="line">    .unlocked_ioctl = video_ioctl2, <span class="comment">/* V4L2 ioctl handler */</span></div><div class="line">    .poll           = my_uvc_poll,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>open()</code>和<code>close()</code>没什么好说的，常规操作：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_open</span><span class="params">(<span class="keyword">struct</span> file *file)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_close</span><span class="params">(<span class="keyword">struct</span> file *file)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    my_uvc_vidioc_streamoff(<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>关闭的时候，顺手调用<code>vidioc_streamoff</code>关闭数据采集。</p>
+<p><code>mmap()</code>和<code>poll()</code>涉及buf的操作，后面再讲。<br>先讲<code>ioctl</code>里面几个稍微简单点的操作函数。</p>
+<p>首先是<code>vidioc_querycap()</code>，用于表明本设备是一个摄像头设备。<br>需要对<code>v4l2_capability</code>结构体的<code>driver</code>命名，<code>card</code>命名，<code>version</code>指定版本号，<code>capabilities</code>指定支持的功能，<code>device_caps</code>通过节点访问的功能。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_querycap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span>  *priv, <span class="keyword">struct</span> v4l2_capability *cap)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> video_device *vdev = video_devdata(file);</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    strlcpy(cap-&gt;driver, <span class="string">"my_uvc_video"</span>, <span class="keyword">sizeof</span>(cap-&gt;driver));</div><div class="line">    strlcpy(cap-&gt;card, vdev-&gt;name, <span class="keyword">sizeof</span>(cap-&gt;card));</div><div class="line"></div><div class="line">    cap-&gt;version = <span class="number">4</span>;</div><div class="line"></div><div class="line">    cap-&gt;capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;</div><div class="line">    cap-&gt;device_caps  = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后是<code>vidioc_enum_fmt_vid_cap()</code>，用于列举摄像头支持的格式。<br>从USB摄像头的设备描述符可知，本摄像头只支持一种<code>MJPEG</code>格式，通过<code>index</code>来限定只接受一种格式。<br>需要设置<code>v4l2_fmtdesc</code>结构体的<code>description</code>(格式名字)、<code>pixelformat</code>(格式对应的像素格式)和<code>type</code>(v4l2_buf_type)。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_enum_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span>  *priv, <span class="keyword">struct</span> v4l2_fmtdesc *f)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="comment">/* 根据摄像头的设备描述符可知,只支持一种格式:VS_FORMAT_MJPEG */</span></div><div class="line">    <span class="keyword">if</span>(f-&gt;index &gt;= <span class="number">1</span>)</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    <span class="built_in">strcpy</span>(f-&gt;description, MY_UVC_FMT); <span class="comment">//支持格式</span></div><div class="line">    f-&gt;pixelformat = V4L2_PIX_FMT_MJPEG;</div><div class="line">    f-&gt;type        = V4L2_BUF_TYPE_VIDEO_CAPTURE;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>之后是获取摄像头数据格式<code>vidioc_g_fmt_vid_cap()</code>操作函数。<br>这个比较简单，直接返回<code>my_uvc_format</code>即可。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_g_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(f, &amp;my_uvc_format, <span class="keyword">sizeof</span>(my_uvc_format));</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>再是<code>vidioc_try_fmt_vid_cap()</code>，用于尝试设置摄像头数据的格式。<br>先判断传入的<code>v4l2_format</code>结构体里的<code>type</code>和<code>pixelformat</code>是不是正确的格式。<br>再设置<code>v4l2_pix_format</code>结构体的<code>width</code>(宽)、<code>height</code>(高)和<code>filed</code>(数据扫描方式:不交错)。<br>以及<code>sizeimage</code>(每帧图像大小)，这里的值大小的确定是通过<code>probe()</code>里打印的<code>dwMaxVideoFrameSize</code>值，这里每帧的理论大小是<code>width*height=320*240=76800</code>小于<code>dwMaxVideoFrameSize=77312</code>，估计最大每帧图像还会包含其它数据。<br>大多数网络摄像头的<code>colorspace</code>(颜色空间)都是<code>V4L2_COLORSPACE_SRGB</code>。<br><code>priv</code>(私有数据)由<code>pixelformat</code>决定。<br>这里的所有设置的值，理论上都来自对USB设备描述符的解析，这里简化了代码解析的过程，直接赋值，实际开发中为了适配多个摄像头，应该读取后解析。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_try_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (f-&gt;type != V4L2_BUF_TYPE_VIDEO_CAPTURE || f-&gt;fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG)</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    <span class="comment">/* 调整format的width, height */</span></div><div class="line">    f-&gt;fmt.pix.width  = my_uvc_wWidth; <span class="comment">//设备描述符里支持的分辨率:640x480,320x240,160x120</span></div><div class="line">    f-&gt;fmt.pix.height = my_uvc_wHeight;</div><div class="line"></div><div class="line">    f-&gt;fmt.pix.field      = V4L2_FIELD_NONE;</div><div class="line"></div><div class="line">    <span class="comment">/* 计算bytesperline, sizeimage */</span></div><div class="line">    <span class="comment">//bBitsPerPixel = my_uvc_bBitsPerPixel; //lsusb:bBitsPerPixel</span></div><div class="line">    <span class="comment">//f-&gt;fmt.pix.bytesperline = (f-&gt;fmt.pix.width * bBitsPerPixel) &gt;&gt; 3;</span></div><div class="line">    f-&gt;fmt.pix.sizeimage = dwMaxVideoFrameSize; <span class="comment">//f-&gt;fmt.pix.height * f-&gt;fmt.pix.bytesperline;</span></div><div class="line"></div><div class="line">    f-&gt;fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;</div><div class="line">    f-&gt;fmt.pix.priv       = <span class="number">0</span>;		<span class="comment">/* private data, depends on pixelformat */</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后是设置摄像头的数据的格式<code>vidioc_s_fmt_vid_cap()</code>。<br>先参数设置传入的<code>v4l2_format</code>，如果不支持返回错误。支持的话，直接赋值给<code>my_uvc_format</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_s_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    ret = my_uvc_vidioc_try_fmt_vid_cap(file, <span class="literal">NULL</span>, f);</div><div class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> ret;</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(&amp;my_uvc_format, f, <span class="keyword">sizeof</span>(my_uvc_format));</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>至此，就完成了对摄像头数据格式<code>my_uvc_format</code>的设置。<br>应用层就可以对摄像头数据格式进行操作，比如选择何种数据格式、何种分辨率等，当然，这里的驱动没有提供选择，全都直接赋值了。</p>
+<h2 id="3-3-缓冲区操作相关"><a href="#3-3-缓冲区操作相关" class="headerlink" title="3.3 缓冲区操作相关"></a>3.3 缓冲区操作相关</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
@@ -519,7 +521,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-UVC基础"><span class="toc-number">1.</span> <span class="toc-text">1.UVC基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-USB基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 USB基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-UVC硬件模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 UVC硬件模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-USB描述符"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 USB描述符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-内核摄像头驱动"><span class="toc-number">2.</span> <span class="toc-text">2.内核摄像头驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1分析内核摄像头驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1分析内核摄像头驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2移植内核摄像头驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2移植内核摄像头驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写UVC驱动"><span class="toc-number">3.</span> <span class="toc-text">3.编写UVC驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-注册-USB和Video"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 注册(USB和Video)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-设置相关"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 设置相关</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-UVC基础"><span class="toc-number">1.</span> <span class="toc-text">1.UVC基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-USB基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 USB基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-UVC硬件模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 UVC硬件模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-USB描述符"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 USB描述符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-内核摄像头驱动"><span class="toc-number">2.</span> <span class="toc-text">2.内核摄像头驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1分析内核摄像头驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1分析内核摄像头驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2移植内核摄像头驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2移植内核摄像头驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写UVC驱动"><span class="toc-number">3.</span> <span class="toc-text">3.编写UVC驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-注册-USB和Video"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 注册(USB和Video)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-数据格式设置相关"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 数据格式设置相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-缓冲区操作相关"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 缓冲区操作相关</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -648,6 +650,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -656,23 +662,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -688,15 +686,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -716,19 +714,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -740,15 +734,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -756,15 +750,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
