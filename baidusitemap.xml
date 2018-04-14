@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/03/23/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
-    <lastmod>2018-04-13T15:41:49.715Z</lastmod>
+    <lastmod>2018-04-14T08:13:32.625Z</lastmod>
     <data>
         <display>
         <title>Linux摄像头驱动2——UVC</title>
@@ -224,9 +224,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -281,9 +281,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -450,9 +450,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          

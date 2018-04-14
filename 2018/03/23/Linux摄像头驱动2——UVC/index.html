@@ -19,8 +19,9 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/1.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/4.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/5.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/6.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-13T15:41:49.715Z">
+<meta property="og:updated_time" content="2018-04-14T08:13:32.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
@@ -387,8 +388,18 @@
 <p>然后是<code>vidioc_enum_fmt_vid_cap()</code>，用于列举摄像头支持的格式。<br>从USB摄像头的设备描述符可知，本摄像头只支持一种<code>MJPEG</code>格式，通过<code>index</code>来限定只接受一种格式。<br>需要设置<code>v4l2_fmtdesc</code>结构体的<code>description</code>(格式名字)、<code>pixelformat</code>(格式对应的像素格式)和<code>type</code>(v4l2_buf_type)。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_enum_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span>  *priv, <span class="keyword">struct</span> v4l2_fmtdesc *f)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="comment">/* 根据摄像头的设备描述符可知,只支持一种格式:VS_FORMAT_MJPEG */</span></div><div class="line">    <span class="keyword">if</span>(f-&gt;index &gt;= <span class="number">1</span>)</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    <span class="built_in">strcpy</span>(f-&gt;description, MY_UVC_FMT); <span class="comment">//支持格式</span></div><div class="line">    f-&gt;pixelformat = V4L2_PIX_FMT_MJPEG;</div><div class="line">    f-&gt;type        = V4L2_BUF_TYPE_VIDEO_CAPTURE;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>之后是获取摄像头数据格式<code>vidioc_g_fmt_vid_cap()</code>操作函数。<br>这个比较简单，直接返回<code>my_uvc_format</code>即可。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_g_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(f, &amp;my_uvc_format, <span class="keyword">sizeof</span>(my_uvc_format));</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>再是<code>vidioc_try_fmt_vid_cap()</code>，用于尝试设置摄像头数据的格式。<br>先判断传入的<code>v4l2_format</code>结构体里的<code>type</code>和<code>pixelformat</code>是不是正确的格式。<br>再设置<code>v4l2_pix_format</code>结构体的<code>width</code>(宽)、<code>height</code>(高)和<code>filed</code>(数据扫描方式:不交错)。<br>以及<code>sizeimage</code>(每帧图像大小)，这里的值大小的确定是通过<code>probe()</code>里打印的<code>dwMaxVideoFrameSize</code>值，这里每帧的理论大小是<code>width*height=320*240=76800</code>小于<code>dwMaxVideoFrameSize=77312</code>，估计最大每帧图像还会包含其它数据。<br>大多数网络摄像头的<code>colorspace</code>(颜色空间)都是<code>V4L2_COLORSPACE_SRGB</code>。<br><code>priv</code>(私有数据)由<code>pixelformat</code>决定。<br>这里的所有设置的值，理论上都来自对USB设备描述符的解析，这里简化了代码解析的过程，直接赋值，实际开发中为了适配多个摄像头，应该读取后解析。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_try_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (f-&gt;type != V4L2_BUF_TYPE_VIDEO_CAPTURE || f-&gt;fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG)</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    <span class="comment">/* 调整format的width, height */</span></div><div class="line">    f-&gt;fmt.pix.width  = my_uvc_wWidth; <span class="comment">//设备描述符里支持的分辨率:640x480,320x240,160x120</span></div><div class="line">    f-&gt;fmt.pix.height = my_uvc_wHeight;</div><div class="line"></div><div class="line">    f-&gt;fmt.pix.field      = V4L2_FIELD_NONE;</div><div class="line"></div><div class="line">    <span class="comment">/* 计算bytesperline, sizeimage */</span></div><div class="line">    <span class="comment">//bBitsPerPixel = my_uvc_bBitsPerPixel; //lsusb:bBitsPerPixel</span></div><div class="line">    <span class="comment">//f-&gt;fmt.pix.bytesperline = (f-&gt;fmt.pix.width * bBitsPerPixel) &gt;&gt; 3;</span></div><div class="line">    f-&gt;fmt.pix.sizeimage = dwMaxVideoFrameSize; <span class="comment">//f-&gt;fmt.pix.height * f-&gt;fmt.pix.bytesperline;</span></div><div class="line"></div><div class="line">    f-&gt;fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;</div><div class="line">    f-&gt;fmt.pix.priv       = <span class="number">0</span>;		<span class="comment">/* private data, depends on pixelformat */</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>最后是设置摄像头的数据的格式<code>vidioc_s_fmt_vid_cap()</code>。<br>先参数设置传入的<code>v4l2_format</code>，如果不支持返回错误。支持的话，直接赋值给<code>my_uvc_format</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_s_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    ret = my_uvc_vidioc_try_fmt_vid_cap(file, <span class="literal">NULL</span>, f);</div><div class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> ret;</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(&amp;my_uvc_format, f, <span class="keyword">sizeof</span>(my_uvc_format));</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>至此，就完成了对摄像头数据格式<code>my_uvc_format</code>的设置。<br>应用层就可以对摄像头数据格式进行操作，比如选择何种数据格式、何种分辨率等，当然，这里的驱动没有提供选择，全都直接赋值了。</p>
-<h2 id="3-3-缓冲区操作相关"><a href="#3-3-缓冲区操作相关" class="headerlink" title="3.3 缓冲区操作相关"></a>3.3 缓冲区操作相关</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<p>最后是设置摄像头的数据的格式<code>vidioc_s_fmt_vid_cap()</code>。<br>先参数设置传入的<code>v4l2_format</code>，如果不支持返回错误。支持的话，直接赋值给<code>my_uvc_format</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_s_fmt_vid_cap</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_format *f)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    ret = my_uvc_vidioc_try_fmt_vid_cap(file, <span class="literal">NULL</span>, f);</div><div class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> ret;</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(&amp;my_uvc_format, f, <span class="keyword">sizeof</span>(my_uvc_format));</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>至此，就完成了对<strong>摄像头数据格式</strong><code>my_uvc_format</code>的设置。<br>应用层就可以对摄像头数据格式进行操作，比如选择何种数据格式、何种分辨率等，当然，这里的驱动没有提供选择，全都直接赋值了。</p>
+<h2 id="3-3-缓冲区操作相关"><a href="#3-3-缓冲区操作相关" class="headerlink" title="3.3 缓冲区操作相关"></a>3.3 缓冲区操作相关</h2><p>buf操作是一个难点，容易出问题的地方。<br>首先是申请缓冲区<code>vidioc_reqbufs()</code>，应用层<code>ioctl</code>调用此函数，让其分配若干个buf，应用层后面将从这些buf读取视频数据。<br>驱动先从传入的<code>v4l2_requestbuffers</code>结构体获得<code>count</code>(buf数量)，每个buf的大小是前面<code>my_uvc_format</code>的<code>sizeimage</code>(每帧图像大小)，且长度页对齐。</p>
+<blockquote>
+<ul>
+<li>PAGE_ALIGN<br>PAGE_ALIGN在内核里作用是将数据以4K页大小上界对齐。<br>举个例子：<br>假如传入的数据大小是4000字节，那么结果得到4096字节；<br>假如传入的数据大小是4096字节，那么结果得到4096字节；<br>假如传入的数据大小是5000字节，那么结果得到8192字节；</li>
+</ul>
+<p>源码：<br><code>#define PAGE_SIZE 4096</code><br><code>#define PAGE_MASK (~(PAGE_SIZE-1))</code><br><code>#define PAGE_ALIGN(x) ((x + PAGE_SIZE - 1) &amp; PAGE_MASK)</code></p>
+<p>实质:<code>PAGE_ALIGN(x) = ((x + 4095) &amp; (~4095))</code></p>
+</blockquote>
+<p>然后再判断<code>my_uvc_queue</code>结构体里的<code>mem</code>(内存地址)是否为空，非空的话说明原来已经分配了buf，需要先释放内存、清空<code>my_uvc_queue</code>。<br>如果传入需要的buf数量为0，则表明不需要分配，直接退出。<br>然后就分配buf，将所有buf作为一个整体一次性分配，大小也就是<code>nbuffers * bufsize</code>，如果分配失败，减小buf数量，再尝试。<br>现在就有了一整块buf，对应的起始地址是<code>mem</code>，再清空<code>my_uvc_queue</code>进行初始化。<br>再初始化两个队列(双向链表)，<code>mainqueue</code>用于供应用层读取数据用，<code>irqqueue</code>用于供驱动产生数据用。<br>再依次设置每个buf的<code>v4l2_buffer</code>结构体的<code>index</code>(索引)、<code>m.offset</code>(偏移)、<code>length</code>(大小)、<code>type</code>(类型)、<code>sequence</code>(序列计数)、<code>field</code>(扫描方式)、<code>memory</code>(内存类型)、<code>flags</code>(标志)，再设置<code>my_uvc_buffer</code>的<code>state</code>(状态)和初始化等待队列<code>wait</code>。<br>最后再设置<code>my_uvc_q</code>，记录buf首地址、数量和大小。</p>
+<p>这样，我们就得到一个<code>my_uvc_queue</code>结构体，这个结构体里面的<code>my_uvc_buffer</code>结构体数组，存放了每个buf的信息。示意如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/6.jpg" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* APP调用该ioctl让驱动程序分配若干个buf, APP将从这些buf中读到视频数据  */</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_reqbufs</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_requestbuffers *p)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">void</span> *mem = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">int</span> nbuffers = p-&gt;count; <span class="comment">//buf数量</span></div><div class="line">    <span class="keyword">int</span> bufsize  = PAGE_ALIGN(my_uvc_format.fmt.pix.sizeimage); <span class="comment">//buf大小,且长度页对齐</span></div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (my_uvc_q.mem)    <span class="comment">//如果原来分配了buf,先释放原来的buf</span></div><div class="line">    &#123;</div><div class="line">        vfree(my_uvc_q.mem);</div><div class="line">        <span class="built_in">memset</span>(&amp;my_uvc_q, <span class="number">0</span>, <span class="keyword">sizeof</span>(my_uvc_q));</div><div class="line">        my_uvc_q.mem = <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (nbuffers == <span class="number">0</span>)   <span class="comment">//没有需要分配的,直接退出</span></div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (; nbuffers &gt; <span class="number">0</span>; --nbuffers)          <span class="comment">//依次减少buf数量，直到分配成功</span></div><div class="line">    &#123;</div><div class="line">        mem = vmalloc_32(nbuffers * bufsize); <span class="comment">//这些buf是一次性作为一个整体来分配的</span></div><div class="line">        <span class="keyword">if</span> (mem != <span class="literal">NULL</span>)</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (mem == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> -ENOMEM;</div><div class="line"></div><div class="line">    <span class="built_in">memset</span>(&amp;my_uvc_q, <span class="number">0</span>, <span class="keyword">sizeof</span>(my_uvc_q)); <span class="comment">//清空my_uvc_q,初始化</span></div><div class="line"></div><div class="line">    INIT_LIST_HEAD(&amp;my_uvc_q.mainqueue); <span class="comment">//初始化两个队列,my_uvc_vidioc_qbuf</span></div><div class="line">    INIT_LIST_HEAD(&amp;my_uvc_q.irqqueue);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nbuffers; ++i)</div><div class="line">    &#123;</div><div class="line">        my_uvc_q.buffer[i].buf.index    = i;  <span class="comment">//索引</span></div><div class="line">        my_uvc_q.buffer[i].buf.m.offset = i * bufsize; <span class="comment">//偏移</span></div><div class="line">        my_uvc_q.buffer[i].buf.length   = my_uvc_format.fmt.pix.sizeimage; <span class="comment">//原始大小;实测PAGE_ALIGN对齐,也没问题</span></div><div class="line">        my_uvc_q.buffer[i].buf.type     = V4L2_BUF_TYPE_VIDEO_CAPTURE; <span class="comment">//视频捕获设备</span></div><div class="line">        my_uvc_q.buffer[i].buf.sequence = <span class="number">0</span>;</div><div class="line">        my_uvc_q.buffer[i].buf.field    = V4L2_FIELD_NONE;</div><div class="line">        my_uvc_q.buffer[i].buf.memory   = V4L2_MEMORY_MMAP;</div><div class="line">        my_uvc_q.buffer[i].buf.flags    = <span class="number">0</span>;</div><div class="line">        my_uvc_q.buffer[i].state        = VIDEOBUF_IDLE; <span class="comment">//分配完更新状态为空闲</span></div><div class="line">        init_waitqueue_head(&amp;my_uvc_q.buffer[i].wait); <span class="comment">//初始化一个等待队列</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    my_uvc_q.mem = mem;</div><div class="line">    my_uvc_q.count = nbuffers;</div><div class="line">    my_uvc_q.buf_size = bufsize;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> nbuffers;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来是<code>vidioc_querybuf()</code>，用于查询buf，获得buf的地址信息等。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
@@ -666,15 +677,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -683,6 +690,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -698,11 +713,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -718,11 +737,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -734,11 +749,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,31 +781,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
             
             <div class="clearfix"></div>
