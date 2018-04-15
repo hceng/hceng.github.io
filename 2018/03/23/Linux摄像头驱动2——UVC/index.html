@@ -20,8 +20,9 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/4.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/5.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/6.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/7.jpg?v=1">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-15T14:58:16.454Z">
+<meta property="og:updated_time" content="2018-04-15T15:36:53.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
@@ -413,8 +414,9 @@
 </ul>
 <hr>
 <p>最后是将数据从队列取出<code>vidioc_dqbuf()</code>。<br>这里是应用层想得到数据，因此是从<code>mainqueue</code>队列获取。<br>首先判断<code>mainqueue</code>是否是空队列，然后以<code>my_uvc_q.mainqueue</code>作为头节点，搜索<code>my_uvc_buffer</code>结构体中的<code>stream</code>，得到队列中第一个<code>my_uvc_buffer</code>的地址。<br>再把<code>my_uvc_buffer</code>的<code>state</code>(状态)改为<code>VIDEOBUF_IDLE</code>(空闲)。、<br>再将该节点从队列删除，最后返回<code>v4l2_buf</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* APP通过poll/select确定有数据后,把buf从mainqueue队列中取出来 */</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_vidioc_dqbuf</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *priv, <span class="keyword">struct</span> v4l2_buffer *v4l2_buf)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> my_uvc_buffer *get_buf;</div><div class="line"></div><div class="line">    printk(<span class="string">"enter %s\n"</span>, __func__);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (list_empty(&amp;my_uvc_q.mainqueue))</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    get_buf = list_first_entry(&amp;my_uvc_q.mainqueue, <span class="keyword">struct</span> my_uvc_buffer, stream); <span class="comment">//取出buf</span></div><div class="line"></div><div class="line">    <span class="keyword">switch</span> (get_buf-&gt;state)   <span class="comment">//修改状态</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">case</span> VIDEOBUF_ERROR:</div><div class="line">            <span class="keyword">return</span> -EIO;</div><div class="line">        <span class="keyword">case</span> VIDEOBUF_DONE:</div><div class="line">            get_buf-&gt;state = VIDEOBUF_IDLE;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> VIDEOBUF_IDLE:</div><div class="line">        <span class="keyword">case</span> VIDEOBUF_QUEUED:</div><div class="line">        <span class="keyword">case</span> VIDEOBUF_ACTIVE:</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> -EINVAL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    list_del(&amp;get_buf-&gt;stream); <span class="comment">//从队列删除</span></div><div class="line">    <span class="built_in">memcpy</span>(v4l2_buf, &amp;get_buf-&gt;buf, <span class="keyword">sizeof</span> *v4l2_buf); <span class="comment">//复制返回数据</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>至此，对buf的基本操作就完成了，包括buf的申请、查询、放入/取出到队列。</p>
-<h2 id="4-属性相关-以亮度控制为例"><a href="#4-属性相关-以亮度控制为例" class="headerlink" title="4.属性相关(以亮度控制为例)"></a>4.属性相关(以亮度控制为例)</h2><p>接下来是操作摄像头属性，以亮度控制为例，查询、获取、设置摄像头的亮度属性。</p>
+<p>至此，对buf的基本操作就完成了，包括buf的申请、查询、放入/取出到队列。<br>其中，队列的变化如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/7.jpg?v=1" alt=""><br>初始状态，队列<code>mainqueue</code>和队列<code>irqqueue</code>串连起了传进来的buf。<br>产生数据的时候，buf[0]装入数据，且断开与队列<code>irqqueue</code>的连接，此时buf[1]是队列<code>irqqueue</code>的第一个节点。<br>取出数据的时候，buf[0]取出数据，且断开与队列<code>mainqueue</code>的连接，此时buf[1]是队列<code>mainqueue</code>的第一个节点。<br>待数据处理完成，buf[0]将被再次放入队列，此时在队列尾部。<br>周而复始完成放入、取出队列。</p>
+<h2 id="4-属性相关-以亮度控制为例"><a href="#4-属性相关-以亮度控制为例" class="headerlink" title="4.属性相关(以亮度控制为例)"></a>4.属性相关(以亮度控制为例)</h2><p>接下来是操作摄像头属性，以亮度控制为例，查询、获取、设置摄像头的亮度属性。<br>从前面的UVC硬件模型中可以得知，<code>VC interface</code>是用于控制摄像头的，其中<code>PU</code>单元用于属性的控制。<br>在<code>UVC 1.5 Class specification.pdf</code>文档里，找到<code>Processing Unit Descriptor</code>，其中的<code>bmControls</code>表示摄像头支持属性的含义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">A bit set to 1 indicates that the mentioned Control is supported for the video stream.</div><div class="line">D0: Brightness</div><div class="line">D1: Contrast</div><div class="line">D2: Hue</div><div class="line">D3: Saturation</div><div class="line">D4: Sharpness</div><div class="line">D5: Gamma</div><div class="line">D6: White Balance Temperature</div><div class="line">D7: White Balance Component</div><div class="line">D8: Backlight Compensation</div><div class="line">D9: Gain</div><div class="line">……</div></pre></td></tr></table></figure></p>
+<p>再找到本摄像头USB描述符中<code>VC interface Descriptor</code>的<code>PROCESSING_UNIT</code>中的<code>bmControls</code>，其值是<code>0x0000053f</code>，对应支持的属性也就是其下面的几个属性，<code>Brightness</code>(亮度)控制是支持的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">VideoControl Interface Descriptor:</div><div class="line">  bLength                11</div><div class="line">  bDescriptorType        36</div><div class="line">  bDescriptorSubtype      5 (PROCESSING_UNIT)</div><div class="line">Warning: Descriptor too short</div><div class="line">  bUnitID                 3</div><div class="line">  bSourceID               1</div><div class="line">  wMaxMultiplier          0</div><div class="line">  bControlSize            2</div><div class="line">  bmControls     0x0000053f</div><div class="line">    Brightness</div><div class="line">    Contrast</div><div class="line">    Hue</div><div class="line">    Saturation</div><div class="line">    Sharpness</div><div class="line">    Gamma</div><div class="line">    Backlight Compensation</div><div class="line">    Power Line Frequency</div></pre></td></tr></table></figure></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <hr>
@@ -697,14 +699,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -713,7 +707,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -721,11 +719,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -737,6 +731,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -745,15 +747,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -769,11 +775,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -789,11 +791,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
