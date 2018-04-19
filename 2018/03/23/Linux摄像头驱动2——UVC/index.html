@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/6.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/7.jpg?v=1">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-18T14:34:47.954Z">
+<meta property="og:updated_time" content="2018-04-19T04:00:05.148Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
@@ -374,7 +374,8 @@
 <li>2.数据格式设置相关</li>
 <li>3.缓冲区操作相关</li>
 <li>4.属性相关(以亮度控制为例)</li>
-<li>5.启动/停止</li>
+<li>5.URB</li>
+<li>6.启动/停止</li>
 <li>6.测试/效果</li>
 </ul>
 <h2 id="3-1-注册-USB和Video"><a href="#3-1-注册-USB和Video" class="headerlink" title="3.1 注册(USB和Video)"></a>3.1 注册(USB和Video)</h2><p>在入口函数先“套”一个USB驱动的框架，首先分配一个<code>usb_driver</code>：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> usb_driver my_uvc_driver = &#123;</div><div class="line">    .name       = <span class="string">"my_uvc"</span>,</div><div class="line">    .probe      = my_uvc_probe,</div><div class="line">    .disconnect = my_uvc_disconnect,</div><div class="line">    .id_table   = my_uvc_ids,</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>其中的<code>id_table</code>只包含我们所需的VC和VS，这样摄像头的Audio接口，就不会被识别：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> usb_device_id my_uvc_ids[] =</div><div class="line">&#123;</div><div class="line">    <span class="comment">/* Generic USB Video Class */</span></div><div class="line">    &#123; USB_INTERFACE_INFO(USB_CLASS_VIDEO, <span class="number">1</span>, <span class="number">0</span>) &#125;,  <span class="comment">/* VideoControl Interface */</span></div><div class="line">    &#123; USB_INTERFACE_INFO(USB_CLASS_VIDEO, <span class="number">2</span>, <span class="number">0</span>) &#125;,  <span class="comment">/* VideoStreaming Interface */</span></div><div class="line">    &#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>这里<code>USB_INTERFACE_INFO</code>宏参数分别是前面接口描述符里的<code>bInterfaceClass</code>(接口类)，<code>bInterfaceSubClass</code>(接口子类)，<code>bInterfaceProtocol</code>(接口类协议)。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> USB_INTERFACE_INFO(cl, sc, pr) \</span></div><div class="line">	.match_flags = USB_DEVICE_ID_MATCH_INT_INFO, \</div><div class="line">	.bInterfaceClass = (cl), \</div><div class="line">	.bInterfaceSubClass = (sc), \</div><div class="line">	.bInterfaceProtocol = (pr)</div></pre></td></tr></table></figure><br>这里传入的第一个参数都是video类，第二个分别是VC和VS，第三个参数都是无协议。这些设置的依据来自于摄像头的USB描述符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Interface Descriptor:</div><div class="line">  ……</div><div class="line">  bInterfaceClass        14 Video</div><div class="line">  bInterfaceSubClass      1 Video Control</div><div class="line">  bInterfaceProtocol      0 </div><div class="line">  ……   </div><div class="line">  </div><div class="line">Interface Descriptor:</div><div class="line">  ……</div><div class="line">  bInterfaceClass        14 Video</div><div class="line">  bInterfaceSubClass      2 Video Streaming</div><div class="line">  bInterfaceProtocol      0 </div><div class="line">  ……</div></pre></td></tr></table></figure></p>
@@ -434,12 +435,26 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_uvc_vidioc_queryctrl</span> <span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *fh, <span class="keyword">struct</span> v4l2_queryctrl *ctrl)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> data[<span class="number">2</span>];  </div><div class="line"></div><div class="line">    <span class="keyword">if</span> (ctrl-&gt;id != V4L2_CID_BRIGHTNESS)     <span class="comment">//这里只操作控制亮度的v4l2_queryctrl</span></div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    <span class="built_in">memset</span>(ctrl, <span class="number">0</span>, <span class="keyword">sizeof</span> * ctrl);          <span class="comment">//初始化,清空</span></div><div class="line">    ctrl-&gt;id   = V4L2_CID_BRIGHTNESS;        <span class="comment">//设置ID</span></div><div class="line">    ctrl-&gt;type = V4L2_CTRL_TYPE_INTEGER;     <span class="comment">//设置属性类别(整数)</span></div><div class="line">    <span class="built_in">strcpy</span>(ctrl-&gt;name, <span class="string">"MY_UVC_BRIGHTNESS"</span>); <span class="comment">//设置名字</span></div><div class="line">    ctrl-&gt;flags = <span class="number">0</span>;                         <span class="comment">//默认支持设置等</span></div><div class="line"></div><div class="line">    <span class="comment">/* 发起USB传输,从摄像头获取这些值 */</span></div><div class="line">    <span class="comment">//设置最小值</span></div><div class="line">    <span class="keyword">if</span>(<span class="number">2</span> != usb_control_msg(my_uvc_udev, usb_rcvctrlpipe(my_uvc_udev, <span class="number">0</span>), </div><div class="line">                            GET_MIN, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN, </div><div class="line">                            PU_BRIGHTNESS_CONTROL &lt;&lt; <span class="number">8</span>, my_uvc_bUnitID &lt;&lt; <span class="number">8</span> | my_uvc_control_intf, data, <span class="number">2</span>, <span class="number">5000</span>)) </div><div class="line">        <span class="keyword">return</span> -EIO;</div><div class="line">    ctrl-&gt;minimum = my_uvc_get_le_value(data);	</div><div class="line"></div><div class="line">    <span class="comment">//设置最大值</span></div><div class="line">    <span class="keyword">if</span>(<span class="number">2</span> != usb_control_msg(my_uvc_udev, usb_rcvctrlpipe(my_uvc_udev, <span class="number">0</span>), </div><div class="line">                            GET_MAX, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN, </div><div class="line">                            PU_BRIGHTNESS_CONTROL &lt;&lt; <span class="number">8</span>, my_uvc_bUnitID &lt;&lt; <span class="number">8</span> | my_uvc_control_intf, data, <span class="number">2</span>, <span class="number">5000</span>))</div><div class="line">        <span class="keyword">return</span> -EIO;</div><div class="line">    ctrl-&gt;maximum = my_uvc_get_le_value(data);	</div><div class="line"></div><div class="line">    <span class="comment">//设置步长</span></div><div class="line">    <span class="keyword">if</span>(<span class="number">2</span> != usb_control_msg(my_uvc_udev, usb_rcvctrlpipe(my_uvc_udev, <span class="number">0</span>), </div><div class="line">                            GET_RES, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN, </div><div class="line">                            PU_BRIGHTNESS_CONTROL &lt;&lt; <span class="number">8</span>, my_uvc_bUnitID &lt;&lt; <span class="number">8</span> | my_uvc_control_intf, data, <span class="number">2</span>, <span class="number">5000</span>))</div><div class="line">        <span class="keyword">return</span> -EIO;</div><div class="line">    ctrl-&gt;step = my_uvc_get_le_value(data);	</div><div class="line"></div><div class="line">    <span class="comment">//设置典型值</span></div><div class="line">    <span class="keyword">if</span>(<span class="number">2</span> != usb_control_msg(my_uvc_udev, usb_rcvctrlpipe(my_uvc_udev, <span class="number">0</span>), </div><div class="line">                            GET_DEF, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN, </div><div class="line">                            PU_BRIGHTNESS_CONTROL &lt;&lt; <span class="number">8</span>, my_uvc_bUnitID &lt;&lt; <span class="number">8</span> | my_uvc_control_intf, data, <span class="number">2</span>, <span class="number">5000</span>))</div><div class="line">        <span class="keyword">return</span> -EIO;</div><div class="line">    ctrl-&gt;default_value = my_uvc_get_le_value(data);	</div><div class="line"></div><div class="line">    printk(<span class="string">"Brightness: min =%d, max = %d, step = %d, default = %d\n"</span>, ctrl-&gt;minimum, ctrl-&gt;maximum, ctrl-&gt;step, ctrl-&gt;default_value);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 <p>之后是<code>vidioc_g_ctrl()</code>(获得属性)和<code>vidioc_s_ctrl()</code>(设置属性)，操作和前面差不多，都是通过<code>usb_control_msg()</code>函数建立控制消息，从而发送/接收亮度数据。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_uvc_vidioc_g_ctrl</span> <span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *fh, <span class="keyword">struct</span> v4l2_control *ctrl)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> data[<span class="number">2</span>];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (ctrl-&gt;id != V4L2_CID_BRIGHTNESS)</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(<span class="number">2</span> != usb_control_msg(my_uvc_udev, usb_rcvctrlpipe(my_uvc_udev, <span class="number">0</span>), </div><div class="line">                            GET_CUR, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN, </div><div class="line">                            PU_BRIGHTNESS_CONTROL &lt;&lt; <span class="number">8</span>, my_uvc_bUnitID &lt;&lt; <span class="number">8</span> | my_uvc_control_intf, data, <span class="number">2</span>, <span class="number">5000</span>))</div><div class="line">        <span class="keyword">return</span> -EIO;</div><div class="line">    </div><div class="line">    ctrl-&gt;value = my_uvc_get_le_value(data);	</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_uvc_vidioc_s_ctrl</span> <span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">void</span> *fh, <span class="keyword">struct</span> v4l2_control *ctrl)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> data[<span class="number">2</span>];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (ctrl-&gt;id != V4L2_CID_BRIGHTNESS)</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line"></div><div class="line">    my_uvc_set_le_value(ctrl-&gt;value, data);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(<span class="number">2</span> != usb_control_msg(my_uvc_udev, usb_sndctrlpipe(my_uvc_udev, <span class="number">0</span>), </div><div class="line">                            SET_CUR, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT, </div><div class="line">                            PU_BRIGHTNESS_CONTROL &lt;&lt; <span class="number">8</span>, my_uvc_bUnitID  &lt;&lt; <span class="number">8</span> | my_uvc_control_intf, data, <span class="number">2</span>, <span class="number">5000</span>))</div><div class="line">        <span class="keyword">return</span> -EIO;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>至此，对属性进行操作，比如对摄像头亮度控制就完成了，其它的属性控制类似。</p>
-<h2 id="3-5-启动-停止"><a href="#3-5-启动-停止" class="headerlink" title="3.5 启动/停止"></a>3.5 启动/停止</h2><p>下面就开始启动摄像头，使用urb传输数据了。</p>
+<h2 id="3-6-URB"><a href="#3-6-URB" class="headerlink" title="3.6 URB"></a>3.6 URB</h2><p><code>USB Request Block</code>(URB)是Linux内核中，USB驱动实现的一个数据结构，用于组织每一次的USB设备驱动的数据传输请求。<br>也就是说，将USB传输相关信息放到URB这个结构体中，发送给USB核心，USB核心解析该结构体，从而进行所需数据/控制相关操作。</p>
+<p>所需的操作大致有三步：<br>1.分配usb_buffers，作为数据的缓冲区；<br>2.分配URB；<br>3.设置URB；</p>
+<p>为什么要<code>usb_buffer</code>?<br>从这个角度想：前面的<code>my_uvc_buffer</code>作为内核与用于空间的buf进行交互，这里的<code>urb_buffer</code>作为内核与USB设备的buf进行交互，最后将<code>urb_buffer = my_uvc_buffer</code>，就实现了USB设备的数据传到用户层了。</p>
+<p>首先，USB每次传输的数据大小，是可变的，根据外部设备的能力决定，比如外部设备支持一次传输100、200或800字节数据，每次传输称为<code>Packet</code>(包)；<br>其次，USB每次需要传输的数据，很可能大于前面的最大包(800字节)，因此每次传输的数据，将会被分割成N个包来传输。<br>因此，用URB来记录一次完整传输的信息，包括每次传多少，传几次，传的目标位置等。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">psize = my_uvc_wMaxPacketSize; <span class="comment">//实时传输端点一次能传输的最大字节数;lsusb: wMaxPacketSize 0x0320 1x800 bytes;</span></div><div class="line">size  = my_uvc_params.dwMaxVideoFrameSize; <span class="comment">//一帧数据的最大长度</span></div><div class="line">npackets = DIV_ROUND_UP(size, psize); <span class="comment">//传多少次(向上取整)</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>psize</code>就是每次传输的数据大小，通过USB摄像头的设备描述符<code>wMaxPacketSize</code>(最大每包大小)可以得知。</li>
+<li><code>size</code>就是每帧图像的大小，前面在<code>my_uvc_params</code>已经设置过了，是通过在<code>probe()</code>的打印<code>dwMaxPayloadTransferSize</code>得知的；</li>
+<li><code>npackets</code>就是<code>size/psize</code>再向上取整，得到需要传多少次。<br>最后还要<code>size = psize * npackets</code>更新一下向上取整后的新大小。</li>
+</ul>
+<p>这个分配<code>MY_UVC_URBS_NUM</code>(5个)<code>urb_buffer</code>和<code>urb</code>。<br><code>urb_buffer</code>通过<code>usb_alloc_coherent()</code>函数分配，大小为前面的调整后的<code>size</code>，得到指向buf的指针和DMA地址。<br><code>urb</code>通过<code>my_uvc_uninit_urbs</code>函数分配，数量为<code>npackets</code>，得到指向该<code>urb</code>的指针。</p>
+<p>对应的，如果分配失败，相应的调用<code>usb_free_coherent()</code>和<code>usb_free_urb()</code>释放空间，并相应的清空指针和重置<code>my_uvc_q.urb_size</code>。</p>
+<p>然后就是设置URB：</p>
 <blockquote>
-<p>urb(USB Request Block):Linux内核中USB驱动实现上的一个数据结构，用于组织每一次的USB设备驱动的数据传输请求。<br>在启动前，先分配、初始化urb。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure></p>
+<p><strong><code>urb-&gt;dev</code></strong>:指向目标设备的指针；&lt;这里是USB摄像头<code>my_uvc_udev</code>&gt;<br><strong><code>urb-&gt;pipe</code></strong>:与目标设置的管道；&lt;这里使用<code>usb_rcvisocpipe()</code>创建等时(ISO:Isochronous)管道，参数是对应VS的端点地址&gt;<br><strong><code>urb-&gt;transfer_flags</code></strong>:传输标志；&lt;<code>URB_ISO_ASAP</code>(开始调度)和<code>URB_NO_TRANSFER_DMA_MAP</code>(使用DMA对应的buf)&gt;<br><strong><code>urb-&gt;interval</code></strong>:传输间隔；&lt;来自USB描述符的<code>bInterval=1</code>&gt;<br><strong><code>urb-&gt;transfer_buffer</code></strong>:要传输的buf；&lt;前面得到的<code>my_uvc_q.urb_buffer[i]</code>指针&gt;<br><strong><code>urb-&gt;transfer_dma</code></strong>:buf对应的dma物理地址；&lt;前面得到的<code>my_uvc_q.urb_dma[i]</code>地址&gt;<br><strong><code>urb-&gt;complete</code></strong>:收完数据后的中断处理函数；&lt;后面再编写&gt;<br><strong><code>urb-&gt;number_of_packets</code></strong>:该URB要传输多少个包；&lt;前面计算的<code>npackets</code>&gt;<br><strong><code>urb-&gt;transfer_buffer_length</code></strong>:总共的数据长度；&lt;前面计算的<code>size</code>&gt;<br><strong><code>urb-&gt;iso_frame_desc[j].offset</code></strong>:每个包的偏移位置；&lt;<code>j * psize</code>就对应每个包的偏移&gt;<br><strong><code>urb-&gt;iso_frame_desc[j].length</code></strong>:每个包的大小；&lt;前面得到的<code>psize</code>&gt;<br>关于<a href="https://blog.csdn.net/myarrow/article/details/7025065" target="_blank" rel="external">URB数据结构</a>的参考博客。</p>
 </blockquote>
+<p>现在我们就设置好了URB，<strong>包含了目标设备USB摄像头和<code>urb_buffer</code>等信息，只要把这个URB传给USB核心，USB核心就会解析URB，与指定的USB设备传输数据，数据将被放在<code>urb_buffer</code>里，数据传输完成，将产生一个中断，执行中断处理函数<code>my_uvc_video_complete</code>。</strong></p>
+<p>下面就是实现<code>my_uvc_video_complete</code>，在里面</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="3-6-启动-停止"><a href="#3-6-启动-停止" class="headerlink" title="3.6 启动/停止"></a>3.6 启动/停止</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
@@ -571,7 +586,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-UVC基础"><span class="toc-number">1.</span> <span class="toc-text">1.UVC基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-USB基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 USB基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-UVC硬件模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 UVC硬件模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-USB描述符"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 USB描述符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-内核摄像头驱动"><span class="toc-number">2.</span> <span class="toc-text">2.内核摄像头驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1分析内核摄像头驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1分析内核摄像头驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2移植内核摄像头驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2移植内核摄像头驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写UVC驱动"><span class="toc-number">3.</span> <span class="toc-text">3.编写UVC驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-注册-USB和Video"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 注册(USB和Video)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-数据格式设置相关"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 数据格式设置相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-缓冲区操作相关"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 缓冲区操作相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-属性相关-以亮度控制为例"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 属性相关(以亮度控制为例)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-启动-停止"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 启动/停止</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-UVC基础"><span class="toc-number">1.</span> <span class="toc-text">1.UVC基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-USB基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 USB基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-UVC硬件模型"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 UVC硬件模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-USB描述符"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 USB描述符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-内核摄像头驱动"><span class="toc-number">2.</span> <span class="toc-text">2.内核摄像头驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1分析内核摄像头驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1分析内核摄像头驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2移植内核摄像头驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2移植内核摄像头驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写UVC驱动"><span class="toc-number">3.</span> <span class="toc-text">3.编写UVC驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-注册-USB和Video"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 注册(USB和Video)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-数据格式设置相关"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 数据格式设置相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-缓冲区操作相关"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 缓冲区操作相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-属性相关-以亮度控制为例"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 属性相关(以亮度控制为例)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-URB"><span class="toc-number">3.5.</span> <span class="toc-text">3.6 URB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-启动-停止"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 启动/停止</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -700,15 +715,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -716,7 +723,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -732,18 +763,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
@@ -752,23 +771,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -780,11 +791,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -793,6 +808,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -816,15 +835,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
