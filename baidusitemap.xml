@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/03/23/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
-    <lastmod>2018-04-20T17:12:05.585Z</lastmod>
+    <lastmod>2018-04-21T03:28:22.270Z</lastmod>
     <data>
         <display>
         <title>Linux摄像头驱动2——UVC</title>
@@ -241,9 +241,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -298,9 +298,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
