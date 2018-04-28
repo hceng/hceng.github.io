@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-28T10:29:49.699Z">
+<meta property="og:updated_time" content="2018-04-28T10:59:39.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -193,7 +193,7 @@
 <p>本次就仿照内核的方式，使用<code>make menuconfig</code>将驱动直接加到内核里。<br>在这之前需要理解三个文件：</p>
 <ul>
 <li><strong>Kconfig</strong>：<code>driver/</code>下的每个目录都有，在内核配置时候，提供配置选项；</li>
-<li><strong>Makefile</strong>：<code>driver/</code>下的每个目录都有，在编译的时候，指明驱动源码；</li>
+<li><strong>Makefile</strong>：<code>driver/</code>下的每个目录都有，在编译的时候，判断是否加入内核；</li>
 <li><strong>.config</strong>:在源码根目录下，作为最终的内核编译的依据；</li>
 </ul>
 <p>因此，以上三个文件，是主要影响内核模块编译的文件，后面只需要修改这三个文件即可。</p>
@@ -217,9 +217,11 @@
 <li><strong>4.配置</strong><br>执行<code>make menuconfig</code>，在配置界面找到：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Device Drivers  ---&gt;</div><div class="line">    Hceng add driver  ---&gt;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/0.jpg" alt=""><br>将添加的三个驱动勾选上，最后保存、退出，就将更改的内容写到了<code>.config</code>。<br>最后重新<code>make</code>编译，也一样得到添加自己驱动的内核。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/0.jpg"></div>
+
+<p>将添加的三个驱动勾选上，最后保存、退出，就将更改的内容写到了<code>.config</code>。<br>最后重新<code>make</code>编译，也得到添加自己驱动的内核。</p>
 <p>也可以直接修改<code>.config</code>配置文件，加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CONFIG_BACKLIGHT=y</div><div class="line">CONFIG_LCD=y</div><div class="line">CONFIG_UVC=y</div></pre></td></tr></table></figure></p>
-<p>再<code>make</code>，也得到添加自己驱动的内核。</p>
+<p>再<code>make</code>，也一样得到添加自己驱动的内核。</p>
 <h1 id="2-软件框架"><a href="#2-软件框架" class="headerlink" title="2.软件框架"></a>2.软件框架</h1><p>①:首先从摄像头<strong>获取数据</strong>放入<code>video_buf</code>，数据的格式(YUV、MJPEG、RGB)和分辨率可能有多种；<br>②:Tiny4412的LCD仅支持RGB格式，因此需要<strong>数据格式转换</strong>；<br>③:Tiny4412的LCD分辨率是800X480，因此需要<strong>大小缩放</strong>；<br>④:根据LCD显示流程，必须要将显示数据<strong>写入显存</strong>(FrameBuffer)；<br>⑤:最后LCD控制器会将显存数据<strong>自动搬运</strong>到LCD/VGA等显示设备上；</p>
 <div align="center"><img width="506" height="367" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg"></div>
 
@@ -489,15 +491,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -505,15 +503,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -530,18 +528,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,11 +551,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,15 +587,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -609,7 +599,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -617,7 +607,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
             
             <div class="clearfix"></div>
