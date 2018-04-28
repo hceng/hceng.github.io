@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-28T01:26:22.369Z</updated>
+  <updated>2018-04-28T01:31:33.221Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2018/04/28/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/"/>
     <id>http://yoursite.com/2018/04/28/Linux摄像头驱动3——LCD显示/</id>
     <published>2018-04-28T08:01:05.000Z</published>
-    <updated>2018-04-28T01:26:22.369Z</updated>
+    <updated>2018-04-28T01:31:33.221Z</updated>
     
-    <content type="html"><![CDATA[<p>Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。<br><a id="more"></a><br>前面的UVC驱动，实现了在Ubuntu主机上显示摄像头采集的图像，但那不是最终目的，最终目的是在嵌入式设备上显示图像。<br>因此本篇博客算不上驱动开发，更多的是Linux环境下编程。尝试写一个应用程序，实现USB摄像头采集的图像在Tiny4412的LCD上显示。</p><h1 id="1-将驱动加入内核"><a href="#1-将驱动加入内核" class="headerlink" title="1.将驱动加入内核"></a>1.将驱动加入内核</h1><p>在开始应用编程之前，需要先准备好驱动，在LCD上显示摄像头图像，至少需要三个驱动：LCD驱动、背光驱动、UVC驱动。<br>这三个驱动都在前面写过了，只需要加载即可。以前都是使用的<code>insmod</code>进行动态加载驱动，每次开发板上电后，都需要手动/脚本里加载驱动，有点麻烦。因此本次直接使用静态加载，将三个驱动直接编译进内核，以后就不用再手动加载了。</p><h1 id="2-框架"><a href="#2-框架" class="headerlink" title="2.框架"></a>2.框架</h1><p>①:首先从摄像头<strong>获取数据</strong>放入<code>video_buf</code>，数据的格式(YUV、MJPEG、RGB)和分辨率可能有多种；<br>②:Tiny4412的LCD仅支持RGB格式，因此需要<strong>数据格式转换</strong>；<br>③:Tiny4412的LCD分辨率是800X480，因此需要<strong>大小缩放</strong>；<br>④:根据LCD显示流程，必须要将显示数据<strong>写入显存</strong>(FrameBuffer)；<br>⑤:最后LCD控制器会将显存数据<strong>自动搬运</strong>到LCD/VGA等显示设备上；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg" alt=""></p><h1 id="Makefile"><a href="#Makefile" class="headerlink" title=".Makefile"></a>.Makefile</h1><p>完善中……</p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
+    <content type="html"><![CDATA[<p>Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。<br><a id="more"></a><br>前面的UVC驱动，实现了在Ubuntu主机上显示摄像头采集的图像，但那不是最终目的，最终目的是在嵌入式设备上显示图像。<br>因此本篇博客算不上驱动开发，更多的是Linux环境下编程。尝试写一个应用程序，实现USB摄像头采集的图像在Tiny4412的LCD上显示。</p><h1 id="1-将驱动加入内核"><a href="#1-将驱动加入内核" class="headerlink" title="1.将驱动加入内核"></a>1.将驱动加入内核</h1><p>在开始应用编程之前，需要先准备好驱动，在LCD上显示摄像头图像，至少需要三个驱动：LCD驱动、背光驱动、UVC驱动。<br>这三个驱动都在前面写过了，只需要加载即可。以前都是使用的<code>insmod</code>进行动态加载驱动，每次开发板上电后，都需要手动/脚本里加载驱动，有点麻烦。因此本次直接使用静态加载，将三个驱动直接编译进内核，以后就不用再手动加载了。</p><h1 id="2-框架"><a href="#2-框架" class="headerlink" title="2.框架"></a>2.框架</h1><p>①:首先从摄像头<strong>获取数据</strong>放入<code>video_buf</code>，数据的格式(YUV、MJPEG、RGB)和分辨率可能有多种；<br>②:Tiny4412的LCD仅支持RGB格式，因此需要<strong>数据格式转换</strong>；<br>③:Tiny4412的LCD分辨率是800X480，因此需要<strong>大小缩放</strong>；<br>④:根据LCD显示流程，必须要将显示数据<strong>写入显存</strong>(FrameBuffer)；<br>⑤:最后LCD控制器会将显存数据<strong>自动搬运</strong>到LCD/VGA等显示设备上；</p><p><div align="center"><img width="506" height="367" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg"></div><br><img src="" alt=""></p><h1 id="Makefile"><a href="#Makefile" class="headerlink" title=".Makefile"></a>.Makefile</h1><p>完善中……</p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
     <summary type="html">
     
