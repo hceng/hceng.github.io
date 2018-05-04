@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-02-23T02:48:56.381Z">
+<meta property="og:updated_time" content="2018-04-29T10:58:55.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——LCD驱动">
 <meta name="twitter:description" content="Exynos4412的LCD驱动。">
@@ -205,7 +205,10 @@
 <h2 id="1-1-颜色的量化"><a href="#1-1-颜色的量化" class="headerlink" title="1.1 颜色的量化"></a>1.1 颜色的量化</h2><p>显示器的颜色一般采用RGB标准，通过对红(RED)、绿(GREEN)，蓝(BLUE)三个颜色相互叠加得到各种不同的颜色。<br>1）通过对颜色的编码来对颜色进行量化（即转换成数字量，RGB是一种编码方式）；<br>2）每种颜色根据RGB格式不同，每种颜色的量化位不相同；<br>3) 常见的RGB格式有RGB565/RGB888，即:<br>　　RGB565: red :5  green : 6 blue:5（16BPP）<br>　　RGB888: red :8  green : 8 blue:8（24BPP）<br>4）有的还会有个alpha参数，用于实现图形渐变效果，以及半透明效果，0xFFF=全透明，0x0=不透明；</p>
 <h2 id="1-2-图像的构成"><a href="#1-2-图像的构成" class="headerlink" title="1.2 图像的构成"></a>1.2 图像的构成</h2><p><strong>像素：</strong><br>显示的最小单位；<br>用若干位数据来表示一个像素，比如使用R8、G8、B8共24位来表示一个像素，这个也称为像素深度，单位为BPP 常见的有16BPP/24BPP；<br>像素越高，则一个像素点所显示的颜色就越多，所显示的颜色更广；</p>
 <p><strong>帧：</strong><br>一幅图像被称为一帧，<br>每帧里面由行列排列的像素组成；</p>
-<p><strong>调色板：</strong><br>画油画的时候，通常先在调色板里配好想要的颜色，再用画笔沾到画布上作画。<br>LCD控制器里也借用了这个概念，从FrameBuffer获得数据，这个数据作为索引从调色板获得对应数据，再发给电子枪显示出来。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0_0.jpg" alt=""><br>如图，假如是16BPP的数据，LCD控制器从FB取出16bit数据，显示到LCD上。<br>当如果想节约内存，对颜色要求也没那么高，就可以采用调色板的方式，调色板里存放了256个16bit的数据，FB只存放每个像素的索引，根据索引去调色板找到对应的数据传给LCD控制器，再通过电子枪显示出来。         </p>
+<p><strong>调色板：</strong><br>画油画的时候，通常先在调色板里配好想要的颜色，再用画笔沾到画布上作画。<br>LCD控制器里也借用了这个概念，从FrameBuffer获得数据，这个数据作为索引从调色板获得对应数据，再发给电子枪显示出来。</p>
+<div align="center"><img width="617" height="933" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0_0.jpg"></div>
+
+<p>如图，假如是16BPP的数据，LCD控制器从FB取出16bit数据，显示到LCD上。<br>当如果想节约内存，对颜色要求也没那么高，就可以采用调色板的方式，调色板里存放了256个16bit的数据，FB只存放每个像素的索引，根据索引去调色板找到对应的数据传给LCD控制器，再通过电子枪显示出来。         </p>
 <h2 id="1-3-LCD显示原理"><a href="#1-3-LCD显示原理" class="headerlink" title="1.3 LCD显示原理"></a>1.3 LCD显示原理</h2><p>常见的TFT显示屏幕都会有如下控制信号：<br>1)使用HSYNC信号来控制一行的显示；<br>2)使用VSYNC信号来控制一帧(列)的显示；<br>3)使用VCLK信号来控制一个像素的显示；<br>4)使用VDEN信号来控制数据的输出；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0.jpg" alt=""><br>想象每个像素点是由电子枪发射出来的，电子枪依次扫描整个LCD界面，就显示了一副完整的图像。<br>当发出一个HSYNC信号后，电子枪就会从行末花费HBP时长移动到行首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了行末后，再等待HFP时长待HSYNC信号到来，再移动到行首，如此往复。因此，HBP和HFP分别决定了左边和右边的黑框。<br>同理，当发出一个VSYNC信号后，电子枪就会从列末花费VBP时长移动到列首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了列末后，再等待VFP时长待VSYNC信号到来，再移动到列首，如此往复。因此，VBP和VFP分别决定了上边和下边的黑框。<br>真实显示区域为图中阴影部分。</p>
 <h2 id="1-4-LCD硬件控制思路"><a href="#1-4-LCD硬件控制思路" class="headerlink" title="1.4 LCD硬件控制思路"></a>1.4 LCD硬件控制思路</h2><ol>
 <li>查看LCD芯片手册，查看相关的时间参数、分辨率、引脚极性等；</li>
@@ -653,15 +656,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -669,15 +664,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -689,27 +704,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -729,11 +728,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -741,7 +744,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,6 +757,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -774,14 +785,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
             
             <div class="clearfix"></div>

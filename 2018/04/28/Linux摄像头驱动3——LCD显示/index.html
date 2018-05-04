@@ -16,8 +16,9 @@
 <meta property="og:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-28T10:59:39.189Z">
+<meta property="og:updated_time" content="2018-05-04T03:57:12.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -187,7 +188,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。<br><a id="more"></a><br>前面的UVC驱动，实现了在Ubuntu主机上显示摄像头采集的图像，但那不是最终目的，最终目的是在嵌入式设备上显示图像。<br>因此本篇博客算不上驱动开发，更多的是Linux环境下编程。尝试写一个应用程序，实现USB摄像头采集的图像在Tiny4412的LCD上显示。</p>
+        <p>Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。<br><a id="more"></a><br>前面的UVC驱动，实现了在Ubuntu主机上显示摄像头采集的图像，但那不是最终目的，最终目的是在嵌入式设备上显示图像。<br>本篇博客尝试写一个应用程序，实现USB摄像头采集的图像在Tiny4412的LCD上显示。所以本篇算不上驱动开发，更多的是Linux环境下编程。</p>
 <h1 id="1-将驱动加入内核"><a href="#1-将驱动加入内核" class="headerlink" title="1.将驱动加入内核"></a>1.将驱动加入内核</h1><p>在开始应用编程之前，需要先准备好驱动，在LCD上显示摄像头图像，至少需要三个驱动：LCD驱动、背光驱动、UVC驱动。<br>这三个驱动都在前面写过了，只需要加载即可。以前都是使用的<code>insmod xx.ko</code>进行动态加载驱动，每次开发板上电后，都需要手动/脚本里加载驱动，有点麻烦。<br>反观内核自带的驱动，使用<code>make menuconfig</code>进入图形配置界面里，找到对应的驱动，可以设置为<code>Y</code>(编译到内核)、<code>M</code>(编译成模块)、<code>N</code>(不编译)。当设置为<code>Y</code>后，进入系统后，就自带了该驱动，不再需要手动加载。</p>
 <p>前者常用于<strong>调试阶段</strong>，就算驱动有问题，内核崩溃了，下次内核还能正常启动，修改驱动后重新加载，很方便。<br>后者常用于<strong>发布阶段</strong>，加入到内核，就不能再修改了，也就少了一些加载驱动的操作。</p>
 <p>本次就仿照内核的方式，使用<code>make menuconfig</code>将驱动直接加到内核里。<br>在这之前需要理解三个文件：</p>
@@ -222,20 +223,19 @@
 <p>将添加的三个驱动勾选上，最后保存、退出，就将更改的内容写到了<code>.config</code>。<br>最后重新<code>make</code>编译，也得到添加自己驱动的内核。</p>
 <p>也可以直接修改<code>.config</code>配置文件，加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CONFIG_BACKLIGHT=y</div><div class="line">CONFIG_LCD=y</div><div class="line">CONFIG_UVC=y</div></pre></td></tr></table></figure></p>
 <p>再<code>make</code>，也一样得到添加自己驱动的内核。</p>
-<h1 id="2-软件框架"><a href="#2-软件框架" class="headerlink" title="2.软件框架"></a>2.软件框架</h1><p>①:首先从摄像头<strong>获取数据</strong>放入<code>video_buf</code>，数据的格式(YUV、MJPEG、RGB)和分辨率可能有多种；<br>②:Tiny4412的LCD仅支持RGB格式，因此需要<strong>数据格式转换</strong>；<br>③:Tiny4412的LCD分辨率是800X480，因此需要<strong>大小缩放</strong>；<br>④:根据LCD显示流程，必须要将显示数据<strong>写入显存</strong>(FrameBuffer)；<br>⑤:最后LCD控制器会将显存数据<strong>自动搬运</strong>到LCD/VGA等显示设备上；</p>
+<h1 id="2-软件框架"><a href="#2-软件框架" class="headerlink" title="2.软件框架"></a>2.软件框架</h1><p>①:首先从摄像头<strong>获取数据</strong>放入<code>video_buf</code>，数据的格式(YUV、MJPEG、RGB)和分辨率可能有多种；<br>②:Tiny4412的LCD仅支持RGB格式，因此需要<strong>数据格式转换</strong>；<br>③:Tiny4412的LCD分辨率是800X480，因此可能需要<strong>大小缩放</strong>；<br>④:根据LCD显示流程，必须要将显示数据<strong>写入显存</strong>(FrameBuffer)；<br>⑤:最后LCD控制器会将显存数据<strong>自动搬运</strong>到LCD/VGA等显示设备上；</p>
 <div align="center"><img width="506" height="367" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg"></div>
 
-<p>在应用编程中，要习惯<strong>面向对象编程(Object Oriented Programming)</strong>，也就是把对象作为程序的基本单元，一个对象包含了<strong>数据</strong>和<strong>操作数据的函数</strong>，在C语言中常常用结构体(<code>struct</code>)来体现。</p>
-<p>因此，这里把图中的每个方框都转换成对象，每个对象都包含特定的数据和操作数据的函数。</p>
-<blockquote>
-<ul>
-<li><p><strong>Video_buf</strong>：<br>　　数据：摄像头的设备描述符、像素格式、分辨率；<br>　　操作函数：初始化/退出设备、获取buf/放入buf(stream模式需要把buf放回队列)、开始/停止；</p>
-</li>
-<li><p><strong>Conver_buf</strong>：<br>　　数据：；<br>　　操作函数：判断是否支持传入的格式、开始/退出转换、；</p>
-</li>
-</ul>
-</blockquote>
-<h1 id="Makefile"><a href="#Makefile" class="headerlink" title=".Makefile"></a>.Makefile</h1><p>完善中……</p>
+<p>在应用编程中，要习惯<strong>面向对象编程(Object Oriented Programming)</strong>，也就是把对象作为程序的基本单元，一个对象包含了<strong>数据</strong>和<strong>操作数据的函数</strong>，在C语言中常常用结构体(<code>struct</code>)来实现。</p>
+<p>关于<strong>Linux内核C语言中的面向对象的实现</strong>，可以参考这篇<a href="http://unicornx.github.io/2016/01/06/20160106-c-oob/" target="_blank" rel="external">博客</a>，介绍了如何C语言实现面向对象，也通过这个能稍微理解Linux驱动中的操作函数的原理。</p>
+<p>这里，模仿内核的编程框架，为每个模块实现一个管理链表，模块对应加入链表，再调用对应的操作函数，框架如下：</p>
+<div align="center"><img width="565" height="441" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/2.jpg"></div>
+
+<p>这个框架，在这里暂时不能体会到它的优势，以后接触多了，应该就能感受了。</p>
+<p>简单说明下这个框架，主要有四个模块:<code>video</code>用于摄像头数据采集，<code>convert</code>用于格式转换、<code>process</code>用于缩放等操作、<code>dispaly</code>用于显示。<br>以<code>convert</code>为例，有一个<code>manager</code>管理每个子模块，将每个子模块放入链表，向上提供统一的操作接口，调用对应文件的操作函数。</p>
+<h1 id="3-编程-获取摄像头数据"><a href="#3-编程-获取摄像头数据" class="headerlink" title="3.编程_获取摄像头数据"></a>3.编程_获取摄像头数据</h1><h1 id="4-编程-格式转换"><a href="#4-编程-格式转换" class="headerlink" title="4.编程_格式转换"></a>4.编程_格式转换</h1><h1 id="5-编程-图像处理"><a href="#5-编程-图像处理" class="headerlink" title="5.编程_图像处理"></a>5.编程_图像处理</h1><h1 id="6-编程-图像显示"><a href="#6-编程-图像显示" class="headerlink" title="6.编程_图像显示"></a>6.编程_图像显示</h1><h1 id="7-编程-主函数"><a href="#7-编程-主函数" class="headerlink" title="7.编程_主函数"></a>7.编程_主函数</h1><h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8.Makefile"></a>8.Makefile</h1><h1 id="9"><a href="#9" class="headerlink" title="9."></a>9.</h1><p>完善中……</p>
+<p>应用看出驱动的问题。</p>
+<p>参考文章：<br><a href="http://unicornx.github.io/2016/01/06/20160106-c-oob/" target="_blank" rel="external">Linux内核C语言中的面向对象</a><br><a href="http://www.100ask.org/index.html" target="_blank" rel="external">韦东山第三期项目视频_摄像头</a></p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -362,7 +362,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-将驱动加入内核"><span class="toc-number">1.</span> <span class="toc-text">1.将驱动加入内核</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-软件框架"><span class="toc-number">2.</span> <span class="toc-text">2.软件框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Makefile"><span class="toc-number">3.</span> <span class="toc-text">.Makefile</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-将驱动加入内核"><span class="toc-number">1.</span> <span class="toc-text">1.将驱动加入内核</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-软件框架"><span class="toc-number">2.</span> <span class="toc-text">2.软件框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编程-获取摄像头数据"><span class="toc-number">3.</span> <span class="toc-text">3.编程_获取摄像头数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-编程-格式转换"><span class="toc-number">4.</span> <span class="toc-text">4.编程_格式转换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-编程-图像处理"><span class="toc-number">5.</span> <span class="toc-text">5.编程_图像处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-编程-图像显示"><span class="toc-number">6.</span> <span class="toc-text">6.编程_图像显示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-编程-主函数"><span class="toc-number">7.</span> <span class="toc-text">7.编程_主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Makefile"><span class="toc-number">8.</span> <span class="toc-text">8.Makefile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9"><span class="toc-number">9.</span> <span class="toc-text">9.</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -491,15 +491,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,15 +499,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -527,27 +539,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,11 +563,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,7 +579,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -588,6 +592,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -612,14 +620,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
             
             <div class="clearfix"></div>
