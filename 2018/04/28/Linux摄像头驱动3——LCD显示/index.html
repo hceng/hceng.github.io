@@ -17,8 +17,9 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/2.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/4.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-04T03:57:12.023Z">
+<meta property="og:updated_time" content="2018-05-07T01:59:30.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -232,10 +233,25 @@
 <div align="center"><img width="565" height="441" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/2.jpg"></div>
 
 <p>这个框架，在这里暂时不能体会到它的优势，以后接触多了，应该就能感受了。</p>
-<p>简单说明下这个框架，主要有四个模块:<code>video</code>用于摄像头数据采集，<code>convert</code>用于格式转换、<code>process</code>用于缩放等操作、<code>dispaly</code>用于显示。<br>以<code>convert</code>为例，有一个<code>manager</code>管理每个子模块，将每个子模块放入链表，向上提供统一的操作接口，调用对应文件的操作函数。</p>
-<h1 id="3-编程-获取摄像头数据"><a href="#3-编程-获取摄像头数据" class="headerlink" title="3.编程_获取摄像头数据"></a>3.编程_获取摄像头数据</h1><h1 id="4-编程-格式转换"><a href="#4-编程-格式转换" class="headerlink" title="4.编程_格式转换"></a>4.编程_格式转换</h1><h1 id="5-编程-图像处理"><a href="#5-编程-图像处理" class="headerlink" title="5.编程_图像处理"></a>5.编程_图像处理</h1><h1 id="6-编程-图像显示"><a href="#6-编程-图像显示" class="headerlink" title="6.编程_图像显示"></a>6.编程_图像显示</h1><h1 id="7-编程-主函数"><a href="#7-编程-主函数" class="headerlink" title="7.编程_主函数"></a>7.编程_主函数</h1><h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8.Makefile"></a>8.Makefile</h1><h1 id="9"><a href="#9" class="headerlink" title="9."></a>9.</h1><p>完善中……</p>
+<p>简单说明下这个框架，主要有四个模块:<br><code>video</code>用于摄像头数据采集，<code>convert</code>用于格式转换、<code>process</code>用于缩放等操作、<code>dispaly</code>用于显示。<br>以<code>convert</code>为例，有一个<code>manager</code>管理每个子模块，将每个子模块放入链表，向上提供统一的操作接口，调用对应文件的操作函数。</p>
+<h1 id="3-编程-获取摄像头数据"><a href="#3-编程-获取摄像头数据" class="headerlink" title="3.编程_获取摄像头数据"></a>3.编程_获取摄像头数据</h1><p>使用结构体<code>video_device</code>来表示<strong>摄像头设备</strong>，包含了设备的文件句柄、像素格式、分辨率、buf信息、操作函数等：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> video_device &#123;</div><div class="line">    <span class="keyword">int</span> fd;            <span class="comment">//文件句柄</span></div><div class="line">    <span class="keyword">int</span> pixel_format;  <span class="comment">//像素格式</span></div><div class="line">    <span class="keyword">int</span> width, height; <span class="comment">//分辨率:宽*高</span></div><div class="line"></div><div class="line">    <span class="keyword">int</span> buf_count;     <span class="comment">//buf数量</span></div><div class="line">    <span class="keyword">int</span> buf_maxlen;    <span class="comment">//每个buf最大长度</span></div><div class="line">    <span class="keyword">int</span> buf_cur_index; <span class="comment">//当前buf索引</span></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *video_buf[VIDEO_BUFFER_NUM]; <span class="comment">//每个video buf的地址</span></div><div class="line"></div><div class="line">    <span class="comment">//操作函数</span></div><div class="line">    p_video_operations p_video_fops;</div><div class="line">    </div><div class="line">&#125;video_device, *p_video_device;</div><div class="line"></div><div class="line"><span class="comment">//摄像头设备的操作函数</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> video_operations &#123;</div><div class="line">    <span class="keyword">char</span> *name;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> (*init_device)(<span class="keyword">char</span> *dev_name, p_video_device p_video_dev);</div><div class="line">    <span class="keyword">int</span> (*exit_device)(p_video_device p_video_dev);</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> (*get_format)(p_video_device p_video_dev);</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> (*get_frame)(p_video_device p_video_dev, p_video_buffer p_video_buf); </div><div class="line">    <span class="keyword">int</span> (*put_frame)(p_video_device p_video_dev, p_video_buffer p_video_buf); </div><div class="line"></div><div class="line">    <span class="keyword">int</span> (*start_device)(p_video_device p_video_dev);</div><div class="line">    <span class="keyword">int</span> (*stop_device)(p_video_device p_video_dev);</div><div class="line"></div><div class="line">    <span class="keyword">struct</span> video_operations *p_next;</div><div class="line">&#125;video_operations, *p_video_operations;</div></pre></td></tr></table></figure></p>
+<p>使用结构体<code>video_buffer</code>来表示<strong>摄像头采集的数据</strong>，包含每帧数据信息、像素格式等：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//图片像素的数据</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> pixel_datas &#123;</div><div class="line">	<span class="keyword">int</span> width;                       <span class="comment">//宽度: 一行有多少个像素</span></div><div class="line">	<span class="keyword">int</span> height;                      <span class="comment">//高度: 一列有多少个像素</span></div><div class="line">	<span class="keyword">int</span> bpp;                         <span class="comment">//一个像素用多少位来表示</span></div><div class="line">	<span class="keyword">int</span> line_bytes;                  <span class="comment">//一行数据有多少字节</span></div><div class="line">	<span class="keyword">int</span> total_bytes;                 <span class="comment">//所有字节数</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> *pixel_datas_addr; <span class="comment">//像素数据存储的地址</span></div><div class="line">&#125;pixel_datas, *p_pixel_datas;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//摄像头的数据</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> video_buffer &#123;</div><div class="line">    pixel_datas pixel_datas;   <span class="comment">//图片像素的数据</span></div><div class="line">    <span class="keyword">int</span> pixel_format;          <span class="comment">//像素的格式</span></div><div class="line">&#125;video_buffer, *p_video_buffer;</div></pre></td></tr></table></figure></p>
+<h2 id="3-1-video-manager-c"><a href="#3-1-video-manager-c" class="headerlink" title="3.1 video_manager.c"></a>3.1 video_manager.c</h2><p><code>video_manager.c</code>主要功能是操作<code>video_operations</code>构成的链表，涉及的函数有：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">register_video_ops</span><span class="params">(p_video_operations p_video_ops)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_video_ops</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line"><span class="function">p_video_operations <span class="title">get_video_ops</span><span class="params">(<span class="keyword">char</span> *name)</span></span>;</div></pre></td></tr></table></figure><br>此外，通过<code>video_device_init()</code>初始化链表上指定设备节点的设备，通过<code>video_init()</code>注册设备。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/4.jpg"></div>
+
+<p>对链表的操作比较简单，见<a href="https://github.com/hceng/learn/blob/master/tiny4412/09_video2lcd/app_code/video/video_manager.c" target="_blank" rel="external">GitHub</a>。</p>
+<h2 id="3-2-v4l2-c"><a href="#3-2-v4l2-c" class="headerlink" title="3.2 v4l2.c"></a>3.2 v4l2.c</h2><p>首先构建一个<code>video_operations</code>结构体，然后注册并具体实现函数的功能。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//构造一个video_operations结构体</span></div><div class="line"><span class="keyword">static</span> video_operations v4l2_video_ops =</div><div class="line">&#123;</div><div class="line">    .name        = <span class="string">"v4l2"</span>,</div><div class="line"></div><div class="line">    .init_device  = v4l2_init_device,</div><div class="line">    .exit_device  = v4l2_exit_device,</div><div class="line"></div><div class="line">    .get_format   = v4l2_get_format,</div><div class="line"></div><div class="line">    .get_frame    = v4l2_get_frame_streaming,</div><div class="line">    .put_frame    = v4l2_put_frame_streaming,</div><div class="line"></div><div class="line">    .start_device = v4l2_start_device,</div><div class="line">    .stop_device  = v4l2_stop_device,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/* 注册这个结构体 */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">v4l2_init</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> register_video_ops(&amp;v4l2_video_ops);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先是<code>v4l2_init_device()</code>，它的内容比较多，前面写<code>uvc</code>驱动的时候，对应用层的操作其实都脑补了一遍，包含的步骤如下:</p>
+<blockquote>
+<p>1.<strong>VIDIOC_QUERYCAP</strong>:获取设备信息(是否为摄像头、名字、版本等)<br>2.<strong>VIDIOC_ENUM_FMT</strong>:查询支持哪些种格式<br>3.<strong>VIDIOC_S_FMT</strong>:设置设备使用何种格式<br>4.<strong>VIDIOC_REQBUFS</strong>:申请buf<br>5.根据接口类型进行对应操作(streaming接口需要映射)<br>　　streaming接口：<br>　　　　6.1查询分配的buf(获得每个buf大小、偏移)<br>　　　　6.2映射buf到用户空间(将用户空间buf和内核空间buf 进行绑定)<br>　　　　6.3将映射的buf放入驱动的buf队列<br>　　readwrite接口：<br>　　　　7.1准备read()所需参数</p>
+</blockquote>
+<h1 id="4-编程-格式转换"><a href="#4-编程-格式转换" class="headerlink" title="4.编程_格式转换"></a>4.编程_格式转换</h1><h1 id="5-编程-图像处理"><a href="#5-编程-图像处理" class="headerlink" title="5.编程_图像处理"></a>5.编程_图像处理</h1><h1 id="6-编程-图像显示"><a href="#6-编程-图像显示" class="headerlink" title="6.编程_图像显示"></a>6.编程_图像显示</h1><h1 id="7-编程-主函数"><a href="#7-编程-主函数" class="headerlink" title="7.编程_主函数"></a>7.编程_主函数</h1><h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8.Makefile"></a>8.Makefile</h1><h1 id="9"><a href="#9" class="headerlink" title="9."></a>9.</h1><p>完善中……</p>
 <p>应用看出驱动的问题。</p>
 <p>参考文章：<br><a href="http://unicornx.github.io/2016/01/06/20160106-c-oob/" target="_blank" rel="external">Linux内核C语言中的面向对象</a><br><a href="http://www.100ask.org/index.html" target="_blank" rel="external">韦东山第三期项目视频_摄像头</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -255,15 +271,15 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">摄像头</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux环境编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UVC</a>
         		</li>
       		
 		</ul>
@@ -362,7 +378,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-将驱动加入内核"><span class="toc-number">1.</span> <span class="toc-text">1.将驱动加入内核</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-软件框架"><span class="toc-number">2.</span> <span class="toc-text">2.软件框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编程-获取摄像头数据"><span class="toc-number">3.</span> <span class="toc-text">3.编程_获取摄像头数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-编程-格式转换"><span class="toc-number">4.</span> <span class="toc-text">4.编程_格式转换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-编程-图像处理"><span class="toc-number">5.</span> <span class="toc-text">5.编程_图像处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-编程-图像显示"><span class="toc-number">6.</span> <span class="toc-text">6.编程_图像显示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-编程-主函数"><span class="toc-number">7.</span> <span class="toc-text">7.编程_主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Makefile"><span class="toc-number">8.</span> <span class="toc-text">8.Makefile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9"><span class="toc-number">9.</span> <span class="toc-text">9.</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-将驱动加入内核"><span class="toc-number">1.</span> <span class="toc-text">1.将驱动加入内核</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-软件框架"><span class="toc-number">2.</span> <span class="toc-text">2.软件框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编程-获取摄像头数据"><span class="toc-number">3.</span> <span class="toc-text">3.编程_获取摄像头数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-video-manager-c"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 video_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-v4l2-c"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 v4l2.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-编程-格式转换"><span class="toc-number">4.</span> <span class="toc-text">4.编程_格式转换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-编程-图像处理"><span class="toc-number">5.</span> <span class="toc-text">5.编程_图像处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-编程-图像显示"><span class="toc-number">6.</span> <span class="toc-text">6.编程_图像显示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-编程-主函数"><span class="toc-number">7.</span> <span class="toc-text">7.编程_主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Makefile"><span class="toc-number">8.</span> <span class="toc-text">8.Makefile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9"><span class="toc-number">9.</span> <span class="toc-text">9.</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -511,6 +527,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
@@ -519,15 +539,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,19 +571,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,11 +591,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,10 +608,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -620,6 +632,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
             
             <div class="clearfix"></div>
