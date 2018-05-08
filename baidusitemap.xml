@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/04/28/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
-    <lastmod>2018-05-07T09:00:52.439Z</lastmod>
+    <lastmod>2018-05-08T14:41:55.253Z</lastmod>
     <data>
         <display>
         <title>Linux摄像头驱动3——LCD显示</title>
@@ -13,9 +13,9 @@
         
         <tag>LCD</tag>
          
-        <tag>摄像头</tag>
-         
         <tag>UVC</tag>
+         
+        <tag>摄像头</tag>
          
         <tag>Linux环境编程</tag>
          
