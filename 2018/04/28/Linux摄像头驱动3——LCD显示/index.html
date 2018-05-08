@@ -18,8 +18,9 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/1.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/2.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/4.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/5.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-07T01:59:30.792Z">
+<meta property="og:updated_time" content="2018-05-07T09:00:52.439Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -245,6 +246,10 @@
 <blockquote>
 <p>1.<strong>VIDIOC_QUERYCAP</strong>:获取设备信息(是否为摄像头、名字、版本等)<br>2.<strong>VIDIOC_ENUM_FMT</strong>:查询支持哪些种格式<br>3.<strong>VIDIOC_S_FMT</strong>:设置设备使用何种格式<br>4.<strong>VIDIOC_REQBUFS</strong>:申请buf<br>5.根据接口类型进行对应操作(streaming接口需要映射)<br>　　streaming接口：<br>　　　　6.1查询分配的buf(获得每个buf大小、偏移)<br>　　　　6.2映射buf到用户空间(将用户空间buf和内核空间buf 进行绑定)<br>　　　　6.3将映射的buf放入驱动的buf队列<br>　　readwrite接口：<br>　　　　7.1准备read()所需参数</p>
 </blockquote>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/5.jpg"></div>
+
+<p>这样一系列操作后，<code>p_video_dev</code>就包含了几乎摄像头设备的所有信息。</p>
+<p>对于streaming接口，<code>v4l2_get_frame_streaming()</code>和<code>v4l2_put_frame_streaming()</code>。</p>
 <h1 id="4-编程-格式转换"><a href="#4-编程-格式转换" class="headerlink" title="4.编程_格式转换"></a>4.编程_格式转换</h1><h1 id="5-编程-图像处理"><a href="#5-编程-图像处理" class="headerlink" title="5.编程_图像处理"></a>5.编程_图像处理</h1><h1 id="6-编程-图像显示"><a href="#6-编程-图像显示" class="headerlink" title="6.编程_图像显示"></a>6.编程_图像显示</h1><h1 id="7-编程-主函数"><a href="#7-编程-主函数" class="headerlink" title="7.编程_主函数"></a>7.编程_主函数</h1><h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8.Makefile"></a>8.Makefile</h1><h1 id="9"><a href="#9" class="headerlink" title="9."></a>9.</h1><p>完善中……</p>
 <p>应用看出驱动的问题。</p>
 <p>参考文章：<br><a href="http://unicornx.github.io/2016/01/06/20160106-c-oob/" target="_blank" rel="external">Linux内核C语言中的面向对象</a><br><a href="http://www.100ask.org/index.html" target="_blank" rel="external">韦东山第三期项目视频_摄像头</a></p>
@@ -271,15 +276,15 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux环境编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">摄像头</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux环境编程</a>
         		</li>
       		
 		</ul>
@@ -507,15 +512,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -523,11 +520,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -535,7 +532,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -551,23 +560,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,23 +576,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -603,11 +600,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -619,11 +624,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -631,11 +632,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>
