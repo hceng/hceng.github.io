@@ -19,8 +19,9 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/2.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/4.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/5.jpg?v=1">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/6.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-09T15:14:45.335Z">
+<meta property="og:updated_time" content="2018-05-10T10:46:44.807Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -265,10 +266,16 @@
 <li><p>1.转换错误处理函数<br><code>libjpeg</code>库自带的转换错误处理函数在出错时，会退出程序。但在将摄像头图像转换的过程中，某一帧出现问题，可以忽略过去，画面顶多卡顿一下，为了不让程序退出，需要自己定义错误处理函数，并绑定。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> my_error_mgr</div><div class="line">&#123;</div><div class="line">	<span class="keyword">struct</span> jpeg_error_mgr pub;</div><div class="line">	jmp_buf setjmp_buffer;</div><div class="line">&#125;my_error_mgr, *p_my_error_mgr;</div><div class="line"></div><div class="line"><span class="comment">//参考libjpeg里的bmp.c,自定义的libjpeg库出错处理函数:</span></div><div class="line"><span class="comment">//默认的错误处理函数是让程序退出,这里不让程序退出</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">my_error_exit</span><span class="params">(j_common_ptr cinfo)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">char</span> err_str[JMSG_LENGTH_MAX];</div><div class="line">    </div><div class="line">	p_my_error_mgr my_err = (p_my_error_mgr)cinfo-&gt;err;</div><div class="line"></div><div class="line">    <span class="comment">/* Create the message */</span></div><div class="line">    (*cinfo-&gt;err-&gt;format_message) (cinfo, err_str);</div><div class="line">    printf_debug(<span class="string">"%s\n"</span>, err_str);</div><div class="line"></div><div class="line">	longjmp(my_err-&gt;setjmp_buffer, <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">……</div><div class="line"></div><div class="line">    cinfo.err = jpeg_std_error(&amp;jerr.pub); <span class="comment">//绑定jerr错误结构体至jpeg对象结构体</span></div><div class="line">    jerr.pub.error_exit = my_error_exit; <span class="comment">//设置为自己定义的出错处理函数</span></div></pre></td></tr></table></figure>
 </li>
-<li><p>2.BPP转换<br>摄像头采集的数据格式</p>
+<li><p>2.BPP转换<br>前面LCD驱动里，将LCD设置为了RGB32(实际还是RGB24，多出来的没有使用)，而摄像头采集的数据格式为RGB24，因此需要RGB24转RGB32。</p>
 </li>
 </ul>
-<h1 id="5-编程-图像处理"><a href="#5-编程-图像处理" class="headerlink" title="5.编程_图像处理"></a>5.编程_图像处理</h1><h1 id="6-编程-图像显示"><a href="#6-编程-图像显示" class="headerlink" title="6.编程_图像显示"></a>6.编程_图像显示</h1><h1 id="7-编程-主函数"><a href="#7-编程-主函数" class="headerlink" title="7.编程_主函数"></a>7.编程_主函数</h1><h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8.Makefile"></a>8.Makefile</h1><h1 id="9"><a href="#9" class="headerlink" title="9."></a>9.</h1><p>完善中……</p>
+<p>如果源bpp和目标bpp一致，直接<code>memcpy()</code>复制，长度就是宽的像素个数x每个像素由3*8位构成/8位构成一字节：<code>width\*(8+8+8)/8=width\*3</code><br>如果是24BPP转32BPP，需要把源数据变长：</p>
+<div align="center"><img width="884" height="364" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/6.jpg"></div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//把已经从JPG文件取出的一行像素数据,转换为能在显示设备上使用的格式</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">covert_one_line</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> scr_bpp, <span class="keyword">int</span> dst_bpp, </span></span></div><div class="line">                                  <span class="keyword">unsigned</span> <span class="keyword">char</span> *scr_datas, <span class="keyword">unsigned</span> <span class="keyword">char</span> *dst_datas)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">int</span> pos = <span class="number">0</span>;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> red, green, blue, color;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> *dst_datas_16bpp = (<span class="keyword">unsigned</span> <span class="keyword">short</span> *)dst_datas;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span>   *dst_datas_32bpp = (<span class="keyword">unsigned</span> <span class="keyword">int</span> *)dst_datas;</div><div class="line">	</div><div class="line">	<span class="keyword">if</span> (scr_bpp != <span class="number">24</span>)</div><div class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">if</span> (dst_bpp == <span class="number">24</span>)</div><div class="line">		<span class="built_in">memcpy</span>(dst_datas, scr_datas, width*<span class="number">3</span>); <span class="comment">//len=width*(8+8+8)/8=width*3</span></div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; width; i++)</div><div class="line">		&#123;</div><div class="line">			red   = scr_datas[pos++];</div><div class="line">			green = scr_datas[pos++];</div><div class="line">			blue  = scr_datas[pos++];</div><div class="line">			<span class="keyword">if</span> (dst_bpp == <span class="number">32</span>)</div><div class="line">			&#123;</div><div class="line">				color = (red &lt;&lt; <span class="number">16</span>) | (green &lt;&lt; <span class="number">8</span>) | blue;</div><div class="line">				*dst_datas_32bpp = color;</div><div class="line">				dst_datas_32bpp++;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (dst_bpp == <span class="number">16</span>)</div><div class="line">			&#123;</div><div class="line">				<span class="comment">/* 565 */</span></div><div class="line">				red   = red &gt;&gt; <span class="number">3</span>;</div><div class="line">				green = green &gt;&gt; <span class="number">2</span>;</div><div class="line">				blue  = blue&gt;&gt; <span class="number">3</span>;</div><div class="line">				color = (red &lt;&lt; <span class="number">11</span>) | (green &lt;&lt; <span class="number">5</span>) | (blue);</div><div class="line">				*dst_datas_16bpp = color;</div><div class="line">				dst_datas_16bpp++;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>即先定义一个<code>unsigned int *</code>类型的指针<code>dst_datas_32bpp</code>，先提取出r、g、b，再组成新格式，复制给指针指向的变量，由于是<code>unsigned int *</code>类型的指针，指针每增加1，实际移动32位，即刚好指向下一个像素。连续操作后，<code>dst_datas</code>指针指向的位置，就是转换后的数据开始位置。</p>
+<h1 id="5-编程-图像处理"><a href="#5-编程-图像处理" class="headerlink" title="5.编程_图像处理"></a>5.编程_图像处理</h1><p>处理部分有两个操作，一个是图像的缩放，一个是将新图</p>
+<h1 id="6-编程-图像显示"><a href="#6-编程-图像显示" class="headerlink" title="6.编程_图像显示"></a>6.编程_图像显示</h1><h1 id="7-编程-主函数"><a href="#7-编程-主函数" class="headerlink" title="7.编程_主函数"></a>7.编程_主函数</h1><h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8.Makefile"></a>8.Makefile</h1><h1 id="9"><a href="#9" class="headerlink" title="9."></a>9.</h1><p>完善中……</p>
 <p>应用看出驱动的问题。</p>
 <p>参考文章：<br><a href="http://unicornx.github.io/2016/01/06/20160106-c-oob/" target="_blank" rel="external">Linux内核C语言中的面向对象</a><br><a href="http://www.100ask.org/index.html" target="_blank" rel="external">韦东山第三期项目视频_摄像头</a></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"></div></pre></td></tr></table></figure>
@@ -562,10 +569,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -574,15 +577,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -606,6 +613,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -615,14 +626,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -638,6 +641,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -646,15 +653,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
