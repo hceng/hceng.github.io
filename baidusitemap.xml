@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/04/28/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
-    <lastmod>2018-05-14T04:06:47.295Z</lastmod>
+    <lastmod>2018-05-14T09:44:47.682Z</lastmod>
     <data>
         <display>
         <title>Linux摄像头驱动3——LCD显示</title>
@@ -13,11 +13,11 @@
         
         <tag>LCD</tag>
          
-        <tag>Linux环境编程</tag>
+        <tag>UVC</tag>
          
         <tag>摄像头</tag>
          
-        <tag>UVC</tag>
+        <tag>Linux环境编程</tag>
          
          
            
@@ -264,9 +264,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -321,9 +321,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
