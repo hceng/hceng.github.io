@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/9.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/10.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-14T09:44:47.682Z">
+<meta property="og:updated_time" content="2018-05-15T16:03:59.752Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -300,7 +300,24 @@
 <div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/9.jpg"></div>
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print_help</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Usage: video2lcd [options]... [FILE]...\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"The LCD displays the image captured by the camera.\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Options:\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t"</span> <span class="string">"-v"</span> <span class="string">"\t\tSelect the camera device, default: /dev/video0\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t"</span> <span class="string">"-d"</span> <span class="string">"\t\tSelect the lcd display device, default: /dev/fb0\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t"</span> <span class="string">"-h"</span> <span class="string">"\t\tDisplay this information.\n"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">stop_app</span><span class="params">(<span class="keyword">int</span> signo)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\nexit.\n"</span>);</div><div class="line"></div><div class="line">    _exit(<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> i, ret;</div><div class="line">    <span class="keyword">float</span> k;</div><div class="line">    video_device video_dev;</div><div class="line">    p_video_convert video_conv;</div><div class="line">    <span class="keyword">int</span> pixel_formt_of_video, pixel_formt_of_disp;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> top_left_x, top_left_y;</div><div class="line">    <span class="keyword">int</span> lcd_width, lcd_height, lcd_bpp;</div><div class="line"></div><div class="line">    p_video_buffer video_buf_cur;</div><div class="line">    video_buffer video_buf, convert_buf, zoom_buf, frame_buf;</div><div class="line"></div><div class="line">    <span class="keyword">char</span> *get_argv[<span class="number">2</span>] = &#123;&#125;;</div><div class="line"></div><div class="line">    signal(SIGINT, stop_app);</div><div class="line"></div><div class="line">    <span class="comment">//0.传入参数判断</span></div><div class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; argc; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(<span class="string">"-v"</span>, argv[i]))</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="literal">NULL</span> == argv[i + <span class="number">1</span>])</div><div class="line">            &#123;</div><div class="line">                print_help();</div><div class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">                get_argv[<span class="number">0</span>] = argv[i + <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(<span class="string">"-d"</span>, argv[i]))</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="literal">NULL</span> == argv[i + <span class="number">1</span>])</div><div class="line">            &#123;</div><div class="line">                print_help();</div><div class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">                get_argv[<span class="number">1</span>] = argv[i + <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(<span class="string">"-h"</span>, argv[i]))</div><div class="line">        &#123;</div><div class="line">            print_help();</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//1.初始化显示设备并获取显示设备参数</span></div><div class="line">    display_init(); <span class="comment">//注册所有显示设备(fb和crt)</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (get_argv[<span class="number">1</span>] == <span class="literal">NULL</span>) <span class="comment">//选择和初始化指定的显示设备</span></div><div class="line">        select_and_init_disp_dev(<span class="string">"lcd"</span>, <span class="string">"/dev/fb0"</span>); <span class="comment">//default:lcd的/dev/fb0</span></div><div class="line">    <span class="keyword">else</span></div><div class="line">        select_and_init_disp_dev(<span class="string">"lcd"</span>, get_argv[<span class="number">1</span>]);</div><div class="line"></div><div class="line">    get_disp_resolution(&amp;lcd_width, &amp;lcd_height, &amp;lcd_bpp); <span class="comment">//获取设备的分辨率和支持的bpp</span></div><div class="line">    get_video_buf_for_disp(&amp;frame_buf); <span class="comment">//得到显存的各种信息(分辨率、bpp、大小、地址等)</span></div><div class="line"></div><div class="line">    pixel_formt_of_disp = frame_buf.pixel_format;</div><div class="line"></div><div class="line">    <span class="comment">//2.初始化采集设备</span></div><div class="line">    video_init(); <span class="comment">//注册所有图像采集设备(v4l2协议)</span></div><div class="line"></div><div class="line">    ret = video_device_init(get_argv[<span class="number">0</span>], &amp;video_dev); <span class="comment">//初始化指定的/dev/video0</span></div><div class="line">    <span class="keyword">if</span> (ret)</div><div class="line">    &#123;</div><div class="line">        printf_debug(<span class="string">"video_device_init for %s error!\n"</span>, get_argv[<span class="number">0</span>]);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    pixel_formt_of_video = video_dev.p_video_fops-&gt;get_format(&amp;video_dev); <span class="comment">//获取视频格式</span></div><div class="line"></div><div class="line">    <span class="comment">//3.转换初始化</span></div><div class="line">    video_convert_init(); <span class="comment">//注册所有支持的转换方式(yuv、mjpeg、rgb)</span></div><div class="line">    <span class="comment">//传入采集设备格式和显示设备支持格式,在链表里依次判断是否支持该格式转换</span></div><div class="line">    video_conv = get_video_convert_format(pixel_formt_of_video, pixel_formt_of_disp);</div><div class="line">    <span class="keyword">if</span> (<span class="literal">NULL</span> == video_conv)</div><div class="line">    &#123;</div><div class="line">        printf_debug(<span class="string">"Can not support this format convert\n"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//4.启动摄像头设备</span></div><div class="line">    ret = video_dev.p_video_fops-&gt;start_device(&amp;video_dev);</div><div class="line">    <span class="keyword">if</span> (ret)</div><div class="line">    &#123;</div><div class="line">        printf_debug(<span class="string">"start_device for %s error!\n"</span>, get_argv[<span class="number">0</span>]);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">memset</span>(&amp;video_buf, <span class="number">0</span>, <span class="keyword">sizeof</span>(video_buf));</div><div class="line">    <span class="built_in">memset</span>(&amp;convert_buf, <span class="number">0</span>, <span class="keyword">sizeof</span>(convert_buf));</div><div class="line">    convert_buf.pixel_format    = pixel_formt_of_disp;</div><div class="line">    convert_buf.pixel_datas.bpp = lcd_bpp;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="built_in">memset</span>(&amp;zoom_buf, <span class="number">0</span>, <span class="keyword">sizeof</span>(zoom_buf));</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//5.读入摄像头数据</span></div><div class="line">        ret = video_dev.p_video_fops-&gt;get_frame(&amp;video_dev, &amp;video_buf);</div><div class="line">        <span class="keyword">if</span> (ret)</div><div class="line">        &#123;</div><div class="line">            printf_debug(<span class="string">"get_frame for %s error!\n"</span>, get_argv[<span class="number">0</span>]);</div><div class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">        &#125;</div><div class="line">        video_buf_cur = &amp;video_buf;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (pixel_formt_of_video != pixel_formt_of_disp) <span class="comment">//采集的图像格式和显示的图像格式不一致</span></div><div class="line">        &#123;</div><div class="line">            <span class="comment">//6.格式转换</span></div><div class="line">            ret = video_conv-&gt;convert(&amp;video_buf, &amp;convert_buf);</div><div class="line">            <span class="keyword">if</span> (ret)</div><div class="line">            &#123;</div><div class="line">                printf_debug(<span class="string">"convert for %s error!\n"</span>, get_argv[<span class="number">0</span>]);</div><div class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">            &#125;</div><div class="line">            video_buf_cur = &amp;convert_buf;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//现在video_buf_cur就是最后的图像数据</span></div><div class="line"></div><div class="line"></div><div class="line">        <span class="comment">//7.如果图像分辨率大于LCD, 缩放</span></div><div class="line">        <span class="keyword">if</span> ((video_buf_cur-&gt;pixel_datas.width &gt; lcd_width) || (video_buf_cur-&gt;pixel_datas.height &gt; lcd_height))</div><div class="line">        &#123;</div><div class="line">            <span class="comment">//确定缩放后的分辨率</span></div><div class="line">            <span class="comment">//把图片按比例缩放到video_mem上, 居中显示</span></div><div class="line">            <span class="comment">//1. 先算出缩放后的大小</span></div><div class="line">            k = (<span class="keyword">float</span>)video_buf_cur-&gt;pixel_datas.height / video_buf_cur-&gt;pixel_datas.width; <span class="comment">//长宽比例</span></div><div class="line">            zoom_buf.pixel_datas.width  = lcd_width;</div><div class="line">            zoom_buf.pixel_datas.height = lcd_width * k;</div><div class="line">            <span class="keyword">if</span> ( zoom_buf.pixel_datas.height &gt; lcd_height)</div><div class="line">            &#123;</div><div class="line">                zoom_buf.pixel_datas.width  = lcd_height / k;</div><div class="line">                zoom_buf.pixel_datas.height = lcd_height;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            zoom_buf.pixel_datas.bpp         = lcd_bpp;</div><div class="line">            zoom_buf.pixel_datas.line_bytes  = zoom_buf.pixel_datas.width * zoom_buf.pixel_datas.bpp / <span class="number">8</span>;</div><div class="line">            zoom_buf.pixel_datas.total_bytes = zoom_buf.pixel_datas.line_bytes * zoom_buf.pixel_datas.height;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (!zoom_buf.pixel_datas.pixel_datas_addr)</div><div class="line">            &#123;</div><div class="line">                zoom_buf.pixel_datas.pixel_datas_addr = <span class="built_in">malloc</span>(zoom_buf.pixel_datas.total_bytes);</div><div class="line">                <span class="keyword">if</span> (<span class="literal">NULL</span> == zoom_buf.pixel_datas.pixel_datas_addr)</div><div class="line">                    <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            pic_zoom(&amp;video_buf_cur-&gt;pixel_datas, &amp;zoom_buf.pixel_datas);</div><div class="line">            video_buf_cur = &amp;zoom_buf;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//合并进framebuffer</span></div><div class="line">        <span class="comment">//接着算出居中显示时左上角坐标</span></div><div class="line">        top_left_x = (lcd_width - video_buf_cur-&gt;pixel_datas.width) / <span class="number">2</span>;</div><div class="line">        top_left_y = (lcd_height - video_buf_cur-&gt;pixel_datas.height) / <span class="number">2</span>;</div><div class="line"></div><div class="line">        pic_merge(top_left_x, top_left_y, &amp;video_buf_cur-&gt;pixel_datas, &amp;frame_buf.pixel_datas);</div><div class="line"></div><div class="line">        flush_pixel_datas_to_dev(&amp;frame_buf.pixel_datas);</div><div class="line"></div><div class="line">        ret = video_dev.p_video_fops-&gt;put_frame(&amp;video_dev, &amp;video_buf);</div><div class="line">        <span class="keyword">if</span> (ret)</div><div class="line">        &#123;</div><div class="line">            printf_debug(<span class="string">"put_frame for %s error!\n"</span>, get_argv[<span class="number">0</span>]);</div><div class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//把framebuffer的数据刷到LCD上, 显示</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8. Makefile"></a>8. Makefile</h1><p>最后，还需要用Makefile将整个工程组织编译。这里总结一个通用的Makefile模板。<br>基础知识：</p>
+<h1 id="8-Makefile"><a href="#8-Makefile" class="headerlink" title="8. Makefile"></a>8. Makefile</h1><p>最后，还需要用Makefile将整个工程组织编译。这里总结一个通用的Makefile模板。</p>
+<h2 id="8-1-基础知识"><a href="#8-1-基础知识" class="headerlink" title="8.1 基础知识"></a>8.1 基础知识</h2><p>首先总结一些<a href="http://www.gnu.org/software/make/manual/" target="_blank" rel="external">基础知识</a>：</p>
+<ul>
+<li><p>常用通配符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%.o  ——&gt; 表示所有的.o文件</div><div class="line">%.c  ——&gt; 表示所有的.c文件</div><div class="line">$@   ——&gt; 表示目标</div><div class="line">$&lt;   ——&gt; 表示第1个依赖文件</div><div class="line">$^   ——&gt; 表示所有依赖文件</div></pre></td></tr></table></figure>
+</li>
+<li><p>常用变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">:=   ——&gt; 即时变量，它的值在定义的时候确定；</div><div class="line">=    ——&gt; 延时变量，只有在使用到的时候才确定，在定义/等于时并没有确定下来；</div><div class="line">?=   ——&gt; 延时变量, 如果是第1次定义才起效, 如果在前面该变量已定义则忽略；(不覆盖前面的定义)</div><div class="line">+=   ——&gt; 附加, 它是即时变量还是延时变量取决于前面的定义；</div></pre></td></tr></table></figure>
+</li>
+<li><p>常用参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-Wp,-MD,xx.o.d  ——&gt; 生成依赖xx.o.d</div><div class="line">-I /xx          ——&gt; 指定头文件(.h)目录xx</div><div class="line">-L /xx          ——&gt; 指定库文件(.so)目录xx</div><div class="line">-Wall           ——&gt; 打开gcc的所有警告</div><div class="line">-Werror         ——&gt; 将所有的警告当成错误进行处理</div><div class="line">-O2             ——&gt; 优化等级</div><div class="line">-g              ——&gt; gdb调试</div></pre></td></tr></table></figure>
+</li>
+<li><p>常用函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(foreach var,list,text)                ——&gt; 将list里面的每个成员,都作text处理</div><div class="line">$(filter pattern...,text)               ——&gt; 在text中取出符合patten格式的值</div><div class="line">$(filter-out pattern...,text)           ——&gt; 在text中取出不符合patten格式的值</div><div class="line">$(wildcard pattern)                     ——&gt; pattern定义了文件名的格式,wildcard取出其中存在的文件</div><div class="line">$(patsubst pattern,replacement,$(var))  ——&gt; 从列表中取出每一个值,如果符合pattern,则替换为replacement</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>举例：<br>假设当前路径下有<code>a.c b.c c.c Makefile</code>四个文件，Makefile内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">A = a b c </div><div class="line">B = $(foreach f, $(A), $(f).o)</div><div class="line"></div><div class="line">C = a b c d/</div><div class="line">D = $(filter %/, $(C))</div><div class="line">E = $(filter-out %/, $(C))</div><div class="line"></div><div class="line">files = $(wildcard *.c)</div><div class="line"></div><div class="line">files2 = a.c b.c c.c d.c e.c  abc</div><div class="line">files3 = $(wildcard $(files2))</div><div class="line"></div><div class="line">dep_files = $(patsubst %.c,%.d,$(files2))</div><div class="line"></div><div class="line">all:</div><div class="line">	@echo B = $(B)</div><div class="line">	@echo D = $(D)</div><div class="line">	@echo E = $(E)</div><div class="line">	@echo files = $(files)</div><div class="line">	@echo files3 = $(files3)</div><div class="line">	@echo dep_files = $(dep_files)</div></pre></td></tr></table></figure></p>
+<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">B = a.o b.o c.o                     //把A中每个成员加上后缀.o</div><div class="line">D = d/                              //取出C中符合搜索条件&quot;/&quot;的成员，常用于取出文件夹</div><div class="line">E = a b c                           //取出C中不符合搜索条件&quot;/&quot;的成员，常用于取出非文件夹</div><div class="line">files = a.c b.c c.c                 //取出当前路径下的a.c b.c c.c三个文件，常用于得到当前路径的文件</div><div class="line">files3 = a.c b.c c.c                //取出当前路径下存在的a.c b.c c.c三个文件，常用于判断文件是否存在</div><div class="line">dep_files = a.d b.d c.d d.d e.d abc //替换符合条件&quot;.c&quot;的文件为&quot;.d&quot;，常用于文件后缀的修改</div></pre></td></tr></table></figure></p>
 <h1 id="9-实测效果及源码"><a href="#9-实测效果及源码" class="headerlink" title="9. 实测效果及源码"></a>9. 实测效果及源码</h1><ul>
 <li><p>实测效果：</p>
 <div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/10.jpg"></div>
@@ -329,11 +346,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UVC</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">摄像头</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">摄像头</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UVC</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -436,7 +453,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-将驱动加入内核"><span class="toc-number">1.</span> <span class="toc-text">1.将驱动加入内核</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-软件框架"><span class="toc-number">2.</span> <span class="toc-text">2.软件框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编程-获取摄像头数据"><span class="toc-number">3.</span> <span class="toc-text">3.编程_获取摄像头数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-video-manager-c"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 video_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-v4l2-c"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 v4l2.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-编程-格式转换"><span class="toc-number">4.</span> <span class="toc-text">4.编程_格式转换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-convert-manager-c"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 convert_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-mjpeg2rgb-c"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 mjpeg2rgb.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-编程-图像处理"><span class="toc-number">5.</span> <span class="toc-text">5.编程_图像处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-zoom-c"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 zoom.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-merge-c"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 merge.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-编程-图像显示"><span class="toc-number">6.</span> <span class="toc-text">6.编程_图像显示</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-disp-manager-c"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 disp_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-lcd-c"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 lcd.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-编程-主函数"><span class="toc-number">7.</span> <span class="toc-text">7.编程_主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Makefile"><span class="toc-number">8.</span> <span class="toc-text">8. Makefile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-实测效果及源码"><span class="toc-number">9.</span> <span class="toc-text">9. 实测效果及源码</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-将驱动加入内核"><span class="toc-number">1.</span> <span class="toc-text">1.将驱动加入内核</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-软件框架"><span class="toc-number">2.</span> <span class="toc-text">2.软件框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编程-获取摄像头数据"><span class="toc-number">3.</span> <span class="toc-text">3.编程_获取摄像头数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-video-manager-c"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 video_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-v4l2-c"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 v4l2.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-编程-格式转换"><span class="toc-number">4.</span> <span class="toc-text">4.编程_格式转换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-convert-manager-c"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 convert_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-mjpeg2rgb-c"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 mjpeg2rgb.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-编程-图像处理"><span class="toc-number">5.</span> <span class="toc-text">5.编程_图像处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-zoom-c"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 zoom.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-merge-c"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 merge.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-编程-图像显示"><span class="toc-number">6.</span> <span class="toc-text">6.编程_图像显示</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-disp-manager-c"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 disp_manager.c</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-lcd-c"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 lcd.c</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-编程-主函数"><span class="toc-number">7.</span> <span class="toc-text">7.编程_主函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Makefile"><span class="toc-number">8.</span> <span class="toc-text">8. Makefile</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-基础知识"><span class="toc-number">8.1.</span> <span class="toc-text">8.1 基础知识</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-实测效果及源码"><span class="toc-number">9.</span> <span class="toc-text">9. 实测效果及源码</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -581,11 +598,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -597,23 +638,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -625,7 +654,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -633,15 +662,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -650,6 +671,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -665,26 +690,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -693,7 +698,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
             
             <div class="clearfix"></div>
