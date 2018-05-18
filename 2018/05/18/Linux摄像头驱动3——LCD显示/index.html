@@ -11,7 +11,7 @@
   <meta name="description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux摄像头驱动3——LCD显示">
-<meta property="og:url" content="http://yoursite.com/2018/04/28/Linux摄像头驱动3——LCD显示/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/05/18/Linux摄像头驱动3——LCD显示/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/0.jpg">
@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/11.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/10.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-17T16:44:45.711Z">
+<meta property="og:updated_time" content="2018-05-18T01:32:14.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -188,8 +188,8 @@
   
 
         
-        <a href="/2018/04/28/Linux摄像头驱动3——LCD显示/" class="archive-article-date">
-  	<time datetime="2018-04-28T08:01:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-28</time>
+        <a href="/2018/05/18/Linux摄像头驱动3——LCD显示/" class="archive-article-date">
+  	<time datetime="2018-05-18T08:01:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-18</time>
 </a>
         
       </header>
@@ -327,17 +327,21 @@
 
 <ul>
 <li><p><strong>1.顶层目录的Makefile</strong><br>它除了定义<code>obj-y</code>来指定根目录下要编进程序去的文件、子目录外，主要是定义工具链、编译参数、链接参数(即文件中用<code>export</code>导出的各变量)；</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1.定义编译工具简写并声明(以变其它文件可使用)</span></div><div class="line">CROSS_COMPILE = arm-linux-gnueabihf-</div><div class="line">AS		      = <span class="variable">$(CROSS_COMPILE)</span>as</div><div class="line">LD		      = <span class="variable">$(CROSS_COMPILE)</span>ld</div><div class="line">CC		      = <span class="variable">$(CROSS_COMPILE)</span>gcc</div><div class="line">CPP		      = <span class="variable">$(CC)</span> -E</div><div class="line">AR		      = <span class="variable">$(CROSS_COMPILE)</span>ar</div><div class="line">NM		      = <span class="variable">$(CROSS_COMPILE)</span>nm</div><div class="line">              </div><div class="line">STRIP		  = <span class="variable">$(CROSS_COMPILE)</span>strip</div><div class="line">OBJCOPY		  = <span class="variable">$(CROSS_COMPILE)</span>objcopy</div><div class="line">OBJDUMP		  = <span class="variable">$(CROSS_COMPILE)</span>objdump</div><div class="line">export AS LD CC CPP AR NM</div><div class="line">export STRIP OBJCOPY OBJDUMP</div><div class="line"></div><div class="line"><span class="comment"># 2.定义编译选项并声明(警告信息、优化等级、gdb调试、指定本程序头文件路径)</span></div><div class="line">CFLAGS := -Wall -Werror -O2 -g</div><div class="line">CFLAGS += -I <span class="variable">$(shell pwd)</span>/include</div><div class="line">export CFLAGS</div><div class="line"></div><div class="line"><span class="comment"># 3.定义链接选项并声明(数学库、LibJPEG库)</span></div><div class="line">LDFLAGS := -lm -ljpeg</div><div class="line">export LDFLAGS</div><div class="line"></div><div class="line"><span class="comment"># 4.定义顶层目录路径并声明(shell命令实现)</span></div><div class="line">TOPDIR := <span class="variable">$(shell pwd)</span></div><div class="line">export TOPDIR</div><div class="line"></div><div class="line"><span class="comment"># 5.程序目标文件</span></div><div class="line">TARGET := video2lcd</div><div class="line"></div><div class="line"><span class="comment"># 6.使用"obj-y"表示各个目标文件,即过程中的所有.o文件(包含当前路径文件和当前路径下的文件夹)</span></div><div class="line">obj-y += main.o</div><div class="line">obj-y += video/</div><div class="line">obj-y += convert/</div><div class="line">obj-y += process/</div><div class="line">obj-y += display/</div><div class="line"></div><div class="line"><span class="comment"># 7. 目标all:</span></div><div class="line"><span class="comment"># 7.1执行指定路径下的文件(即本程序的Makefile.build)</span></div><div class="line"><span class="comment"># 7.2依赖"built-in.o"生成最终的目标文件</span></div><div class="line">all : </div><div class="line">	make -C ./ -f <span class="variable">$(TOPDIR)</span>/Makefile.build</div><div class="line">	<span class="variable">$(CC)</span> -o <span class="variable">$(TARGET)</span> built-in.o <span class="variable">$(LDFLAGS)</span></div><div class="line"></div><div class="line"><span class="comment"># 8.目标clean:清除所有的.o文件和目标文件</span></div><div class="line"><span class="section">clean:</span></div><div class="line">	rm -f <span class="variable">$(shell find -name "*.o")</span></div><div class="line">	rm -f <span class="variable">$(TARGET)</span></div><div class="line"></div><div class="line"><span class="comment"># 9.目标distclean:清除所有的.o文件、.d文件(依赖文件)和目标文件</span></div><div class="line"><span class="section">distclean:</span></div><div class="line">	rm -f <span class="variable">$(shell find -name "*.o")</span></div><div class="line">	rm -f <span class="variable">$(shell find -name "*.d")</span></div><div class="line">	rm -f <span class="variable">$(TARGET)</span></div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1.定义编译工具简写并声明(以变其它文件可使用)</span></div><div class="line">CROSS_COMPILE = arm-linux-gnueabihf-</div><div class="line">AS            = <span class="variable">$(CROSS_COMPILE)</span>as</div><div class="line">LD		      = <span class="variable">$(CROSS_COMPILE)</span>ld</div><div class="line">CC		      = <span class="variable">$(CROSS_COMPILE)</span>gcc</div><div class="line">CPP		      = <span class="variable">$(CC)</span> -E</div><div class="line">AR		      = <span class="variable">$(CROSS_COMPILE)</span>ar</div><div class="line">NM		      = <span class="variable">$(CROSS_COMPILE)</span>nm</div><div class="line">              </div><div class="line">STRIP		  = <span class="variable">$(CROSS_COMPILE)</span>strip</div><div class="line">OBJCOPY		  = <span class="variable">$(CROSS_COMPILE)</span>objcopy</div><div class="line">OBJDUMP		  = <span class="variable">$(CROSS_COMPILE)</span>objdump</div><div class="line">export AS LD CC CPP AR NM</div><div class="line">export STRIP OBJCOPY OBJDUMP</div><div class="line"></div><div class="line"><span class="comment"># 2.定义编译选项并声明(警告信息、优化等级、gdb调试、指定本程序头文件路径)</span></div><div class="line">CFLAGS := -Wall -Werror -O2 -g</div><div class="line">CFLAGS += -I <span class="variable">$(shell pwd)</span>/include</div><div class="line">export CFLAGS</div><div class="line"></div><div class="line"><span class="comment"># 3.定义链接选项并声明(数学库、LibJPEG库)</span></div><div class="line">LDFLAGS := -lm -ljpeg</div><div class="line">export LDFLAGS</div><div class="line"></div><div class="line"><span class="comment"># 4.定义顶层目录路径并声明(shell命令实现)</span></div><div class="line">TOPDIR := <span class="variable">$(shell pwd)</span></div><div class="line">export TOPDIR</div><div class="line"></div><div class="line"><span class="comment"># 5.程序目标文件</span></div><div class="line">TARGET := video2lcd</div><div class="line"></div><div class="line"><span class="comment"># 6.使用"obj-y"表示各个目标文件,即过程中的所有.o文件(包含当前路径文件和当前路径下的文件夹)</span></div><div class="line">obj-y += main.o</div><div class="line">obj-y += video/</div><div class="line">obj-y += convert/</div><div class="line">obj-y += process/</div><div class="line">obj-y += display/</div><div class="line"></div><div class="line"><span class="comment"># 7. 目标all:</span></div><div class="line"><span class="comment"># 7.1在-C指定目录下,执行指定路径下的文件(即在本路径执行Makefile.build)</span></div><div class="line"><span class="comment"># 7.2依赖"built-in.o"生成最终的目标文件</span></div><div class="line">all : </div><div class="line">	make -C ./ -f <span class="variable">$(TOPDIR)</span>/Makefile.build</div><div class="line">	<span class="variable">$(CC)</span> -o <span class="variable">$(TARGET)</span> built-in.o <span class="variable">$(LDFLAGS)</span></div><div class="line"></div><div class="line"><span class="comment"># 8.目标clean:清除所有的.o文件和目标文件</span></div><div class="line"><span class="section">clean:</span></div><div class="line">	rm -f <span class="variable">$(shell find -name "*.o")</span></div><div class="line">	rm -f <span class="variable">$(TARGET)</span></div><div class="line"></div><div class="line"><span class="comment"># 9.目标distclean:清除所有的.o文件、.d文件(依赖文件)和目标文件</span></div><div class="line"><span class="section">distclean:</span></div><div class="line">	rm -f <span class="variable">$(shell find -name "*.o")</span></div><div class="line">	rm -f <span class="variable">$(shell find -name "*.d")</span></div><div class="line">	rm -f <span class="variable">$(TARGET)</span></div></pre></td></tr></table></figure>
 </li>
 <li><p><strong>2.顶层目录的Makefile.build</strong><br>把某个目录及它的所有子目录中、需要编进程序去的文件都编译出来，打包为<code>built-in.o</code>；</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1.定义"PHONY"表示目标(目前包含一个目标:__build)</span></div><div class="line">PHONY := __build</div><div class="line"></div><div class="line"><span class="comment"># 2.定义目标"__build"内容是下面的所有操作</span></div><div class="line"><span class="section">__build:</span></div><div class="line"></div><div class="line"><span class="comment"># 3.定义"obj-y"表示当前路径的目标文件,定义"subdir-y"表示当前路径下目录的目标文件</span></div><div class="line">obj-y :=</div><div class="line">subdir-y :=</div><div class="line"></div><div class="line"><span class="comment"># 4.包含当前路径的Makefile(为了获取"obj-y"的内容)</span></div><div class="line">include Makefile</div><div class="line"></div><div class="line"><span class="comment"># 5. 得到当前路径下各目录名</span></div><div class="line"><span class="comment"># 5.1filter函数从obj-y中筛选出含"/"的内容,即目录</span></div><div class="line"><span class="comment"># 5.2patsubst函数将上述结果中的"/"替换为空,subdir-y即为当前路径的目录名(不含"/")</span></div><div class="line">__subdir-y	:= $(patsubst %/,%,$(filter %/, $(obj-y)))</div><div class="line">subdir-y	+= $(__subdir-y)</div><div class="line"><span class="comment">#实测结果:第一次为[video convert process display],后面每次都为空</span></div><div class="line"><span class="comment">#$(warning ------debug info:subdir-y=$(subdir-y)------)</span></div><div class="line"></div><div class="line"><span class="comment"># 6.把"obj-y"都加上"/built-in.o"后缀</span></div><div class="line">subdir_objs := <span class="variable">$(foreach f,$(subdir-y)</span>,<span class="variable">$(f)</span>/built-in.o)</div><div class="line"><span class="comment">#实测结果:第一次为[video/built-in.o convert/built-in.o ……],后面每次都为空</span></div><div class="line"><span class="comment">#$(warning ------debug info:subdir_objs=$(subdir_objs)------)</span></div><div class="line"></div><div class="line"><span class="comment"># 7.得到"obj-y"中的非文件夹文件(即各个.o文件)</span></div><div class="line">cur_objs := <span class="variable">$(filter-out %/, $(obj-y)</span>)</div><div class="line"></div><div class="line"><span class="comment"># 8.把前面的*.o文件变为.*.o.d,并确保文件存在于当前路径</span></div><div class="line">dep_files := <span class="variable">$(foreach f,$(cur_objs)</span>,.<span class="variable">$(f)</span>.d)</div><div class="line">dep_files := <span class="variable">$(wildcard $(dep_files)</span>)</div><div class="line"></div><div class="line"><span class="comment"># 9.如果"dep_files"不为空,则包含(即包含了.d依赖文件,保证头文件修改后程序会重新编译)</span></div><div class="line">ifneq ($(dep_files),)</div><div class="line">  include $(dep_files)</div><div class="line">endif</div><div class="line"></div><div class="line"><span class="comment"># 10.新增目标(目前包含两个目标:__build和subdir-y的各个成员)</span></div><div class="line">PHONY += <span class="variable">$(subdir-y)</span></div><div class="line"></div><div class="line"><span class="comment"># 11.目标__build依赖于subdir-y各个成员和built-in.o</span></div><div class="line">__build : $(subdir-y) built-in.o</div><div class="line"></div><div class="line"><span class="comment"># 12.subdir-y又依赖顶层目录下的Makefile.build(即本Makefile.build)</span></div><div class="line">$(subdir-y):</div><div class="line">	make -C $@ -f <span class="variable">$(TOPDIR)</span>/Makefile.build</div><div class="line"></div><div class="line"><span class="comment"># 13.built-in.o依赖当前路径下的.o和目录下的built-in.o(即将当前路径下的.o链接成built-in.o)</span></div><div class="line">built-in.o : $(cur_objs) $(subdir_objs)</div><div class="line">	<span class="variable">$(LD)</span> -r -o $@ $^</div><div class="line"></div><div class="line"><span class="comment"># 14.定义dep_file为所有的依赖</span></div><div class="line">dep_file = .$@.d</div><div class="line"></div><div class="line"><span class="comment"># 15.所有的.o依赖于所有的.c,编译过程生成对应.d文件</span></div><div class="line">%.o : %.c</div><div class="line">	<span class="variable">$(CC)</span> <span class="variable">$(CFLAGS)</span> -Wp,-MD,<span class="variable">$(dep_file)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="comment"># 16..PHONY目标等于定义的PHONY 	</span></div><div class="line">.PHONY : $(PHONY)</div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1.定义"PHONY"表示目标(目前包含一个目标:__build)</span></div><div class="line">PHONY := __build</div><div class="line"></div><div class="line"><span class="comment"># 2.定义目标"__build"内容是下面的所有操作</span></div><div class="line"><span class="section">__build:</span></div><div class="line"></div><div class="line"><span class="comment"># 3.定义"obj-y"表示当前路径的目标文件,定义"subdir-y"表示当前路径下目录的目标文件</span></div><div class="line">obj-y :=</div><div class="line">subdir-y :=</div><div class="line"></div><div class="line"><span class="comment"># 4.包含当前路径的Makefile(为了获取"obj-y"的内容)</span></div><div class="line">include Makefile</div><div class="line"></div><div class="line"><span class="comment"># 5. 得到当前路径下各目录名</span></div><div class="line"><span class="comment"># 5.1filter函数从obj-y中筛选出含"/"的内容,即目录</span></div><div class="line"><span class="comment"># 5.2patsubst函数将上述结果中的"/"替换为空,subdir-y即为当前路径的目录名(不含"/")</span></div><div class="line">__subdir-y	:= $(patsubst %/,%,$(filter %/, $(obj-y)))</div><div class="line">subdir-y	+= $(__subdir-y)</div><div class="line"><span class="comment">#实测结果:第一次为[video convert process display],后面每次都为空</span></div><div class="line"><span class="comment">#$(warning ------debug info:subdir-y=$(subdir-y)------)</span></div><div class="line"></div><div class="line"><span class="comment"># 6.把"obj-y"都加上"/built-in.o"后缀</span></div><div class="line">subdir_objs := <span class="variable">$(foreach f,$(subdir-y)</span>,<span class="variable">$(f)</span>/built-in.o)</div><div class="line"><span class="comment">#实测结果:第一次为[video/built-in.o convert/built-in.o ……],后面每次都为空</span></div><div class="line"><span class="comment">#$(warning ------debug info:subdir_objs=$(subdir_objs)------)</span></div><div class="line"></div><div class="line"><span class="comment"># 7.得到"obj-y"中的非文件夹文件(即各个.o文件)</span></div><div class="line">cur_objs := <span class="variable">$(filter-out %/, $(obj-y)</span>)</div><div class="line"></div><div class="line"><span class="comment"># 8. 得到依赖文件(.d文件)</span></div><div class="line"><span class="comment"># 8.1foreach把前面的*.o文件变为.*.o.d(这是当前目录Makefile提供的数据)</span></div><div class="line"><span class="comment"># 8.2wildcard根据这些.d名字在当前路径查找,得到真正存在的.d文件</span></div><div class="line">dep_files := <span class="variable">$(foreach f,$(cur_objs)</span>,.<span class="variable">$(f)</span>.d)</div><div class="line">dep_files := <span class="variable">$(wildcard $(dep_files)</span>)</div><div class="line"></div><div class="line"><span class="comment"># 9.如果"dep_files"不为空,则包含(即包含了.d依赖文件,保证头文件修改后程序会重新编译)</span></div><div class="line">ifneq ($(dep_files),)</div><div class="line">  include $(dep_files)</div><div class="line">endif</div><div class="line"></div><div class="line"><span class="comment"># 10.新增目标(目前包含两个目标:__build和subdir-y的各个成员)</span></div><div class="line">PHONY += <span class="variable">$(subdir-y)</span></div><div class="line"></div><div class="line"><span class="comment"># 11.目标__build依赖于subdir-y各个成员和built-in.o</span></div><div class="line">__build : $(subdir-y) built-in.o</div><div class="line"></div><div class="line"><span class="comment"># 12.对subdir-y的每个成员(即目录),都调用Makefile.build</span></div><div class="line">$(subdir-y):</div><div class="line">	make -C $@ -f <span class="variable">$(TOPDIR)</span>/Makefile.build</div><div class="line"></div><div class="line"><span class="comment"># 13.built-in.o依赖当前路径下的.o和目录下的built-in.o(即将当前路径下的.o链接成built-in.o)</span></div><div class="line">built-in.o : $(cur_objs) $(subdir_objs)</div><div class="line">	<span class="variable">$(LD)</span> -r -o $@ $^</div><div class="line"></div><div class="line"><span class="comment"># 14.定义dep_file为所有的依赖</span></div><div class="line">dep_file = .$@.d</div><div class="line"></div><div class="line"><span class="comment"># 15.所有的.o依赖于所有的.c,编译过程生成对应.d文件</span></div><div class="line">%.o : %.c</div><div class="line">	<span class="variable">$(CC)</span> <span class="variable">$(CFLAGS)</span> -Wp,-MD,<span class="variable">$(dep_file)</span> -c -o $@ $&lt;</div><div class="line"></div><div class="line"><span class="comment"># 16..PHONY目标等于定义的PHONY 	</span></div><div class="line">.PHONY : $(PHONY)</div></pre></td></tr></table></figure>
 </li>
 <li><p><strong>3.各级子目录的Makefile</strong><br>指定当前目录下需要编进程序去的文件；</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1.指定当前目录下需要编进程序去的文件</span></div><div class="line">obj-y += color.o</div><div class="line">obj-y += yuv2rgb.o</div><div class="line">obj-y += rgb2rgb.o</div><div class="line">obj-y += mjpeg2rgb.o</div><div class="line">obj-y += jdatasrc-tj.o</div><div class="line">obj-y += convert_manager.o</div></pre></td></tr></table></figure>
 </li>
-<li><p><strong>4.实际编译过程</strong></p>
+<li><p><strong>4.实际编译过程</strong><br>①执行<code>make</code>，调用顶层Makefile，调用<code>make -C ./ -f /work/drv/code/Makefile.build</code>，执行<code>Makefile.build</code>；</p>
 </li>
 </ul>
+<p>②<code>Makefile.build</code>里调用<code>make -C $@ -f $(TOPDIR)/Makefile.build</code>对每个目录都执行<code>Makefile.build</code>；</p>
+<p>③以<code>video</code>目录为例，调用<code>Makefile.build</code>，会执行以下操作：<br>　　- 编译每一个.c：<br>　　<code>arm-linux-gnueabihf-gcc -Wall -Werror -O2 -g -I /work/drv/code/include -Wp,-MD,.v4l2.o.d -c -o v4l2.o v4l2.c</code><br>　　- 将所有.o链接成<code>built-in.o</code>：<br>　　<code>arm-linux-gnueabihf-ld -r -o built-in.o v4l2.o video_manager.o</code><br>　　<br>④完成对当前目录的内容编译后，再对当前路径的.c文件编译：<br><code>arm-linux-gnueabihf-gcc -Wall -Werror -O2 -g -I /work/drv/code/include -Wp,-MD,.main.o.d -c -o main.o main.c</code></p>
+<p>⑤将各子目录生成的<code>built-in.o</code>与<code>main.o</code>链接生成新<code>built-in.o</code>；</p>
+<p>⑥最后依赖<code>built-in.o</code>输出目标文件<code>arm-linux-gnueabihf-gcc -o video2lcd built-in.o -lm -ljpeg</code></p>
 <h1 id="9-实测效果及源码"><a href="#9-实测效果及源码" class="headerlink" title="9. 实测效果及源码"></a>9. 实测效果及源码</h1><ul>
 <li><p>实测效果：</p>
 <div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/10.jpg"></div>
@@ -430,7 +434,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/28/Linux摄像头驱动3——LCD显示/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/18/Linux摄像头驱动3——LCD显示/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -498,7 +502,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/2018/04/28/Linux摄像头驱动3——LCD显示/",
+  id: "http://yoursite.com/2018/05/18/Linux摄像头驱动3——LCD显示/",
   owner: 'hceng',
   repo: 'hceng.github.io',
   oauth: {
@@ -610,19 +614,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -630,7 +626,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -642,15 +646,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -658,15 +658,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -682,11 +682,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -698,7 +706,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -714,23 +722,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>
