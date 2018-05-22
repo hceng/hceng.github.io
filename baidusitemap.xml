@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
+    <lastmod>2018-05-22T16:25:59.070Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动4——CMOS摄像头</title>
+        <pubTime>2018-05-20T08:02:12.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
+         
+        <tag>CMOS</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
     <lastmod>2018-05-18T02:16:50.798Z</lastmod>
     <data>
@@ -245,9 +266,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
@@ -490,9 +511,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
