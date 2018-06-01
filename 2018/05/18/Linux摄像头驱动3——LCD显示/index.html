@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/11.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/10.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-18T02:16:50.798Z">
+<meta property="og:updated_time" content="2018-06-01T10:27:13.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -263,7 +263,7 @@
 <div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180428/5.jpg?v=1"></div>
 
 
-<h1 id="4-编程-格式转换"><a href="#4-编程-格式转换" class="headerlink" title="4.编程_格式转换"></a>4.编程_格式转换</h1><p>前面的UVC驱动，通过USB设备描述符知道了摄像头图像数据格式是MJPEG，后面的CMOS接口的摄像头图像数据格式是YUV。而LCD只支持RGB格式，且前面LCD驱动，设置的为RGB32格式。因此这里需要把MJPEG转换成RGB32格式。</p>
+<h1 id="4-编程-格式转换"><a href="#4-编程-格式转换" class="headerlink" title="4.编程_格式转换"></a>4.编程_格式转换</h1><p>前面的UVC驱动，通过USB设备描述符知道了摄像头图像数据格式是MJPEG，而LCD只支持RGB格式，且前面LCD驱动，设置的LCD为RGB32格式。因此这里需要把MJPEG转换成RGB32格式。</p>
 <p>使用结构体<code>video_convert</code>来表示一种转换，包含名字、判断是否支持转换、转换等：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> video_convert</div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> *name;</div><div class="line">    <span class="keyword">int</span> (*judge_support)(<span class="keyword">int</span> pixel_format_in, <span class="keyword">int</span> pixel_format_out);</div><div class="line">    <span class="keyword">int</span> (*convert)(p_video_buffer video_buf_in, p_video_buffer video_buf_out);</div><div class="line">    <span class="keyword">int</span> (*convert_exit)(p_video_buffer video_buf_out);</div><div class="line">    <span class="keyword">struct</span> video_convert *p_next;</div><div class="line">&#125; video_convert, *p_video_convert;</div></pre></td></tr></table></figure></p>
 <h2 id="4-1-convert-manager-c"><a href="#4-1-convert-manager-c" class="headerlink" title="4.1 convert_manager.c"></a>4.1 convert_manager.c</h2><p>这里依旧使用链表来管理，这里有三类转换：MJPEG转RGB、YUV转RGB、RGB转RGB，将它们都放到链表中，通过<code>get_video_convert_format()</code>传入待转换的格式，从链表中依次查询谁支持该转换，如果支持，就得到<code>p_video_convert</code>，就可以调用到对应的操作函数。<br>从这个例子中，稍微能感受到这个框架的优势，添加新格式的话，将变得很容易。<br>具体的链表操作和前面的差不多。</p>
 <h2 id="4-2-mjpeg2rgb-c"><a href="#4-2-mjpeg2rgb-c" class="headerlink" title="4.2 mjpeg2rgb.c"></a>4.2 mjpeg2rgb.c</h2><p>目前只是需要实现USB摄像头的MJPEG转RGB，所以暂时只对<code>mjpeg2rgb.c</code>分析。<br>需要实现<code>video_convert</code>里构造函数，其中转换的过程是调用的<code>libjpeg</code>库，其转换流程在<a href="https://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/#5-1-%E5%9B%BE%E5%83%8F%E6%98%BE%E7%A4%BA" target="_blank" rel="external">LCD驱动_5.测试程序</a>中有详细的分析，这里只对两个不同点就行分析。</p>
@@ -370,15 +370,15 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux环境编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">摄像头</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Linux环境编程</a>
         		</li>
       		
 		</ul>
@@ -615,11 +615,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -628,10 +632,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -647,10 +647,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -659,15 +655,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -675,11 +663,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -691,11 +675,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -707,14 +723,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
@@ -723,15 +731,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -743,11 +747,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>

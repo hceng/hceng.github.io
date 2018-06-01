@@ -4,6 +4,29 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
+    <lastmod>2018-06-01T10:27:13.761Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动3——LCD显示</title>
+        <pubTime>2018-05-18T08:01:05.000Z</pubTime>
+        
+        <tag>LCD</tag>
+         
+        <tag>Linux环境编程</tag>
+         
+        <tag>摄像头</tag>
+         
+        <tag>UVC</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
     <lastmod>2018-05-24T15:58:45.981Z</lastmod>
     <data>
@@ -16,29 +39,6 @@
         <tag>摄像头</tag>
          
         <tag>CMOS</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
-    <lastmod>2018-05-18T02:16:50.798Z</lastmod>
-    <data>
-        <display>
-        <title>Linux摄像头驱动3——LCD显示</title>
-        <pubTime>2018-05-18T08:01:05.000Z</pubTime>
-        
-        <tag>LCD</tag>
-         
-        <tag>摄像头</tag>
-         
-        <tag>UVC</tag>
-         
-        <tag>Linux环境编程</tag>
          
          
            
@@ -74,9 +74,9 @@
         <title>Exynos4412——LCD驱动</title>
         <pubTime>2017-12-22T12:15:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>LCD</tag>
          
@@ -167,9 +167,9 @@
         <title>Linux电源管理</title>
         <pubTime>2018-01-18T06:32:20.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>电源管理</tag>
          
@@ -188,9 +188,9 @@
         <title>Exynos4412——LCD之backligth</title>
         <pubTime>2017-11-22T11:27:44.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
          
            
@@ -207,9 +207,9 @@
         <title>Exynos4412——触摸屏驱动</title>
         <pubTime>2017-12-26T01:34:47.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>触摸屏</tag>
          
@@ -532,9 +532,9 @@
         <title>Exynos4412——网卡移植和NFS启动</title>
         <pubTime>2017-10-31T12:27:52.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>网卡驱动</tag>
          
