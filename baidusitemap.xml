@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
+    <lastmod>2018-06-22T01:16:03.984Z</lastmod>
+    <data>
+        <display>
+        <title>嵌入式Linux——WIFI网卡</title>
+        <pubTime>2018-06-21T06:58:18.000Z</pubTime>
+        
+        <tag>Linux环境编程</tag>
+         
+        <tag>WiFi网卡</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
     <lastmod>2018-06-21T03:15:39.185Z</lastmod>
     <data>
@@ -32,9 +51,9 @@
         <title>Linux摄像头驱动3——LCD显示</title>
         <pubTime>2018-05-18T08:01:05.000Z</pubTime>
         
-        <tag>摄像头</tag>
-         
         <tag>LCD</tag>
+         
+        <tag>摄像头</tag>
          
         <tag>UVC</tag>
          
@@ -285,9 +304,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -342,9 +361,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
@@ -511,9 +530,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
