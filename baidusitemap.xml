@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
-    <lastmod>2018-06-22T07:16:20.722Z</lastmod>
+    <lastmod>2018-06-22T08:08:14.345Z</lastmod>
     <data>
         <display>
         <title>嵌入式Linux——WIFI网卡</title>
@@ -51,11 +51,11 @@
         <title>Linux摄像头驱动3——LCD显示</title>
         <pubTime>2018-05-18T08:01:05.000Z</pubTime>
         
+        <tag>LCD</tag>
+         
         <tag>摄像头</tag>
          
         <tag>UVC</tag>
-         
-        <tag>LCD</tag>
          
         <tag>Linux环境编程</tag>
          
@@ -285,9 +285,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
