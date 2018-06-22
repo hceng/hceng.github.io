@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/1.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-06-22T01:16:03.984Z">
+<meta property="og:updated_time" content="2018-06-22T03:30:00.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式Linux——WIFI网卡">
 <meta name="twitter:description" content="如何在嵌入式Linux中，使用WIFI无线网卡。">
@@ -188,16 +188,47 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>如何在嵌入式Linux中，使用WIFI无线网卡。<br><a id="more"></a><br>嵌入式中设备想要联网，无非就 有线和无线 两种方式。<br>有线就插上网线，没什么好说的；无线的话一种是将WIFI模块集成焊接在板子上，另一种是WIFI模块以USB的方式接到板子上。<br>本次使用的就是USB接口的WIFI无线网卡，实现开发板使用WIFI无线网卡访问互联网。</p>
-<h1 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h1><h2 id="1-1选择无线网卡"><a href="#1-1选择无线网卡" class="headerlink" title="1.1选择无线网卡"></a>1.1选择无线网卡</h2><p>首先是选择合适的无线网卡，选取的原则是<strong>根据WIFI无线网卡的<code>VID</code>和<code>PID</code>判断内核是否支持该无线网卡。</strong></p>
+<h1 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h1><h2 id="1-2WIFI基础知识"><a href="#1-2WIFI基础知识" class="headerlink" title="1.2WIFI基础知识"></a>1.2WIFI基础知识</h2><p>无线网络的安全性由两部分组成：<strong>认证</strong>和<strong>加密</strong>。<br><strong> 认证:</strong>使得只有允许的设备才能连接到无线网络；<br><strong> 加密:</strong>确保数据的保密性和完整性，即数据在传输过程中不会被篡改；</p>
 <ul>
-<li>1.获取无线网卡ID<br>将无线网卡插入Windows电脑，打开设备管理器，选中无线网卡，右键“属性”，切换到“详细信”息选项卡，在“属性”下拉栏中选择”硬件ld”，即可得到无线网卡的ID：<br><div align="center"><img width="390" height="374" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/1.jpg"></div><br>我的无线网卡<code>VID</code>是<code>0x148F</code>，<code>PID</code>是<code>0x3070</code>；</li>
+<li><p>常用的认证算法有:<strong>开放认证、共享秘钥认证、802.11x认证、PSK认证</strong>。<br>其中802.11x认证和PSK认证安全性较高，分别应用于企业和个人的环境;</p>
+</li>
+<li><p>常用的加密算法有:<strong>WEB加密、TKIP加密、CCMP加密算法</strong>。<br>其中WEB加密和TKIP加密都是RC4的加密算法，安全性较低；CCMP加密采用AES对称加密算法，安全性较高。</p>
+</li>
 </ul>
+<table><tr><th>安全策略</th><th>认证方式</th><th>加密方式</th><th>备注</th></tr><tr><td rowspan="2">Open</td><td>open</td><td>open</td><td>开放WiFi，无任何加密</td></tr><tr><td>open</td><td>WEP</td><td>开放WiFi，仅数据加密</td></tr><tr><td>WEP</td><td>WEP</td><td>WEP</td><td>共享密钥认证，容易破解</td></tr><tr><td rowspan="2">WAP</td><td>802.11X</td><td>TKIP/WEP</td><td>比较安全，用于企业</td></tr><tr><td>PSK</td><td>TKIP/WEP</td><td>比较安全，用于个人</td></tr><tr><td rowspan="2">WAP2</td><td>802.11X</td><td>CCMP/TKIP/WEP</td><td>目前最安全，用于个人</td></tr><tr><td>PSK</td><td>CCMP/TKIP/WEP</td><td>目前最安全，用于个人</td></tr></table>
+
+<p>连入超市、商场等公共WIFI的时候，不需要输入密码，但要通过网页输入手机号，使用验证码验证，也就是采用802.11X进行的验证，通过服务器完成的验证。<br>使用手机开个人热点的时候，可以选择安全性OPEN、WEP、WAP、WAP2，也就对应不同的安全等级。</p>
+<p>我手里的MIX2S，MIUI10个人热点里面就仅OPEN和WAP2两个选项，感觉这是个趋势，要么最简单的OPEN，要么就最安全的WAP2(WAP2是向下兼容的)，逐渐扔掉历史的包袱。</p>
+<h2 id="1-2选择无线网卡"><a href="#1-2选择无线网卡" class="headerlink" title="1.2选择无线网卡"></a>1.2选择无线网卡</h2><p>首先是选择合适的无线网卡，选取的原则是<strong>根据WIFI无线网卡的<code>VID</code>和<code>PID</code>判断内核是否支持该无线网卡。</strong></p>
 <ul>
-<li>2.查询内核是否支持<br>可以从<a href="https://wireless.wiki.kernel.org/en/users/devices" target="_blank" rel="external">wireless.kernel.org</a>得到<a href="https://wikidevi.com/wiki/DNI:USB_WiFi_adapters_w/_probable_Linux_support" target="_blank" rel="external">支持的设备列表</a>。<br>可以从列表中搜到前面的<code>VID</code>和<code>PID</code>，因此说明内核是支持现在使用的无线网卡。此外，还可以得知对应的驱动应该为<code>rt2800usb</code>、<code>rt2870sta</code>。<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/2.jpg"></div>
+<li><p>1.获取无线网卡ID<br>将无线网卡插入Windows电脑，打开设备管理器，选中无线网卡，右键“属性”，切换到“详细信”息选项卡，在“属性”下拉栏中选择”硬件ld”，即可得到无线网卡的ID：<br><div align="center"><img width="390" height="374" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/1.jpg"></div><br>我的无线网卡<code>VID</code>是<code>0x148F</code>，<code>PID</code>是<code>0x3070</code>；</p>
+</li>
+<li><p>2.查询内核是否支持<br>可以从<a href="https://wireless.wiki.kernel.org/en/users/devices" target="_blank" rel="external">wireless.kernel.org</a>得到<a href="https://wikidevi.com/wiki/DNI:USB_WiFi_adapters_w/_probable_Linux_support" target="_blank" rel="external">支持的设备列表</a>。<br>可以从列表中搜到前面的<code>VID</code>和<code>PID</code>，因此说明内核是支持现在使用的无线网卡。此外，还可以得知对应的驱动应该为<code>rt2800usb</code>、<code>rt2870sta</code>。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/2.jpg"></div>
+　
 
 </li>
 </ul>
-<h2 id="1-2WIFI基础知识"><a href="#1-2WIFI基础知识" class="headerlink" title="1.2WIFI基础知识"></a>1.2WIFI基础知识</h2><h2 id="1-3移植WIFI驱动"><a href="#1-3移植WIFI驱动" class="headerlink" title="1.3移植WIFI驱动"></a>1.3移植WIFI驱动</h2><h2 id="1-4使用buildroot移植应用"><a href="#1-4使用buildroot移植应用" class="headerlink" title="1.4使用buildroot移植应用"></a>1.4使用buildroot移植应用</h2><p>想要使用无线网卡，需要用到三个软件：</p>
+<h2 id="1-3移植WIFI驱动"><a href="#1-3移植WIFI驱动" class="headerlink" title="1.3移植WIFI驱动"></a>1.3移植WIFI驱动</h2><ul>
+<li>前面根据ID得到了对应的网卡驱动名字，但还不是很靠谱，建议直接在驱动中搜索ID，更靠谱：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep &quot;0x3070&quot; drivers/net/wireless/ -nr</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>得到：<code>drivers/net/wireless/ralink/rt2x00/rt2800usb.c:1091:    { USB_DEVICE(0x148f, 0x3070) },</code>，知道了对应的驱动文件是<code>rt2800usb.c</code>；
+　</p>
+<ul>
+<li>再查看对应路径的Makfeile：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat  drivers/net/wireless/ralink/rt2x00/Makefile</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>得到：<code>obj-$(CONFIG_RT2800USB)            += rt2800usb.o</code>，知道了对应的宏是<code>CONFIG_RT2800USB</code>；
+　</p>
+<ul>
+<li>/进入内核目录，执行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make menuconfig</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>搜索<code>CONFIG_RT2800USB</code>，得知其依赖：<code>Depends on: NETDEVICES [=y] &amp;&amp; WLAN [=y] &amp;&amp; WLAN_VENDOR_RALINK [=y] &amp;&amp; RT2X00 [=n] &amp;&amp; USB [=y]</code>，可以知道<code>RT2X00 [=n]</code>没有打开，再搜索它，如此循环，直到<code>RT2800USB [=y]</code>。</p>
+<p>这里有个注意的就是，当开启的上层的某个依赖，下层的某个选项可能会多出来许多选项，而这些选项原来是没有的，不要固化思维。</p>
+<p>最后重新编译内核即可。</p>
+<h2 id="1-4使用buildroot移植应用"><a href="#1-4使用buildroot移植应用" class="headerlink" title="1.4使用buildroot移植应用"></a>1.4使用buildroot移植应用</h2><p>想要使用无线网卡，需要用到三个软件：</p>
 <ul>
 <li>iw:可用于这2种”认证/加密”: open, WEP</li>
 <li>wpa_supplicant:可用于上述4种”认证/加密”</li>
@@ -323,7 +354,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-准备工作"><span class="toc-number">1.</span> <span class="toc-text">1.准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1选择无线网卡"><span class="toc-number">1.1.</span> <span class="toc-text">1.1选择无线网卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2WIFI基础知识"><span class="toc-number">1.2.</span> <span class="toc-text">1.2WIFI基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3移植WIFI驱动"><span class="toc-number">1.3.</span> <span class="toc-text">1.3移植WIFI驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4使用buildroot移植应用"><span class="toc-number">1.4.</span> <span class="toc-text">1.4使用buildroot移植应用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-无线终端模式——STA"><span class="toc-number">2.</span> <span class="toc-text">2.无线终端模式——STA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-无线热点模式——AP"><span class="toc-number">3.</span> <span class="toc-text">3.无线热点模式——AP</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-准备工作"><span class="toc-number">1.</span> <span class="toc-text">1.准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2WIFI基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">1.2WIFI基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2选择无线网卡"><span class="toc-number">1.2.</span> <span class="toc-text">1.2选择无线网卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3移植WIFI驱动"><span class="toc-number">1.3.</span> <span class="toc-text">1.3移植WIFI驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4使用buildroot移植应用"><span class="toc-number">1.4.</span> <span class="toc-text">1.4使用buildroot移植应用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-无线终端模式——STA"><span class="toc-number">2.</span> <span class="toc-text">2.无线终端模式——STA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-无线热点模式——AP"><span class="toc-number">3.</span> <span class="toc-text">3.无线热点模式——AP</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -472,19 +503,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -500,7 +523,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,10 +555,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
@@ -524,19 +563,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -556,7 +587,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -572,11 +607,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,10 +620,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
