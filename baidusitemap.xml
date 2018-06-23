@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
-    <lastmod>2018-06-22T11:51:53.731Z</lastmod>
+    <lastmod>2018-06-23T09:45:46.635Z</lastmod>
     <data>
         <display>
         <title>嵌入式Linux——WIFI网卡</title>
@@ -530,9 +530,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          
