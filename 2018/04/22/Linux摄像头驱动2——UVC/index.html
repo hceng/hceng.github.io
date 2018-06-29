@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/9.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180323/10.jpg?v=1">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-05-04T02:58:04.452Z">
+<meta property="og:updated_time" content="2018-06-29T03:23:42.563Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
@@ -361,7 +361,7 @@
 <p><strong>b.设置usb_driver</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">uvc_probe</div><div class="line">    kzalloc //分配video_device</div><div class="line">        uvc_register_chains  </div><div class="line">            uvc_register_terms  </div><div class="line">                uvc_register_video</div><div class="line">                    vdev-&gt;v4l2_dev = &amp;dev-&gt;vdev; //设置video_device</div><div class="line">                    vdev-&gt;fops = &amp;uvc_fops; </div><div class="line">                    vdev-&gt;ioctl_ops = &amp;uvc_ioctl_ops;</div><div class="line">                    vdev-&gt;release = uvc_release;</div><div class="line">                    video_register_device //注册video_device</div></pre></td></tr></table></figure></p>
 <p><strong>c.注册usb_driver</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uvc_init</div><div class="line">    usb_register</div></pre></td></tr></table></figure></p>
 <p>可以看到，<code>probe()</code>函数里面的操作就是前面<code>vivid</code>驱动里一样的操作方式。<br>然后在外面加了一个usb的“壳”。</p>
-<p>驱动的核心还是<code>fops</code>和<code>ioctl_ops</code>。下面对这两个操作函数的实现进行分析。<br>首先是<code>v4l2_file_operations</code>:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">struct</span> v4l2_file_operations uvc_fops = &#123;</div><div class="line">	.owner		= THIS_MODULE,</div><div class="line">	.open		= uvc_v4l2_open,</div><div class="line">	.release	= uvc_v4l2_release,</div><div class="line">	.unlocked_ioctl	= video_ioctl2,</div><div class="line">#ifdef CONFIG_COMPAT</div><div class="line">	.compat_ioctl32	= uvc_v4l2_compat_ioctl32,</div><div class="line">#endif</div><div class="line">	.read		= uvc_v4l2_read,</div><div class="line">	.mmap		= uvc_v4l2_mmap,</div><div class="line">	.poll		= uvc_v4l2_poll,</div><div class="line">#ifndef CONFIG_MMU</div><div class="line">	.get_unmapped_area = uvc_v4l2_get_unmapped_area,</div><div class="line">#endif</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>里面有<code>open()</code>、<code>release()</code>、<code>ioctl2</code>、<code>read</code>、<code>mmap``poll</code>，这点和前面的虚拟驱动一样。</p>
+<p>驱动的核心还是<code>fops</code>和<code>ioctl_ops</code>。下面对这两个操作函数的实现进行分析。<br>首先是<code>v4l2_file_operations</code>:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">struct</span> v4l2_file_operations uvc_fops = &#123;</div><div class="line">	.owner		= THIS_MODULE,</div><div class="line">	.open		= uvc_v4l2_open,</div><div class="line">	.release	= uvc_v4l2_release,</div><div class="line">	.unlocked_ioctl	= video_ioctl2,</div><div class="line">#ifdef CONFIG_COMPAT</div><div class="line">	.compat_ioctl32	= uvc_v4l2_compat_ioctl32,</div><div class="line">#endif</div><div class="line">	.read		= uvc_v4l2_read,</div><div class="line">	.mmap		= uvc_v4l2_mmap,</div><div class="line">	.poll		= uvc_v4l2_poll,</div><div class="line">#ifndef CONFIG_MMU</div><div class="line">	.get_unmapped_area = uvc_v4l2_get_unmapped_area,</div><div class="line">#endif</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>里面有<code>open()</code>、<code>release()</code>、<code>ioctl2</code>、<code>read</code>、<code>mmap</code>、<code>poll</code>，这点和前面的虚拟驱动一样。</p>
 <p>这其中最重要的就是<code>ioctl2</code>，它使用<code>video_usercopy()</code>获得用户空间传进来的参数，调用<code>__video_do_ioctl()</code>在<code>v4l2_ioctls[]</code>数组里找到对应的<code>uvc_ioctl_ops</code>。</p>
 <p><code>uvc_ioctl_ops</code>每个函数的实现放在后面写代码里，逐个讲解。</p>
 <p>UVC驱动的重点在于：</p>
@@ -781,10 +781,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -797,19 +793,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -821,11 +813,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -833,15 +821,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -849,15 +841,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -877,6 +861,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
@@ -885,11 +881,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -901,19 +913,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
