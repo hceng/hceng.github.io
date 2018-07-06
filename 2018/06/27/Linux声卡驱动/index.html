@@ -14,13 +14,14 @@
 <meta property="og:url" content="http://yoursite.com/2018/06/27/Linux声卡驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-07-06T01:12:46.764Z">
+<meta property="og:updated_time" content="2018-07-06T06:30:38.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux声卡驱动">
 <meta name="twitter:description" content="了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -193,15 +194,16 @@
 <li>转换精度：就是每次ADC采集或者DAC转换的精度。一般有8bit、16bit、24bit；</li>
 <li>通道数：就是单声道、双声道；</li>
 </ul>
-<h1 id="1-2-嵌入式声卡框架"><a href="#1-2-嵌入式声卡框架" class="headerlink" title="1.2 嵌入式声卡框架"></a>1.2 嵌入式声卡框架</h1><h1 id="2-硬件接口"><a href="#2-硬件接口" class="headerlink" title="2.硬件接口"></a>2.硬件接口</h1><p>Tiny4412的声卡部分原理图如下，所采用的codec芯片为WM8960，该电路大致可分为四部分：</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg"></div>
+<h1 id="1-2-嵌入式声卡框架"><a href="#1-2-嵌入式声卡框架" class="headerlink" title="1.2 嵌入式声卡框架"></a>1.2 嵌入式声卡框架</h1><p>一般来说，大多数SOC都不包含音频的转换，可能是因为功耗、模数干扰等考虑，因此大多数都是外接了一个音频编解码芯片(Codec)。<br>音频文件从Flash加载到RAM中，再由DMA将其通过I2S发送给Codec，再由Codec的DAC变成模拟信号，驱动功放使喇叭播放声音；同时，SOC通过I2C(有些Codec不是I2C，而是其它的接口)设置Codec的寄存器，调整声音大小等。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg"></div><br>因此，整个声卡框架涉及的驱动可能有SOC的DMA、I2S、I2C以及Codec驱动。<br><br># 2.硬件接口 #<br>Tiny4412的声卡部分原理图如下，所采用的codec芯片为WM8960，该电路大致可分为四部分：<br><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg"></div>
 
 
 <p><strong> ① IIS接口，负责Exynos4412和WM8960之间的数据传输 </strong></p>
 <table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="5">Date</td><td>Xi2sCDCLK0</td><td>MCLK</td><td>系统时钟</td></tr><tr><td>Xi2sSCLK0</td><td>BCLK</td><td>数据时钟</td></tr><tr><td>Xi2sLRCK0</td><td>DACLRC</td><td>左右声道切换</td></tr><tr><td>Xi2sSDO0_0</td><td>DATDAT</td><td>数据输出(播放)</td></tr><tr><td>Xi2sSDI0</td><td>ADCDAT</td><td>数据输入(录音)</td></tr></table>
 
 <p>　<br><strong> ② I2C接口，负责Exynos4412对WM8960寄存器的配置 </strong></p>
-<p><table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="2">Control</td><td>Xi2cSCL0</td><td>SCLK</td><td>I2C时钟</td></tr><tr><td>Xi2cSDA0</td><td>SDIN</td><td>I2C数据</td></tr></table><br>注：codec芯片的数据接口一般都是标准的IIS接口，但控制接口不一定都是I2C接口；</p>
+<table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="2">Control</td><td>Xi2cSCL0</td><td>SCLK</td><td>I2C时钟</td></tr><tr><td>Xi2cSDA0</td><td>SDIN</td><td>I2C数据</td></tr></table>
+
 <p><strong> ③ 录音 </strong><br>采用咪头和耳机接口进行录音；</p>
 <p><strong> ④ 播放 </strong><br>采用耳机接口播放音频，另外还有一个耳机插入检测<code>Earphone_detect</code>；</p>
 <hr>
@@ -326,7 +328,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-声卡基础"><span class="toc-number">1.</span> <span class="toc-text">1.声卡基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-1-基本概念"><span class="toc-number">2.</span> <span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-2-嵌入式声卡框架"><span class="toc-number">3.</span> <span class="toc-text">1.2 嵌入式声卡框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-硬件接口"><span class="toc-number">4.</span> <span class="toc-text">2.硬件接口</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-声卡基础"><span class="toc-number">1.</span> <span class="toc-text">1.声卡基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-1-基本概念"><span class="toc-number">2.</span> <span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-2-嵌入式声卡框架"><span class="toc-number">3.</span> <span class="toc-text">1.2 嵌入式声卡框架</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -455,11 +457,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -467,7 +469,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -479,15 +481,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -503,27 +501,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -535,7 +517,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -543,15 +533,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -563,11 +565,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,19 +577,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
