@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2018-07-06T01:12:46.764Z</lastmod>
+    <data>
+        <display>
+        <title>Linux声卡驱动</title>
+        <pubTime>2018-06-27T01:22:47.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>音频驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/04/22/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
     <lastmod>2018-06-29T03:23:42.563Z</lastmod>
     <data>
@@ -33,27 +54,6 @@
         <tag>Exynos4412</tag>
          
         <tag>内核移植</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2018-06-27T01:25:04.854Z</lastmod>
-    <data>
-        <display>
-        <title>Linux声卡驱动</title>
-        <pubTime>2018-06-27T01:22:47.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-        <tag>音频驱动</tag>
          
          
            
