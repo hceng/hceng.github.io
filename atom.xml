@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-06T06:34:06.230Z</updated>
+  <updated>2018-07-14T08:47:56.050Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/"/>
     <id>http://yoursite.com/2018/06/27/Linux声卡驱动/</id>
     <published>2018-06-27T01:22:47.000Z</published>
-    <updated>2018-07-06T06:34:06.230Z</updated>
+    <updated>2018-07-14T08:47:56.050Z</updated>
     
-    <content type="html"><![CDATA[<p>了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。<br><a id="more"></a></p><h1 id="1-声卡基础"><a href="#1-声卡基础" class="headerlink" title="1.声卡基础"></a>1.声卡基础</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h2><p>记得是初中还是高中物理，里面说过声音是由物体振动产生，然后通过空气传播到耳朵里。<br>把耳朵换成咪头，声音振动咪头，改变了咪头两端的电压，ADC再采集电压，就记录了音频数据；反之，将记录的数据通过DAC转成电压，通过运放放大，是喇叭振动就产生了声音。<br>这整个过程，涉及声音质量的参数有三个：</p><ul><li>采样频率：就是单位时间内ADC采集的次数，一般是8kHz~96kHz；</li><li>转换精度：就是每次ADC采集或者DAC转换的精度。一般有8bit、16bit、24bit；</li><li>通道数：就是单声道、双声道；</li></ul><h2 id="1-2-嵌入式声卡框架"><a href="#1-2-嵌入式声卡框架" class="headerlink" title="1.2 嵌入式声卡框架"></a>1.2 嵌入式声卡框架</h2><p>一般来说，大多数SOC都不包含音频的转换，可能是因为功耗、模数干扰等考虑，因此大多数都是外接了一个音频编解码芯片(Codec)。<br>音频文件从Flash加载到RAM中，再由DMA将其通过I2S发送给Codec，再由Codec的DAC变成模拟信号，驱动功放使喇叭播放声音；同时，SOC通过I2C(有些Codec不是I2C，而是其它的接口)设置Codec的寄存器，调整声音大小等。</p><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg"></div><br>因此，整个声卡框架涉及的驱动可能有SOC的DMA、I2S、I2C以及Codec驱动。<br><br># 2.硬件接口 #<br>Tiny4412的声卡部分原理图如下，所采用的codec芯片为WM8960，该电路大致可分为四部分：<br><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg"></div><p><strong> ① IIS接口，负责Exynos4412和WM8960之间的数据传输 </strong></p><table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="5">Date</td><td>Xi2sCDCLK0</td><td>MCLK</td><td>系统时钟</td></tr><tr><td>Xi2sSCLK0</td><td>BCLK</td><td>数据时钟</td></tr><tr><td>Xi2sLRCK0</td><td>DACLRC</td><td>左右声道切换</td></tr><tr><td>Xi2sSDO0_0</td><td>DATDAT</td><td>数据输出(播放)</td></tr><tr><td>Xi2sSDI0</td><td>ADCDAT</td><td>数据输入(录音)</td></tr></table><p>　<br><strong> ② I2C接口，负责Exynos4412对WM8960寄存器的配置 </strong></p><table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="2">Control</td><td>Xi2cSCL0</td><td>SCLK</td><td>I2C时钟</td></tr><tr><td>Xi2cSDA0</td><td>SDIN</td><td>I2C数据</td></tr></table><p><strong> ③ 录音 </strong><br>采用咪头和耳机接口进行录音；</p><p><strong> ④ 播放 </strong><br>采用耳机接口播放音频，另外还有一个耳机插入检测<code>Earphone_detect</code>；</p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
+    <content type="html"><![CDATA[<p>了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。<br><a id="more"></a></p><h1 id="1-声卡基础"><a href="#1-声卡基础" class="headerlink" title="1.声卡基础"></a>1.声卡基础</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h2><p>记得是初中还是高中物理，里面说过声音是由物体振动产生，然后通过空气传播到耳朵里。<br>把耳朵换成咪头，声音振动咪头，改变了咪头两端的电压，ADC再采集电压，就记录了音频数据；反之，将记录的数据通过DAC转成电压，通过运放放大，就使喇叭振动就产生了声音。<br>这整个过程，涉及声音质量的参数有三个：</p><ul><li>采样频率：就是单位时间内ADC采集的次数，一般是8kHz~96kHz；</li><li>转换精度：就是每次ADC采集或者DAC转换的精度。一般有8bit、16bit、24bit；</li><li>通道数：就是单声道、双声道；</li></ul><hr><p>在Linux声卡驱动的发展中，最开始使用的声卡驱动框架是<strong><a href="https://zh.wikipedia.org/wiki/Open_Sound_System" target="_blank" rel="external">OSS</a></strong>(Open Sound System)。<br>从2.6版本开始，<strong><a href="https://zh.wikipedia.org/wiki/ALSA" target="_blank" rel="external">ALSA</a></strong>(Advanced Linux Sound Architecture)成为Linux内核中默认的标准音频驱动程序集，OSS则被标记为废弃。<br>OSS和ALSA的主要区别:</p><ul><li>OSS:提供基于ioctl等原始编程接口访问设备；</li><li>ALSA:除了提供基于ioctl等原始编程接口，还专门为简化应用程序的编写提供了相应的函数库，相对OSS更加方便；<div align="center"><img width="600" height="" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/2.jpg"></div></li></ul><p>后面编写的驱动，将采用ALSA框架。</p><h2 id="1-2音频编解码芯片"><a href="#1-2音频编解码芯片" class="headerlink" title="1.2音频编解码芯片"></a>1.2音频编解码芯片</h2><p>一般来说，大多数SOC都不包含音频的转换，可能是因为功耗、模数干扰等考虑，因此大多数都是外接了一个音频编解码芯片(Codec)。<br>音频文件从Flash加载到RAM中，再由DMA将其通过I2S发送给Codec，再由Codec的DAC变成模拟信号，驱动功放使喇叭播放声音；同时，SOC通过I2C(有些Codec不是I2C，而是其它的接口)设置Codec的寄存器，调整声音大小等。</p><div align="center"><img width="600" height="" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg"></div><p>因此，整个声卡框架涉及的驱动可能有SOC的DMA、I2S、I2C以及Codec驱动。</p><h1 id="2-硬件接口"><a href="#2-硬件接口" class="headerlink" title="2.硬件接口"></a>2.硬件接口</h1><p>Tiny4412的声卡部分原理图如下，所采用的codec芯片为WM8960，该电路大致可分为四部分：</p><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg"></div><p><strong> ① IIS接口，负责Exynos4412和WM8960之间的数据传输 </strong></p><table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="5">Date</td><td>Xi2sCDCLK0</td><td>MCLK</td><td>系统时钟</td></tr><tr><td>Xi2sSCLK0</td><td>BCLK</td><td>数据时钟</td></tr><tr><td>Xi2sLRCK0</td><td>DACLRC</td><td>左右声道切换</td></tr><tr><td>Xi2sSDO0_0</td><td>DATDAT</td><td>数据输出(播放)</td></tr><tr><td>Xi2sSDI0</td><td>ADCDAT</td><td>数据输入(录音)</td></tr></table><p>　<br><strong> ② I2C接口，负责Exynos4412对WM8960寄存器的配置 </strong></p><table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="2">Control</td><td>Xi2cSCL0</td><td>SCLK</td><td>I2C时钟</td></tr><tr><td>Xi2cSDA0</td><td>SDIN</td><td>I2C数据</td></tr></table><p><strong> ③ 录音 </strong><br>采用咪头和耳机接口进行录音；</p><p><strong> ④ 播放 </strong><br>采用耳机接口播放音频，另外还有一个耳机插入检测<code>Earphone_detect</code>；</p><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
     <summary type="html">
     
@@ -106,9 +106,9 @@
     
       <category term="摄像头" scheme="http://yoursite.com/tags/%E6%91%84%E5%83%8F%E5%A4%B4/"/>
     
-      <category term="UVC" scheme="http://yoursite.com/tags/UVC/"/>
-    
       <category term="Linux环境编程" scheme="http://yoursite.com/tags/Linux%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="UVC" scheme="http://yoursite.com/tags/UVC/"/>
     
   </entry>
   
@@ -330,9 +330,9 @@
     </summary>
     
     
-      <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
-    
       <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
+    
+      <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
     
       <category term="Uboot" scheme="http://yoursite.com/tags/Uboot/"/>
     

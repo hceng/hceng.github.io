@@ -14,14 +14,15 @@
 <meta property="og:url" content="http://yoursite.com/2018/06/27/Linux声卡驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/2.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-07-06T06:34:06.230Z">
+<meta property="og:updated_time" content="2018-07-14T08:47:56.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux声卡驱动">
 <meta name="twitter:description" content="了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/2.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -188,15 +189,30 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>了解、学习Linux声卡驱动，并在Tiny4412上实现声音的播放和录制。<br><a id="more"></a></p>
-<h1 id="1-声卡基础"><a href="#1-声卡基础" class="headerlink" title="1.声卡基础"></a>1.声卡基础</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h2><p>记得是初中还是高中物理，里面说过声音是由物体振动产生，然后通过空气传播到耳朵里。<br>把耳朵换成咪头，声音振动咪头，改变了咪头两端的电压，ADC再采集电压，就记录了音频数据；反之，将记录的数据通过DAC转成电压，通过运放放大，是喇叭振动就产生了声音。<br>这整个过程，涉及声音质量的参数有三个：</p>
+<h1 id="1-声卡基础"><a href="#1-声卡基础" class="headerlink" title="1.声卡基础"></a>1.声卡基础</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h2><p>记得是初中还是高中物理，里面说过声音是由物体振动产生，然后通过空气传播到耳朵里。<br>把耳朵换成咪头，声音振动咪头，改变了咪头两端的电压，ADC再采集电压，就记录了音频数据；反之，将记录的数据通过DAC转成电压，通过运放放大，就使喇叭振动就产生了声音。<br>这整个过程，涉及声音质量的参数有三个：</p>
 <ul>
 <li>采样频率：就是单位时间内ADC采集的次数，一般是8kHz~96kHz；</li>
 <li>转换精度：就是每次ADC采集或者DAC转换的精度。一般有8bit、16bit、24bit；</li>
 <li>通道数：就是单声道、双声道；</li>
 </ul>
-<h2 id="1-2-嵌入式声卡框架"><a href="#1-2-嵌入式声卡框架" class="headerlink" title="1.2 嵌入式声卡框架"></a>1.2 嵌入式声卡框架</h2><p>一般来说，大多数SOC都不包含音频的转换，可能是因为功耗、模数干扰等考虑，因此大多数都是外接了一个音频编解码芯片(Codec)。<br>音频文件从Flash加载到RAM中，再由DMA将其通过I2S发送给Codec，再由Codec的DAC变成模拟信号，驱动功放使喇叭播放声音；同时，SOC通过I2C(有些Codec不是I2C，而是其它的接口)设置Codec的寄存器，调整声音大小等。</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg"></div><br>因此，整个声卡框架涉及的驱动可能有SOC的DMA、I2S、I2C以及Codec驱动。<br><br># 2.硬件接口 #<br>Tiny4412的声卡部分原理图如下，所采用的codec芯片为WM8960，该电路大致可分为四部分：<br><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg"></div>
+<hr>
+<p>在Linux声卡驱动的发展中，最开始使用的声卡驱动框架是<strong><a href="https://zh.wikipedia.org/wiki/Open_Sound_System" target="_blank" rel="external">OSS</a></strong>(Open Sound System)。<br>从2.6版本开始，<strong><a href="https://zh.wikipedia.org/wiki/ALSA" target="_blank" rel="external">ALSA</a></strong>(Advanced Linux Sound Architecture)成为Linux内核中默认的标准音频驱动程序集，OSS则被标记为废弃。<br>OSS和ALSA的主要区别:</p>
+<ul>
+<li>OSS:提供基于ioctl等原始编程接口访问设备；</li>
+<li>ALSA:除了提供基于ioctl等原始编程接口，还专门为简化应用程序的编写提供了相应的函数库，相对OSS更加方便；<div align="center"><img width="600" height="" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/2.jpg"></div>
 
+</li>
+</ul>
+<p>后面编写的驱动，将采用ALSA框架。</p>
+<h2 id="1-2音频编解码芯片"><a href="#1-2音频编解码芯片" class="headerlink" title="1.2音频编解码芯片"></a>1.2音频编解码芯片</h2><p>一般来说，大多数SOC都不包含音频的转换，可能是因为功耗、模数干扰等考虑，因此大多数都是外接了一个音频编解码芯片(Codec)。<br>音频文件从Flash加载到RAM中，再由DMA将其通过I2S发送给Codec，再由Codec的DAC变成模拟信号，驱动功放使喇叭播放声音；同时，SOC通过I2C(有些Codec不是I2C，而是其它的接口)设置Codec的寄存器，调整声音大小等。</p>
+<div align="center"><img width="600" height="" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/0.jpg"></div>
+
+
+
+
+<p>因此，整个声卡框架涉及的驱动可能有SOC的DMA、I2S、I2C以及Codec驱动。</p>
+<h1 id="2-硬件接口"><a href="#2-硬件接口" class="headerlink" title="2.硬件接口"></a>2.硬件接口</h1><p>Tiny4412的声卡部分原理图如下，所采用的codec芯片为WM8960，该电路大致可分为四部分：</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180627/1.jpg"></div>
 
 <p><strong> ① IIS接口，负责Exynos4412和WM8960之间的数据传输 </strong></p>
 <table><tr><th>Function</th><th>SOC</th><th>Codec</th><th>Note</th></tr><tr><td rowspan="5">Date</td><td>Xi2sCDCLK0</td><td>MCLK</td><td>系统时钟</td></tr><tr><td>Xi2sSCLK0</td><td>BCLK</td><td>数据时钟</td></tr><tr><td>Xi2sLRCK0</td><td>DACLRC</td><td>左右声道切换</td></tr><tr><td>Xi2sSDO0_0</td><td>DATDAT</td><td>数据输出(播放)</td></tr><tr><td>Xi2sSDI0</td><td>ADCDAT</td><td>数据输入(录音)</td></tr></table>
@@ -328,7 +344,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-声卡基础"><span class="toc-number">1.</span> <span class="toc-text">1.声卡基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-嵌入式声卡框架"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 嵌入式声卡框架</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-声卡基础"><span class="toc-number">1.</span> <span class="toc-text">1.声卡基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2音频编解码芯片"><span class="toc-number">1.2.</span> <span class="toc-text">1.2音频编解码芯片</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-硬件接口"><span class="toc-number">2.</span> <span class="toc-text">2.硬件接口</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -457,10 +473,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -473,7 +485,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,15 +493,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -501,19 +517,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -522,6 +530,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -541,19 +557,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,11 +573,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,11 +605,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
