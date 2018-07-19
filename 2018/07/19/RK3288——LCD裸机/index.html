@@ -6,20 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Linux自动挂载/卸载U盘 | hceng blog</title>
+  <title>RK3288——LCD裸机 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录在mdev机制下不能自动卸载U盘的解决方法。">
+  <meta name="description" content="在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux自动挂载/卸载U盘">
-<meta property="og:url" content="http://yoursite.com/2017/04/22/Linux自动挂载卸载U盘/index.html">
+<meta property="og:title" content="RK3288——LCD裸机">
+<meta property="og:url" content="http://yoursite.com/2018/07/19/RK3288——LCD裸机/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="记录在mdev机制下不能自动卸载U盘的解决方法。">
+<meta property="og:description" content="在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/1.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/2.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.gif">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-12-13T07:10:45.404Z">
+<meta property="og:updated_time" content="2018-07-19T07:48:18.830Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux自动挂载/卸载U盘">
-<meta name="twitter:description" content="记录在mdev机制下不能自动卸载U盘的解决方法。">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:title" content="RK3288——LCD裸机">
+<meta name="twitter:description" content="在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -165,46 +168,67 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Linux自动挂载卸载U盘" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-RK3288——LCD裸机" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Linux自动挂载/卸载U盘
+      RK3288——LCD裸机
     </h1>
   
 
         
-        <a href="/2017/04/22/Linux自动挂载卸载U盘/" class="archive-article-date">
-  	<time datetime="2017-04-22T03:10:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-22</time>
+        <a href="/2018/07/19/RK3288——LCD裸机/" class="archive-article-date">
+  	<time datetime="2018-07-19T01:12:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录在mdev机制下不能自动卸载U盘的解决方法。<br><a id="more"></a></p>
-<p>　　加载USB驱动有两种方式：<br><strong>　　一是将模块编译到内核，再把新内核下载到开发板。<br>　　二是将驱动作为模块，内核启动后再加载驱动模块。</strong></p>
+        <p>在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。<br><a id="more"></a></p>
+<h1 id="1-常见的LCD显示接口"><a href="#1-常见的LCD显示接口" class="headerlink" title="1.常见的LCD显示接口"></a>1.常见的LCD显示接口</h1><p>在之前写的<a href="https://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/" target="_blank" rel="external">Exynos4412——LCD驱动</a>里，使用的RGB接口。<br>除了RGB接口，如今市面上主流的还有LVDS、MIPI、eDP接口。</p>
+<table><tr><th>接口</th><th>分辨率</th><th>接口电平</th><th>说明</th></tr><tr><td>RGB</td><td>800x480以下</td><td>TTL</td><td>几乎所有的SOC都支持RGB接口；<br>在小屏、低端设备中广泛使用；</td></tr><tr><td>LVDS</td><td>1024x768及以上</td><td>差分信号</td><td>中高端的SOC大多数都集成，也可通过转换芯片将RGB转成LVDS输出；<br>在大屏，中高端平板、笔记本中使用；</td></tr><tr><td>MIPI</td><td>1080P以下</td><td>差分信号</td><td>大多数中高端的SOC都集成，也可通过转换芯片实现；<br>手机平台的标准接口，在手机中广泛使用；<br></td></tr><tr><td>eDP</td><td>1080P以上</td><td>差分信号</td><td>高端SOC中集成，相对比较新的规范；<br>支持超高分辨率，有取代LVDS的趋势；</td></tr></table>
+
+<p>各接口示意图如下：</p>
+<div align="center"><img width="800" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/1.jpg"></div>
+
 <ul>
-<li>在主机中编译模块，在Linux中的/work/hceng/linux-3.4.2目录下执行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ make moudles</div></pre></td></tr></table></figure></li>
-<li>复制主机生成的drivers/usb/storage/usb-storage.ko到开发板中:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp drivers/usb/storage/usb-storage.ko /work/hceng/nfs_rootfs</div></pre></td></tr></table></figure></li>
-<li>在开发板中，加载USB驱动模块：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ insmod usb-storage.ko</div></pre></td></tr></table></figure></li>
-<li>然后在开发板插上U盘后，再手动挂载U盘即可访问数据:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mount /dev/sda1 /mnt</div></pre></td></tr></table></figure>
+<li><strong>RGB接口</strong>：RGB接口也叫TTL(<code>Transistor Transistor Logic</code>)接口，它是唯一一个采用TTL电平的LCD接口。如果数据接口R、G、B都只使用0~5共6x3根数据线，即为<strong>18bit RGB接口</strong>，如果R、G、B都使用0~7共8x3根数据线，即称为<strong>24bit RGB接口</strong>;它的详细介绍，可以参考前面的<a href="https://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/" target="_blank" rel="external">Exynos4412——LCD驱动</a>;</li>
+<li><strong>LVDS接口</strong>：LVDS(<code>Low Voltage Differential Signaling</code>)，即一种采用低压差分信号技术的LCD接口，克服了TTL电平方式传输宽带高码率数据时功耗大、EMI电磁干扰大等缺点；如果数据接口只使用LVDS_D0~D2这三组数据线，就是<strong>6bit 模式</strong>；如果使用LVDS_D0~D3这四组数据线，就是<strong>8bit 模式</strong>；</li>
+<li><strong>MIPI接口</strong>：MIPI(<code>Mobile Industry Processor Interface</code>)，为了推进手机应用处理器接口的标准化而产生的。MIPI是一系列接口的总称，MIPI下应用比较多的是DSI(<code>Display Serial Interface</code>)和CSI(<code>Camera Serial Interface</code>)，分别针对显示屏应用和摄像头应用。这里的MIPI接口，实质上指的是DSI接口；</li>
+<li><strong>eDP接口</strong>：eDP(<code>Embedded Display Port</code>)，主要用于将视频源连接到显示设备（如计算机显示器），还可以传输音频，USB和其他形式的数据；该部分目前资料较少，RK3288芯片手册该部分寄存器都没给，属于保密范围，暂时没法研究；</li>
+</ul>
+<h1 id="2-LVDS"><a href="#2-LVDS" class="headerlink" title="2.LVDS"></a>2.LVDS</h1><h2 id="2-1-分析过程"><a href="#2-1-分析过程" class="headerlink" title="2.1 分析过程"></a>2.1 分析过程</h2><p>先理一下我从头开始的分析思路：</p>
+<ul>
+<li>1.首先需要一个RK3288的开发板(这里使用的是Firefly生产的AIO-3288J)，且带有LVDS接口的屏，且提供的资料能够让屏亮起来；</li>
+<li>2.根据提供资料、源码，重头编译一下源码，包括U-boot、Kernel、Android等；</li>
+<li>3.编译完成后，将生成的镜像文件烧录至开发板，验证是否可用；</li>
+<li>4.可用后，就有了显示部分的源码，先从设备树文件夹入手，查看生成了哪些dtb文件，即表示对应的dts被使用了，再找到对应的dts文件，找到lcd、screen、blacklinght、lvds等关键词的部分；</li>
+<li>5.得出RK3288的LVDS至少和VOP(lcdc)、lvds、screen、blacklinght这四个部分有关，再利用设备树<code>compatible</code>与内核匹配和源码若使用都会生成<code>.o</code>这两个特性，找到对应部分的内核源码；</li>
+<li>6.修改内核源码，重新编译烧录，观察现象；比如，找到内核源码中lvds相关部分，屏蔽掉<code>lvds_en()</code>这一明显关键的函数后，发现开发板开机后，启动内核屏幕仍然会出现logo，因此推测U-boot也做了LVDS的相关初始化，内核中的<code>lvds_en()</code>可能用于后续锁屏等屏幕的开闭；</li>
+<li>7.屏蔽多个关键函数，发现除去背光函数对屏幕显示有影响外，其它的关键函数的屏蔽，对开始显示logo都没影响；</li>
+<li>8.在U-boot中，直接操作寄存器使能背光，同时屏蔽进入内核的代码，发现进入U-boot即可显示logo，因此U-boot里肯定有完整的LVDS显示的操作，内核就暂时不用管了；</li>
+<li>9.以U-boot中<code>lcdc_init()</code>、<code>lvds_en()</code>等为核心突破口，先打印出该部分的寄存器操作值，再屏蔽掉该部分代码，自己直接向寄存器写值，重新烧录，查看logo是否仍显示；如果logo存在，则表示自己直接操作该部分寄存器成功；</li>
+<li>10.以此类推，逐渐屏蔽源码，改为自己直接操作寄存器，最后按照源码的函数调用顺序，依次操作寄存器，单独生成bin文件，测试显示成功即可；</li>
+<li>11.查阅相关寄存器，分析、注释；</li>
+</ul>
+<p>这样分析下来，对LVDS的操作框架总结如下：</p>
+<div align="center"><img width="600" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/2.jpg"></div>
+
+<p>这其中有两个值得一提的点：</p>
+<ul>
+<li>1.核心板上有个电源IC，需要通过I2C设置电源IC的输出，提供给显示模块，如果没有设置，屏幕是不会有显示的；</li>
+<li>2.屏幕参数的设置，用到了前面<a href="https://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/#1-3-LCD%E6%98%BE%E7%A4%BA%E5%8E%9F%E7%90%86" target="_blank" rel="external">1.3LCD显示原理</a>的知识：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//hspw+hbp+col+hfp:8+8+800+48=848</div><div class="line">VOP_BIG_DSP_HTOTAL_HS_END  =  ((8&lt;&lt;0)   | (848&lt;&lt;16));  //0:HS_PW        16:HTOTAL</div><div class="line">VOP_BIG_DSP_HACT_ST_END    =  ((816&lt;&lt;0) | (16&lt;&lt;16));   //0:COL_END      16:COL_START</div><div class="line"></div><div class="line">//vspw+vbp+row+vfp:4+11+1280+32=1312</div><div class="line">VOP_BIG_DSP_VTOTAL_VS_END  =  ((4&lt;&lt;0)    | (1312&lt;&lt;16));//0:VS_PW        16:VTOTAL</div><div class="line">VOP_BIG_DSP_VACT_ST_END    =  ((1295&lt;&lt;0) | (15&lt;&lt;16));  //0:ROW_END      16:ROW_START</div><div class="line"></div><div class="line">VOP_BIG_POST_DSP_HACT_INFO =  ((816&lt;&lt;0)  | (16&lt;&lt;16));  //0:COL_END      16:COL_START</div><div class="line">VOP_BIG_POST_DSP_VACT_INFO =  ((1295&lt;&lt;0) | (15&lt;&lt;16));  //0:ROW_END      16:ROW_START</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<hr>
-<p>　　<strong>这里存在两个问题，一是需要手动加载<code>usb-storage.ko</code>，二是需要手动挂载U盘。</strong>　　</p>
-<ul>
-<li>第一个问题通过将模块加载命令放在启动脚本里实现开机自动加载，/etc/init.d/rcS,加入如下命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">insmod usb-storage.ko</div></pre></td></tr></table></figure></li>
-<li>第二个问题利用mdev机制进行自动挂载U盘，首先修改/etc/medv.conf，将下面代码加入行底：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sd[a-z][0-9]      0:0 666        @/etc/mdev/udisk_insert                        </div><div class="line">sd[a-z]           0:0 666        $/etc/mdev/udisk_remove</div></pre></td></tr></table></figure>
-　　在/bin/hotplug.sh中把 “case $MDEV in”修改成如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">case $MDEV in</div><div class="line">sd[a-z][0-9])</div><div class="line">        DEVNAME=udisk</div><div class="line">        MOUNTPOINT=/udisk</div><div class="line">        ;;</div><div class="line">sda1)</div><div class="line">        DEVNAME=udisk</div><div class="line">        MOUNTPOINT=/udisk</div><div class="line">        ;;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>　　完成上面的设置后，U盘确实能够自动挂载，但拔U盘却不能自动卸载，这样会导致下次插入U盘相应的节点会自动增加，且访问原来的节点报错。</p>
-<p>　　查阅相关资料并无解决方案，多次实验后，发现插上U盘后会自动在/sys/bus/usb/devices/1-1:1.0下生成U盘的信息文件，利用这一点进行检测U盘，在无奈的情况下写了个程序解决这个问题，代码如下：<br><figure class="highlight c"><figcaption><span>[usb.c]</span><a href="https://github.com/hceng/learn/tree/master/auto_usb" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*检查是否有U盘插上，没有则卸载一次/media/sda1，保证下次自动挂载U盘正常*/</span></div><div class="line"><span class="comment">/*定时器相关*/</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;  </div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> itimerval oldtv;  </div><div class="line"><span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> usb_umount_ok = <span class="number">0</span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_timer</span><span class="params">()</span>  </span></div><div class="line">&#123;  </div><div class="line">    <span class="keyword">struct</span> itimerval itv;  </div><div class="line">    itv.it_interval.tv_sec = <span class="number">1</span>;  </div><div class="line">    itv.it_interval.tv_usec = <span class="number">0</span>;  </div><div class="line">    itv.it_value.tv_sec = <span class="number">1</span>;  </div><div class="line">    itv.it_value.tv_usec = <span class="number">0</span>;  </div><div class="line">    setitimer(ITIMER_REAL, &amp;itv, &amp;oldtv);  </div><div class="line">&#125; </div><div class="line"></div><div class="line"><span class="comment">/*查看/sys/bus/usb/devices/目录下是否有1-1，有则表示有U盘*/</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">judge_usb</span><span class="params">(<span class="keyword">void</span>)</span> </span></div><div class="line">&#123;</div><div class="line">    FILE *fd;  </div><div class="line">    fd = fopen(<span class="string">"/sys/bus/usb/devices/1-1/version"</span>,<span class="string">"r"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(fd == <span class="literal">NULL</span>) </div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">    <span class="keyword">else</span> fclose(fd);</div><div class="line">        usb_umount_ok = <span class="number">0</span>;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*检查usb是否拔出，从而确定是否卸载*/</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">colse_usb</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(!judge_usb() &amp;&amp; usb_umount_ok==<span class="number">0</span>) </div><div class="line">    &#123;</div><div class="line">        system(<span class="string">"cd /;umount /media/sda1;rm -r /media/sd*;echo umount usb ok!"</span>);</div><div class="line">        usb_umount_ok = <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">signal_handler</span><span class="params">(<span class="keyword">int</span> m)</span>  </span></div><div class="line">&#123;   </div><div class="line">    colse_usb();    </div><div class="line">&#125; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    signal(SIGALRM, signal_handler);  </div><div class="line">    set_timer(); </div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure><br>　　编译后，运行测试，最后再放在上述启动脚本里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">arm-linux-gcc -o usb usb.c</div><div class="line">./app/usb&amp;</div></pre></td></tr></table></figure></p>
-<p>搞定。</p>
+<p>在水平方向，由<code>HSYNC(hspw)+HBP+Active weigth(col)+HFP=Total weigth(HTOTAL)</code>，再根据LCD的手册，取合适的值，填入寄存器对应位；<br>比如，VOP_BIG_DSP_HTOTAL_HS_END的低16位填入<code>HSYNC(hspw)</code>值，高16位填入<code>Total weigth(HTOTAL)</code>；VOP_BIG_DSP_HACT_ST_END低16位填入<code>HSYNC(hspw)+HBP+Active weigth(col)</code>的值，高16位填入<code>HSYNC(hspw)+HBP</code>的值；都是吻合LCD的显示原理的。</p>
+<h2 id="2-2-源码及效果"><a href="#2-2-源码及效果" class="headerlink" title="2.2 源码及效果"></a>2.2 源码及效果</h2><p>源码见<a href="https://github.com/hceng/learn/blob/master/rk3288/hardware/4_lcd/lvds/lcd.c" target="_blank" rel="external">Github</a>。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.gif"></div>
+
+<h1 id="3-MIPI"><a href="#3-MIPI" class="headerlink" title="3.MIPI"></a>3.MIPI</h1><p>占坑，还在分析研究；</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -220,11 +244,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">驱动相关</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">裸机</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">USB</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">LCD</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RK3288</a>
         		</li>
       		
 		</ul>
@@ -280,7 +308,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/04/22/Linux自动挂载卸载U盘/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/19/RK3288——LCD裸机/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -294,18 +322,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/04/30/Linux环境编程/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Linux环境编程学习
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/04/13/自己写bootloader/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">自己写bootloader</div>
+    <a href="/2018/06/27/Linux声卡驱动/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux声卡驱动</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -324,6 +343,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-常见的LCD显示接口"><span class="toc-number">1.</span> <span class="toc-text">1.常见的LCD显示接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-LVDS"><span class="toc-number">2.</span> <span class="toc-text">2.LVDS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-分析过程"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 分析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-源码及效果"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 源码及效果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-MIPI"><span class="toc-number">3.</span> <span class="toc-text">3.MIPI</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -344,7 +376,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/2017/04/22/Linux自动挂载卸载U盘/",
+  id: "http://yoursite.com/2018/07/19/RK3288——LCD裸机/",
   owner: 'hceng',
   repo: 'hceng.github.io',
   oauth: {
