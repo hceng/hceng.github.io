@@ -15,10 +15,11 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/1.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/2.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.gif">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-07-19T07:48:18.830Z">
+<meta property="og:updated_time" content="2018-07-25T02:10:44.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3288——LCD裸机">
 <meta name="twitter:description" content="在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。">
@@ -215,7 +216,10 @@
 <li>10.以此类推，逐渐屏蔽源码，改为自己直接操作寄存器，最后按照源码的函数调用顺序，依次操作寄存器，单独生成bin文件，测试显示成功即可；</li>
 <li>11.查阅相关寄存器，分析、注释；</li>
 </ul>
-<p>这样分析下来，对LVDS的操作框架总结如下：</p>
+<p>对LVDS接口的LCD显示分析如下：</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.jpg"></div>
+
+<p>对LVDS接口的LCD操作框架总结如下：</p>
 <div align="center"><img width="600" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/2.jpg"></div>
 
 <p>这其中有两个值得一提的点：</p>
@@ -488,19 +492,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,7 +512,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -524,11 +528,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -540,6 +552,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -548,7 +564,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -556,19 +572,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,11 +584,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,7 +592,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -604,15 +612,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -620,7 +620,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
