@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/7.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/8.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-06-25T02:48:20.972Z">
+<meta property="og:updated_time" content="2018-07-30T03:19:22.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式Linux——WIFI网卡">
 <meta name="twitter:description" content="如何在嵌入式Linux中，使用WIFI无线网卡。">
@@ -233,12 +233,12 @@
 <p>最后重新编译内核即可。</p>
 <h2 id="1-4-使用buildroot移植应用"><a href="#1-4-使用buildroot移植应用" class="headerlink" title="1.4 使用buildroot移植应用"></a>1.4 使用buildroot移植应用</h2><p>想要使用无线网卡，需要用到四个软件：</p>
 <ul>
-<li>iw:可用于这2种”认证/加密”: OPEN、WEP，以及扫描WIFI热点等；</li>
+<li>iw:可用于OPEN、WEP这两种”认证/加密”，以及扫描WIFI热点等；</li>
 <li>wpa_supplicant:可用于前面4种”认证/加密”；</li>
 <li>hostapd:能够使得无线网卡切换为AP模式；</li>
 <li>dhcp:STA模式使WIFI网卡动态获取IP，AP模式分配IP；</li>
 </ul>
-<p>也就是需要移植这三个软件，目前的方法有：<br>1.逐个下载源码，交叉编译，配置，可以还需要相关依赖库，缺点是费时费力；<br>2.使用Yocto等工具，制作发行版的根文件系统，例如Ubuntu16.04，里面有apt-get，可以自动下载安装，缺点是制作发行版根文件系统比较麻烦，且体积较大；<br>3.使用buildroot制作根文件系统，选择需要的软件，自动生成根文件系统，相对简单，体积也较小；</p>
+<p>也就是需要移植这四个软件，目前的方法有：<br>1.逐个下载源码，交叉编译，配置，可以还需要相关依赖库，缺点是费时费力；<br>2.使用<code>Yocto</code>等工具，制作发行版的根文件系统，例如Ubuntu16.04，里面有apt-get，可以自动下载安装，缺点是制作发行版根文件系统比较麻烦，且体积较大；<br>3.使用<code>buildroot</code>制作根文件系统，选择需要的软件，自动生成根文件系统，相对简单，体积也较小；</p>
 <p>本次就以buildroot为例，制作含需要应用程序的根文件系统。</p>
 <ul>
 <li><p>首先从GitHub下载针对Tiny4412修改后的buidroot</p>
@@ -266,7 +266,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>buildroot会自动下载相关源码包，整个过程时间比较久，最后生成<code>buildroot/output/images/rootfs.tar</code>，解压到SD卡rootfs分区即可。</p>
+<p><code>buildroot</code>会自动下载相关源码包，整个过程时间比较久，最后生成<code>buildroot/output/images/rootfs.tar</code>，解压到SD卡rootfs分区即可。</p>
 <h2 id="1-5-添加firmware"><a href="#1-5-添加firmware" class="headerlink" title="1.5 添加firmware"></a>1.5 添加firmware</h2><p>此时开发板启动Linux后，使用<code>ifconfig wlan0 up</code>启动无线网卡，提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ieee80211 phy0: rt2x00lib_request_firmware: Info - Loading firmware file &apos;rt2870.bin&apos;</div><div class="line">rt2800usb 2-2.2:1.0: Direct firmware load for rt2870.bin failed with error -2</div><div class="line">ieee80211 phy0: rt2x00lib_request_firmware: Error - Failed to request Firmware</div><div class="line">ifconfig: SIOCSIFFLAGS: No such file or directory</div></pre></td></tr></table></figure></p>
 <p>提示需要firmware文件<code>rt2870.bin</code>。</p>
 <p>继续通过网站<a href="https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb" target="_blank" rel="external">wireless.wiki.kernel.org</a>去下载<a href="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-master.tar.gz" target="_blank" rel="external">该固件</a>。</p>
@@ -663,27 +663,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -703,23 +691,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -735,7 +723,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -755,23 +755,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -787,11 +775,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -799,7 +783,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>

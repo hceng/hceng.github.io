@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/5.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/6.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-01-03T02:55:50.237Z">
+<meta property="og:updated_time" content="2018-07-27T05:04:01.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式Linux网络编程——TCP/UDP">
 <meta name="twitter:description" content="本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。">
@@ -207,8 +207,8 @@
 <p>但是，网络地址只能确定进程所在的计算机，而一台计算机上很可能同时运行着多个进程，所以仅凭网络地址还不能确定到底是和网络中的哪一个进程进行通信，因此套接口中还需要包括其他的信息，也就是端口号（PORT）。<br>在一台计算机中，一个端口号一次只能分配给一个进程，也就是说，在一台计算机中，端口号和进程之间是一一对应关系。</p>
 <p>所以，<strong>使用端口号和网络地址的组合可以唯一的确定整个网络中的一个网络进程</strong>。</p>
 <p>例如，如网络中某一台计算机的IP为192.168.1.4，操作系统分配给计算机中某一应用程序进程的端口号为1500，则此时<code>192.168.1.4 1500</code>就构成了一个套接口。</p>
-<h3 id="2-2-1-网络地址的格式"><a href="#2-2-1-网络地址的格式" class="headerlink" title="2.2.1 网络地址的格式"></a>2.2.1 网络地址的格式</h3><p>在Socket程序设计中，<code>struct sockaddr</code>用于记录网络地址，其格式如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> sockaddr</div><div class="line">&#123;</div><div class="line">     <span class="keyword">unsigned</span> <span class="keyword">short</span> sa_family; <span class="comment">/*协议族，采用AF_XXX的形式，例如AF_INET(IPv4协议族)*/</span></div><div class="line">     <span class="keyword">char</span> sa_data[<span class="number">14</span>]; <span class="comment">/*14字节的协议地址，包含该socket的IP地址和端口号。*/</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>但在实际编程中，并不针对<code>sockaddr</code>数据结构进行操作，而是用与其等价的<code>sockaddr_in</code>数据结构：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> sockaddr_in</div><div class="line">&#123;</div><div class="line">     <span class="keyword">short</span> <span class="keyword">int</span> sa_family; <span class="comment">/*地址族*/</span></div><div class="line">     <span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="keyword">int</span> sin_port; <span class="comment">/*端口号*/</span></div><div class="line">     <span class="keyword">struct</span> in_addr sin_addr; <span class="comment">/*IP地址*/</span></div><div class="line">     <span class="keyword">unsigned</span> <span class="keyword">char</span> sin_zero[<span class="number">8</span>]; <span class="comment">/*填充0 以保持与struct sockaddr同样大小*/</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<h3 id="2-2-1-网络地址的转换"><a href="#2-2-1-网络地址的转换" class="headerlink" title="2.2.1 网络地址的转换"></a>2.2.1 网络地址的转换</h3><p>IP地址通常用数字加点(如192.168.1.4)表示，而在<code>struct in_addr</code>中使用的式32位整数表示。因此，Linux提供如下函数进行两者之间的转换：</p>
+<h3 id="2-3-1-网络地址的格式"><a href="#2-3-1-网络地址的格式" class="headerlink" title="2.3.1 网络地址的格式"></a>2.3.1 网络地址的格式</h3><p>在Socket程序设计中，<code>struct sockaddr</code>用于记录网络地址，其格式如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> sockaddr</div><div class="line">&#123;</div><div class="line">     <span class="keyword">unsigned</span> <span class="keyword">short</span> sa_family; <span class="comment">/*协议族，采用AF_XXX的形式，例如AF_INET(IPv4协议族)*/</span></div><div class="line">     <span class="keyword">char</span> sa_data[<span class="number">14</span>]; <span class="comment">/*14字节的协议地址，包含该socket的IP地址和端口号。*/</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>但在实际编程中，并不针对<code>sockaddr</code>数据结构进行操作，而是用与其等价的<code>sockaddr_in</code>数据结构：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> sockaddr_in</div><div class="line">&#123;</div><div class="line">     <span class="keyword">short</span> <span class="keyword">int</span> sa_family; <span class="comment">/*地址族*/</span></div><div class="line">     <span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="keyword">int</span> sin_port; <span class="comment">/*端口号*/</span></div><div class="line">     <span class="keyword">struct</span> in_addr sin_addr; <span class="comment">/*IP地址*/</span></div><div class="line">     <span class="keyword">unsigned</span> <span class="keyword">char</span> sin_zero[<span class="number">8</span>]; <span class="comment">/*填充0 以保持与struct sockaddr同样大小*/</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="2-3-2-网络地址的转换"><a href="#2-3-2-网络地址的转换" class="headerlink" title="2.3.2 网络地址的转换"></a>2.3.2 网络地址的转换</h3><p>IP地址通常用数字加点(如192.168.1.4)表示，而在<code>struct in_addr</code>中使用的式32位整数表示。因此，Linux提供如下函数进行两者之间的转换：</p>
 <ul>
 <li><p>inet_aton()函数：</p>
 <blockquote>
@@ -502,7 +502,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-目标"><span class="toc-number">1.</span> <span class="toc-text">1.目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Linux网络编程基础"><span class="toc-number">2.</span> <span class="toc-text">2.Linux网络编程基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-嵌套字"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 嵌套字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-端口"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-网络地址"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 网络地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-网络地址的格式"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.2.1 网络地址的格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-网络地址的转换"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.2.1 网络地址的转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-字节序"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 字节序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-TCP"><span class="toc-number">3.</span> <span class="toc-text">3.TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-TCP流程图"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 TCP流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-TCP步骤分析"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 TCP步骤分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-TCP完整代码"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 TCP完整代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-测试结果"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 测试结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-UDP"><span class="toc-number">4.</span> <span class="toc-text">4.UDP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-UDP流程图"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 UDP流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-UDP步骤分析"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 UDP步骤分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-UDP完整代码"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 UDP完整代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-测试结果"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 测试结果</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-目标"><span class="toc-number">1.</span> <span class="toc-text">1.目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Linux网络编程基础"><span class="toc-number">2.</span> <span class="toc-text">2.Linux网络编程基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-嵌套字"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 嵌套字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-端口"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-网络地址"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 网络地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-网络地址的格式"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 网络地址的格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-网络地址的转换"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 网络地址的转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-字节序"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 字节序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-TCP"><span class="toc-number">3.</span> <span class="toc-text">3.TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-TCP流程图"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 TCP流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-TCP步骤分析"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 TCP步骤分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-TCP完整代码"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 TCP完整代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-测试结果"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 测试结果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-UDP"><span class="toc-number">4.</span> <span class="toc-text">4.UDP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-UDP流程图"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 UDP流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-UDP步骤分析"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 UDP步骤分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-UDP完整代码"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 UDP完整代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-测试结果"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 测试结果</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -639,27 +639,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -679,23 +667,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -711,7 +699,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -731,23 +731,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -763,11 +751,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -775,7 +759,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
