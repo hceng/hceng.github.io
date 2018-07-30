@@ -18,8 +18,11 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/2.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.gif">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/4.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/5.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/6.gif?v=1">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-07-25T02:10:44.011Z">
+<meta property="og:updated_time" content="2018-07-30T15:29:53.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3288——LCD裸机">
 <meta name="twitter:description" content="在RK3288平台上，采用裸机实现LVDS和MIPI接口的LCD显示。">
@@ -202,10 +205,10 @@
 <li><strong>MIPI接口</strong>：MIPI(<code>Mobile Industry Processor Interface</code>)，为了推进手机应用处理器接口的标准化而产生的。MIPI是一系列接口的总称，MIPI下应用比较多的是DSI(<code>Display Serial Interface</code>)和CSI(<code>Camera Serial Interface</code>)，分别针对显示屏应用和摄像头应用。这里的MIPI接口，实质上指的是DSI接口；</li>
 <li><strong>eDP接口</strong>：eDP(<code>Embedded Display Port</code>)，主要用于将视频源连接到显示设备（如计算机显示器），还可以传输音频，USB和其他形式的数据；该部分目前资料较少，RK3288芯片手册该部分寄存器都没给，属于保密范围，暂时没法研究；</li>
 </ul>
-<h1 id="2-LVDS"><a href="#2-LVDS" class="headerlink" title="2.LVDS"></a>2.LVDS</h1><h2 id="2-1-分析过程"><a href="#2-1-分析过程" class="headerlink" title="2.1 分析过程"></a>2.1 分析过程</h2><p>先理一下我从头开始的分析思路：</p>
+<h1 id="2-LVDS"><a href="#2-LVDS" class="headerlink" title="2.LVDS"></a>2.LVDS</h1><h2 id="2-1-分析过程"><a href="#2-1-分析过程" class="headerlink" title="2.1 分析过程"></a>2.1 分析过程</h2><p>先理一下分析的思路：</p>
 <ul>
 <li>1.首先需要一个RK3288的开发板(这里使用的是Firefly生产的AIO-3288J)，且带有LVDS接口的屏，且提供的资料能够让屏亮起来；</li>
-<li>2.根据提供资料、源码，重头编译一下源码，包括U-boot、Kernel、Android等；</li>
+<li>2.根据提供资料、源码，重头编译一下源码，包括U-boot、Kernel、Android等(编译Android可能需要<a href="https://www.cyberciti.biz/faq/ubuntu-linux-create-add-swap-file/" target="_blank" rel="external">设置交换分区</a>)；</li>
 <li>3.编译完成后，将生成的镜像文件烧录至开发板，验证是否可用；</li>
 <li>4.可用后，就有了显示部分的源码，先从设备树文件夹入手，查看生成了哪些dtb文件，即表示对应的dts被使用了，再找到对应的dts文件，找到lcd、screen、blacklinght、lvds等关键词的部分；</li>
 <li>5.得出RK3288的LVDS至少和VOP(lcdc)、lvds、screen、blacklinght这四个部分有关，再利用设备树<code>compatible</code>与内核匹配和源码若使用都会生成<code>.o</code>这两个特性，找到对应部分的内核源码；</li>
@@ -232,7 +235,31 @@
 <h2 id="2-2-源码及效果"><a href="#2-2-源码及效果" class="headerlink" title="2.2 源码及效果"></a>2.2 源码及效果</h2><p>源码见<a href="https://github.com/hceng/learn/blob/master/rk3288/hardware/4_lcd/lvds/lcd.c" target="_blank" rel="external">Github</a>。</p>
 <div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/3.gif"></div>
 
-<h1 id="3-MIPI"><a href="#3-MIPI" class="headerlink" title="3.MIPI"></a>3.MIPI</h1><p>占坑，还在分析研究；</p>
+<h1 id="3-MIPI"><a href="#3-MIPI" class="headerlink" title="3.MIPI"></a>3.MIPI</h1><h2 id="3-1-分析过程"><a href="#3-1-分析过程" class="headerlink" title="3.1 分析过程"></a>3.1 分析过程</h2><p>先理一下分析的思路：</p>
+<ul>
+<li>1.首先需要一个带有MIPI屏的RK3288的开发板，Firefly生产的AIO-3288J的MIPI屏已经停产，也没找到兼容的，因此又去弄了一个带MIPI屏的RK3288开发板(荣品生产的king3288)；</li>
+<li>2.根据提供的资料，编译源码，下载，烧录、测试；</li>
+<li>3.有了前面的经验，猜测开机LOGO显示的代码在U-Boot中，注释掉U-Boot中<code>common/cmd_bootrk.c</code>里的<code>//do_bootm_linux(0, 0, NULL, &amp;images);</code>，使其不能引导内核，重新编译U-Boot，下载，发现有LOGO显示，证明U-Boot里有MIPI屏显示操作；</li>
+<li>4.依旧是找到LOGO显示的相关代码，修改，编译，烧写，观察现象，最终得到独立的MIPI屏显示相关代码；</li>
+</ul>
+<p>对MIPI接口的LCD显示分析如下：</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/4.jpg"></div>
+
+<p>MIPI部分的代码比LVDS感觉要乱一些，主要是因为在结构体里定义了函数，使用<code>Source Insight</code>分析代码时，没那么方便，涉及到了三个结构体如下，分别是VOP、MIPI接口、面板的相关操作：</p>
+<div><img width="800" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/5.jpg"></div>
+
+<p>这其中有两个值得一提的点：</p>
+<ul>
+<li>1.它们的PMIC使用的同一款，且配置一样，直接就可以用之前的代码；</li>
+<li>2.不能直接读出所有配置的寄存器，然后对比，因为实测有些寄存器操作后，需要一个等待时间(需要读取另一个寄存器判断)，才能进行下一个寄存器的操作，就可能出现源码和自己代码的寄存器值都一样，但实际效果不一样；</li>
+</ul>
+<h2 id="3-2-源码及效果"><a href="#3-2-源码及效果" class="headerlink" title="3.2 源码及效果"></a>3.2 源码及效果</h2><p>源码见<a href="https://github.com/hceng/learn/blob/master/rk3288/hardware/4_lcd/mipi/lcd.c" target="_blank" rel="external">Github</a>。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180719/6.gif?v=1"></div>
+
+<h1 id="4-心得"><a href="#4-心得" class="headerlink" title="4.心得"></a>4.心得</h1><ul>
+<li>1.熟悉了如果从驱动中提取出裸机代码，看清了对寄存器的实质操作，有利于理解整个流程；</li>
+<li>2.无论是何种接口的LCD，都有共性，比如都需要向buf写数据，且告诉对应寄存器；针对RK3288，都使用VOP对buf数据处理，然后再通过不同的接口发送出去，都需要根据LCD面板来设置时间参数；</li>
+</ul>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -355,7 +382,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-常见的LCD显示接口"><span class="toc-number">1.</span> <span class="toc-text">1.常见的LCD显示接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-LVDS"><span class="toc-number">2.</span> <span class="toc-text">2.LVDS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-分析过程"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 分析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-源码及效果"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 源码及效果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-MIPI"><span class="toc-number">3.</span> <span class="toc-text">3.MIPI</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-常见的LCD显示接口"><span class="toc-number">1.</span> <span class="toc-text">1.常见的LCD显示接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-LVDS"><span class="toc-number">2.</span> <span class="toc-text">2.LVDS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-分析过程"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 分析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-源码及效果"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 源码及效果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-MIPI"><span class="toc-number">3.</span> <span class="toc-text">3.MIPI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-分析过程"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 分析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-源码及效果"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 源码及效果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-心得"><span class="toc-number">4.</span> <span class="toc-text">4.心得</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -484,10 +511,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -496,11 +519,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -516,39 +559,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -560,19 +571,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -581,6 +608,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -600,15 +635,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -616,19 +647,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
             
             <div class="clearfix"></div>

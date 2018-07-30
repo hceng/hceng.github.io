@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
+    <lastmod>2018-07-30T15:29:53.753Z</lastmod>
+    <data>
+        <display>
+        <title>RK3288——LCD裸机</title>
+        <pubTime>2018-07-19T01:12:32.000Z</pubTime>
+        
+        <tag>裸机</tag>
+         
+        <tag>LCD</tag>
+         
+        <tag>RK3288</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
     <lastmod>2018-07-30T03:19:22.310Z</lastmod>
     <data>
@@ -33,27 +54,6 @@
         <tag>Linux环境编程</tag>
          
         <tag>TCP/UDP</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
-    <lastmod>2018-07-25T02:10:44.011Z</lastmod>
-    <data>
-        <display>
-        <title>RK3288——LCD裸机</title>
-        <pubTime>2018-07-19T01:12:32.000Z</pubTime>
-        
-        <tag>裸机</tag>
-         
-        <tag>LCD</tag>
-         
-        <tag>RK3288</tag>
          
          
            
@@ -154,9 +154,9 @@
          
         <tag>摄像头</tag>
          
-        <tag>UVC</tag>
-         
         <tag>Linux环境编程</tag>
+         
+        <tag>UVC</tag>
          
          
            
@@ -365,9 +365,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
@@ -384,9 +384,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -422,9 +422,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -591,9 +591,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          
