@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
+    
+    <lastmod>2018-08-16T08:30:59.732Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/04/13/%E8%87%AA%E5%B7%B1%E5%86%99bootloader/</loc>
+    
+    <lastmod>2018-08-16T08:30:37.933Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
     
     <lastmod>2018-07-30T15:29:53.753Z</lastmod>
@@ -166,13 +180,6 @@
     <loc>http://hceng.cn/2017/04/22/Linux%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E5%8D%B8%E8%BD%BDU%E7%9B%98/</loc>
     
     <lastmod>2017-12-13T07:10:45.404Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/04/13/%E8%87%AA%E5%B7%B1%E5%86%99bootloader/</loc>
-    
-    <lastmod>2017-12-13T07:09:23.712Z</lastmod>
     
   </url>
   

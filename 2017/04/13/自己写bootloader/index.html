@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170413/6.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170413/7.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-12-13T07:09:23.712Z">
+<meta property="og:updated_time" content="2018-08-16T08:30:37.933Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自己写bootloader">
 <meta name="twitter:description" content="参考写了个bootloader。">
@@ -225,7 +225,7 @@
 </li>
 </ul>
 <p><strong>判断是Nand还是Nor：</strong><br>（利用Nor Flash可以像内存一样读，但不能像内存一样写的特性）<br><figure class="highlight c"><figcaption><span>[init.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">isBootFromNorFlash</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> *p = (<span class="keyword">volatile</span> <span class="keyword">int</span> *)<span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> val;</div><div class="line"></div><div class="line">    val = *p;               <span class="comment">//备份原来0地址的值；</span></div><div class="line">    *p = <span class="number">0x12345678</span>;        <span class="comment">//向0地址写值；</span></div><div class="line">    <span class="keyword">if</span> (*p == <span class="number">0x12345678</span>)   <span class="comment">//判断是否写入成功；</span></div><div class="line">    &#123;</div><div class="line">        *p = val;    	    <span class="comment">//写成功, 是nand启动，恢复原来的值；</span></div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">         <span class="keyword">return</span> <span class="number">1</span>;          <span class="comment">//NOR不能像内存一样写；</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br><strong>Nand Flash结构：</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170413/2.jpg" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170413/3.jpg" alt=""><br><strong>Nand Flash读操作：</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170413/4.jpg" alt=""><br><figure class="highlight c"><figcaption><span>[init.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nand_read</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> addr, <span class="keyword">unsigned</span> <span class="keyword">char</span> *buf, <span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> col = addr % <span class="number">2048</span>;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">    <span class="comment">/* 1. 选中 */</span></div><div class="line">    nand_select();</div><div class="line">    <span class="keyword">while</span> (i &lt; len)</div><div class="line">    &#123;</div><div class="line">        <span class="comment">/* 2. 发出读命令00h */</span></div><div class="line">        nand_cmd(<span class="number">0x00</span>);</div><div class="line">        <span class="comment">/* 3. 发出地址(分5步发出) */</span></div><div class="line">        nand_addr(addr);</div><div class="line">        <span class="comment">/* 4. 发出读命令30h */</span></div><div class="line">        nand_cmd(<span class="number">0x30</span>);</div><div class="line">        <span class="comment">/* 5. 判断状态 */</span></div><div class="line">        nand_wait_ready();</div><div class="line">        <span class="comment">/* 6. 读数据 */</span></div><div class="line">        <span class="keyword">for</span> (; (col &lt; <span class="number">2048</span>) &amp;&amp; (i &lt; len); col++)  <span class="comment">//处理没有从最左边开始的情况；</span></div><div class="line">        &#123;</div><div class="line">            buf[i] = nand_data();</div><div class="line">            i++;</div><div class="line">            addr++;</div><div class="line">        &#125;</div><div class="line">        col = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/* 7. 取消选中 */</span>        </div><div class="line">    nand_deselect();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* nand_read 涉及的子函数*/</span></div><div class="line"><span class="comment">/* 1.选中Nand；P226*/</span>     </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nand_select</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    NFCONT &amp;= ~(<span class="number">1</span>&lt;&lt;<span class="number">1</span>);    </div><div class="line">&#125;</div><div class="line"><span class="comment">/* 2.取消选中Nand */</span>     </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nand_deselect</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    NFCONT |= (<span class="number">1</span>&lt;&lt;<span class="number">1</span>);    </div><div class="line">&#125;</div><div class="line"><span class="comment">/* 3.nand命令 */</span>   </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nand_cmd</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> cmd)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> i;</div><div class="line">    NFCMMD = cmd;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++);</div><div class="line">&#125;</div><div class="line"><span class="comment">/* 4.nand地址 */</span>   </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nand_addr</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> addr)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> col = addr % <span class="number">2048</span>;    <span class="comment">//对2k取余，得到列；</span></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> page = addr / <span class="number">2048</span>; 	<span class="comment">//对2k取整，得到行；</span></div><div class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> i;</div><div class="line"></div><div class="line">    NFADDR = col &amp; <span class="number">0xff</span>; 			<span class="comment">//列的7-0位；</span></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++);</div><div class="line">    NFADDR = (col &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;        <span class="comment">//列的15-8位；</span></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++);</div><div class="line">    </div><div class="line">    NFADDR = page &amp; <span class="number">0xff</span>;			<span class="comment">//行的7-0位；</span></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++);</div><div class="line">    NFADDR = (page &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;      <span class="comment">//行的15-8位；</span></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++);</div><div class="line">    NFADDR = (page &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;     <span class="comment">//行的23-16位；</span></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++);    </div><div class="line">&#125;</div><div class="line"><span class="comment">/* 5.等待读结束 */</span>   </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nand_wait_ready</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span> (!(NFSTAT &amp; <span class="number">1</span>));</div><div class="line">&#125;</div><div class="line"><span class="comment">/* 6.nand数据 */</span>   </div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="title">nand_data</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> NFDATA;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><strong>清理_bss段：</strong><br>　　在start.S跳转到main前，还需要清理_bss段。_bss段存放的是未初始化的全局变量或者初始化为0的全局变量，用于处理可能过多0占用过多空间的情况。现在清0，后续要使用时，再赋0使用。<br><figure class="highlight c"><figcaption><span>[init.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear_bss</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> __bss_start, __bss_end;  <span class="comment">//声明链接脚本的链接地址;</span></div><div class="line">    <span class="keyword">int</span> *p = &amp;__bss_start;            </div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (; p &lt; &amp;__bss_end; p++)         <span class="comment">//以_bss_start开始，清理到_bss_end;</span></div><div class="line">        *p = <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>清理_bss段：</strong><br>　　在start.S跳转到main前，还需要清理_bss段。_bss段存放的是未初始化的全局变量或者初始化为0的全局变量，<del>用于处理可能过多0占用过多空间的情况。现在清0，后续要使用时，再赋0使用</del>(勘误：清理bss段的目的，并不是节约空间，而是<strong>为未初始化的全局变量赋值为0</strong>。在操作系中写应用程序或者使用集成开发环境写裸机代码，都能保证未定义的全局变量为0，因为操作系统、集成开发环境做了类似清理bss段的操作。而我们自己从头写裸机，需要自己清理bss段。参考文章：<a href="https://www.reddit.com/r/AskProgramming/comments/7r8scm/why_do_we_have_to_clear_bss_in_assembly/" target="_blank" rel="external">Why do we have to clear bss in assembly?</a>)。<br><figure class="highlight c"><figcaption><span>[init.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear_bss</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> __bss_start, __bss_end;  <span class="comment">//声明链接脚本的链接地址;</span></div><div class="line">    <span class="keyword">int</span> *p = &amp;__bss_start;            </div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (; p &lt; &amp;__bss_end; p++)         <span class="comment">//以_bss_start开始，清理到_bss_end;</span></div><div class="line">        *p = <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>链接脚本：</strong><br><figure class="highlight plain"><figcaption><span>[boot.lds]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">SECTIONS &#123;</div><div class="line">        . = 0x33f80000;</div><div class="line">        .text : &#123; *(.text) &#125;     //代码段在0x33f80000，即链接地址，重定位后程序运行的地址；</div><div class="line"></div><div class="line">        . = ALIGN(4);            //四字节对齐（32位）；</div><div class="line">        .rodata : &#123;*(.rodata*)&#125;  //只读数据段</div><div class="line">        </div><div class="line">        . = ALIGN(4);</div><div class="line">        .data : &#123; *(.data) &#125;     //数据段</div><div class="line">        </div><div class="line">        . = ALIGN(4);</div><div class="line">        __bss_start = .;         //_bss开始</div><div class="line">        .bss : &#123; *(.bss) *(COMMON) &#125;</div><div class="line">        __bss_end = .;           //_bss结束</div><div class="line">&#125;</div></pre></td></tr></table></figure><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170413/5.jpg" alt=""></p>
 <hr>
 <h1 id="3-把内核读到SDRAM"><a href="#3-把内核读到SDRAM" class="headerlink" title="3.把内核读到SDRAM"></a>3.把内核读到SDRAM</h1><p>　　前面start.S中调用init.c中的nand_init初始化了Nand Flahsh和写好了nand_read()函数。start.S最后跳到main函数中，而mian函数boot.c中。<br><figure class="highlight c"><figcaption><span>[boot.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 0. 帮内核设置串口: 内核启动的开始部分会从串口打印一些信息,但是内核一开始没有初始化串口 */</span></div><div class="line">  uart0_init();  <span class="comment">//略，看相应章节设置；</span></div></pre></td></tr></table></figure><br>把内核读到SDRAM:<br><figure class="highlight c"><figcaption><span>[boot.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 1. 从NAND FLASH里把内核读入内存 */</span></div><div class="line">   nand_read(<span class="number">0x60000</span>+<span class="number">64</span>, (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)<span class="number">0x30008000</span>, <span class="number">0x400000</span>);</div></pre></td></tr></table></figure></p>
@@ -511,15 +511,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -527,7 +523,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,15 +539,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -563,11 +559,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,19 +575,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,7 +591,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -607,7 +599,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -627,11 +619,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -639,15 +631,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
