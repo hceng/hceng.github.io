@@ -16,7 +16,7 @@
 <meta property="og:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-08-16T15:45:31.027Z">
+<meta property="og:updated_time" content="2018-08-17T04:16:55.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
@@ -187,7 +187,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；<br><a id="more"></a><br>这应该是最后一次写裸机代码了，老是写裸机，都要写吐了。<br>这次选的是64位平台(ARMv8架构)的Firefly-RK3399，注定坑多，也更有挑战性一点，内容比较多，持续更新。</p>
-<h1 id="1-RK3399启动"><a href="#1-RK3399启动" class="headerlink" title="1.RK3399启动"></a>1.RK3399启动</h1><p>先看一下RK3399的启动流程图：</p>
+<h1 id="1-RK3399启动"><a href="#1-RK3399启动" class="headerlink" title="1.RK3399启动"></a>1.RK3399启动</h1><p>先看一下RK3399的启动流程图<sup>[1]</sup>：</p>
 <p><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png"></div><br>从图中可以得到以下几个结论：</p>
 <ul>
 <li>1.RK3399上电后，会从<code>0xffff0000</code>获取<code>romcode</code>并运行；</li>
@@ -205,18 +205,24 @@
 <p>最后使用Android Tools，烧写<code>rk3399_loader_v1.09.109.bin</code>、<code>trust.img</code>和<code>uboot.img</code>即可启动U-Boot。</p>
 <p>对以上过程进行分析，再加上实验测试和结合RK3288的经验，得出裸机启动文件的制作结论如下：<br><strong>使用<code>boot_merger</code>将<code>rk3399_ddr_800MHz_v1.09.bin</code>、<code>rk3399_usbplug_v1.09.bin</code>和自己的裸机文件<code>rk3399.bin</code>合并出新文件即可。</strong></p>
 <h2 id="1-2-制作裸机启动文件"><a href="#1-2-制作裸机启动文件" class="headerlink" title="1.2 制作裸机启动文件"></a>1.2 制作裸机启动文件</h2><p>经过分析和测试，现实现了emmc和TF卡启动裸机程序，并把整个过程整理了一个工程模板。<br>工程模板见<a href="https://github.com/hceng/RK3399/tree/master/hardware/1_start" target="_blank" rel="external">GitHub</a>，里面包含两个文件夹和两个文件。</p>
-<ul>
-<li><code>code</code>文件夹存放裸机源码；</li>
-<li><code>tools</code>存放制作“头部”的工具和配置文件；</li>
-<li><code>rk3399_hardware_tool.sh</code>是一个shell脚本，用于自动生成加“头部”后的裸机文件；</li>
-<li><code>README.txt</code>是操作说明；</li>
-</ul>
+<blockquote>
+<p><code>code</code>文件夹存放裸机源码；<br><code>tools</code>存放制作“头部”的工具和配置文件；<br><code>rk3399_hardware_tool.sh</code>是一个shell脚本，用于自动生成加“头部”后的裸机文件；<br><code>README.txt</code>是操作说明；</p>
+</blockquote>
 <p>以后只需要先进入<code>code</code>文件夹修改裸机源码，然后执行<code>make</code>生成<code>rk399.bin</code>，再退出到工程目录下，执行脚本<code>rk3399_hardware_tool.sh</code>即可生成<code>rk3288_emmc.bin</code>和<code>rk3288_sd.bin</code>；</p>
 <ul>
 <li><code>rk3288_emmc.bin</code>用于emmc启动：Windows下使用AndroidTool.exe，开发板进入MaskRom模式，烧入Loader位置;</li>
 <li><code>rk3288_sd.bin</code>用于SD卡启动：Linux下，插上SD卡，执行<code>sudo dd if=rk3399_sd.bin of=/dev/sdb seek=$(((0x000040)))</code>(其中/dev/sdb为SD卡)</li>
 </ul>
-<h1 id="2-中断"><a href="#2-中断" class="headerlink" title="2.中断"></a>2.中断</h1><h2 id="2-1-aarch64汇编"><a href="#2-1-aarch64汇编" class="headerlink" title="2.1 aarch64汇编"></a>2.1 aarch64汇编</h2><h2 id="2-2-中断代码"><a href="#2-2-中断代码" class="headerlink" title="2.2 中断代码"></a>2.2 中断代码</h2><h1 id="3-串口"><a href="#3-串口" class="headerlink" title="3.串口"></a>3.串口</h1><h2 id="3-1-uart代码"><a href="#3-1-uart代码" class="headerlink" title="3.1 uart代码"></a>3.1 uart代码</h2><h2 id="3-2-printf移植"><a href="#3-2-printf移植" class="headerlink" title="3.2 printf移植"></a>3.2 printf移植</h2><h1 id="4-定时器时钟"><a href="#4-定时器时钟" class="headerlink" title="4.定时器时钟"></a>4.定时器时钟</h1><h1 id="5-ADC"><a href="#5-ADC" class="headerlink" title="5.ADC"></a>5.ADC</h1><h1 id="6-PWM"><a href="#6-PWM" class="headerlink" title="6.PWM"></a>6.PWM</h1><h1 id="7-I2C"><a href="#7-I2C" class="headerlink" title="7.I2C"></a>7.I2C</h1><h1 id="8-SPI"><a href="#8-SPI" class="headerlink" title="8.SPI"></a>8.SPI</h1><h1 id="9-LCD"><a href="#9-LCD" class="headerlink" title="9.LCD"></a>9.LCD</h1><hr>
+<h1 id="2-Uboot启动部分分析"><a href="#2-Uboot启动部分分析" class="headerlink" title="2.Uboot启动部分分析"></a>2.Uboot启动部分分析</h1><p>为了方便后面从U-boot提取所需裸机代码，有必要先对U-boot进行分析，本节只分析启动部分的，后续具体某个模块，如LCD，将在后面对应的章节分析。<br>另外，本次分析是的RK3399，64位的ARMv8架构，与市面上较多的32位ARMv7架构SOC略有区别，注意不要混淆。<br>RK3399编译过的U-boot已上传<a href="https://github.com/hceng/RK3399/tree/master/hardware/2_u-boot_source" target="_blank" rel="external">GitHub</a>。U-boot执行的第一个文件是start.S，下面开始对其进行分析。</p>
+<h2 id="2-1-start-S"><a href="#2-1-start-S" class="headerlink" title="2.1 start.S"></a>2.1 start.S</h2><p>所在路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/arch/arm/cpu/armv8/start.S" target="_blank" rel="external"><code>u-boot/arch/arm/cpu/armv8/start.S</code></a></p>
+<ul>
+<li><p><strong>1.check loader tag [unimportant]</strong><br>首先跳转到<code>reset</code>，检查<code>LoaderTagCheck</code>，检查通过则进入<code>checkok</code>，否则返回进入<code>maskrom or miniloader</code>；</p>
+</li>
+<li><p><strong>2.</strong></p>
+</li>
+</ul>
+<h1 id="2-中断"><a href="#2-中断" class="headerlink" title="2.中断"></a>2.中断</h1><h2 id="2-1-aarch64汇编"><a href="#2-1-aarch64汇编" class="headerlink" title="2.1 aarch64汇编"></a>2.1 aarch64汇编</h2><h2 id="2-2-中断代码"><a href="#2-2-中断代码" class="headerlink" title="2.2 中断代码"></a>2.2 中断代码</h2><h1 id="3-串口"><a href="#3-串口" class="headerlink" title="3.串口"></a>3.串口</h1><h2 id="3-1-uart代码"><a href="#3-1-uart代码" class="headerlink" title="3.1 uart代码"></a>3.1 uart代码</h2><h2 id="3-2-printf移植"><a href="#3-2-printf移植" class="headerlink" title="3.2 printf移植"></a>3.2 printf移植</h2><h1 id="4-定时器时钟"><a href="#4-定时器时钟" class="headerlink" title="4.定时器时钟"></a>4.定时器时钟</h1><h1 id="5-ADC"><a href="#5-ADC" class="headerlink" title="5.ADC"></a>5.ADC</h1><h1 id="6-PWM"><a href="#6-PWM" class="headerlink" title="6.PWM"></a>6.PWM</h1><h1 id="7-I2C"><a href="#7-I2C" class="headerlink" title="7.I2C"></a>7.I2C</h1><h1 id="8-SPI"><a href="#8-SPI" class="headerlink" title="8.SPI"></a>8.SPI</h1><h1 id="9-LCD"><a href="#9-LCD" class="headerlink" title="9.LCD"></a>9.LCD</h1><p>参考资料：<br>[1]. <a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part1.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part1.pdf</a><br>　　<a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part2.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part2.pdf</a><br>[2]. <a href="https://yurichev.com/mirrors/ARMv8-A_Architecture_Reference_Manual_%28Issue_A.a%29.pdf" target="_blank" rel="external">ARMv8-A_Architecture_Reference<em>Manual</em>(Issue_A.a).pdf</a></p>
+<hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -232,6 +238,10 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">裸机</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Uboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -334,7 +344,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-RK3399启动"><span class="toc-number">1.</span> <span class="toc-text">1.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-官方启动分析"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-制作裸机启动文件"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-中断"><span class="toc-number">2.</span> <span class="toc-text">2.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-aarch64汇编"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 aarch64汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-中断代码"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-串口"><span class="toc-number">3.</span> <span class="toc-text">3.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-uart代码"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-printf移植"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-定时器时钟"><span class="toc-number">4.</span> <span class="toc-text">4.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-ADC"><span class="toc-number">5.</span> <span class="toc-text">5.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-PWM"><span class="toc-number">6.</span> <span class="toc-text">6.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-I2C"><span class="toc-number">7.</span> <span class="toc-text">7.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-SPI"><span class="toc-number">8.</span> <span class="toc-text">8.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-LCD"><span class="toc-number">9.</span> <span class="toc-text">9.LCD</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-RK3399启动"><span class="toc-number">1.</span> <span class="toc-text">1.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-官方启动分析"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-制作裸机启动文件"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Uboot启动部分分析"><span class="toc-number">2.</span> <span class="toc-text">2.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-start-S"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 start.S</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-中断"><span class="toc-number">3.</span> <span class="toc-text">2.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-aarch64汇编"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 aarch64汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-中断代码"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-串口"><span class="toc-number">4.</span> <span class="toc-text">3.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-uart代码"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-printf移植"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-定时器时钟"><span class="toc-number">5.</span> <span class="toc-text">4.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-ADC"><span class="toc-number">6.</span> <span class="toc-text">5.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-PWM"><span class="toc-number">7.</span> <span class="toc-text">6.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-I2C"><span class="toc-number">8.</span> <span class="toc-text">7.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-SPI"><span class="toc-number">9.</span> <span class="toc-text">8.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-LCD"><span class="toc-number">10.</span> <span class="toc-text">9.LCD</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -483,26 +493,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -511,11 +501,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -527,7 +529,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -551,6 +557,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
@@ -559,23 +569,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -587,11 +585,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,7 +605,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -607,7 +617,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">

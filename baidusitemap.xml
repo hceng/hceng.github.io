@@ -5,13 +5,15 @@
     
   <url>
     <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
-    <lastmod>2018-08-16T15:45:31.027Z</lastmod>
+    <lastmod>2018-08-17T04:16:55.999Z</lastmod>
     <data>
         <display>
         <title>RK3399——裸机大全</title>
         <pubTime>2018-08-16T09:40:06.000Z</pubTime>
         
         <tag>裸机</tag>
+         
+        <tag>Uboot</tag>
          
         <tag>RK3399</tag>
          
@@ -23,13 +25,36 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/26/U-Boot%E5%88%86%E6%9E%90%E3%80%81%E7%A7%BB%E6%A4%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2018-08-17T01:12:09.805Z</lastmod>
+    <data>
+        <display>
+        <title>U-Boot分析、移植及使用</title>
+        <pubTime>2017-03-26T10:39:00.000Z</pubTime>
+        
+        <tag>Uboot</tag>
+         
+        <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/04/13/%E8%87%AA%E5%B7%B1%E5%86%99bootloader/</loc>
-    <lastmod>2018-08-16T08:30:37.933Z</lastmod>
+    <lastmod>2018-08-17T01:11:57.165Z</lastmod>
     <data>
         <display>
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
+        <tag>Uboot</tag>
+         
         <tag>驱动相关</tag>
          
         <tag>bootloader</tag>
@@ -188,11 +213,11 @@
         <title>Linux摄像头驱动3——LCD显示</title>
         <pubTime>2018-05-18T08:01:05.000Z</pubTime>
         
-        <tag>LCD</tag>
-         
         <tag>摄像头</tag>
          
         <tag>UVC</tag>
+         
+        <tag>LCD</tag>
          
         <tag>Linux环境编程</tag>
          
@@ -403,9 +428,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
@@ -444,25 +469,6 @@
         <tag>驱动相关</tag>
          
         <tag>Linux基础</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/26/U-Boot%E5%88%86%E6%9E%90%E3%80%81%E7%A7%BB%E6%A4%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2017-12-13T08:43:42.884Z</lastmod>
-    <data>
-        <display>
-        <title>U-Boot分析、移植及使用</title>
-        <pubTime>2017-03-26T10:39:00.000Z</pubTime>
-        
-        <tag>驱动相关</tag>
-         
-        <tag>环境搭建</tag>
          
          
            
