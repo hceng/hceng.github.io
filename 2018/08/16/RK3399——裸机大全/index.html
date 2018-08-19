@@ -16,7 +16,7 @@
 <meta property="og:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-08-18T11:07:10.592Z">
+<meta property="og:updated_time" content="2018-08-19T14:46:41.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
@@ -262,20 +262,24 @@
 </li>
 <li><p><strong>3.重定位 [important]</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Set up intermediate environment (new sp and gd) and call</div><div class="line"> * relocate_code(addr_moni). Trick here is that we&apos;ll return</div><div class="line"> * &apos;here&apos; but relocated.</div><div class="line"> */</div><div class="line">	ldr	x0, [x18, #GD_START_ADDR_SP]	/* x0 &lt;- gd-&gt;start_addr_sp */</div><div class="line">	bic	sp, x0, #0xf	                /* 16-byte alignment for ABI compliance */</div><div class="line">	ldr	x18, [x18, #GD_BD]		/* x18 &lt;- gd-&gt;bd */</div><div class="line">	sub	x18, x18, #GD_SIZE		/* new GD is below bd */</div><div class="line"></div><div class="line">#ifndef CONFIG_SKIP_RELOCATE_UBOOT</div><div class="line">	adr	lr, relocation_return</div><div class="line">	ldr	x9, [x18, #GD_RELOC_OFF]	/* x9 &lt;- gd-&gt;reloc_off */</div><div class="line">	add	lr, lr, x9	                /* new return address after relocation */</div><div class="line">	ldr	x0, [x18, #GD_RELOCADDR]	/* x0 &lt;- gd-&gt;relocaddr */</div><div class="line">	b	relocate_code</div><div class="line">#endif</div><div class="line"></div><div class="line">relocation_return:</div></pre></td></tr></table></figure>
-<p>将uboot搬移到内存的高地址去执行，为kernel腾出低端空间，防止kernel解压覆盖U-Boot。</p>
+<p>先是更新了gd结构体，然后根据宏<code>CONFIG_SKIP_RELOCATE_UBOOT</code>决定是否要重定位。<br>这里是不需要重定位的，因为链接脚本<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/arch/arm/cpu/armv8/u-boot.lds" target="_blank" rel="external"><code>u-boot.lds</code></a>里面的链接地址是<code>0x00000000</code>，而RK3399上电后，加头的<code>boot code</code>会自动将代码复制到DDR(0x00000000)，两者地址相同，不需要重定位。<br>重定位的代码在<code>u-boot/arch/arm/lib/relocate_64.S</code>里面。</p>
 </li>
-<li><p><strong>4.C语言运行的CPU设置 [important]</strong></p>
+<li><p><strong>4.重新设置异常向量表 [important]</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Set up final (full) environment</div><div class="line"> */</div><div class="line">	bl	c_runtime_cpu_setup		/* still call old routine */</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>5.清理BSS段 [important]</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Clear BSS section</div><div class="line"> */</div><div class="line">	ldr	x0, =__bss_start		/* this is auto-relocated! */</div><div class="line">	ldr	x1, =__bss_end			/* this is auto-relocated! */</div><div class="line">	mov	x2, #0</div><div class="line">clear_loop:</div><div class="line">	str	x2, [x0]</div><div class="line">	add	x0, x0, #8</div><div class="line">	cmp	x0, x1</div><div class="line">	b.lo	clear_loop</div></pre></td></tr></table></figure>
+<p>如果发生了重定位，需要重新设置异常向量表。<code>c_runtime_cpu_setup</code>定义在<code>start.S</code>里面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">ENTRY(c_runtime_cpu_setup)</div><div class="line">	/* Relocate vBAR */</div><div class="line">	adr	x0, vectors</div><div class="line">	switch_el x1, 3f, 2f, 1f</div><div class="line">3:	msr	vbar_el3, x0</div><div class="line">	b	0f</div><div class="line">2:	msr	vbar_el2, x0</div><div class="line">	b	0f</div><div class="line">1:	msr	vbar_el1, x0</div><div class="line">0:</div><div class="line"></div><div class="line">	ret</div><div class="line">ENDPROC(c_runtime_cpu_setup)</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <ul>
-<li><strong>6.board_init_r [important]</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/* call board_init_r(gd_t *id, ulong dest_addr) */</div><div class="line">mov	x0, x18				/* gd_t */</div><div class="line">ldr	x1, [x18, #GD_RELOCADDR]	/* dest_addr */</div><div class="line">b	board_init_r			/* PC relative jump */</div><div class="line"></div><div class="line">/* NOTREACHED - board_init_r() does not return */</div></pre></td></tr></table></figure>
+<li><strong>5.清理BSS段 [important]</strong><br>接下来就是清除BSS段，将未定义的全局变量设置为0。在以前使用Keil单片机编程时，未初始化的全局变量默认为0，那是因为集成开发环境为我们做了清理BSS段的操作，现在没有了集成开发环境，就需要我们自己做。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Clear BSS section</div><div class="line"> */</div><div class="line">	ldr	x0, =__bss_start		/* this is auto-relocated! */</div><div class="line">	ldr	x1, =__bss_end			/* this is auto-relocated! */</div><div class="line">	mov	x2, #0</div><div class="line">clear_loop:</div><div class="line">	str	x2, [x0]</div><div class="line">	add	x0, x0, #8</div><div class="line">	cmp	x0, x1</div><div class="line">	b.lo	clear_loop</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>C语言部分主要集中在两个函数board_init_f和board_init_r，主要是board初始化的前部分（front）及后部分（rear）</p>
+<ul>
+<li><strong>6.board_init_r [important]</strong><br>接下来就是板子的后半部分的初始化：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/* call board_init_r(gd_t *id, ulong dest_addr) */</div><div class="line">mov	x0, x18				/* gd_t */</div><div class="line">ldr	x1, [x18, #GD_RELOCADDR]	/* dest_addr */</div><div class="line">b	board_init_r			/* PC relative jump */</div><div class="line"></div><div class="line">/* NOTREACHED - board_init_r() does not return */</div></pre></td></tr></table></figure>
+<code>board_init_r</code>所在文件路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/common/board_r.c" target="_blank" rel="external"><code>u-boot/common/board_f.c</code></a>。<br>与前面的<code>board_init_f</code>类似，<code>board_init_r</code>中调用<code>initcall_run_list(init_sequence_r)</code>，<code>init_sequence_r</code>是个数组，里面是将要进行初始化的函数列表，又是一系列的初始化操作。之前遇到的LCD初始化就是在这里。<br>初始化数组列表最后一个成员是<code>run_main_loop</code>，将最终跳到主循环<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/common/main.c" target="_blank" rel="external"><code>main_loop</code></a>。</li>
+</ul>
+<p><code>crt0_64.S</code>主要就是为C语言运行设置栈和进行了重定位，以及两个阶段的初始化:<code>board_init_f</code>(front)和<code>board_init_r</code>(rear)，最后进入主循环。</p>
+<h2 id="2-3-总结"><a href="#2-3-总结" class="headerlink" title="2.3 总结"></a>2.3 总结</h2><p>1.ARMv8的EL等级模型<br>2.U-Boot启动部分流程图</p>
 <h1 id="2-中断"><a href="#2-中断" class="headerlink" title="2.中断"></a>2.中断</h1><h2 id="2-1-aarch64汇编"><a href="#2-1-aarch64汇编" class="headerlink" title="2.1 aarch64汇编"></a>2.1 aarch64汇编</h2><h2 id="2-2-中断代码"><a href="#2-2-中断代码" class="headerlink" title="2.2 中断代码"></a>2.2 中断代码</h2><h1 id="3-串口"><a href="#3-串口" class="headerlink" title="3.串口"></a>3.串口</h1><h2 id="3-1-uart代码"><a href="#3-1-uart代码" class="headerlink" title="3.1 uart代码"></a>3.1 uart代码</h2><h2 id="3-2-printf移植"><a href="#3-2-printf移植" class="headerlink" title="3.2 printf移植"></a>3.2 printf移植</h2><h1 id="4-定时器时钟"><a href="#4-定时器时钟" class="headerlink" title="4.定时器时钟"></a>4.定时器时钟</h1><h1 id="5-ADC"><a href="#5-ADC" class="headerlink" title="5.ADC"></a>5.ADC</h1><h1 id="6-PWM"><a href="#6-PWM" class="headerlink" title="6.PWM"></a>6.PWM</h1><h1 id="7-I2C"><a href="#7-I2C" class="headerlink" title="7.I2C"></a>7.I2C</h1><h1 id="8-SPI"><a href="#8-SPI" class="headerlink" title="8.SPI"></a>8.SPI</h1><h1 id="9-LCD"><a href="#9-LCD" class="headerlink" title="9.LCD"></a>9.LCD</h1><p>参考资料：<br>[1]. <a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part1.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part1.pdf</a><br>　　<a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part2.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part2.pdf</a><br>[2]. <a href="https://yurichev.com/mirrors/ARMv8-A_Architecture_Reference_Manual_%28Issue_A.a%29.pdf" target="_blank" rel="external">ARMv8-A_Architecture_ReferenceManual(Issue_A.a).pdf</a></p>
 <p>[4]. <a href="https://wushifublog.com/2017/11/26/u-boot%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">u-boot源码阅读(二)</a><br>[5]. <a href="http://www.wowotech.net/u-boot/boot_flow_1.html" target="_blank" rel="external">u-boot启动流程分析(1)_平台相关部分</a></p>
 <hr>
@@ -400,7 +404,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-RK3399启动"><span class="toc-number">1.</span> <span class="toc-text">1.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-官方启动分析"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-制作裸机启动文件"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Uboot启动部分分析"><span class="toc-number">2.</span> <span class="toc-text">2.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-start-S"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-crt0-64-S"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 crt0_64.S</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-中断"><span class="toc-number">3.</span> <span class="toc-text">2.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-aarch64汇编"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 aarch64汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-中断代码"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-串口"><span class="toc-number">4.</span> <span class="toc-text">3.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-uart代码"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-printf移植"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-定时器时钟"><span class="toc-number">5.</span> <span class="toc-text">4.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-ADC"><span class="toc-number">6.</span> <span class="toc-text">5.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-PWM"><span class="toc-number">7.</span> <span class="toc-text">6.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-I2C"><span class="toc-number">8.</span> <span class="toc-text">7.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-SPI"><span class="toc-number">9.</span> <span class="toc-text">8.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-LCD"><span class="toc-number">10.</span> <span class="toc-text">9.LCD</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-RK3399启动"><span class="toc-number">1.</span> <span class="toc-text">1.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-官方启动分析"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-制作裸机启动文件"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Uboot启动部分分析"><span class="toc-number">2.</span> <span class="toc-text">2.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-start-S"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-crt0-64-S"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 crt0_64.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-总结"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-中断"><span class="toc-number">3.</span> <span class="toc-text">2.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-aarch64汇编"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 aarch64汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-中断代码"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-串口"><span class="toc-number">4.</span> <span class="toc-text">3.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-uart代码"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-printf移植"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-定时器时钟"><span class="toc-number">5.</span> <span class="toc-text">4.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-ADC"><span class="toc-number">6.</span> <span class="toc-text">5.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-PWM"><span class="toc-number">7.</span> <span class="toc-text">6.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-I2C"><span class="toc-number">8.</span> <span class="toc-text">7.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-SPI"><span class="toc-number">9.</span> <span class="toc-text">8.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-LCD"><span class="toc-number">10.</span> <span class="toc-text">9.LCD</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -529,6 +533,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -541,15 +549,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,6 +565,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -573,19 +581,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -609,7 +613,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -617,15 +621,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -637,15 +641,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -661,11 +661,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -674,10 +682,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
