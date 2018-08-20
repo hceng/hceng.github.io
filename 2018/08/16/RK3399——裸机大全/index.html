@@ -15,9 +15,11 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/3.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/4.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-08-20T03:20:39.443Z">
+<meta property="og:updated_time" content="2018-08-20T04:12:31.691Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
@@ -188,7 +190,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；<br><a id="more"></a><br>这应该是最后一次写裸机代码了，老是写裸机，都要写吐了。<br>这次选的是64位平台(ARMv8架构)的Firefly-RK3399，注定坑多，也更有挑战性一点，内容比较多，持续更新。</p>
-<h1 id="1-ARMv8基础"><a href="#1-ARMv8基础" class="headerlink" title="1.ARMv8基础"></a>1.ARMv8基础</h1><h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p><strong> 1.架构和内核型号 </strong></p>
+<h1 id="1-ARMv8基础"><a href="#1-ARMv8基础" class="headerlink" title="1.ARMv8基础"></a>1.ARMv8基础</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h2><p><strong> 1.架构和内核型号 </strong></p>
 <ul>
 <li><strong>架构(Architecture)</strong>:就是常说的ARMv5(32bits)、ARMv6(32bits)、ARMv7(32bits)、ARMv8(32/64bits)；</li>
 <li><strong>内核型号</strong>:就是常说的ARM7、ARM9、Cortex-A系列(Aplication)、Cortex-R系列(Runtime)、Cortex-M系列(MCU)；</li>
@@ -234,6 +236,122 @@
 </tr>
 </tbody>
 </table>
+<h2 id="1-2-AArch64-32寄存器"><a href="#1-2-AArch64-32寄存器" class="headerlink" title="1.2 AArch64/32寄存器"></a>1.2 AArch64/32寄存器</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">AArch64</th>
+<th style="text-align:center">Special</th>
+<th>Role in the procedure call standard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x0…x7</td>
+<td style="text-align:center"></td>
+<td>Parameter/result registers(参数传入/返回结果）</td>
+</tr>
+<tr>
+<td style="text-align:center">x8</td>
+<td style="text-align:center"></td>
+<td>Indirect result location register</td>
+</tr>
+<tr>
+<td style="text-align:center">x9…x15</td>
+<td style="text-align:center"></td>
+<td>Temporary registers(临时寄存器)</td>
+</tr>
+<tr>
+<td style="text-align:center">x16</td>
+<td style="text-align:center">IP0</td>
+<td>The first intra-procedure-call scratch register (can be used by call veneers and PLT code); at other times may be used as a temporary register.</td>
+</tr>
+<tr>
+<td style="text-align:center">x17</td>
+<td style="text-align:center">IP1</td>
+<td>The second intra-procedure-call temporary register (can be used by call veneers and PLT code); at other times may be used as a temporary register.</td>
+</tr>
+<tr>
+<td style="text-align:center">x18</td>
+<td style="text-align:center"></td>
+<td>The Platform Register, if needed; otherwise a temporary register.</td>
+</tr>
+<tr>
+<td style="text-align:center">x19…x28</td>
+<td style="text-align:center"></td>
+<td>Callee-saved registers(由被调用者保存的寄存器)</td>
+</tr>
+<tr>
+<td style="text-align:center">x29</td>
+<td style="text-align:center">FP</td>
+<td>The Frame Pointer(栈帧指针)</td>
+</tr>
+<tr>
+<td style="text-align:center">x30</td>
+<td style="text-align:center">LR</td>
+<td>The Link Register(链接寄存器)</td>
+</tr>
+<tr>
+<td style="text-align:center">SP</td>
+<td style="text-align:center"></td>
+<td>The Stack Pointer(栈指针)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">AArch32</th>
+<th style="text-align:center">Special</th>
+<th>Role in the procedure call standard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">r0…r3</td>
+<td style="text-align:center"></td>
+<td>Parameter/result registers</td>
+</tr>
+<tr>
+<td style="text-align:center">r4…r11</td>
+<td style="text-align:center"></td>
+<td>Temporary registers (r9 also as platform register)</td>
+</tr>
+<tr>
+<td style="text-align:center">r12</td>
+<td style="text-align:center">IP</td>
+<td>The Intra-Procedure-call scratch register.</td>
+</tr>
+<tr>
+<td style="text-align:center">r13</td>
+<td style="text-align:center">SP</td>
+<td>The second intra-procedure-call temporary register (can be used by call veneers and PLT code); at other times may be used as a temporary register.</td>
+</tr>
+<tr>
+<td style="text-align:center">r14</td>
+<td style="text-align:center">LR</td>
+<td>The Platform Register, if needed; otherwise a temporary register.</td>
+</tr>
+<tr>
+<td style="text-align:center">r15</td>
+<td style="text-align:center">PC</td>
+<td>Callee-saved registers</td>
+</tr>
+</tbody>
+</table>
+<p>两者区别：</p>
+<table><tr><th>Execution State</th><th>Note</th></tr><tr><td>AArch64</td><td>1. 提供<span style="font-weight:bold">31个64bits</span>的通用寄存器(x0~x30，其中x30可作为LR)<br>2. 提供64bits程序计数器(PC)、栈指针(SP)、异常链接寄存器(ELR)<br>3. 提供<span style="font-weight:bold">32个128bits</span> 的SIMD Vector与Scalar Floating-Point寄存器<br>4. 定义ARMv8 EL0~EL3共4个执行权限(Execution Privilege)<br>5. 支持<span style="font-weight:bold">64bits Virtual-Addressing</span><br>6. 定义一组PSTATE用以保存PE(Processing Element)状态</td></tr><tr><td>AArch32</td><td>1. 提供<span style="font-weight:bold">16个32bits</span>的通用寄存器(r0~r12，其中r13=SP、r14=LR、r15=PC，且r14需要同时供ELR与LR之用）<br>2. 提供一个ELR，用以作为从Hyp-Mode的Exception返回之用<br>3. 提供<span style="font-weight:bold">32个64bits</span>的Advanced SIMD Vector与Scalar Floating-Point寄存器<br>4. 提供A32与T32两种指令集的组合<br>5. 使用<span style="font-weight:bold">32bits Virtual-Addressing</span><br>6. 只使用CPSR(当前程序状态寄存器)保存PE(Processing Element)状态。</td></tr></table>
+
+<p>#1.3 ARMv8 Security Model<br>针对Security的需求，ARMv8的系统软件设计可以提供如下安全模式与非安全模式的状态。</p>
+<p>若底层EL(Exception Level)为32bits，则上层EL的软件就只能是32位。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/3.png"></div>
+
+<p>若底层的EL为64bits，则上层EL就可以依据需求选择为32bits或是64bits。</p>
+<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/4.png"></div>
+
+
+
+
+
 <h1 id="2-RK3399启动"><a href="#2-RK3399启动" class="headerlink" title="2.RK3399启动"></a>2.RK3399启动</h1><p>先看一下RK3399的启动流程图<sup>[1]</sup>：</p>
 <p><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png"></div><br>从图中可以得到以下几个结论：</p>
 <ul>
@@ -451,7 +569,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-ARMv8基础"><span class="toc-number">1.</span> <span class="toc-text">1.ARMv8基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">1.基本概念</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-RK3399启动"><span class="toc-number">2.</span> <span class="toc-text">2.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-官方启动分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-制作裸机启动文件"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Uboot启动部分分析"><span class="toc-number">3.</span> <span class="toc-text">3.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-start-S"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-crt0-64-S"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 crt0_64.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-总结"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-中断"><span class="toc-number">4.</span> <span class="toc-text">4.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1"><span class="toc-number">4.1.</span> <span class="toc-text">4.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-中断代码"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-串口"><span class="toc-number">5.</span> <span class="toc-text">4.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-uart代码"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-printf移植"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-定时器时钟"><span class="toc-number">6.</span> <span class="toc-text">5.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-ADC"><span class="toc-number">7.</span> <span class="toc-text">6.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-PWM"><span class="toc-number">8.</span> <span class="toc-text">7.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-I2C"><span class="toc-number">9.</span> <span class="toc-text">8.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-SPI"><span class="toc-number">10.</span> <span class="toc-text">9.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-LCD"><span class="toc-number">11.</span> <span class="toc-text">10.LCD</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-ARMv8基础"><span class="toc-number">1.</span> <span class="toc-text">1.ARMv8基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-AArch64-32寄存器"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 AArch64/32寄存器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-RK3399启动"><span class="toc-number">2.</span> <span class="toc-text">2.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-官方启动分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-制作裸机启动文件"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Uboot启动部分分析"><span class="toc-number">3.</span> <span class="toc-text">3.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-start-S"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-crt0-64-S"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 crt0_64.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-总结"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-中断"><span class="toc-number">4.</span> <span class="toc-text">4.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1"><span class="toc-number">4.1.</span> <span class="toc-text">4.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-中断代码"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-串口"><span class="toc-number">5.</span> <span class="toc-text">4.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-uart代码"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-printf移植"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-定时器时钟"><span class="toc-number">6.</span> <span class="toc-text">5.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-ADC"><span class="toc-number">7.</span> <span class="toc-text">6.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-PWM"><span class="toc-number">8.</span> <span class="toc-text">7.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-I2C"><span class="toc-number">9.</span> <span class="toc-text">8.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-SPI"><span class="toc-number">10.</span> <span class="toc-text">9.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-LCD"><span class="toc-number">11.</span> <span class="toc-text">10.LCD</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -588,19 +706,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -612,7 +726,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -625,6 +739,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -648,7 +766,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -656,15 +778,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -676,7 +798,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -685,14 +807,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -712,11 +826,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -725,6 +839,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
