@@ -14,13 +14,14 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/16/RK3399——裸机大全/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-08-19T14:46:41.396Z">
+<meta property="og:updated_time" content="2018-08-20T03:20:39.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png">
+<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -187,7 +188,53 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；<br><a id="more"></a><br>这应该是最后一次写裸机代码了，老是写裸机，都要写吐了。<br>这次选的是64位平台(ARMv8架构)的Firefly-RK3399，注定坑多，也更有挑战性一点，内容比较多，持续更新。</p>
-<h1 id="1-RK3399启动"><a href="#1-RK3399启动" class="headerlink" title="1.RK3399启动"></a>1.RK3399启动</h1><p>先看一下RK3399的启动流程图<sup>[1]</sup>：</p>
+<h1 id="1-ARMv8基础"><a href="#1-ARMv8基础" class="headerlink" title="1.ARMv8基础"></a>1.ARMv8基础</h1><h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p><strong> 1.架构和内核型号 </strong></p>
+<ul>
+<li><strong>架构(Architecture)</strong>:就是常说的ARMv5(32bits)、ARMv6(32bits)、ARMv7(32bits)、ARMv8(32/64bits)；</li>
+<li><strong>内核型号</strong>:就是常说的ARM7、ARM9、Cortex-A系列(Aplication)、Cortex-R系列(Runtime)、Cortex-M系列(MCU)；</li>
+<li><strong>举例</strong>:单片机STM32F103C8T6采用Cortex-M3内核，采用ARMv7-M架构；<br>　　　　瑞芯微RK3288采用4个Cortex-A17，采用ARMv7-A架构；<br>　　　　瑞芯微RK3399采用2个Cortex-A72和4个Cortex-A53Cortex-A72和Cortex-A53都是ARMv8-A架构。<br>　　　　高通骁龙845处理器由4个Cortex-A75和4个Cortex-A55组成，Cortex-A75和Cortex-A55都是ARMv8-A架构。</li>
+<li><strong>发展迭代</strong>：<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg"></div>
+
+</li>
+</ul>
+<p><strong> 2.AArch64/AArch32/A64/A32/T32 </strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名字</th>
+<th style="text-align:center">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">AArch64</td>
+<td style="text-align:center">架构</td>
+<td>指基于64bits运作的ARMv8架构（通用寄存器X0-X30）</td>
+</tr>
+<tr>
+<td style="text-align:center">AArch32</td>
+<td style="text-align:center">架构</td>
+<td>指基于32bits运作的ARMv8架构，并且兼容之前的ARMv7架构（通用寄存器R0-R15）</td>
+</tr>
+<tr>
+<td style="text-align:center">A64</td>
+<td style="text-align:center">指令集</td>
+<td>指在AArch64模式下支持的ARM 64bits指令集</td>
+</tr>
+<tr>
+<td style="text-align:center">A32</td>
+<td style="text-align:center">指令集</td>
+<td>指ARMv7架构下支持的ARM 32bits指令集，在ARMv8中也有新加入的A32指令集</td>
+</tr>
+<tr>
+<td style="text-align:center">T32</td>
+<td style="text-align:center">指令集</td>
+<td>指ARMv7架构下支持的Thumb2 16/32bits指定集，在ARMv8中也有新加入的T32指令集。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="2-RK3399启动"><a href="#2-RK3399启动" class="headerlink" title="2.RK3399启动"></a>2.RK3399启动</h1><p>先看一下RK3399的启动流程图<sup>[1]</sup>：</p>
 <p><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png"></div><br>从图中可以得到以下几个结论：</p>
 <ul>
 <li>1.RK3399上电后，会从<code>0xffff0000</code>获取<code>romcode</code>并运行；</li>
@@ -196,7 +243,7 @@
 <li>4.如果从USB下载，则先获取DDR初始化代码，下载到内部SRAM中，然后运行代码初始化DDR，再获取loader代码(用户代码)，放到DDR中并运行；</li>
 <li>5.无论是何种方式，都需要DDR的初始化代码，结合前面RK3288的经验，就是向自己写的代码加上”头部信息”，这个”头部信息”就包含DDR初始化操作；</li>
 </ul>
-<h2 id="1-1-官方启动分析"><a href="#1-1-官方启动分析" class="headerlink" title="1.1 官方启动分析"></a>1.1 官方启动分析</h2><p>如何分析一款芯片的启动方式？<br>前面的一篇博客<a href="https://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/#more" target="_blank" rel="external">iMX6ULL上手体验</a>，里面已经分析过了，大致就是先用厂家提供的资料，配置相关环境、编译、烧写，运行起来。然后就有了U-boot源码，从U-boot就可以几乎提取出所有的裸机代码，本文也是这样做的。</p>
+<h2 id="2-1-官方启动分析"><a href="#2-1-官方启动分析" class="headerlink" title="2.1 官方启动分析"></a>2.1 官方启动分析</h2><p>如何分析一款芯片的启动方式？<br>前面的一篇博客<a href="https://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/#more" target="_blank" rel="external">iMX6ULL上手体验</a>，里面已经分析过了，大致就是先用厂家提供的资料，配置相关环境、编译、烧写，运行起来。然后就有了U-boot源码，从U-boot就可以几乎提取出所有的裸机代码，本文也是这样做的。</p>
 <p>分析U-Boot的编译流程，可以看到如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">./tools/boot_merger ./tools/rk_tools/RKBOOT/RK3399MINIALL.ini</div><div class="line">out:rk3399_loader_v1.09.109.bin</div><div class="line">fix opt:rk3399_loader_v1.09.109.bin</div><div class="line">merge success(rk3399_loader_v1.09.109.bin)</div><div class="line">./tools/trust_merger  ./tools/rk_tools/RKTRUST/RK3399TRUST.ini</div><div class="line">out:trust.img</div><div class="line">merge success(trust.img)</div><div class="line">./tools/loaderimage --pack --uboot u-boot.bin uboot.img</div><div class="line">pack input u-boot.bin </div><div class="line">pack file size: 315128 </div><div class="line">crc = 0xb4d13cd6</div><div class="line">uboot version: U-Boot 2014.10-RK3399-06 (Aug 16 2018 - 04:00:27)</div><div class="line">pack uboot.img success! </div><div class="line">/work/firefly-rk3399</div><div class="line">Firefly-RK3399 make images finish!</div></pre></td></tr></table></figure></p>
 <p>可以看出这里使用了三个工具，产生了三个文件：<br>①:使用<code>boot_merger</code>，参数为<code>RK3399MINIALL.ini</code>，得到loader文件<code>rk3399_loader_v1.09.109.bin</code>，打开<code>RK3399MINIALL.ini</code>内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[CHIP_NAME]</div><div class="line">NAME=RK330C</div><div class="line">[VERSION]</div><div class="line">MAJOR=1</div><div class="line">MINOR=09</div><div class="line">[CODE471_OPTION]</div><div class="line">NUM=1</div><div class="line">Path1=tools/rk_tools/bin/rk33/rk3399_ddr_800MHz_v1.09.bin</div><div class="line">Sleep=1</div><div class="line">[CODE472_OPTION]</div><div class="line">NUM=1</div><div class="line">Path1=tools/rk_tools/bin/rk33/rk3399_usbplug_v1.09.bin</div><div class="line">[LOADER_OPTION]</div><div class="line">NUM=2</div><div class="line">LOADER1=FlashData</div><div class="line">LOADER2=FlashBoot</div><div class="line">FlashData=tools/rk_tools/bin/rk33/rk3399_ddr_800MHz_v1.09.bin</div><div class="line">FlashBoot=tools/rk_tools/bin/rk33/rk3399_miniloader_v1.09.bin</div><div class="line">[OUTPUT]</div><div class="line">PATH=rk3399_loader_v1.09.109.bin</div></pre></td></tr></table></figure></p>
 <p>得知依赖的文件有:DDR相关的<code>rk3399_ddr_800MHz_v1.09.bin</code>、USB相关的<code>rk3399_usbplug_v1.09.bin</code>、miniloader(瑞芯微修改的一个bootloader)相关的<code>rk3399_miniloader_v1.09.bin</code>。<br><code>boot_merger</code>将这三个bin文件最后合并成<code>rk3399_loader_v1.09.109.bin</code>。</p>
@@ -204,7 +251,7 @@
 <p>③:使用<code>loaderimage</code>将<code>u-boot.bin</code>变成<code>uboot.img</code>；</p>
 <p>最后使用Android Tools，烧写<code>rk3399_loader_v1.09.109.bin</code>、<code>trust.img</code>和<code>uboot.img</code>即可启动U-Boot。</p>
 <p>对以上过程进行分析，再加上实验测试和结合RK3288的经验，得出裸机启动文件的制作结论如下：<br><strong>使用<code>boot_merger</code>将<code>rk3399_ddr_800MHz_v1.09.bin</code>、<code>rk3399_usbplug_v1.09.bin</code>和自己的裸机文件<code>rk3399.bin</code>合并出新文件即可。</strong></p>
-<h2 id="1-2-制作裸机启动文件"><a href="#1-2-制作裸机启动文件" class="headerlink" title="1.2 制作裸机启动文件"></a>1.2 制作裸机启动文件</h2><p>经过分析和测试，现实现了emmc和TF卡启动裸机程序，并把整个过程整理了一个工程模板。<br>工程模板见<a href="https://github.com/hceng/RK3399/tree/master/hardware/1_start" target="_blank" rel="external">GitHub</a>，里面包含两个文件夹和两个文件。</p>
+<h2 id="2-2-制作裸机启动文件"><a href="#2-2-制作裸机启动文件" class="headerlink" title="2.2 制作裸机启动文件"></a>2.2 制作裸机启动文件</h2><p>经过分析和测试，现实现了emmc和TF卡启动裸机程序，并把整个过程整理了一个工程模板。<br>工程模板见<a href="https://github.com/hceng/RK3399/tree/master/hardware/1_start" target="_blank" rel="external">GitHub</a>，里面包含两个文件夹和两个文件。</p>
 <blockquote>
 <p><code>code</code>文件夹存放裸机源码；<br><code>tools</code>存放制作“头部”的工具和配置文件；<br><code>rk3399_hardware_tool.sh</code>是一个shell脚本，用于自动生成加“头部”后的裸机文件；<br><code>README.txt</code>是操作说明；</p>
 </blockquote>
@@ -213,8 +260,8 @@
 <li><code>rk3288_emmc.bin</code>用于emmc启动：Windows下使用AndroidTool.exe，开发板进入MaskRom模式，烧入Loader位置;</li>
 <li><code>rk3288_sd.bin</code>用于SD卡启动：Linux下，插上SD卡，执行<code>sudo dd if=rk3399_sd.bin of=/dev/sdb seek=$(((0x000040)))</code>(其中/dev/sdb为SD卡)</li>
 </ul>
-<h1 id="2-Uboot启动部分分析"><a href="#2-Uboot启动部分分析" class="headerlink" title="2.Uboot启动部分分析"></a>2.Uboot启动部分分析</h1><p>为了方便后面从U-boot提取所需裸机代码，有必要先对U-boot进行分析，本节只分析启动部分的，后续具体某个模块，如LCD，将在后面对应的章节分析。<br>另外，本次分析是的RK3399，64位的ARMv8架构，与市面上较多的32位ARMv7架构SOC略有区别，注意不要混淆。<br>RK3399编译过的U-boot已上传<a href="https://github.com/hceng/RK3399/tree/master/hardware/2_u-boot_source" target="_blank" rel="external">GitHub</a>。U-boot执行的第一个文件是start.S，下面开始对其进行分析。</p>
-<h2 id="2-1-start-S"><a href="#2-1-start-S" class="headerlink" title="2.1 start.S"></a>2.1 start.S</h2><p>所在文件路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/arch/arm/cpu/armv8/start.S" target="_blank" rel="external"><code>u-boot/arch/arm/cpu/armv8/start.S</code></a></p>
+<h1 id="3-Uboot启动部分分析"><a href="#3-Uboot启动部分分析" class="headerlink" title="3.Uboot启动部分分析"></a>3.Uboot启动部分分析</h1><p>为了方便后面从U-boot提取所需裸机代码，有必要先对U-boot进行分析，本节只分析启动部分的，后续具体某个模块，如LCD，将在后面对应的章节分析。<br>另外，本次分析是的RK3399，64位的ARMv8架构，与市面上较多的32位ARMv7架构SOC略有区别，注意不要混淆。<br>RK3399编译过的U-boot已上传<a href="https://github.com/hceng/RK3399/tree/master/hardware/2_u-boot_source" target="_blank" rel="external">GitHub</a>。U-boot执行的第一个文件是start.S，下面开始对其进行分析。</p>
+<h2 id="3-1-start-S"><a href="#3-1-start-S" class="headerlink" title="3.1 start.S"></a>3.1 start.S</h2><p>所在文件路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/arch/arm/cpu/armv8/start.S" target="_blank" rel="external"><code>u-boot/arch/arm/cpu/armv8/start.S</code></a></p>
 <ul>
 <li><p><strong>1.检查loader tag [unimportant]</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">.globl	_start</div><div class="line">_start:</div><div class="line">	nop</div><div class="line">	b	reset               //hceng:首先跳到reset</div><div class="line">    ……</div><div class="line"></div><div class="line">reset:</div><div class="line"></div><div class="line">#ifdef CONFIG_ROCKCHIP</div><div class="line">	/*</div><div class="line">	 * check loader tag</div><div class="line">	 */</div><div class="line">	ldr	x0, =__loader_tag</div><div class="line">	ldr	w1, [x0]</div><div class="line">	ldr	x0, =LoaderTagCheck</div><div class="line">	ldr	w2, [x0]</div><div class="line">	cmp	w1, w2</div><div class="line">	b.eq	checkok            //hceng:LoaderTag正常则跳到checkok ，反之退出U-Boot进入maskrom or miniloader</div><div class="line"></div><div class="line">	ret	                   /* return to maskrom or miniloader */</div><div class="line"></div><div class="line">checkok:</div><div class="line">#endif</div></pre></td></tr></table></figure>
@@ -249,7 +296,7 @@
 <li><p><strong>6.跳转到_main [important]</strong><br>到此<code>start.S</code>的工作就基本完成了，接下来就交给ARM公共的<code>_main</code>。</p>
 </li>
 </ul>
-<h2 id="2-2-crt0-64-S"><a href="#2-2-crt0-64-S" class="headerlink" title="2.2 crt0_64.S"></a>2.2 crt0_64.S</h2><p>所在文件路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/arch/arm/lib/crt0_64.S" target="_blank" rel="external"><code>u-boot/arch/arm/cpu/armv8/start.S</code></a><br><code>_main</code>在<code>crt0_64.S</code>里，<code>crt0</code>是<code>C-runtime Startup Code</code>的简称，意思就是运行C代码之前的准备工作，包括设置栈、重定位、清理BSS段等；</p>
+<h2 id="3-2-crt0-64-S"><a href="#3-2-crt0-64-S" class="headerlink" title="3.2 crt0_64.S"></a>3.2 crt0_64.S</h2><p>所在文件路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/arch/arm/lib/crt0_64.S" target="_blank" rel="external"><code>u-boot/arch/arm/cpu/armv8/start.S</code></a><br><code>_main</code>在<code>crt0_64.S</code>里，<code>crt0</code>是<code>C-runtime Startup Code</code>的简称，意思就是运行C代码之前的准备工作，包括设置栈、重定位、清理BSS段等；</p>
 <ul>
 <li><strong>1.设置栈 [important]</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Set up initial C runtime environment and call board_init_f(0).</div><div class="line"> */</div><div class="line">	ldr	x0, =(CONFIG_SYS_INIT_SP_ADDR)     //hceng:设置栈顶为0x80000000=2G</div><div class="line">	sub	x0, x0, #GD_SIZE	           /* allocate one GD above SP */</div><div class="line">	bic	sp, x0, #0xf	                   /* 16-byte alignment for ABI compliance */</div><div class="line">	mov	x18, sp			           /* GD is above SP */</div></pre></td></tr></table></figure>
 </li>
@@ -279,9 +326,9 @@
 <code>board_init_r</code>所在文件路径：<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/common/board_r.c" target="_blank" rel="external"><code>u-boot/common/board_f.c</code></a>。<br>与前面的<code>board_init_f</code>类似，<code>board_init_r</code>中调用<code>initcall_run_list(init_sequence_r)</code>，<code>init_sequence_r</code>是个数组，里面是将要进行初始化的函数列表，又是一系列的初始化操作。之前遇到的LCD初始化就是在这里。<br>初始化数组列表最后一个成员是<code>run_main_loop</code>，将最终跳到主循环<a href="https://github.com/hceng/RK3399/blob/master/hardware/2_u-boot_source/common/main.c" target="_blank" rel="external"><code>main_loop</code></a>。</li>
 </ul>
 <p><code>crt0_64.S</code>主要就是为C语言运行设置栈和进行了重定位，以及两个阶段的初始化:<code>board_init_f</code>(front)和<code>board_init_r</code>(rear)，最后进入主循环。</p>
-<h2 id="2-3-总结"><a href="#2-3-总结" class="headerlink" title="2.3 总结"></a>2.3 总结</h2><p>1.ARMv8的EL等级模型<br>2.U-Boot启动部分流程图</p>
-<h1 id="2-中断"><a href="#2-中断" class="headerlink" title="2.中断"></a>2.中断</h1><h2 id="2-1-aarch64汇编"><a href="#2-1-aarch64汇编" class="headerlink" title="2.1 aarch64汇编"></a>2.1 aarch64汇编</h2><h2 id="2-2-中断代码"><a href="#2-2-中断代码" class="headerlink" title="2.2 中断代码"></a>2.2 中断代码</h2><h1 id="3-串口"><a href="#3-串口" class="headerlink" title="3.串口"></a>3.串口</h1><h2 id="3-1-uart代码"><a href="#3-1-uart代码" class="headerlink" title="3.1 uart代码"></a>3.1 uart代码</h2><h2 id="3-2-printf移植"><a href="#3-2-printf移植" class="headerlink" title="3.2 printf移植"></a>3.2 printf移植</h2><h1 id="4-定时器时钟"><a href="#4-定时器时钟" class="headerlink" title="4.定时器时钟"></a>4.定时器时钟</h1><h1 id="5-ADC"><a href="#5-ADC" class="headerlink" title="5.ADC"></a>5.ADC</h1><h1 id="6-PWM"><a href="#6-PWM" class="headerlink" title="6.PWM"></a>6.PWM</h1><h1 id="7-I2C"><a href="#7-I2C" class="headerlink" title="7.I2C"></a>7.I2C</h1><h1 id="8-SPI"><a href="#8-SPI" class="headerlink" title="8.SPI"></a>8.SPI</h1><h1 id="9-LCD"><a href="#9-LCD" class="headerlink" title="9.LCD"></a>9.LCD</h1><p>参考资料：<br>[1]. <a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part1.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part1.pdf</a><br>　　<a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part2.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part2.pdf</a><br>[2]. <a href="https://yurichev.com/mirrors/ARMv8-A_Architecture_Reference_Manual_%28Issue_A.a%29.pdf" target="_blank" rel="external">ARMv8-A_Architecture_ReferenceManual(Issue_A.a).pdf</a></p>
-<p>[4]. <a href="https://wushifublog.com/2017/11/26/u-boot%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">u-boot源码阅读(二)</a><br>[5]. <a href="http://www.wowotech.net/u-boot/boot_flow_1.html" target="_blank" rel="external">u-boot启动流程分析(1)_平台相关部分</a></p>
+<h2 id="3-3-总结"><a href="#3-3-总结" class="headerlink" title="3.3 总结"></a>3.3 总结</h2><p>1.ARMv8的EL等级模型</p>
+<p>2.U-Boot启动部分流程图</p>
+<h1 id="4-中断"><a href="#4-中断" class="headerlink" title="4.中断"></a>4.中断</h1><h2 id="4-1"><a href="#4-1" class="headerlink" title="4.1"></a>4.1</h2><h2 id="4-2-中断代码"><a href="#4-2-中断代码" class="headerlink" title="4.2 中断代码"></a>4.2 中断代码</h2><h1 id="4-串口"><a href="#4-串口" class="headerlink" title="4.串口"></a>4.串口</h1><h2 id="4-1-uart代码"><a href="#4-1-uart代码" class="headerlink" title="4.1 uart代码"></a>4.1 uart代码</h2><h2 id="4-2-printf移植"><a href="#4-2-printf移植" class="headerlink" title="4.2 printf移植"></a>4.2 printf移植</h2><h1 id="5-定时器时钟"><a href="#5-定时器时钟" class="headerlink" title="5.定时器时钟"></a>5.定时器时钟</h1><h1 id="6-ADC"><a href="#6-ADC" class="headerlink" title="6.ADC"></a>6.ADC</h1><h1 id="7-PWM"><a href="#7-PWM" class="headerlink" title="7.PWM"></a>7.PWM</h1><h1 id="8-I2C"><a href="#8-I2C" class="headerlink" title="8.I2C"></a>8.I2C</h1><h1 id="9-SPI"><a href="#9-SPI" class="headerlink" title="9.SPI"></a>9.SPI</h1><h1 id="10-LCD"><a href="#10-LCD" class="headerlink" title="10.LCD"></a>10.LCD</h1><p>参考资料：<br>[1]. <a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part1.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part1.pdf</a><br>　　<a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part2.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part2.pdf</a><br>[2]. <a href="https://yurichev.com/mirrors/ARMv8-A_Architecture_Reference_Manual_%28Issue_A.a%29.pdf" target="_blank" rel="external">ARMv8-A_Architecture_ReferenceManual(Issue_A.a).pdf</a><br>[3]. <a href="https://wushifublog.com/2017/11/26/u-boot%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">u-boot源码阅读(二)</a><br>[4]. <a href="http://www.wowotech.net/u-boot/boot_flow_1.html" target="_blank" rel="external">u-boot启动流程分析(1)_平台相关部分</a><br>[5]. <a href="http://loda.hala01.com/?view=classic" target="_blank" rel="external">ARMv8 与Linux的新手笔记</a></p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -404,7 +451,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-RK3399启动"><span class="toc-number">1.</span> <span class="toc-text">1.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-官方启动分析"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-制作裸机启动文件"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Uboot启动部分分析"><span class="toc-number">2.</span> <span class="toc-text">2.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-start-S"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-crt0-64-S"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 crt0_64.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-总结"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-中断"><span class="toc-number">3.</span> <span class="toc-text">2.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-aarch64汇编"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 aarch64汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-中断代码"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-串口"><span class="toc-number">4.</span> <span class="toc-text">3.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-uart代码"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-printf移植"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-定时器时钟"><span class="toc-number">5.</span> <span class="toc-text">4.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-ADC"><span class="toc-number">6.</span> <span class="toc-text">5.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-PWM"><span class="toc-number">7.</span> <span class="toc-text">6.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-I2C"><span class="toc-number">8.</span> <span class="toc-text">7.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-SPI"><span class="toc-number">9.</span> <span class="toc-text">8.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-LCD"><span class="toc-number">10.</span> <span class="toc-text">9.LCD</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-ARMv8基础"><span class="toc-number">1.</span> <span class="toc-text">1.ARMv8基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">1.基本概念</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-RK3399启动"><span class="toc-number">2.</span> <span class="toc-text">2.RK3399启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-官方启动分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 官方启动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-制作裸机启动文件"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 制作裸机启动文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Uboot启动部分分析"><span class="toc-number">3.</span> <span class="toc-text">3.Uboot启动部分分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-start-S"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-crt0-64-S"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 crt0_64.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-总结"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-中断"><span class="toc-number">4.</span> <span class="toc-text">4.中断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1"><span class="toc-number">4.1.</span> <span class="toc-text">4.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-中断代码"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 中断代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-串口"><span class="toc-number">5.</span> <span class="toc-text">4.串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-uart代码"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 uart代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-printf移植"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 printf移植</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-定时器时钟"><span class="toc-number">6.</span> <span class="toc-text">5.定时器时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-ADC"><span class="toc-number">7.</span> <span class="toc-text">6.ADC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-PWM"><span class="toc-number">8.</span> <span class="toc-text">7.PWM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-I2C"><span class="toc-number">9.</span> <span class="toc-text">8.I2C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-SPI"><span class="toc-number">10.</span> <span class="toc-text">9.SPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-LCD"><span class="toc-number">11.</span> <span class="toc-text">10.LCD</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -553,15 +600,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -573,19 +620,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -601,7 +648,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -613,19 +668,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -641,11 +688,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -657,19 +708,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
