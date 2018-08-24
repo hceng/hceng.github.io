@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/5.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/6.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-08-23T03:53:14.782Z">
+<meta property="og:updated_time" content="2018-08-24T02:22:26.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
@@ -196,7 +196,7 @@
 <ul>
 <li><strong>架构(Architecture)</strong>:就是常说的ARMv5(32bits)、ARMv6(32bits)、ARMv7(32bits)、ARMv8(32/64bits)；</li>
 <li><strong>内核型号</strong>:就是常说的ARM7、ARM9、Cortex-A系列(Aplication)、Cortex-R系列(Runtime)、Cortex-M系列(MCU)；</li>
-<li><strong>举例</strong>:单片机STM32F103C8T6采用Cortex-M3内核，采用ARMv7-M架构；<br>　　　　瑞芯微RK3288采用4个Cortex-A17，采用ARMv7-A架构；<br>　　　　瑞芯微RK3399采用2个Cortex-A72和4个Cortex-A53Cortex-A72和Cortex-A53都是ARMv8-A架构。<br>　　　　高通骁龙845处理器由4个Cortex-A75和4个Cortex-A55组成，Cortex-A75和Cortex-A55都是ARMv8-A架构。</li>
+<li><strong>举例</strong>:单片机STM32F103C8T6采用Cortex-M3内核，采用ARMv7-M架构；<br>　　　　瑞芯微RK3288采用4个Cortex-A17，采用ARMv7-A架构；<br>　　　　瑞芯微RK3399采用2个Cortex-A72和4个Cortex-A53组成，Cortex-A72和Cortex-A53都是ARMv8-A架构。<br>　　　　高通骁龙845处理器由4个Cortex-A75和4个Cortex-A55组成，Cortex-A75和Cortex-A55都是ARMv8-A架构。</li>
 <li><strong>发展迭代</strong>：<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg"></div>
 
 </li>
@@ -758,7 +758,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -774,23 +782,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -802,7 +798,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -814,15 +810,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -830,11 +818,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -846,11 +846,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -866,19 +866,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -887,6 +879,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
