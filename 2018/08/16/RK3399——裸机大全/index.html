@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/8.png">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/9.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-09-10T09:31:13.604Z">
+<meta property="og:updated_time" content="2018-09-13T03:44:11.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
@@ -194,7 +194,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；<br><a id="more"></a><br>这应该是最后一次写裸机代码了，老是写裸机，都要写吐了。<br>这次选的是64位平台(ARMv8架构)的Firefly-RK3399，注定坑多，也更有挑战性一点，内容比较多，持续更新。</p>
+        <p>以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；<br><a id="more"></a><br>这应该是最后一次写裸机代码了，老是写裸机，都要写吐了。<br>这次选的是64位平台(ARMv8架构)的Firefly-RK3399，注定坑多，也更有挑战性一点。</p>
 <h1 id="1-ARMv8基础"><a href="#1-ARMv8基础" class="headerlink" title="1.ARMv8基础"></a>1.ARMv8基础</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h2><p><strong> 1.架构和内核型号 </strong></p>
 <ul>
 <li><strong>架构(Architecture)</strong>:就是常说的ARMv5(32bits)、ARMv6(32bits)、ARMv7(32bits)、ARMv8(32/64bits)；</li>
@@ -531,7 +531,8 @@
 <h1 id="10-PWM"><a href="#10-PWM" class="headerlink" title="10.PWM"></a>10.PWM</h1><p>RK3399有四组PWM，其中PWM3可以配置为第二功能用于红外IR。<br>这里使用MIPI接口的PWM1为例，输出指定占空比的波形。</p>
 <h2 id="10-1-编程思路"><a href="#10-1-编程思路" class="headerlink" title="10.1 编程思路"></a>10.1 编程思路</h2><p>1.首先是PWM引脚复用；<br>2.关闭PWM控制器；<br>3.设置时钟源、比例系数、预分频(可默认)；<br>4.设置模式:连续模式,占空比极性为高、左对齐(默认)；<br>5.设置占空比，其中<code>PERIOD_HPR</code>是总周期，<code>DUTY_LPR</code>是有效周期，<code>Duty cycle=DUTY_LPR/PERIOD_HPR</code>；<br>6.启动PWN控制器；</p>
 <h2 id="10-2-实现代码"><a href="#10-2-实现代码" class="headerlink" title="10.2 实现代码"></a>10.2 实现代码</h2><figure class="highlight c"><figcaption><span>[pwm.c]</span><a href="https://github.com/hceng/RK3399/tree/master/hardware/9_pwm/code/pwm.c" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pwm.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"gpio.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"timer.h"</span></span></div><div class="line"></div><div class="line"><span class="comment">//GPIO4_C6/PWM1</span></div><div class="line"><span class="comment">//0~100</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">pwm1_out</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> val)</span></span></div><div class="line">&#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 0	 <span class="comment">//test gpio ok</span></span></div><div class="line">	GPIO4-&gt;SWPORTA_DDR |=  (<span class="number">0x01</span> &lt;&lt; (<span class="number">2</span> * <span class="number">8</span> + <span class="number">6</span>));</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">	&#123;</div><div class="line">		GPIO4-&gt;SWPORTA_DR  &amp;= ~(<span class="number">0x01</span> &lt;&lt; (<span class="number">2</span> * <span class="number">8</span> + <span class="number">6</span>));</div><div class="line">		delay_ms(<span class="number">10</span>);</div><div class="line">		GPIO4-&gt;SWPORTA_DR  |=  (<span class="number">0x01</span> &lt;&lt; (<span class="number">2</span> * <span class="number">8</span> + <span class="number">6</span>));</div><div class="line">		delay_ms(<span class="number">10</span>);	</div><div class="line">	&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">else</span> 	</span></div><div class="line">	<span class="comment">//1.IOMUX</span></div><div class="line">	GRF_GPIO4C_IOMUX  |=  ((<span class="number">0x03</span>&lt;&lt;<span class="number">28</span>) | (<span class="number">0x01</span>&lt;&lt;<span class="number">12</span>)); <span class="comment">//  1'b1: pwm_1</span></div><div class="line">	<span class="comment">//GRF_SOC_CON2  |=  ((0x01&lt;&lt;16) | (0x01&lt;&lt;0)); //P136  1'b1: pwm_1</span></div><div class="line">	</div><div class="line">	<span class="comment">//2.Set PWM</span></div><div class="line">	PWM1-&gt;CTRL &amp;= ~(<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>); <span class="comment">//PWM channel disabled</span></div><div class="line">	<span class="comment">//2.1 设置时钟源、比例系数、预分频、</span></div><div class="line">	<span class="comment">//PWM1-&gt;CTRL |= ((0x01&lt;&lt;16) | (0x01&lt;&lt;12) | (0x01&lt;&lt;9));//Scale Factor / Prescale Factor / Clock Source Select</span></div><div class="line">	<span class="comment">//2.2 设置模式:连续模式,占空比极性为高、左对齐(默认)</span></div><div class="line">	PWM1-&gt;CTRL |=  (<span class="number">0x01</span>&lt;&lt;<span class="number">1</span>) | (<span class="number">0x01</span>&lt;&lt;<span class="number">3</span>); <span class="comment">//PWM Operation Mode 01: Continuous mode.</span></div><div class="line">	</div><div class="line">	<span class="comment">//3.Set Duty Cycle</span></div><div class="line">	<span class="keyword">if</span>(val &gt; <span class="number">100</span>)</div><div class="line">		val = <span class="number">100</span>;</div><div class="line">	PWM1-&gt;PERIOD_HPR = <span class="number">100</span>; <span class="comment">//总周期</span></div><div class="line">	PWM1-&gt;DUTY_LPR   = val;  <span class="comment">//占空比=val/总周期</span></div><div class="line">	</div><div class="line">	<span class="comment">//4.Start</span></div><div class="line">	PWM1-&gt;CTRL |=  (<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>);</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> 	</span></div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure>
-<h1 id="11-LCD"><a href="#11-LCD" class="headerlink" title="11.LCD"></a>11.LCD</h1><p>参考资料：<br>[1]. <a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part1.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part1.pdf</a><br>　　<a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part2.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part2.pdf</a><br>[2]. <a href="https://yurichev.com/mirrors/ARMv8-A_Architecture_Reference_Manual_%28Issue_A.a%29.pdf" target="_blank" rel="external">ARMv8-A_Architecture_ReferenceManual(Issue_A.a).pdf</a><br>[3]. <a href="https://wushifublog.com/2017/11/26/u-boot%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">u-boot源码阅读(二)</a><br>[4]. <a href="http://www.wowotech.net/u-boot/boot_flow_1.html" target="_blank" rel="external">u-boot启动流程分析(1)_平台相关部分</a><br>[5]. <a href="http://loda.hala01.com/?view=classic" target="_blank" rel="external">ARMv8 与Linux的新手笔记</a></p>
+<h1 id="11-LCD"><a href="#11-LCD" class="headerlink" title="11.LCD"></a>11.LCD</h1><p>待填坑……</p>
+<p>参考资料：<br>[1]. <a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part1.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part1.pdf</a><br>　　<a href="https://www.t-firefly.com/download/Firefly-RK3399/docs/TRM/Rockchip%20RK3399TRM%20V1.3%20Part2.pdf" target="_blank" rel="external">Rockchip RK3399TRM V1.3 Part2.pdf</a><br>[2]. <a href="https://yurichev.com/mirrors/ARMv8-A_Architecture_Reference_Manual_%28Issue_A.a%29.pdf" target="_blank" rel="external">ARMv8-A_Architecture_ReferenceManual(Issue_A.a).pdf</a><br>[3]. <a href="https://wushifublog.com/2017/11/26/u-boot%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="external">u-boot源码阅读(二)</a><br>[4]. <a href="http://www.wowotech.net/u-boot/boot_flow_1.html" target="_blank" rel="external">u-boot启动流程分析(1)_平台相关部分</a><br>[5]. <a href="http://loda.hala01.com/?view=classic" target="_blank" rel="external">ARMv8 与Linux的新手笔记</a></p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -624,6 +625,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/09/12/JAVA学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JAVA学习笔记
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/19/RK3288——LCD裸机/" id="article-nav-older" class="article-nav-link-wrap">
@@ -783,10 +793,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -796,6 +802,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -811,10 +821,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -823,7 +829,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -839,6 +845,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -847,7 +869,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -859,31 +885,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -895,7 +901,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -907,7 +929,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -920,10 +942,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
