@@ -15,8 +15,10 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="毕业后就没怎么碰Java了，为了后面Android的学习，将Java的基础知识整理一下。">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/1.png">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/2.jpg">
+<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-09-16T09:15:39.679Z">
+<meta property="og:updated_time" content="2018-09-18T09:37:34.980Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA学习笔记">
 <meta name="twitter:description" content="毕业后就没怎么碰Java了，为了后面Android的学习，将Java的基础知识整理一下。">
@@ -451,7 +453,53 @@
 <blockquote>
 <p>1.1 通过<code>interface</code>关键字定义两个接口<code>A</code>和<code>B</code>，里面定义了常量和抽象方法；<br>1.2 接口里面只能定义常量，抽象类可以定义常量和变量；<br>　<br>2.1 子类<code>Son</code>同时从接口<code>A</code>和<code>B</code>继承，突破了抽象类突破“单继承”的限制；<br>2.2 子类<code>Son</code>依旧得实现接口里面所有的抽象方法；<br>　<br>3 <code>main</code>实例化<code>Son</code>，访问实现的方法；</p>
 </blockquote>
-<h2 id="2-4-多态性"><a href="#2-4-多态性" class="headerlink" title="2.4 多态性"></a>2.4 多态性</h2><hr>
+<h2 id="2-4-多态性"><a href="#2-4-多态性" class="headerlink" title="2.4 多态性"></a>2.4 多态性</h2><p><strong>多态性体现在方法和对象上。</strong></p>
+<p>在前面的例子中，方法的多态性已经接触过了，体现在<strong>方法的重载与覆写</strong>。</p>
+<ul>
+<li><strong>方法的重载(overload):</strong>定义多个同名方法，其参数类型、个数不同；</li>
+<li><strong>方法的覆写(override):</strong>子类里实现跟父类同样的方法，覆盖掉父类；</li>
+</ul>
+<hr>
+<p>对象的多态性就是<strong>父对象和子对象之前的转换</strong>，转换分为向上转换和向下转换。</p>
+<ul>
+<li><strong>向上转型</strong>:子对象向父对象转型的过程，例如猫类转换为动物类(小范围转大范围自动)，子对象独有的成员将不可访问(只能识别父对象中的内容)；</li>
+<li><strong>向下转型</strong>:父对象强制转换为子对象的过程，例如动物类强制转换为猫类(大范围转小范围强制)，；</li>
+</ul>
+<p>另外，可以通过<code>引用变量 instanceof 类名</code>的方式来判断引用变量所指向的对象是否属于某个类；</p>
+<ul>
+<li><p>示例：</p>
+<figure class="highlight java"><figcaption><span>[Limit.java]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printfInfo</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"This is Father"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">work</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Father is working……"</span>);</div><div class="line">    &#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printfInfo</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"This is Son"</span>);</div><div class="line">    &#125; </div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">palyGame</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Son is playing games……"</span>);</div><div class="line">    &#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Daughter</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printfInfo</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"This is Daughter"</span>);</div><div class="line">    &#125; </div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dance</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Daughter is dancing……"</span>);</div><div class="line">    &#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cnv</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line">        Father father1 = <span class="keyword">new</span> Father();</div><div class="line">        Son son = <span class="keyword">new</span> Son();</div><div class="line">        father1 = son; <span class="comment">//向上转换</span></div><div class="line">        father1.printfInfo();</div><div class="line">        <span class="comment">//father1.palyGame(); //只能调用被子类覆写的方法，不能调用只在子类中定义的方法</span></div><div class="line">        </div><div class="line">        Father father2  = <span class="keyword">new</span> Daughter(); <span class="comment">//创建子类的实例化对象(先向上转换)</span></div><div class="line">        Daughter daughter = (Daughter)father2; <span class="comment">//向下转换 (Daughter daughter = new Daughter();)</span></div><div class="line">        daughter.printfInfo();  </div><div class="line">        </div><div class="line">        System.out.println(<span class="string">"--------------------"</span>);</div><div class="line">        </div><div class="line">        Father f = <span class="keyword">new</span> Father();</div><div class="line">        Son s = <span class="keyword">new</span> Son();</div><div class="line">        Daughter d = <span class="keyword">new</span> Daughter();</div><div class="line">        <span class="comment">//向上转换 示例</span></div><div class="line">        printf(f);</div><div class="line">        printf(s);</div><div class="line">        printf(d);      </div><div class="line">        <span class="comment">//向下转换 示例       </span></div><div class="line">        printAction(f);</div><div class="line">        printAction(s);</div><div class="line">        printAction(d); </div><div class="line">    &#125; </div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printf</span><span class="params">(Father f)</span> </span>&#123;</div><div class="line">        f.printfInfo();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printAction</span><span class="params">(Father f)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (f <span class="keyword">instanceof</span> Son) &#123;</div><div class="line">            Son s = (Son)f;</div><div class="line">            s.palyGame();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> Daughter) &#123;</div><div class="line">            Daughter d = (Daughter)f;</div><div class="line">            d.dance();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> Father) &#123; <span class="comment">//Father要在最后,每个对象都属于Father</span></div><div class="line">            f.work();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">This is Son</div><div class="line">This is Daughter</div><div class="line">--------------------</div><div class="line">This is Father</div><div class="line">This is Son</div><div class="line">This is Daughter</div><div class="line">Father is working……</div><div class="line">Son is playing games……</div><div class="line">Daughter is dancing……</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对该示例进行分析：</p>
+<blockquote>
+<p>1.1 首先定义了三个类，其中<code>Son</code>和<code>Daughter</code>继承于<code>Father</code>；<br>1.2 每个类里面都有一个同名的<code>printfInfo</code>方法和各自的独有的方法；<br>　<br>2.1 <code>main</code>方法里，首先创建了<code>father1</code>和<code>son</code>这两个对象，然后将子类赋值给父类，进行向上转换，父类只能调用被子类覆写的方法<code>printfInfo</code>，最后结果也是调用的子类覆写的方法；<br>2.2 首先创建子类的实例化对象<code>father2</code>(即先向上转换，不然后面无法向下转换)，此时<code>father2</code>的类型是<code>Father</code>，再用<code>Daughter</code>强制向下转换，得到<code>daughter</code>，此时可以调用子类的所有方法；<br>　<br>3.1 先分别实例化了三个类对应的对象；<br>3.2 调用方法<code>printf</code>，传入不同类的对象，自动向上转换，调用各自同名的方法；<br>3.3 调用方法<code>printAction</code>，传入不同类的对象，自动向上转换，再判断是对象是否属于对应类，再进行向下强制转换，从而调用其私有的方法(因为<code>s</code>和<code>d</code>都属于<code>f</code>，所以对<code>f</code>的判断要放在最后)；</p>
+</blockquote>
+<h2 id="2-5-异常"><a href="#2-5-异常" class="headerlink" title="2.5 异常"></a>2.5 异常</h2><p>程序运行时，发生的不被期望的事件，它阻止了程序按照程序员的预期正常执行，这就是异常。<br>异常发生时，是任程序自生自灭，立刻退出终止，还是输出错误给用户？或者用C语言风格：用函数返回值作为执行状态？。<br>Java提供了更加优秀的解决办法：<strong>异常处理机制</strong>。<br>异常处理机制能让程序在异常发生时，按照代码的预先设定的异常处理逻辑，针对性地处理异常，让程序尽最大可能恢复正常并继续执行，且保持代码的清晰。</p>
+<p>Java标准库内建了一些通用的异常，这些类以<code>Throwable</code>为顶层父类，<code>Throwable</code>又派生出<code>Error</code>类和<code>Exception</code>类。</p>
+<ul>
+<li><strong>Error(错误)</strong>：<code>Error</code>类以及他的子类的实例，代表了JVM本身的错误，不能被程序员通过代码处理，所以不用管；</li>
+<li><strong>Exception(异常)</strong>：<code>Exception</code>以及他的子类，代表程序运行时发送的各种不期望发生的事件，可以被Java异常处理机制使用；</li>
+</ul>
+<div align="center"><img width="900" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/2.jpg"></div>
+
+<blockquote>
+<p>针对Javac对异常的处理要求，将异常类分为2类:</p>
+<ul>
+<li><strong>checked exception(可查异常)</strong>:<code>IOException</code>以及它子类的异常，这些异常必须处理，否则编译不会通过；</li>
+<li><strong>unckecked exception(不可查异常)</strong>:<code>RuntimeException</code>以及它的子类，不要求必须处理，发生异常时程序退出；</li>
+</ul>
+</blockquote>
+<p>针对要处理的异常，可以自己处理，也可也通过<code>throws</code>抛出异常，让别人处理：</p>
+<div align="center"><img width="500" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/3.jpg"></div>
+
+
+
+
+<h2 id="2-6-包及访问权限"><a href="#2-6-包及访问权限" class="headerlink" title="2.6 包及访问权限"></a>2.6 包及访问权限</h2><h2 id="2-7-内部类"><a href="#2-7-内部类" class="headerlink" title="2.7 内部类"></a>2.7 内部类</h2><h1 id="3-JNI"><a href="#3-JNI" class="headerlink" title="3. JNI"></a>3. JNI</h1><h2 id="3-1-JAVA调用C"><a href="#3-1-JAVA调用C" class="headerlink" title="3.1 JAVA调用C"></a>3.1 JAVA调用C</h2><h2 id="3-2-C调用JAVA"><a href="#3-2-C调用JAVA" class="headerlink" title="3.2 C调用JAVA"></a>3.2 C调用JAVA</h2><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -569,7 +617,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-开发环境的搭建"><span class="toc-number">1.</span> <span class="toc-text">0. 开发环境的搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-为Ubuntu设置两个分区"><span class="toc-number">1.1.</span> <span class="toc-text">0.1 为Ubuntu设置两个分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-为Ubuntu设置交换分区"><span class="toc-number">1.2.</span> <span class="toc-text">0.2 为Ubuntu设置交换分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-3-为Ubuntu安装基本软件"><span class="toc-number">1.3.</span> <span class="toc-text">0.3 为Ubuntu安装基本软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Java基础"><span class="toc-number">2.</span> <span class="toc-text">1. Java基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-第一个Java程序"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 第一个Java程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-数据类型"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-基本数据类型"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.2.1 基本数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2-引用数据类型"><span class="toc-number">2.2.2.</span> <span class="toc-text">1.2.2 引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-3-数据转换"><span class="toc-number">2.2.3.</span> <span class="toc-text">1.2.3 数据转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-运算符、表达式、语句"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 运算符、表达式、语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-方法"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-1-方法的格式"><span class="toc-number">2.4.1.</span> <span class="toc-text">1.4.1 方法的格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-2-方法的重载"><span class="toc-number">2.4.2.</span> <span class="toc-text">1.4.2 方法的重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-3-方法的参数"><span class="toc-number">2.4.3.</span> <span class="toc-text">1.4.3 方法的参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Java面向对象编程"><span class="toc-number">3.</span> <span class="toc-text">2. Java面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-类的引入"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 类的引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-封装性"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 封装性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-继承性"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 继承性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-引入"><span class="toc-number">3.3.1.</span> <span class="toc-text">2.3.1 引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-继承的限制"><span class="toc-number">3.3.2.</span> <span class="toc-text">2.3.2 继承的限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-抽象类"><span class="toc-number">3.3.3.</span> <span class="toc-text">2.3.3 抽象类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-4-接口"><span class="toc-number">3.3.4.</span> <span class="toc-text">2.3.4 接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-多态性"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 多态性</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-开发环境的搭建"><span class="toc-number">1.</span> <span class="toc-text">0. 开发环境的搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-为Ubuntu设置两个分区"><span class="toc-number">1.1.</span> <span class="toc-text">0.1 为Ubuntu设置两个分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-为Ubuntu设置交换分区"><span class="toc-number">1.2.</span> <span class="toc-text">0.2 为Ubuntu设置交换分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-3-为Ubuntu安装基本软件"><span class="toc-number">1.3.</span> <span class="toc-text">0.3 为Ubuntu安装基本软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Java基础"><span class="toc-number">2.</span> <span class="toc-text">1. Java基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-第一个Java程序"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 第一个Java程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-数据类型"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-基本数据类型"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.2.1 基本数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2-引用数据类型"><span class="toc-number">2.2.2.</span> <span class="toc-text">1.2.2 引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-3-数据转换"><span class="toc-number">2.2.3.</span> <span class="toc-text">1.2.3 数据转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-运算符、表达式、语句"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 运算符、表达式、语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-方法"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-1-方法的格式"><span class="toc-number">2.4.1.</span> <span class="toc-text">1.4.1 方法的格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-2-方法的重载"><span class="toc-number">2.4.2.</span> <span class="toc-text">1.4.2 方法的重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-3-方法的参数"><span class="toc-number">2.4.3.</span> <span class="toc-text">1.4.3 方法的参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Java面向对象编程"><span class="toc-number">3.</span> <span class="toc-text">2. Java面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-类的引入"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 类的引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-封装性"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 封装性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-继承性"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 继承性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-引入"><span class="toc-number">3.3.1.</span> <span class="toc-text">2.3.1 引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-继承的限制"><span class="toc-number">3.3.2.</span> <span class="toc-text">2.3.2 继承的限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-抽象类"><span class="toc-number">3.3.3.</span> <span class="toc-text">2.3.3 抽象类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-4-接口"><span class="toc-number">3.3.4.</span> <span class="toc-text">2.3.4 接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-多态性"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 多态性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-异常"><span class="toc-number">3.5.</span> <span class="toc-text">2.5 异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-包及访问权限"><span class="toc-number">3.6.</span> <span class="toc-text">2.6 包及访问权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-内部类"><span class="toc-number">3.7.</span> <span class="toc-text">2.7 内部类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-JNI"><span class="toc-number">4.</span> <span class="toc-text">3. JNI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-JAVA调用C"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 JAVA调用C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-C调用JAVA"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 C调用JAVA</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -718,15 +766,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -738,7 +778,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -746,15 +786,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -766,7 +802,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -778,11 +826,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -790,27 +838,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -822,6 +854,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -830,19 +874,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -850,11 +886,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
             
             <div class="clearfix"></div>
