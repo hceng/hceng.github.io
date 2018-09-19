@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/2.jpg">
 <meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-09-18T09:37:34.980Z">
+<meta property="og:updated_time" content="2018-09-19T02:17:03.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA学习笔记">
 <meta name="twitter:description" content="毕业后就没怎么碰Java了，为了后面Android的学习，将Java的基础知识整理一下。">
@@ -496,9 +496,18 @@
 <p>针对要处理的异常，可以自己处理，也可也通过<code>throws</code>抛出异常，让别人处理：</p>
 <div align="center"><img width="500" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/3.jpg"></div>
 
-
-
-
+<ul>
+<li><p>示例：</p>
+<figure class="highlight java"><figcaption><span>[Div.java]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 除法运算: java Div 6 2   -&gt;  6/2=3*/</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Div</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> m, n, r;</div><div class="line">        m=n=r=<span class="number">0</span>; <span class="comment">//初始化</span></div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            m = Integer.parseInt(args[<span class="number">0</span>]);</div><div class="line">            n = Integer.parseInt(args[<span class="number">1</span>]);</div><div class="line">            r = div(m, n);</div><div class="line">            craetException();</div><div class="line">        &#125; <span class="keyword">catch</span> (NumberFormatException exception1) &#123; <span class="comment">//自己处理:数字格式异常(java Div 6 a)</span></div><div class="line">            System.out.println(<span class="string">"====An exception occurs1:"</span>+exception1+<span class="string">"====="</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (ArithmeticException exception2) &#123; <span class="comment">//处理扔过来的异常:除零错误异常(java Div 6 0)</span></div><div class="line">            System.out.println(<span class="string">"====An exception occurs2:"</span>+exception2+<span class="string">"====="</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (RuntimeException runtimeexception) &#123; <span class="comment">//处理所有不可查异常,比如位数不够(java Div 6)</span></div><div class="line">            System.out.println(<span class="string">"====An exception occurs:"</span>+runtimeexception+<span class="string">"====="</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception exception) &#123; <span class="comment">//处理自己通过throw创建的可查异常</span></div><div class="line">            System.out.println(<span class="string">"====An exception occurs:"</span>+exception+<span class="string">"====="</span>);</div><div class="line">        &#125; </div><div class="line">        <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="comment">//无论是否发生异常,finally代码块中的代码总会被执行,完成清理类型等收尾善后性质的功能</span></div><div class="line">            System.out.println(<span class="string">"finally"</span>); <span class="comment">//finally中不要包含return</span></div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        System.out.println(m+<span class="string">"/"</span>+n+<span class="string">"="</span>+r);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//扔给调用者处理:除零错误异常(java Div 6 0)</span></div><div class="line">    <span class="comment">//public static int div(int m, int n) throws ArithmeticException &#123;</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">div</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;  <span class="comment">//ArithmeticException是不可查异常,出现后会自动抛出,可以不要throws</span></div><div class="line">        <span class="keyword">int</span> r;</div><div class="line">        r = m / n;</div><div class="line">        <span class="keyword">return</span> r;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//自己创建的可查异常NullPointerException,必须处理,这里将其抛出,因此必须要throws</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">craetException</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"My Craeted Exception"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">hceng@android:/work/java_learn/09th_exception$ java Div 6 3</div><div class="line">====An exception occurs:java.lang.Exception: My Craeted Exception=====</div><div class="line">finally</div><div class="line">6/3=2</div><div class="line">hceng@android:/work/java_learn/09th_exception$ java Div 6 a</div><div class="line">====An exception occurs1:java.lang.NumberFormatException: For input string: &quot;a&quot;=====</div><div class="line">finally</div><div class="line">6/0=0</div><div class="line">hceng@android:/work/java_learn/09th_exception$ java Div 6 0</div><div class="line">====An exception occurs2:java.lang.ArithmeticException: / by zero=====</div><div class="line">finally</div><div class="line">6/0=0</div><div class="line">hceng@android:/work/java_learn/09th_exception$ java Div 6 </div><div class="line">====An exception occurs:java.lang.ArrayIndexOutOfBoundsException: 1=====</div><div class="line">finally</div><div class="line">6/0=0</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对该示例进行分析：</p>
+<blockquote>
+<p>1 该示例实现了一个整数除法运算，同时对输入参数的合法性进行了异常处理；<br>　<br>2.1 <code>main</code>方法里，首先定义了三个变量并初始化；<br>2.2 <code>try { }</code>代码块包含了可能出现异常的代码；<br>2.3 通过<code>Integer.parseInt</code>方法将字符<code>args[0]</code>和<code>args[1]</code>转换成了整型，这里可能出现<code>NumberFormatException</code>和<code>ArrayIndexOutOfBoundsException</code>异常，比如传入<code>a</code>就无法转换成对应数字，传入的参数少一个也会转换出错；<br>2.4 方法<code>div</code>的定义在后面，可能出现<code>ArithmeticException</code>异常，即初始不能为零；<br>2.5 方法<code>craetException</code>的定义在后面，在里面自己产生了一个可查异常，必须处理的异常；<br>2.6 接下来的<code>catch (异常类 异常变量名) { }</code>代码块，捕获到对应异常，即进行代码块代码；<br>2.7 无论是否发生异常，<code>finally { }</code>代码块的内容总会被执行，一般在里面做一些清理类型的善后收尾工作，注意不要在里面写<code>return</code>代码，因为如果前面的<code>try</code>或<code>catch</code>块中有<code>return</code>或<code>throw</code>语句，会先执行<code>finally</code>块，此时<code>finally</code>中有<code>return</code>就直接返回了，无法再返回来执行<code>try</code>或<code>catch</code>块中<code>return</code>或<code>throw</code>语句里面的内容；<br>2.8 接下来是打印出结果；<br>　<br>3.1 定义了<code>Div</code>方法，因为可能发生<code>ArithmeticException</code>异常，该异常是不可查异常，出现后可以自动抛出，所以在方法名定义那可以不加<code>throws ArithmeticException</code>；<br>3.2 定义了<code>craetException</code>方法，该方法是通过<code>new</code>建立，<code>throw</code>抛出，从前面的图中可以知道<code>Exception</code>类异常包含<code>IOException</code>可查异常和<code>RuntimeException</code>不可查异常，因为是可查异常的关系，要么自己处理，要么手动抛出，这里抛出的话，方法名定义得加上<code>throws Exception</code>，否则编译都无法通过；<br>3.3 这里的两个方法，都是抛出异常，也可以自己通过<code>try {} catch {}</code>处理掉；在选择抛出时，前者因为是不可查异常，在方法名定义时可以不加<code>throws 异常类型</code>，后者反之得加上；<br>　<br>4 运行代码时，分别列举了正常运行、传入参数为字母错误、传入参数除数为零、传入参数少一个的情况，异常都被捕获到，程序没有当时直接退出，而是执行了异常处理代码块的内容，继续执行；</p>
+</blockquote>
 <h2 id="2-6-包及访问权限"><a href="#2-6-包及访问权限" class="headerlink" title="2.6 包及访问权限"></a>2.6 包及访问权限</h2><h2 id="2-7-内部类"><a href="#2-7-内部类" class="headerlink" title="2.7 内部类"></a>2.7 内部类</h2><h1 id="3-JNI"><a href="#3-JNI" class="headerlink" title="3. JNI"></a>3. JNI</h1><h2 id="3-1-JAVA调用C"><a href="#3-1-JAVA调用C" class="headerlink" title="3.1 JAVA调用C"></a>3.1 JAVA调用C</h2><h2 id="3-2-C调用JAVA"><a href="#3-2-C调用JAVA" class="headerlink" title="3.2 C调用JAVA"></a>3.2 C调用JAVA</h2><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -746,6 +755,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -754,15 +767,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -778,31 +803,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -818,6 +823,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -826,15 +839,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -842,15 +851,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -858,7 +863,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -874,23 +891,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -898,11 +903,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
             
             <div class="clearfix"></div>
