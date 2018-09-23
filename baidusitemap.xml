@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/09/12/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2018-09-22T10:24:21.536Z</lastmod>
+    <lastmod>2018-09-23T13:09:34.399Z</lastmod>
     <data>
         <display>
         <title>JAVA学习笔记</title>
@@ -635,9 +635,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
