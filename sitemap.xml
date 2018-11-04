@@ -2,6 +2,111 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2017/10/31/Exynos4412%E2%80%94%E2%80%94%E7%BD%91%E5%8D%A1%E7%A7%BB%E6%A4%8D%E5%92%8CNFS%E5%90%AF%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T09:00:50.588Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/10/26/Exynos4412%E2%80%94%E2%80%94%E5%86%85%E6%A0%B8%E7%A7%BB%E6%A4%8D/</loc>
+    
+    <lastmod>2018-11-04T08:59:56.543Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/10/12/QT%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94HexoBlogClient/</loc>
+    
+    <lastmod>2018-11-04T08:51:57.505Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/09/23/Photoshop%E5%9F%BA%E7%A1%802%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7/</loc>
+    
+    <lastmod>2018-11-04T08:50:56.881Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/09/15/Photoshop%E5%9F%BA%E7%A1%801%E2%80%94%E2%80%94%E8%89%B2%E5%BD%A9/</loc>
+    
+    <lastmod>2018-11-04T08:50:01.302Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/09/11/AM437x%E2%80%94%E2%80%94I2C%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T08:48:59.246Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/08/28/AM437x%E2%80%94%E2%80%94I2C%E8%A3%B8%E6%9C%BA/</loc>
+    
+    <lastmod>2018-11-04T08:47:25.140Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T08:45:43.171Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E8%A3%B8%E6%9C%BA/</loc>
+    
+    <lastmod>2018-11-04T08:39:52.195Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/08/12/AM437x%E2%80%94%E2%80%94LED%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T08:37:05.627Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
+    
+    <lastmod>2018-11-04T08:33:48.815Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/07/28/AM437x%E2%80%94%E2%80%94LED%E8%A3%B8%E6%9C%BA/</loc>
+    
+    <lastmod>2018-11-04T08:32:29.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/07/23/2017%E5%B9%B4%E4%B8%AD/</loc>
+    
+    <lastmod>2018-11-04T08:30:51.764Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/05/26/%E7%A7%BB%E6%A4%8DMiniGUI%E5%88%B0JZ2440/</loc>
+    
+    <lastmod>2018-11-04T08:28:07.802Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/05/18/PCB-Ruler/</loc>
+    
+    <lastmod>2018-11-04T05:15:09.709Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2017/04/30/Linux%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B/</loc>
     
     <lastmod>2018-11-04T05:05:19.232Z</lastmod>
@@ -163,13 +268,6 @@
   </url>
   
   <url>
-    <loc>http://hceng.cn/2017/10/26/Exynos4412%E2%80%94%E2%80%94%E5%86%85%E6%A0%B8%E7%A7%BB%E6%A4%8D/</loc>
-    
-    <lastmod>2018-06-28T10:23:54.585Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
     
     <lastmod>2018-06-21T03:15:39.185Z</lastmod>
@@ -233,107 +331,9 @@
   </url>
   
   <url>
-    <loc>http://hceng.cn/2017/05/18/PCB-Ruler/</loc>
-    
-    <lastmod>2018-01-05T12:34:50.630Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/10/12/QT%E5%BA%94%E7%94%A8%E8%AE%BE%E8%AE%A1%E2%80%94%E2%80%94HexoBlogClient/</loc>
-    
-    <lastmod>2017-11-17T11:47:58.899Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/</loc>
-    
-    <lastmod>2017-11-09T08:46:09.888Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://hceng.cn/2017/11/07/Exynos4412%E2%80%94%E2%80%94SD%E5%8D%A1%E5%90%AF%E5%8A%A8/</loc>
     
     <lastmod>2017-11-07T07:56:54.732Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/10/31/Exynos4412%E2%80%94%E2%80%94%E7%BD%91%E5%8D%A1%E7%A7%BB%E6%A4%8D%E5%92%8CNFS%E5%90%AF%E5%8A%A8/</loc>
-    
-    <lastmod>2017-11-07T07:54:46.113Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/09/23/Photoshop%E5%9F%BA%E7%A1%802%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7/</loc>
-    
-    <lastmod>2017-09-23T05:52:51.339Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/09/15/Photoshop%E5%9F%BA%E7%A1%801%E2%80%94%E2%80%94%E8%89%B2%E5%BD%A9/</loc>
-    
-    <lastmod>2017-09-23T03:47:38.889Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/09/11/AM437x%E2%80%94%E2%80%94I2C%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2017-09-14T13:10:19.434Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2017-09-14T05:00:11.744Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/23/AM437x%E2%80%94%E2%80%94RTC%E8%A3%B8%E6%9C%BA/</loc>
-    
-    <lastmod>2017-09-12T01:33:00.624Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/28/AM437x%E2%80%94%E2%80%94I2C%E8%A3%B8%E6%9C%BA/</loc>
-    
-    <lastmod>2017-09-12T00:57:43.541Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/08/12/AM437x%E2%80%94%E2%80%94LED%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2017-08-27T12:27:21.104Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/07/28/AM437x%E2%80%94%E2%80%94LED%E8%A3%B8%E6%9C%BA/</loc>
-    
-    <lastmod>2017-08-27T12:27:17.849Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/07/23/2017%E5%B9%B4%E4%B8%AD/</loc>
-    
-    <lastmod>2017-07-23T15:33:04.359Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/05/26/%E7%A7%BB%E6%A4%8DMiniGUI%E5%88%B0JZ2440/</loc>
-    
-    <lastmod>2017-05-31T07:33:11.934Z</lastmod>
     
   </url>
   

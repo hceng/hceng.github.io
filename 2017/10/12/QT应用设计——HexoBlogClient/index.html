@@ -14,15 +14,15 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/12/QT应用设计——HexoBlogClient/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要记录采用QT开发的hexo博客管理客户端——HexoBlogClient。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/3.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-11-17T11:47:58.899Z">
+<meta property="og:updated_time" content="2018-11-04T08:51:57.505Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="QT应用设计——HexoBlogClient">
 <meta name="twitter:description" content="本文主要记录采用QT开发的hexo博客管理客户端——HexoBlogClient。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -243,14 +243,14 @@
 <ul>
 <li><p>a:修改程序左上角图标<br>修改源代码mainwindow.cpp，设置打开程序后左上角的图标和显示的文字：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">MainWindow::MainWindow(QWidget *parent) :</div><div class="line">    QMainWindow(parent),</div><div class="line">    ui(<span class="keyword">new</span> Ui::MainWindow)</div><div class="line">&#123;</div><div class="line">    ui-&gt;setupUi(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">    <span class="keyword">this</span>-&gt;setWindowIcon(QIcon(<span class="string">"://image/hexoblogclient.ico"</span>));<span class="comment">//设置图标</span></div><div class="line">    <span class="keyword">this</span>-&gt;setWindowTitle(<span class="string">"HexoBlogClient"</span>);<span class="comment">//设置名字</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/1.png" alt=""></p>
+<p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/1.png" alt=""></p>
 </li>
 <li><p>b:修改应用程序图标<br>在工程目录下创建一个<code>appicon.rc</code>文件，文件内容如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IDI_ICON1   ICON    DISCARDABLE &quot;image/hexoblogclient.ico&quot;</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>再在<code>HexoBlogClient.pro</code>文件添加如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RC_FILE += \</div><div class="line">    appicon.rc</div></pre></td></tr></table></figure></p>
-<p>此时重新编译，应用程序图标也变成了ico图案。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/2.png" alt=""></p>
+<p>此时重新编译，应用程序图标也变成了ico图案。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/2.png" alt=""></p>
 <h2 id="2-2-本地界面"><a href="#2-2-本地界面" class="headerlink" title="2.2 本地界面"></a>2.2 本地界面</h2><ul>
 <li><strong>界面设计</strong></li>
 </ul>
@@ -260,7 +260,7 @@
 <li>使用<code>pushButton</code>控件作为按键；</li>
 <li>使用<code>label</code>控件显示当前文章总数和时间；</li>
 </ol>
-<p>效果如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171012/3.png" alt=""></p>
+<p>效果如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171012/3.png" alt=""></p>
 <ul>
 <li><strong>功能设计</strong><br>实例化一个<code>QFileSystemModel</code>类，筛选出<code>*.md</code>文件，指定文件路径，隐藏其它<code>Column</code>（也就是只显示文件名，不显示大小、日期等信息），然后以日期为标准，降序排列，最后将信息显示到<code>treeView</code>上。<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">QFileSystemModel *model1 = <span class="keyword">new</span> QFileSystemModel();</div><div class="line">model1-&gt;setRootPath(<span class="string">"E:/hceng blog/blog/source/_posts"</span>);</div><div class="line"></div><div class="line">QStringList nameFilter1;</div><div class="line">nameFilter1 &lt;&lt; <span class="string">"*.md"</span>;</div><div class="line">model1-&gt;setNameFilterDisables(<span class="literal">false</span>);</div><div class="line">model1-&gt;setNameFilters(nameFilter1);<span class="comment">//筛选文件类型</span></div><div class="line">ui-&gt;treeView1-&gt;setModel(model1);</div><div class="line">ui-&gt;treeView1-&gt;setRootIndex(model1-&gt;index(<span class="string">"E:/hceng blog/blog/source/_posts"</span>));<span class="comment">//指定路径</span></div><div class="line">ui-&gt;treeView1-&gt;setColumnHidden(<span class="number">1</span>,<span class="literal">true</span>);<span class="comment">//隐藏显示</span></div><div class="line">ui-&gt;treeView1-&gt;setColumnHidden(<span class="number">2</span>,<span class="literal">true</span>);</div><div class="line">ui-&gt;treeView1-&gt;setColumnHidden(<span class="number">3</span>,<span class="literal">true</span>);</div><div class="line"></div><div class="line">ui-&gt;treeView1-&gt;setSortingEnabled(<span class="literal">true</span>);<span class="comment">//使能排序</span></div><div class="line">ui-&gt;treeView1-&gt;sortByColumn(<span class="number">3</span>, Qt::DescendingOrder);<span class="comment">//以时间作为依据排序；升序：Qt::AscendingOrder 降序：Qt::DescendingOrder</span></div></pre></td></tr></table></figure>
 </li>
@@ -547,11 +547,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,27 +567,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -603,6 +583,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -611,7 +615,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -623,7 +631,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -631,19 +639,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -651,15 +647,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -671,7 +671,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -683,11 +683,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

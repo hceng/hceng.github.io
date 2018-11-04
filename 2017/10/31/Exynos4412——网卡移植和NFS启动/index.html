@@ -14,19 +14,19 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/31/Exynos4412——网卡移植和NFS启动/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="为Exynos 4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/4.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/5.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/6.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/7.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/7.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-11-07T07:54:46.113Z">
+<meta property="og:updated_time" content="2018-11-04T09:00:50.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——网卡移植和NFS启动">
 <meta name="twitter:description" content="为Exynos 4412移植好网卡驱动，并采用NFS挂载根文件系统启动。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -197,10 +197,12 @@
 <p>因此，写驱动前至少还要移植好SD卡驱动、网卡驱动。eMMC可暂时不管。</p>
 <p>本次就先移植好网卡驱动，并尝试NFS挂载根文件系统。</p>
 <h1 id="1-硬件结构"><a href="#1-硬件结构" class="headerlink" title="1.硬件结构"></a>1.硬件结构</h1><p>JZ2440中的网卡芯片是DM9000，采用的是内存接口。</p>
-<p>Tiny4412的网卡芯片是DM9621，采用的是USB接口。<br>而且该芯片并没有直接接在SOC的USB上，而是接在USB4604这个HUB芯片上。<br>USB4604通过HSIC接口(XuhostSTROBE1和XuhostDATA1)接在SOC上。<br>框架如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/1.png" alt=""></p>
+<p>Tiny4412的网卡芯片是DM9621，采用的是USB接口。<br>而且该芯片并没有直接接在SOC的USB上，而是接在USB4604这个HUB芯片上。<br>USB4604通过HSIC接口(XuhostSTROBE1和XuhostDATA1)接在SOC上。<br>框架如下：</p>
+<div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/1.png"></div>
+
 <p>因此，需要重点关注USB4604和DM9621。查看这两块的原理图：</p>
-<p>USB4604：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/2.png" alt=""></p>
-<p>DM9621：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/3.png" alt=""></p>
+<p>USB4604：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/2.png" alt=""></p>
+<p>DM9621：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/3.png" alt=""></p>
 <p>发现USB4604的一些功能并没有使用，如外接SPI/I2C设备等。除了数据端口，还能控制的就是复位引脚。</p>
 <p>DM9621的驱动在本内核的drivers/net/usb/dm9601.c已经实现，但为了支持识别bootargs中的mac地址的功能，需要稍微修改dm9601.c，添加解析mac地址的功能，并且还需要将解析到的有效的mac地址设置到dm9621中，否则网络不能用。</p>
 <p>USB4604的驱动在本内核的drivers/usb/misc/usb4604.c已经实现，但由于没有外接SPI/I2C，需要删除一些，可以参考drivers/usb/misc/usb3503.c或者<a href="http://www.cnblogs.com/pengdonglin137/p/5153794.html" target="_blank" rel="external">博客</a>里的代码。我直接用的博客里面的代码。</p>
@@ -212,8 +214,8 @@
 <h2 id="2-4-USB4604驱动头文件"><a href="#2-4-USB4604驱动头文件" class="headerlink" title="2.4 USB4604驱动头文件"></a>2.4 USB4604驱动头文件</h2><p>枚举usb模式。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __USB4604_H__</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __USB4604_H__</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> USB4604_NAME    <span class="meta-string">"usb4604"</span></span></div><div class="line"></div><div class="line"><span class="keyword">enum</span> usb4604_mode &#123;</div><div class="line">    USB4604_MODE_UNKNOWN = <span class="number">1</span>,</div><div class="line">    USB4604_MODE_HUB,</div><div class="line">    USB4604_MODE_STANDBY,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">struct</span> usb4604_platform_data &#123;</div><div class="line">    <span class="keyword">enum</span> usb4604_mode    initial_mode;</div><div class="line">    <span class="keyword">int</span>    gpio_reset;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure></p>
 <h2 id="2-5-设备树头文件"><a href="#2-5-设备树头文件" class="headerlink" title="2.5 设备树头文件"></a>2.5 设备树头文件</h2><p>提供usb-hub的工作模式宏。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _DT_BINDINGS_USB4604</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _DT_BINDINGS_USB4604</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> USB4604_MODE_UNKNOWN   1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> USB4604_MODE_HUB       2</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> USB4604_MODE_STANDBY   3</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure></p>
 <h2 id="2-6-DM9621驱动加入内核"><a href="#2-6-DM9621驱动加入内核" class="headerlink" title="2.6 DM9621驱动加入内核"></a>2.6 DM9621驱动加入内核</h2><p>进入配置界面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make menuconfig</div></pre></td></tr></table></figure></p>
-<p>将DM9621驱动加入内核<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/4.png" alt=""></p>
-<h2 id="2-7-USB4604驱动加入内核"><a href="#2-7-USB4604驱动加入内核" class="headerlink" title="2.7 USB4604驱动加入内核"></a>2.7 USB4604驱动加入内核</h2><p>将USB4604驱动加入内核<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/5.png" alt=""></p>
+<p>将DM9621驱动加入内核<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/4.png" alt=""></p>
+<h2 id="2-7-USB4604驱动加入内核"><a href="#2-7-USB4604驱动加入内核" class="headerlink" title="2.7 USB4604驱动加入内核"></a>2.7 USB4604驱动加入内核</h2><p>将USB4604驱动加入内核<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/5.png" alt=""></p>
 <h2 id="2-8-重新编译、烧写、测试"><a href="#2-8-重新编译、烧写、测试" class="headerlink" title="2.8 重新编译、烧写、测试"></a>2.8 重新编译、烧写、测试</h2><ul>
 <li><p>编译：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make uImage LOADADDR=0x40008000 </div><div class="line">make dtbs</div></pre></td></tr></table></figure>
@@ -229,12 +231,12 @@
 </li>
 </ul>
 <p>ping主机：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ping -c4 192.168.1.226</div></pre></td></tr></table></figure></p>
-<p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/6.png" alt=""></p>
+<p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/6.png" alt=""></p>
 <h1 id="3-NFS启动"><a href="#3-NFS启动" class="headerlink" title="3.NFS启动"></a>3.NFS启动</h1><p>这里的根文件系统直接使用的是韦老大第三期项目视频的根文件系统，之前在JZ2440上也能运行，就直接拿来用了。<br>此外修改了根文件系统、的<code>etc/init.d/rcS</code>，加入了<code>ifconfig eth0 192.168.1.225</code>设置静态IP。</p>
 <p>设置uboot参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setenv bootargs &apos;root=/dev/nfs rw nfsroot=192.168.1.226:/work/fs_mini_mdev_new ethmac=00:40:5c:26:0a:5b ip=192.168.1.225:192.168.1.226:192.168.1.1:255.255.255.0::eth0:off console=ttySAC0,115200 init=/linuxrc&apos;; saveenv</div></pre></td></tr></table></figure></p>
 <p>开发板下载及启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnw 0x40000000;dnw 0x42000000;bootm 0x40000000 - 0x42000000</div></pre></td></tr></table></figure></p>
 <p>Ubuntu下载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo ./dnw /work/linux-4.13.9/arch/arm/boot/uImage</div><div class="line">sudo ./dnw /work/linux-4.13.9/arch/arm/boot/dts/exynos4412-tiny4412.dtb</div></pre></td></tr></table></figure></p>
-<p>NFS启动效果：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171031/7.png" alt=""></p>
+<p>NFS启动效果：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171031/7.png" alt=""></p>
 <h1 id="4-心得"><a href="#4-心得" class="headerlink" title="4.心得"></a>4.心得</h1><p>感谢<a href="http://www.cnblogs.com/pengdonglin137/" target="_blank" rel="external">摩斯电码的博客</a>，很多的参考他的，节约了很多时间。</p>
 <p>下一步移植完SD卡的驱动，将uboot和内核都放在SD卡上，根文件系统挂在nfs上，就可以搞LCD了。</p>
 <hr>
@@ -509,11 +511,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -529,27 +531,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,6 +547,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -573,7 +579,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,7 +595,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -593,19 +603,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -613,15 +611,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -633,7 +635,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -645,11 +647,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

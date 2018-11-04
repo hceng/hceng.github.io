@@ -14,15 +14,15 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/23/AM437x——RTC裸机/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="AM437x的RTC模块裸机程序。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/3.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-09-12T01:33:00.624Z">
+<meta property="og:updated_time" content="2018-11-04T08:39:52.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——RTC裸机">
 <meta name="twitter:description" content="AM437x的RTC模块裸机程序。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -221,9 +221,9 @@
 </blockquote>
 <p>基本把配置步骤写得很清楚了。</p>
 <ul>
-<li><p>关于时钟和中断：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/1.png" alt=""><br>时钟来自于外部CLKIN32的CLK_32K_RTC或者内部PRCM的CLK_32KHz；<br>可以产生两种中断：timer_intr_pend和alarm_intr_pend。</p>
+<li><p>关于时钟和中断：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/1.png" alt=""><br>时钟来自于外部CLKIN32的CLK_32K_RTC或者内部PRCM的CLK_32KHz；<br>可以产生两种中断：timer_intr_pend和alarm_intr_pend。</p>
 </li>
-<li><p>关于写保护<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/2.png" alt=""><br>如图中的三个状态，向KICK0和KICK1写入指定的值，即可去写保护。</p>
+<li><p>关于写保护<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/2.png" alt=""><br>如图中的三个状态，向KICK0和KICK1写入指定的值，即可去写保护。</p>
 </li>
 </ul>
 <h1 id="2-RTC编程"><a href="#2-RTC编程" class="headerlink" title="2.RTC编程"></a>2.RTC编程</h1><p>本次裸机的目的，是想实现以下两个功能：</p>
@@ -238,7 +238,7 @@
 <p><strong>设置闹钟和获取闹钟：</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">set_alarm</span><span class="params">(<span class="keyword">struct</span> rtc_struct alarm_time)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>((alarm_time.year<span class="number">-2000</span>) &gt; <span class="number">99</span> || (alarm_time.year<span class="number">-2000</span>) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> err;</div><div class="line">    RTCSS-&gt;ALARM_YEARS = (((alarm_time.year<span class="number">-2000</span>)/<span class="number">10</span>) &lt;&lt; <span class="number">4</span>) | (((alarm_time.year<span class="number">-2000</span>)%<span class="number">10</span>) &lt;&lt; <span class="number">0</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(alarm_time.month &gt; <span class="number">12</span> || alarm_time.month &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> err;</div><div class="line">    RTCSS-&gt;ALARM_MONTHS = ((alarm_time.month/<span class="number">10</span>) &lt;&lt; <span class="number">4</span>) | ((alarm_time.month%<span class="number">10</span>) &lt;&lt; <span class="number">0</span>);</div><div class="line">	</div><div class="line">    <span class="keyword">if</span>(alarm_time.day &gt; <span class="number">32</span> || alarm_time.day &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> err;</div><div class="line">    RTCSS-&gt;ALARM_DAYS = ((alarm_time.day/<span class="number">10</span>) &lt;&lt; <span class="number">4</span>) | ((alarm_time.day%<span class="number">10</span>) &lt;&lt; <span class="number">0</span>);	</div><div class="line">	</div><div class="line">    <span class="keyword">if</span>(alarm_time.hour &gt; <span class="number">23</span> || alarm_time.hour &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> err;</div><div class="line">    RTCSS-&gt;ALARM_HOURS = ((alarm_time.hour/<span class="number">10</span>) &lt;&lt; <span class="number">4</span>) | ((alarm_time.hour%<span class="number">10</span>) &lt;&lt; <span class="number">0</span>);</div><div class="line">	</div><div class="line">    <span class="keyword">if</span>(alarm_time.minute &gt; <span class="number">59</span> || alarm_time.minute &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> err;</div><div class="line">    RTCSS-&gt;ALARM_MINUTES = ((alarm_time.minute/<span class="number">10</span>) &lt;&lt; <span class="number">4</span>) | ((alarm_time.minute%<span class="number">10</span>) &lt;&lt; <span class="number">0</span>);</div><div class="line">	</div><div class="line">    <span class="keyword">if</span>(alarm_time.second &gt; <span class="number">59</span> || alarm_time.second &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> err;</div><div class="line">    RTCSS-&gt;ALARM_SECONDS = ((alarm_time.second/<span class="number">10</span>) &lt;&lt; <span class="number">4</span>) | ((alarm_time.second%<span class="number">10</span>) &lt;&lt; <span class="number">0</span>);</div><div class="line">	</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		</div><div class="line">    err:</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"set_alarm err.\n\r"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">struct</span> rtc_struct <span class="title">get_alarm</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> rtc_struct alarm_time;</div><div class="line">	</div><div class="line">    alarm_time.year   = (((RTCSS-&gt;ALARM_YEARS   &amp; (<span class="number">0x03</span>&lt;&lt;<span class="number">4</span>))&gt;&gt;<span class="number">4</span>)*<span class="number">10</span> + (RTCSS-&gt;ALARM_YEARS   &amp; (<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>)));</div><div class="line">    alarm_time.month  = (((RTCSS-&gt;ALARM_MONTHS  &amp; (<span class="number">0x07</span>&lt;&lt;<span class="number">4</span>))&gt;&gt;<span class="number">4</span>)*<span class="number">10</span> + (RTCSS-&gt;ALARM_MONTHS  &amp; (<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>)));</div><div class="line">    alarm_time.day    = (((RTCSS-&gt;ALARM_DAYS    &amp; (<span class="number">0x07</span>&lt;&lt;<span class="number">4</span>))&gt;&gt;<span class="number">4</span>)*<span class="number">10</span> + (RTCSS-&gt;ALARM_DAYS    &amp; (<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>)));</div><div class="line">    alarm_time.hour   = (((RTCSS-&gt;ALARM_HOURS   &amp; (<span class="number">0x03</span>&lt;&lt;<span class="number">4</span>))&gt;&gt;<span class="number">4</span>)*<span class="number">10</span> + (RTCSS-&gt;ALARM_HOURS   &amp; (<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>)));</div><div class="line">    alarm_time.minute = (((RTCSS-&gt;ALARM_MINUTES &amp; (<span class="number">0x07</span>&lt;&lt;<span class="number">4</span>))&gt;&gt;<span class="number">4</span>)*<span class="number">10</span> + (RTCSS-&gt;ALARM_MINUTES &amp; (<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>)));</div><div class="line">    alarm_time.second = (((RTCSS-&gt;ALARM_SECONDS &amp; (<span class="number">0x07</span>&lt;&lt;<span class="number">4</span>))&gt;&gt;<span class="number">4</span>)*<span class="number">10</span> + (RTCSS-&gt;ALARM_SECONDS &amp; (<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>)));</div><div class="line"></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n\ralarm_time is:\n\r\%d-%d-%d %d:%d:%d\n\r"</span>,\</div><div class="line">    alarm_time.year+<span class="number">2000</span>,alarm_time.month,alarm_time.day,alarm_time.hour,alarm_time.minute,alarm_time.second);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> alarm_time;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>中断服务函数</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">alarm_irq</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    rtc_int_clear();</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n\r----------------alarm_irq-----------------\n\r"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>主函数</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    rtc_time.year   = <span class="number">2017</span>;</div><div class="line">    rtc_time.month  = <span class="number">8</span>;</div><div class="line">    <span class="comment">//rtc_time.week   = 1;</span></div><div class="line">    rtc_time.day    = <span class="number">24</span>;</div><div class="line">    rtc_time.hour   = <span class="number">10</span>;</div><div class="line">    rtc_time.minute = <span class="number">42</span>;</div><div class="line">    rtc_time.second = <span class="number">15</span>;</div><div class="line"></div><div class="line">    rtc_alarm.year   = <span class="number">2017</span>;</div><div class="line">    rtc_alarm.month  = <span class="number">8</span>;</div><div class="line">    rtc_alarm.day    = <span class="number">24</span>;</div><div class="line">    rtc_alarm.hour   = <span class="number">10</span>;</div><div class="line">    rtc_alarm.minute = <span class="number">42</span>;</div><div class="line">    rtc_alarm.second = <span class="number">20</span>;</div><div class="line"></div><div class="line">    uart_init();</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"init ok.\n\r"</span>);</div><div class="line"></div><div class="line">    gic_init();</div><div class="line">    timer2_init();</div><div class="line">	</div><div class="line">    rtc_init();</div><div class="line">	</div><div class="line">    set_time(rtc_time);</div><div class="line">    set_alarm(rtc_alarm);</div><div class="line"></div><div class="line">	</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"=====set time and alarm is:=====\n\r"</span>);</div><div class="line">    get_time();</div><div class="line">    get_alarm();</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"================================\n\r"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        delay_ms(<span class="number">1000</span>);</div><div class="line">        get_time();			</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="3-实测与源码"><a href="#3-实测与源码" class="headerlink" title="3.实测与源码"></a>3.实测与源码</h1><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170823/3.png" alt=""><br><strong>BUG:</strong><br><em>上电后，set_alarm()是没问题的，set_time()显示没有设置成功，这时按键复位重启一下，发现这时就设置成功了。 = = ?</em></p>
+<h1 id="3-实测与源码"><a href="#3-实测与源码" class="headerlink" title="3.实测与源码"></a>3.实测与源码</h1><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170823/3.png" alt=""><br><strong>BUG:</strong><br><em>上电后，set_alarm()是没问题的，set_time()显示没有设置成功，这时按键复位重启一下，发现这时就设置成功了。 = = ?</em></p>
 <p><a href="https://github.com/hceng/am437x/tree/master/hardware/2th_rtc" target="_blank" rel="external">源码——&gt;GitHub</a></p>
 <h1 id="4-心得"><a href="#4-心得" class="headerlink" title="4.心得"></a>4.心得</h1><p>RTC感觉还是比较重要，能够实现得到实时的时间。<br>整个过程，稍微需要注意点的就是BCD的转换，容易弄错。</p>
 <hr>
@@ -505,11 +505,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,27 +525,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -561,6 +541,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -569,7 +573,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -581,7 +589,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,19 +597,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -609,15 +605,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -629,7 +629,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -641,11 +641,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

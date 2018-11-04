@@ -14,13 +14,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/28/AM437x——LED裸机/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="最近在玩AM437X，记录下一些学习过程。分为裸机和驱动。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170728.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170728/1.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-27T12:27:17.849Z">
+<meta property="og:updated_time" content="2018-11-04T08:32:29.918Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——LED裸机">
 <meta name="twitter:description" content="最近在玩AM437X，记录下一些学习过程。分为裸机和驱动。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170728.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170728/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -193,7 +193,7 @@
 <li><a href="http://www.ti.com.cn/cn/lit/ds/symlink/am4378.pdf" target="_blank" rel="external">am4378</a>（后称芯片手册SP）</li>
 <li><a href="http://www.ti.com.cn/cn/lit/ug/spruhl7g/spruhl7g.pdf" target="_blank" rel="external">spruhl7g</a>（后称参考手册CP）</li>
 </ul>
-<h1 id="1-分析原理图"><a href="#1-分析原理图" class="headerlink" title="1.分析原理图"></a>1.分析原理图</h1><p>四个LED灯，单片机通过控制三极管的通断，从而控制灯的亮灭。<br>单片机高电平，三极管打通，灯亮，反之低电平，LED灭。<br>D7_Blue 对应uart3_txd(GPIO5_3)；<br>D8_Blue 对应uart3_rxd(GPIO5_2)；<br>D9_Green 对应uart3_rtsn(GPIO5_1)；<br>D10_Red 对应uart3_ctsn(GPIO5_0)；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170728.png" alt=""></p>
+<h1 id="1-分析原理图"><a href="#1-分析原理图" class="headerlink" title="1.分析原理图"></a>1.分析原理图</h1><p>四个LED灯，单片机通过控制三极管的通断，从而控制灯的亮灭。<br>单片机高电平，三极管打通，灯亮，反之低电平，LED灭。<br>D7_Blue 对应uart3_txd(GPIO5_3)；<br>D8_Blue 对应uart3_rxd(GPIO5_2)；<br>D9_Green 对应uart3_rtsn(GPIO5_1)；<br>D10_Red 对应uart3_ctsn(GPIO5_0)；<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170728/1.png" alt=""></p>
 <hr>
 <h1 id="2-编写程序"><a href="#2-编写程序" class="headerlink" title="2.编写程序"></a>2.编写程序</h1><p>1.使能GPIO外设时钟；<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PRCM_CM_PER_GPIO5_CLKCTRL = (<span class="number">0x01</span>&lt;&lt;<span class="number">1</span>);</div></pre></td></tr></table></figure></p>
 <p>2.设置GPIO模式（默认使能了上拉，且为GPIO模式）；<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">CTRL_CONF_UART3_RXD  &amp;= ~(<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">16</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">18</span>);<span class="comment">//使能上/下拉、关闭输入</span></div><div class="line">CTRL_CONF_UART3_RXD  |=  (<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span>);<span class="comment">//IO模式，设置上拉</span></div><div class="line">CTRL_CONF_UART3_TXD  &amp;= ~(<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">16</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">18</span>);<span class="comment">//使能上/下拉、关闭输入</span></div><div class="line">CTRL_CONF_UART3_TXD  |=  (<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span>);<span class="comment">//IO模式，设置上拉</span></div><div class="line">CTRL_CONF_UART3_RTSN &amp;= ~(<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">16</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">18</span>);<span class="comment">//使能上/下拉、关闭输入</span></div><div class="line">CTRL_CONF_UART3_RTSN |=  (<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span>);<span class="comment">//IO模式，设置上拉</span></div><div class="line">CTRL_CONF_UART3_CTSN &amp;= ~(<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">16</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">18</span>);<span class="comment">//使能上/下拉、关闭输入</span></div><div class="line">CTRL_CONF_UART3_CTSN |=  (<span class="number">0x7</span>&lt;&lt;<span class="number">0</span> | <span class="number">0x01</span>&lt;&lt;<span class="number">17</span>);<span class="comment">//IO模式，设置上拉</span></div></pre></td></tr></table></figure></p>
@@ -470,11 +470,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,27 +490,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,6 +506,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -534,7 +538,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -546,7 +554,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -554,19 +562,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -574,15 +570,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -594,7 +594,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -606,11 +606,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

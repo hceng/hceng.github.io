@@ -14,20 +14,20 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/26/移植MiniGUI到JZ2440/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="尝试将MiniGUI到JZ2440上。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150150482.png?imageslim">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150211438.png?imageslim">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150237913.png?imageslim">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150546137.png?imageslim">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150608437.png?imageslim">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150759879.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/152115772.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/152931802.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/6.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/7.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/8.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-05-31T07:33:11.934Z">
+<meta property="og:updated_time" content="2018-11-04T08:28:07.802Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="移植MiniGUI到JZ2440">
 <meta name="twitter:description" content="尝试将MiniGUI到JZ2440上。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150150482.png?imageslim">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -221,15 +221,15 @@
 </tbody>
 </table>
 <h1 id="1-移植MiniGUI"><a href="#1-移植MiniGUI" class="headerlink" title="1.移植MiniGUI"></a>1.移植MiniGUI</h1><h2 id="1-1-解压、编译MiniGUI开发库"><a href="#1-1-解压、编译MiniGUI开发库" class="headerlink" title="1.1 解压、编译MiniGUI开发库"></a>1.1 解压、编译MiniGUI开发库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tar xzf libminigui-1.6.10.tar.gz</div><div class="line">cd libminigui-1.6.10/</div><div class="line">mkdir   tmp</div><div class="line">./configure  CC=arm-linux-gcc   --prefix=$&#123;PWD&#125;/tmp  --build=i386-linux  --host=arm-linux  --target=arm-linux</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
-<p>　　完成上面操作，即可在tmp目录下生成以下文件：<br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150150482.png?imageslim" alt="mark"><br>　　将生成的/lib下所有文件(和共享库相关)拷贝到开发板/lib目录下，将生成的/etc下的MiniGUI.cfg也拷贝到开发板/etc目录下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cp –rfd  ./lib/*  /work/hceng/nfs_rootfs/lib</div><div class="line">cp  ./etc/*  /work/hceng/nfs_rootfs/etc</div></pre></td></tr></table></figure></p>
+<p>　　完成上面操作，即可在tmp目录下生成以下文件：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/1.png" alt=""><br>　　将生成的/lib下所有文件(和共享库相关)拷贝到开发板/lib目录下，将生成的/etc下的MiniGUI.cfg也拷贝到开发板/etc目录下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cp –rfd  ./lib/*  /work/hceng/nfs_rootfs/lib</div><div class="line">cp  ./etc/*  /work/hceng/nfs_rootfs/etc</div></pre></td></tr></table></figure></p>
 <h2 id="1-2-解压MiniGUI资源文件"><a href="#1-2-解压MiniGUI资源文件" class="headerlink" title="1.2 解压MiniGUI资源文件"></a>1.2 解压MiniGUI资源文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar  xzf   minigui-res-1.6.10.tar.gz</div><div class="line">cd  minigui-res-1.6.10/</div></pre></td></tr></table></figure>
-<p>　　修改config.linux，指定生成文件路径：<br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150211438.png?imageslim" alt="mark"><br>　　编译生成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make install</div></pre></td></tr></table></figure><br>　　此时会在指定的/tmp目录下生成以下文件：<br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150237913.png?imageslim" alt="mark"><br>　　这些文件包含了MiniGUI会使用到的资源，包括基本字体、图标、位图和鼠标光标等，<br>将这些文件全部复制到开发板的/usr/local/lib/minigui/res/路径下，这个路径是前面MiniGUI.cfg指定的。</p>
-<h2 id="1-3-编译MiniGUI示例程序"><a href="#1-3-编译MiniGUI示例程序" class="headerlink" title="1.3 编译MiniGUI示例程序"></a>1.3 编译MiniGUI示例程序</h2><p>　　解压、配置、编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">tar  xzf    mg-samples-1.6.10.tar.gz</div><div class="line">cd  mg-samples-1.6.10.tar.gz/</div><div class="line">./configure  CC=arm-linux-gcc  --build=i386-linux  --host=arm-linux  -target=arm-linux CFLAGS=-I/work/minigui/libminigui-1.6.10/tmp/include  LDFLAGS=-L/work/minigui/libminigui-1.6.10/tmp/lib</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure><br>　　此时会在/src目录下生成示例程序：<br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150546137.png?imageslim" alt="mark"><br>　　复制示例程序到开发板里面去，注意有些程序需要本目录下的图片文件，需要一同拷贝过去。这里以helloworld为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp   helloworld    /work/hceng/nfs_rootfs/</div></pre></td></tr></table></figure></p>
+<p>　　修改config.linux，指定生成文件路径：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/2.png" alt=""><br>　　编译生成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make install</div></pre></td></tr></table></figure><br>　　此时会在指定的/tmp目录下生成以下文件：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/3.png" alt=""><br>　　这些文件包含了MiniGUI会使用到的资源，包括基本字体、图标、位图和鼠标光标等，<br>将这些文件全部复制到开发板的/usr/local/lib/minigui/res/路径下，这个路径是前面MiniGUI.cfg指定的。</p>
+<h2 id="1-3-编译MiniGUI示例程序"><a href="#1-3-编译MiniGUI示例程序" class="headerlink" title="1.3 编译MiniGUI示例程序"></a>1.3 编译MiniGUI示例程序</h2><p>　　解压、配置、编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">tar  xzf    mg-samples-1.6.10.tar.gz</div><div class="line">cd  mg-samples-1.6.10.tar.gz/</div><div class="line">./configure  CC=arm-linux-gcc  --build=i386-linux  --host=arm-linux  -target=arm-linux CFLAGS=-I/work/minigui/libminigui-1.6.10/tmp/include  LDFLAGS=-L/work/minigui/libminigui-1.6.10/tmp/lib</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure><br>　　此时会在/src目录下生成示例程序：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/4.png" alt=""><br>　　复制示例程序到开发板里面去，注意有些程序需要本目录下的图片文件，需要一同拷贝过去。这里以helloworld为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp   helloworld    /work/hceng/nfs_rootfs/</div></pre></td></tr></table></figure></p>
 <h2 id="1-4-其他修改"><a href="#1-4-其他修改" class="headerlink" title="1.4 其他修改"></a>1.4 其他修改</h2><ul>
-<li>修改前面复制到开发板/etc目录下的MiniGUI.cfg以适应JZ2440。<br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150608437.png?imageslim" alt="mark"></li>
+<li>修改前面复制到开发板/etc目录下的MiniGUI.cfg以适应JZ2440。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/5.png" alt=""></li>
 <li>在开发板的/etc目录下建立ld.so.conf文件，并添加如下内容：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/usr/local/lib</div><div class="line">/usr/lib</div><div class="line">/lib</div></pre></td></tr></table></figure></li>
 <li>在/etc/init.d/rcS脚本文件里添加如下内容(非必需)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/bin/ln –s /dev/vc/0 /dev/tty0</div></pre></td></tr></table></figure>
-　　移植MiniGUI完成，运行应用程序：<br><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/150759879.jpg" alt="mark"></li>
+　　移植MiniGUI完成，运行应用程序：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/6.jpg" alt=""></li>
 </ul>
 <hr>
 <h1 id="2-移植tslib"><a href="#2-移植tslib" class="headerlink" title="2.移植tslib"></a>2.移植tslib</h1><h2 id="2-1-安装一些工具"><a href="#2-1-安装一些工具" class="headerlink" title="2.1 安装一些工具"></a>2.1 安装一些工具</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install autoconf</div><div class="line">sudo apt-get install automake</div><div class="line">sudo apt-get install libtool</div></pre></td></tr></table></figure>
@@ -239,7 +239,7 @@
 <p>　　改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">module_raw input</div></pre></td></tr></table></figure></p>
 <h2 id="2-5-在开发板设置环境变量"><a href="#2-5-在开发板设置环境变量" class="headerlink" title="2.5 在开发板设置环境变量"></a>2.5 在开发板设置环境变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">export TSLIB_TSDEVICE=/dev/event0</div><div class="line">export TSLIB_CALIBFILE=/etc/pointercal</div><div class="line">export TSLIB_CONFFILE=/etc/ts.conf</div><div class="line">export TSLIB_PLUGINDIR=/lib/ts</div><div class="line">export TSLIB_CONSOLEDEVICE=none</div><div class="line">export TSLIB_FBDEVICE=/dev/fb0</div></pre></td></tr></table></figure>
 <h2 id="2-6-运行校准示例程序"><a href="#2-6-运行校准示例程序" class="headerlink" title="2.6 运行校准示例程序"></a>2.6 运行校准示例程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ts_calibrate</div></pre></td></tr></table></figure>
-<p><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/152115772.jpg" alt="mark"></p>
+<p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/7.jpg" alt=""></p>
 <blockquote>
 <p>　　如果在运行程序的时候，出现提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">selected device is not a touchscreen I understand</div></pre></td></tr></table></figure><br>　　有显示，但无法触屏，<strong>可能是编译器版本和内核版本不一致</strong>，解决方法如下：</p>
 </blockquote>
@@ -261,7 +261,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp  painter   /work/hceng/nfs_rootfs/</div></pre></td></tr></table></figure>
 <p>　　在开发板运行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./ painter</div></pre></td></tr></table></figure>
-<p><img src="http://oo2opkb6t.bkt.clouddn.com/blog/20170531/152931802.jpg" alt="mark"></p>
+<p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170526/8.jpg" alt=""></p>
 </li>
 </ul>
 <hr>
@@ -524,11 +524,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -544,27 +544,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,6 +560,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -588,7 +592,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -600,7 +608,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -608,19 +616,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -628,15 +624,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -648,7 +648,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -660,11 +660,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

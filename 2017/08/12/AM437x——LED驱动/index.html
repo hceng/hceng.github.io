@@ -14,16 +14,16 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/12/AM437x——LED驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要记录AM437X驱动的LED。含简单的字符设备驱动、设备驱动模型、设备树以及LED子系统。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/4.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-08-27T12:27:21.104Z">
+<meta property="og:updated_time" content="2018-11-04T08:37:05.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——LED驱动">
 <meta name="twitter:description" content="本文主要记录AM437X驱动的LED。含简单的字符设备驱动、设备驱动模型、设备树以及LED子系统。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -199,8 +199,10 @@
 <blockquote>
 <p>以LED驱动为例，之前印象中就是韦老大的思路，现在init里注册、硬件初始化，然后应用层open()、read()就调用了file_operations里面的drv_open()、drv_write()等，算是最简单的驱动框架。<br>然后韦老大又提及了总线设备驱动模型，将设备和驱动分离，感受到了新的框架。不久前，简单接触了下设备树，感觉就是总线设备驱动模型的修改（升级），将原来的设备部分，不再单独放在代码里，而是放在dts里面，开机加载，然后驱动匹配获取硬件资源。因此，感觉驱动的框架在一步一步的发展，优化，最原始的注册、open等框架，还是不变。<br>同时，了解到了除输入子系统的其它子系统，加深了对这一模式的理解。感觉就是，将某个硬件资源无缝的融入现有的环境中，而无须改变应用层的程序。</p>
 </blockquote>
-<p>这就是目前的一点小小理解吧，算是打开了个入口，希望以后了解得更加全面、细致。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/1.png" alt=""></p>
-<h1 id="1-搭建开发环境"><a href="#1-搭建开发环境" class="headerlink" title="1.搭建开发环境"></a>1.搭建开发环境</h1><h2 id="1-1安装TI-SDK"><a href="#1-1安装TI-SDK" class="headerlink" title="1.1安装TI_SDK"></a>1.1安装TI_SDK</h2><p>先在TI官网下载<a href="http://software-dl.ti.com/sitara_linux/esd/processor-sdk/PROCESSOR-SDK-LINUX-AM437X/01_00_00_03/exports/ti-processor-sdk-linux-am437x-evm-01.00.00.03-Linux-x86-Install.bin" target="_blank" rel="external">ti-processor-sdk-linux-am437x-evm-01.00.00.03-Linux-x86-Install.bin</a><br>在Ubuntu（only Ubuntu 12.04 LTS and Ubuntu 14.04 LTS are supported）下，对该文件加入可执行权限，然后直接运行。安装目录选择默认即可。完成之后，便在当前用户的home目录生成了所有所需文件。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/2.png" alt=""></p>
+<p>这就是目前的一点小小理解吧，算是打开了个入口，希望以后了解得更加全面、细致。</p>
+<div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/1.png"></div>
+
+<h1 id="1-搭建开发环境"><a href="#1-搭建开发环境" class="headerlink" title="1.搭建开发环境"></a>1.搭建开发环境</h1><h2 id="1-1安装TI-SDK"><a href="#1-1安装TI-SDK" class="headerlink" title="1.1安装TI_SDK"></a>1.1安装TI_SDK</h2><p>先在TI官网下载<a href="http://software-dl.ti.com/sitara_linux/esd/processor-sdk/PROCESSOR-SDK-LINUX-AM437X/01_00_00_03/exports/ti-processor-sdk-linux-am437x-evm-01.00.00.03-Linux-x86-Install.bin" target="_blank" rel="external">ti-processor-sdk-linux-am437x-evm-01.00.00.03-Linux-x86-Install.bin</a><br>在Ubuntu（only Ubuntu 12.04 LTS and Ubuntu 14.04 LTS are supported）下，对该文件加入可执行权限，然后直接运行。安装目录选择默认即可。完成之后，便在当前用户的home目录生成了所有所需文件。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/2.png" alt=""></p>
 <h2 id="1-2编译内核"><a href="#1-2编译内核" class="headerlink" title="1.2编译内核"></a>1.2编译内核</h2><p>在当前生成ti-processor-sdk-linux-am437x-evm-01.00.00.03目录下，有个Makefile，打开后可以看到相关的编译选项，如：</p>
 <ul>
 <li>编译全部文件：<code>make all</code></li>
@@ -210,7 +212,7 @@
 <p>以及make的依赖：<code>-include Rules.make</code>。在本层目录里，打开<code>Rules.make</code>，可以知道内核的默认配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#defconfig</div><div class="line">DEFCONFIG=tisdk_am437x-evm_defconfig</div></pre></td></tr></table></figure></p>
 <p>通过查找，tisdk_am437x-evm_defconfig在<code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/board-support/linux-3.14.43+gitAUTOINC+875c69b2c3-g875c69b/arch/arm/configs</code>里。<br>这里通过修改该配置文件，然后重新编译内核，即可关闭系统LED相关的驱动，在后面自己写LED驱动时，防止互相干扰。<br>因此将tisdk_am437x-evm_defconfig配置文件里的所有有关LED的配置都关闭掉。</p>
 <p>最后在顶层目录执行<code>make linux</code>,编译完成后，生成<code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/board-support/linux-3.14.43+gitAUTOINC+875c69b2c3-g875c69b/arch/arm/boot/zImage</code>文件。</p>
-<h2 id="1-3烧写SD卡"><a href="#1-3烧写SD卡" class="headerlink" title="1.3烧写SD卡"></a>1.3烧写SD卡</h2><p>回到<code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/bin</code>下，TI制作了很多脚本，其中的<code>create-sdcard.sh</code>就是制作SD卡的。Ubuntu插上SD卡，然后切换成root用户，执行该脚本，根据提示一路选择下去即可。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/3.png" alt=""></p>
+<h2 id="1-3烧写SD卡"><a href="#1-3烧写SD卡" class="headerlink" title="1.3烧写SD卡"></a>1.3烧写SD卡</h2><p>回到<code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/bin</code>下，TI制作了很多脚本，其中的<code>create-sdcard.sh</code>就是制作SD卡的。Ubuntu插上SD卡，然后切换成root用户，执行该脚本，根据提示一路选择下去即可。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/3.png" alt=""></p>
 <p>这里烧写完了，测试发现并没有使用之前编译的内核，分析脚本后发现，该脚本直接使用的<code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/filesystem</code>下的<code>tisdk-rootfs-image-am437x-evm.tar.gz</code>。脚本将该文件作为根文件系统放入SD卡，因此并没有使用之前编译的内核。解决方法要么在执行脚本的过程中根据提示输入相关的路径，要么在制作好SD卡后，将编译好的内核覆盖掉SD卡的内核即可。我选择的后者：<code>cp  ~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/board-support/linux-3.14.43+gitAUTOINC+875c69b2c3-g875c69b/arch/arm/boot/zImage  /media/hceng/rootfs/boot/</code>。</p>
 <p>最后将制作好的SD卡插上开发板启动即可。</p>
 <h1 id="2-简单的字符驱动"><a href="#2-简单的字符驱动" class="headerlink" title="2.简单的字符驱动"></a>2.简单的字符驱动</h1><p>先记录下几个重要类型或结构体：</p>
@@ -249,7 +251,9 @@
 <h1 id="4-设备树驱动"><a href="#4-设备树驱动" class="headerlink" title="4.设备树驱动"></a>4.设备树驱动</h1><h2 id="4-1初识设备树"><a href="#4-1初识设备树" class="headerlink" title="4.1初识设备树"></a>4.1初识设备树</h2><blockquote>
 <p>1）前面的总线设备驱动模型中，硬件资源来自于leds_dev.c里面的信息，这样会导致不同的板子，会添加不同的硬件资源信息，造成内核的臃肿。<br>2）使用设备树后，内核不再包含硬件的描述，硬件描述放在单独的DTS里面，然后编译成二进制的DTB，在U-Boot启动的时候加载进去，然后内核进行解析。<br>3）DTS、DTC和DTB之间的关系：<br>DTS经过DTC编译得到DTB，DTB通过DTC反编译得到DTS.</p>
 </blockquote>
-<p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170812/4.png" alt=""></p>
+<div align="center"><img width="650" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/4.png"></div>
+
+
 <blockquote>
 <p>4）ARM中，所有的DTS文件放在<code>arch/arm/boot/dts</code>目录中，为了简化，将Soc公用部分提取了出来作为dtsi，类似头文件。<br>5）DTC编译工具的源代码在scripts/dtc目录中，编译内核时，编译内核时，需要使能才能将源码编译成工具，对应于<code>scripts/dtc/Makefile</code>中<code>&quot;hostprogs-y:=dtc&quot;</code>。Ubuntu也可直接安装DTC工具：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install device-tree-compiler</div></pre></td></tr></table></figure></p>
 <p>6)内核的<code>arch/arm/boot/dts/Makefile</code>中，描述了当某种Soc被选中后，哪些.dtb会编译出来。执行<code>make dtbs</code>，会根据<code>arch/arm/Makefile</code>编译指定目标。<br>7）单独编译与反编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./scripts/dtc/dtc -I dts -O dtb -o xxx.dtb arch/arm/boot/dts/xxx.dts   //dts-&gt;dtb</div><div class="line">./scripts/dtc/dtc -I dtb -O dts -o xxx.dts arch/arm/boot/dts/xxx.dtb   //dtb-&gt;dts</div></pre></td></tr></table></figure></p>
@@ -524,11 +528,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -544,27 +548,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,6 +564,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -588,7 +596,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -600,7 +612,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -608,19 +620,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -628,15 +628,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -648,7 +652,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -660,11 +664,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
