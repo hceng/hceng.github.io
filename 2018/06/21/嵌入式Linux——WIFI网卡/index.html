@@ -14,20 +14,20 @@
 <meta property="og:url" content="http://yoursite.com/2018/06/21/嵌入式Linux——WIFI网卡/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="如何在嵌入式Linux中，使用WIFI无线网卡。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/1.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/2.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/3.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/4.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/5.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/6.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/7.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/8.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/1.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/3.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/4.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/5.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/6.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/7.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/8.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-07-30T03:19:22.310Z">
+<meta property="og:updated_time" content="2018-11-04T09:38:14.594Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式Linux——WIFI网卡">
 <meta name="twitter:description" content="如何在嵌入式Linux中，使用WIFI无线网卡。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/1.jpg">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -208,9 +208,9 @@
 <p>我手里的MIX2S，MIUI10个人热点里面就仅OPEN和WAP2两个选项，感觉这是个趋势，要么最简单的OPEN，要么就最安全的WAP2(WAP2是向下兼容的)，逐渐扔掉历史的包袱。</p>
 <h2 id="1-2-选择无线网卡"><a href="#1-2-选择无线网卡" class="headerlink" title="1.2 选择无线网卡"></a>1.2 选择无线网卡</h2><p>首先是选择合适的无线网卡，选取的原则是<strong>根据WIFI无线网卡的<code>VID</code>和<code>PID</code>判断内核是否支持该无线网卡。</strong></p>
 <ul>
-<li><p>1.获取无线网卡ID<br>将无线网卡插入Windows电脑，打开设备管理器，选中无线网卡，右键“属性”，切换到“详细信”息选项卡，在“属性”下拉栏中选择”硬件ld”，即可得到无线网卡的ID：<br><div align="center"><img width="390" height="374" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/1.jpg"></div><br>我的无线网卡<code>VID</code>是<code>0x148F</code>，<code>PID</code>是<code>0x3070</code>；</p>
+<li><p>1.获取无线网卡ID<br>将无线网卡插入Windows电脑，打开设备管理器，选中无线网卡，右键“属性”，切换到“详细信”息选项卡，在“属性”下拉栏中选择”硬件ld”，即可得到无线网卡的ID：<br><div align="center"><img width="390" height="374" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/1.jpg"></div><br>我的无线网卡<code>VID</code>是<code>0x148F</code>，<code>PID</code>是<code>0x3070</code>；</p>
 </li>
-<li><p>2.查询内核是否支持<br>可以从<a href="https://wireless.wiki.kernel.org/en/users/devices" target="_blank" rel="external">wireless.kernel.org</a>得到<a href="https://wikidevi.com/wiki/DNI:USB_WiFi_adapters_w/_probable_Linux_support" target="_blank" rel="external">支持的设备列表</a>。<br>可以从列表中搜到前面的<code>VID</code>和<code>PID</code>，因此说明内核是支持现在使用的无线网卡。此外，还可以得知对应的驱动应该为<code>rt2800usb</code>、<code>rt2870sta</code>。<br><div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/2.jpg"></div>
+<li><p>2.查询内核是否支持<br>可以从<a href="https://wireless.wiki.kernel.org/en/users/devices" target="_blank" rel="external">wireless.kernel.org</a>得到<a href="https://wikidevi.com/wiki/DNI:USB_WiFi_adapters_w/_probable_Linux_support" target="_blank" rel="external">支持的设备列表</a>。<br>可以从列表中搜到前面的<code>VID</code>和<code>PID</code>，因此说明内核是支持现在使用的无线网卡。此外，还可以得知对应的驱动应该为<code>rt2800usb</code>、<code>rt2870sta</code>。<br><div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/2.jpg"></div>
 　</p>
 <h2 id="1-3-移植WIFI驱动"><a href="#1-3-移植WIFI驱动" class="headerlink" title="1.3 移植WIFI驱动"></a>1.3 移植WIFI驱动</h2></li>
 <li>前面根据ID得到了对应的网卡驱动名字，但还不是很靠谱，建议直接在驱动中搜索ID，更靠谱：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep &quot;0x3070&quot; drivers/net/wireless/ -nr</div></pre></td></tr></table></figure>
@@ -277,7 +277,7 @@
 <p>也就是先把有线网卡IP设置为其它网段，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig eth0 192.168.2.220</div></pre></td></tr></table></figure></p>
 <p>然后启动WIFI网卡，并设置IP(路由器IP为192.168.1.1)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ifconfig wlan0 up</div><div class="line">ifconfig wlan0 192.168.1.220</div></pre></td></tr></table></figure></p>
 <p>此时效果如下：</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/3.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/3.jpg"></div>
 
 <h1 id="2-无线终端模式——STA"><a href="#2-无线终端模式——STA" class="headerlink" title="2.无线终端模式——STA"></a>2.无线终端模式——STA</h1><p>完成前面的准备工作后，就可以通过软件使用无线网卡了。</p>
 <h2 id="2-1-iw的使用"><a href="#2-1-iw的使用" class="headerlink" title="2.1 iw的使用"></a>2.1 iw的使用</h2><ul>
@@ -301,7 +301,7 @@
 <blockquote>
 <p><strong>注意：</strong><br>1.如果连接的不是路由器(IP为<code>192.168.1.1</code>)，而是Android手机热点(IP一般为<code>192.168.43.1</code>)，那么要将WIFI网卡IP设置为43网段，如:<code>192.168.43.10</code>，才能ping通<code>192.168.43.1</code>。<br>　<br>2.此时只能ping路由器和局域网设备，如果要联外网，还需要如下操作：<br>①修改<code>/etc/resolv.conf</code>，添加DNS:<code>nameserver 192.168.1.1</code>，如果是手机热点为<code>nameserver 192.168.43.1</code>；<br>②设置网关，输入命令:<code>route add default gw 192.168.1.1</code>，如果是手机热点为<code>route add default gw 192.168.43.1</code>；</p>
 </blockquote>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/4.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/4.jpg"></div>
 
 <h2 id="2-2-wpa-supplicant的使用"><a href="#2-2-wpa-supplicant的使用" class="headerlink" title="2.2 wpa_supplicant的使用"></a>2.2 wpa_supplicant的使用</h2><p><code>wpa_supplicant</code>本是开源项目，被谷歌修改后加入android移动平台，它主要是用来支持WEP，WPA/WPA2和WAPI无线协议和加密认证的。<br><code>wpa_supplicant</code>是一个连接、配置WIFI的工具，它主要包含<code>wpa_supplicant</code>(命令行模式)与<code>wpa_cli</code>(交互模式)两个程序。<br>通常情况下，可以通过<code>wpa_cli</code>来进行WIFI的配置与连接，如果有特殊的需要，可以编写应用程序直接调用<code>wpa_supplicant</code>的接口直接开发。</p>
 <p>记得以前想查看Android手机连接过的WIFI热点密码时，就直接使用RE文件管理器查看<code>/data/misc/wifi/wpa_supplicant.conf</code>即可(需ROOT)，里面有所有连接过的WIFI名字和密码。<br>从这里可以看出，最后WIFI名字和密码，都会被保存到一个配置文件里，在Linux中，路径就是<code>/etc/wpa_supplicant.conf</code>。</p>
@@ -313,7 +313,7 @@
 <p>查看连接状态：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wpa_cli -iwlan0 status</div></pre></td></tr></table></figure></p>
 <p>断开连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wpa_cli -iwlan0 disconnect</div><div class="line"></div><div class="line">killall wpa_supplicant</div></pre></td></tr></table></figure></p>
 <p>重新连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wpa_cli -iwlan0 reconnect</div></pre></td></tr></table></figure></p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/5.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/5.jpg"></div>
 
 
 <ul>
@@ -321,14 +321,14 @@
 </li>
 </ul>
 <p>初始化wpa_supplicant，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wpa_supplicant -B -d -i wlan0 -c /etc/wpa_supplicant.conf</div></pre></td></tr></table></figure></p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/6.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/6.jpg"></div>
 
 <p>至于WEP和WAP方式，也就是配置文件的不同，这里就不去深究了，以后遇到了再说。</p>
 <h2 id="2-3-dhclient的使用"><a href="#2-3-dhclient的使用" class="headerlink" title="2.3 dhclient的使用"></a>2.3 dhclient的使用</h2><p>至此，已经可以连接WIFI了，但还有一些问题。<br>就如前面，需要手动设置设备的IP，且要根据热点的网段设置，还可能与同网段的设备IP冲突。<br>为了解决这个问题，引入了DHCP，自动分配IP地址。</p>
 <p>就像家里的设备连接到路由器一样，除了输入名字，密码，其它都不用操作，而且还不会出现IP冲突的情况。</p>
 <p>连接好WIFI后，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dhclient wlan0</div></pre></td></tr></table></figure></p>
 <p>实现自动获取分配的IP，并设置。</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/7.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/7.jpg"></div>
 
 <h2 id="2-4-自动脚本"><a href="#2-4-自动脚本" class="headerlink" title="2.4 自动脚本"></a>2.4 自动脚本</h2><p>现在已经从功能上实现了WIFI无线网卡的使用，但使用过程步骤比较多，相对麻烦。<br>理想的效果无论何时插上WIFI无线网卡，都自动连接WIFI，且自动获取IP地址。</p>
 <p>这就要用到USB的热拔插机制，很久以前写过一篇<a href="https://hceng.cn/2017/04/22/Linux%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E5%8D%B8%E8%BD%BDU%E7%9B%98/" target="_blank" rel="external">U盘自动挂载</a>的文章，用的就是这个机制。</p>
@@ -384,7 +384,7 @@
 </ul>
 <p>查看热点配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hostapd_cli get_config</div></pre></td></tr></table></figure></p>
 <p>查看已连接的设备：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iw dev wlan0 station dump</div></pre></td></tr></table></figure></p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180621/8.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/8.jpg"></div>
 
 <h2 id="3-4-自动脚本"><a href="#3-4-自动脚本" class="headerlink" title="3.4 自动脚本"></a>3.4 自动脚本</h2><p>和前面的一样，假如希望实现USB无线网卡的热拔插，自动进入AP模式，只需如下操作：</p>
 <ul>
@@ -655,19 +655,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -683,11 +683,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -699,19 +703,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -727,15 +723,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -747,6 +739,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -755,7 +751,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -767,18 +779,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -787,11 +787,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -800,10 +804,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

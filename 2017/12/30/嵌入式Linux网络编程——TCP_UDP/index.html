@@ -14,18 +14,18 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/30/嵌入式Linux网络编程——TCP_UDP/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/1.jpg?v=3">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/2.png?v=1">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/4.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/5.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/1.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/2.png?v=1">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/4.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/6.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-07-27T05:04:01.368Z">
+<meta property="og:updated_time" content="2018-11-04T09:17:43.131Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式Linux网络编程——TCP/UDP">
 <meta name="twitter:description" content="本文主要记录TCP/UDP网络编程的基础知识，采用TCP/UDP实现宿主机和目标机之间的网络通信。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/1.jpg?v=3">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -251,7 +251,7 @@
 </li>
 </ul>
 <h1 id="3-TCP"><a href="#3-TCP" class="headerlink" title="3.TCP"></a>3.TCP</h1><p>TCP有专门的传递保证机制，收到数据时会自动发送确认消息，发送方收到确认消息后才会继续发送消息，否则继续等待。<br>这样的好处是传输的数据是<strong>可靠</strong>的，此外它是<strong>有连接</strong>的传输，大多数网络传输都是用的TCP。</p>
-<h2 id="3-1-TCP流程图"><a href="#3-1-TCP流程图" class="headerlink" title="3.1 TCP流程图"></a>3.1 TCP流程图</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/1.jpg?v=3" alt=""></p>
+<h2 id="3-1-TCP流程图"><a href="#3-1-TCP流程图" class="headerlink" title="3.1 TCP流程图"></a>3.1 TCP流程图</h2><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/1.jpg" alt=""></p>
 <h2 id="3-2-TCP步骤分析"><a href="#3-2-TCP步骤分析" class="headerlink" title="3.2 TCP步骤分析"></a>3.2 TCP步骤分析</h2><p>程序分为服务器端和客户机端，先从服务器端开始分析。</p>
 <ul>
 <li><strong>服务器端:</strong><br><strong>a. 创建socket</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sock_fd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);<span class="comment">//AF_INET:IPV4;SOCK_STREAM:TCP</span></div><div class="line"><span class="keyword">if</span> (<span class="number">-1</span> == sock_fd)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"socket error:%s\n\a"</span>, strerror(errno));</div><div class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -298,11 +298,11 @@
 <figure class="highlight c"><figcaption><span>[tcp_client.c]</span><a href="https://github.com/hceng/learn/blob/master/tcp_udp/tcp/tcp_client.c" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">* tcp_client.c</div><div class="line"># Copyright (C) 2017 hceng, &lt;huangcheng.job@foxmail.com&gt;</div><div class="line"># Licensed under terms of GPLv2</div><div class="line">#</div><div class="line"># This program is used for TCP / UDP learning.</div><div class="line"># https://hceng.cn/</div><div class="line">*/</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PORT_NUMBER 8888</span></div><div class="line"></div><div class="line"><span class="comment">/* socket-&gt;connect-&gt;send-&gt;close*/</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> sock_fd;</div><div class="line">    <span class="keyword">struct</span> sockaddr_in server_addr;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> send_buf[<span class="number">1000</span>];</div><div class="line">    <span class="keyword">int</span> send_len;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(argc != <span class="number">2</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Usage:%s hostname\n\a"</span>, argv[<span class="number">0</span>]);</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* socket */</span></div><div class="line">    sock_fd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);<span class="comment">//AF_INET:IPV4;SOCK_STREAM:TCP</span></div><div class="line">    <span class="keyword">if</span> (<span class="number">-1</span> == sock_fd)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"socket error:%s\n\a"</span>, strerror(errno));</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* set sockaddr_in parameter*/</span></div><div class="line">    <span class="built_in">memset</span>(&amp;server_addr, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in));<span class="comment">//clear</span></div><div class="line">    server_addr.sin_family = AF_INET;</div><div class="line">    server_addr.sin_port = htons(PORT_NUMBER);</div><div class="line">    ret = inet_aton(argv[<span class="number">1</span>], &amp;server_addr.sin_addr);</div><div class="line">    <span class="keyword">if</span>(<span class="number">0</span> == ret)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"server_ip error.\n"</span>);</div><div class="line">        close(sock_fd);</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* connect */</span></div><div class="line">    ret = connect(sock_fd, (<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *)&amp;server_addr, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr));	</div><div class="line">    <span class="keyword">if</span> (<span class="number">-1</span> == ret)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"connect error:%s\n\a"</span>, strerror(errno));</div><div class="line">        close(sock_fd);</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (fgets(send_buf, <span class="number">999</span>, <span class="built_in">stdin</span>))</div><div class="line">        &#123;</div><div class="line">            <span class="comment">/* send */</span></div><div class="line">            send_len = send(sock_fd, send_buf, <span class="built_in">strlen</span>(send_buf), <span class="number">0</span>);</div><div class="line">            <span class="keyword">if</span> (send_len &lt;= <span class="number">0</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"send error:%s\n\a"</span>, strerror(errno));</div><div class="line">                close(sock_fd);</div><div class="line">                <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* close */</span></div><div class="line">    close(sock_fd);</div><div class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="3-4-测试结果"><a href="#3-4-测试结果" class="headerlink" title="3.4 测试结果"></a>3.4 测试结果</h2><p>先在Ubuntu主机上交叉编译服务器端代码，再在Ubuntu主机上编译客户端代码。<br>在开发板上运行服务器端代码，在Ubuntu主机先启动tmux分屏，再分别运行客户端代码。</p>
 <ul>
-<li>服务器端<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/3.png" alt=""></li>
-<li>客户机端<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/2.png?v=1" alt=""></li>
+<li>服务器端<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/3.png" alt=""></li>
+<li>客户机端<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/2.png?v=1" alt=""></li>
 </ul>
 <h1 id="4-UDP"><a href="#4-UDP" class="headerlink" title="4.UDP"></a>4.UDP</h1><p>UDP没有传递保证机制，如果传输中数据丢失，协议不会有任何的检测或提示。<br>这样的好处是传输的数据是<strong>持续</strong>的，此外它是<strong>无连接</strong>的传输，比如实时视频时，如果采用TCP，中途有一点点数据出错都会卡住，进行等待，产生延时。加入使用UDP，尽管有少量的丢帧，但数据是实时的。</p>
-<h2 id="4-1-UDP流程图"><a href="#4-1-UDP流程图" class="headerlink" title="4.1 UDP流程图"></a>4.1 UDP流程图</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/4.jpg" alt=""></p>
+<h2 id="4-1-UDP流程图"><a href="#4-1-UDP流程图" class="headerlink" title="4.1 UDP流程图"></a>4.1 UDP流程图</h2><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/4.jpg" alt=""></p>
 <h2 id="4-2-UDP步骤分析"><a href="#4-2-UDP步骤分析" class="headerlink" title="4.2 UDP步骤分析"></a>4.2 UDP步骤分析</h2><p>从流程图可以看出，UDP比TCP的步骤少多了。</p>
 <ul>
 <li><strong>服务器端:</strong></li>
@@ -371,8 +371,8 @@
 <figure class="highlight c"><figcaption><span>[udp_client.c]</span><a href="https://github.com/hceng/learn/blob/master/tcp_udp/udp/udp_client.c" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">* udp_client.c</div><div class="line"># Copyright (C) 2017 hceng, &lt;huangcheng.job@foxmail.com&gt;</div><div class="line"># Licensed under terms of GPLv2</div><div class="line">#</div><div class="line"># This program is used for TCP / UDP learning.</div><div class="line"># https://hceng.cn/</div><div class="line">*/</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PORT_NUMBER 8888</span></div><div class="line"></div><div class="line"><span class="comment">/* socket-&gt;bind-&gt;recvfrom/sendto-&gt;close */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> sock_fd;</div><div class="line">    <span class="keyword">struct</span> sockaddr_in server_addr;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> send_buf[<span class="number">1000</span>];</div><div class="line">    <span class="keyword">int</span> send_len;</div><div class="line">    <span class="keyword">int</span> addr_len;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(argc != <span class="number">2</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Usage:%s hostname\n\a"</span>, argv[<span class="number">0</span>]);</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* socket */</span></div><div class="line">    sock_fd = socket(AF_INET, SOCK_DGRAM, <span class="number">0</span>);<span class="comment">//AF_INET:IPV4;SOCK_DGRAM:UDP</span></div><div class="line">    <span class="keyword">if</span> (<span class="number">-1</span> == sock_fd)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"socket error:%s\n\a"</span>, strerror(errno));</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* set sockaddr_in parameter*/</span></div><div class="line">    <span class="built_in">memset</span>(&amp;server_addr, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in));<span class="comment">//clear</span></div><div class="line">    server_addr.sin_family = AF_INET;</div><div class="line">    server_addr.sin_port = htons(PORT_NUMBER);</div><div class="line">    ret = inet_aton(argv[<span class="number">1</span>], &amp;server_addr.sin_addr);</div><div class="line">    <span class="keyword">if</span>(<span class="number">0</span> == ret)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"server_ip error.\n"</span>);</div><div class="line">        close(sock_fd);</div><div class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (fgets(send_buf, <span class="number">999</span>, <span class="built_in">stdin</span>))</div><div class="line">        &#123;</div><div class="line">            <span class="comment">/* sendto */</span></div><div class="line">            addr_len = <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr);</div><div class="line">            send_len = sendto(sock_fd, send_buf, <span class="built_in">strlen</span>(send_buf), <span class="number">0</span>, \</div><div class="line">(<span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *)&amp;server_addr, addr_len);</div><div class="line">            <span class="keyword">if</span> (send_len &lt;= <span class="number">0</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"send error:%s\n\a"</span>, strerror(errno));</div><div class="line">                close(sock_fd);</div><div class="line">                <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/* close */</span></div><div class="line">    close(sock_fd);</div><div class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="4-4-测试结果"><a href="#4-4-测试结果" class="headerlink" title="4.4 测试结果"></a>4.4 测试结果</h2><p>和前面TCP测试方式一样，先在Ubuntu主机上交叉编译服务器端代码，再在Ubuntu主机上编译客户端代码。<br>在开发板上运行服务器端代码，在Ubuntu主机先启动tmux分屏，再分别运行客户端代码。</p>
 <ul>
-<li>服务器端<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/5.png" alt=""></li>
-<li>客户机端<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171230/6.png" alt=""></li>
+<li>服务器端<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/5.png" alt=""></li>
+<li>客户机端<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171230/6.png" alt=""></li>
 </ul>
 <p>参考资料：<br>博客：<a href="http://www.cnblogs.com/jfyl1573/p/6476607.html" target="_blank" rel="external">很全的linux网络编程技巧</a><br>王粉花. 2016. 嵌入式Linux编程与实践教程.北京: 科学出版社.<br>韦东山第三期项目:第1课第6.1节_一小时学会网络编程_两个简单例子_tcp_udp</p>
 <hr>
@@ -631,19 +631,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -659,11 +659,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -675,19 +679,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -703,15 +699,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -723,6 +715,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -731,7 +727,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -743,18 +755,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -763,11 +763,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -776,10 +780,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

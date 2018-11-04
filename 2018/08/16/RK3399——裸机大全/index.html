@@ -14,21 +14,20 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/16/RK3399——裸机大全/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/4.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/5.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/6.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/7.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/8.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/9.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/1.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/7.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/8.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/9.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-09-13T03:44:11.478Z">
+<meta property="og:updated_time" content="2018-11-04T09:54:34.217Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RK3399——裸机大全">
 <meta name="twitter:description" content="以64位的RK3399为例，实现裸机的启动、中断、串口(printf移植)、定时器、ADC、PWM、I2C、SPI、LCD(MIPI)等；">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -200,7 +199,7 @@
 <li><strong>架构(Architecture)</strong>:就是常说的ARMv5(32bits)、ARMv6(32bits)、ARMv7(32bits)、ARMv8(32/64bits)；</li>
 <li><strong>内核型号</strong>:就是常说的ARM7、ARM9、Cortex-A系列(Aplication)、Cortex-R系列(Runtime)、Cortex-M系列(MCU)；</li>
 <li><strong>举例</strong>:单片机STM32F103C8T6采用Cortex-M3内核，采用ARMv7-M架构；<br>　　　　瑞芯微RK3288采用4个Cortex-A17，采用ARMv7-A架构；<br>　　　　瑞芯微RK3399采用2个Cortex-A72和4个Cortex-A53组成，Cortex-A72和Cortex-A53都是ARMv8-A架构。<br>　　　　高通骁龙845处理器由4个Cortex-A75和4个Cortex-A55组成，Cortex-A75和Cortex-A55都是ARMv8-A架构。</li>
-<li><strong>发展迭代</strong>：<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/0.jpg"></div>
+<li><strong>发展迭代</strong>：<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/1.jpg"></div>
 
 </li>
 </ul>
@@ -348,13 +347,13 @@
 
 <h2 id="1-3-ARMv8-Exception-Level"><a href="#1-3-ARMv8-Exception-Level" class="headerlink" title="1.3 ARMv8 Exception Level"></a>1.3 ARMv8 Exception Level</h2><p>针对Security的需求，ARMv8的系统软件设计可以提供安全模式与非安全模式的状态。<br>ARMv8规定了CPU有4种运行级别。每种运行级别下标的数字越大，其权力级别越高。其中EL0为非特权等级，即平时应用程序运行时的级别；EL1为特权等级，即操作系统运行时的级别；EL2为虚拟机监视器运行级别，即虚拟机的控制层运行的级别；EL3为切换EL1和EL2级别时需要进入的一个级别，为CPU的最高级别。</p>
 <p>若底层EL(Exception Level)为32bits，则上层EL的软件就只能是32位。</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/3.png"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/2.png"></div>
 
 <p>若底层的EL为64bits，则上层EL就可以依据需求选择为32bits或是64bits。</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/4.png"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/3.png"></div>
 
 <h1 id="2-RK3399启动"><a href="#2-RK3399启动" class="headerlink" title="2.RK3399启动"></a>2.RK3399启动</h1><p>先看一下RK3399的启动流程图<sup>[1]</sup>：</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/1.png"></div>
+<div align="center"><a href="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/4.png&quot;/" target="_blank" rel="external">https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/4.png&quot;/</a></div>
 
 <p>从图中可以得到以下几个结论：</p>
 <ul>
@@ -448,7 +447,7 @@
 </ul>
 <p><code>crt0_64.S</code>主要就是为C语言运行设置栈和进行了重定位，以及两个阶段的初始化:<code>board_init_f</code>(front)和<code>board_init_r</code>(rear)，最后进入主循环。</p>
 <h2 id="3-3-总结"><a href="#3-3-总结" class="headerlink" title="3.3 总结"></a>3.3 总结</h2><p>U-Boot启动流程示意图：</p>
-<div align="center"> <img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/5.png"></div>
+<div align="center"> <img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/5.png"></div>
 
 <h1 id="4-中断"><a href="#4-中断" class="headerlink" title="4.中断"></a>4.中断</h1><h2 id="4-1-分析"><a href="#4-1-分析" class="headerlink" title="4.1 分析"></a>4.1 分析</h2><p>在U-Boot中找到如下几个文件：</p>
 <blockquote>
@@ -479,7 +478,7 @@
 <ul>
 <li>测试效果：</li>
 </ul>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/6.png"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/6.png"></div>
 
 <h1 id="6-定时器"><a href="#6-定时器" class="headerlink" title="6.定时器"></a>6.定时器</h1><p>RK3399有12个通用定时器(timer0~timer11)、12个安全定时器(stimer0~stimer11)、2个PMU定时器(pmutimer0~pmutimer1)。<br>定时器部分比较简单，很多东西都是固定的，比如定时器的时钟来源都是24MHz的晶振，也就是定时器周期为1/24us。此外定时器的计数只能由小向大增加。<br>定时器支持两种模式:自由运行模式和用户自定义模式，其实就是前者计数达到设定值后，自动装载计数循环，后者需要手动重新装载，实现循环。</p>
 <h2 id="6-1-编程思路"><a href="#6-1-编程思路" class="headerlink" title="6.1 编程思路"></a>6.1 编程思路</h2><p>这里希望通过用定时器实现一个比较准确的延时函数，包括us、ms、s的延时。<br>1.首先设置<code>CONTROLREG</code>，关闭定时器、设置为用户定义计数模式(用户确定循环次数)、中断屏蔽(不需要中断处理函数)；<br>2.向<code>LOAD_COUNT0</code>、<code>LOAD_COUNT1</code>放入计数结束值，向<code>LOAD_COUNT2</code>、<code>LOAD_COUNT3</code>放入计数初始值，默认为0；<br>3.设置<code>CONTROLREG</code>，开启定时器，计数器开始运行；<br>4.读取中断状态<code>INTSTATUS</code>判断时候完成计数，清中断，本次计数完成；</p>
@@ -501,7 +500,7 @@
 <ul>
 <li>测试效果：</li>
 </ul>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/7.png"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/7.png"></div>
 
 <h1 id="8-I2C"><a href="#8-I2C" class="headerlink" title="8.I2C"></a>8.I2C</h1><p>RK3399拥有8个I2C，其功能和其它SOC的I2C差不多，这里通过I2C读写EEPROM，具体的操作和前面博客<a href="https://hceng.cn/2017/08/28/AM437x%E2%80%94%E2%80%94I2C%E8%A3%B8%E6%9C%BA/" target="_blank" rel="external">AM437x——I2C裸机</a>差不多，也实现了两个版本：GPIO模拟和寄存器控制，这里主要介绍寄存器控制版本。</p>
 <h2 id="8-1-编程思路"><a href="#8-1-编程思路" class="headerlink" title="8.1 编程思路"></a>8.1 编程思路</h2><p>0.首先是I2C引脚复用、设置SCK时钟、注册/使能中断(非必须)等；</p>
@@ -516,7 +515,7 @@
 <ul>
 <li>测试效果：</li>
 </ul>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/8.png"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/8.png"></div>
 
 <h1 id="9-SPI"><a href="#9-SPI" class="headerlink" title="9.SPI"></a>9.SPI</h1><p>RK3399有6组SPI，协议也是标准的，没什么好说的。通过SPI读取Flash，也实现了两个版本：GPIO模拟和寄存器控制，这里主要介绍寄存器控制版本。</p>
 <h2 id="9-1-编程思路"><a href="#9-1-编程思路" class="headerlink" title="9.1 编程思路"></a>9.1 编程思路</h2><p>0.首先是SPI引脚复用、设置时钟、SPI模式(SCPH=1，SCPOL=1)等；<br>1.实现发送一字节函数：使能SPI、向<code>TXDR[0]</code>写入待发送的数据、根据<code>SR</code>等待发送完成及空闲、关闭SPI；<br>2.实现接收一字节函数：使能SPI、向<code>TXDR[0]</code>写入空数据、根据<code>SR</code>等待接收完成及空闲、读出<code>RXDR[0]</code>数据、关闭SPI；<br>3.实现片选函数；<br>4.剩下的就是SPI Flash(W25Q16DV)相关的操作，比如发送哪个指令读取ID，发送哪个指令擦除数据等，参考具体的Flash芯片手册；</p>
@@ -526,7 +525,7 @@
 <ul>
 <li>测试效果：</li>
 </ul>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180816/9.png"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180816/9.png"></div>
 
 <h1 id="10-PWM"><a href="#10-PWM" class="headerlink" title="10.PWM"></a>10.PWM</h1><p>RK3399有四组PWM，其中PWM3可以配置为第二功能用于红外IR。<br>这里使用MIPI接口的PWM1为例，输出指定占空比的波形。</p>
 <h2 id="10-1-编程思路"><a href="#10-1-编程思路" class="headerlink" title="10.1 编程思路"></a>10.1 编程思路</h2><p>1.首先是PWM引脚复用；<br>2.关闭PWM控制器；<br>3.设置时钟源、比例系数、预分频(可默认)；<br>4.设置模式:连续模式,占空比极性为高、左对齐(默认)；<br>5.设置占空比，其中<code>PERIOD_HPR</code>是总周期，<code>DUTY_LPR</code>是有效周期，<code>Duty cycle=DUTY_LPR/PERIOD_HPR</code>；<br>6.启动PWN控制器；</p>
@@ -793,19 +792,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -821,11 +820,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -837,19 +840,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -865,15 +860,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -885,6 +876,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -893,7 +888,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -905,18 +916,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -925,11 +924,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -938,10 +941,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

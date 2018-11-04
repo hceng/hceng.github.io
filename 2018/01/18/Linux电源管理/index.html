@@ -14,23 +14,23 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/18/Linux电源管理/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/1.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/2.png?v=1">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/4.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/5.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/6.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/7.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/8.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/9.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/10.png?v=1">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/11.png?v=1">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/1.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/2.png?v=1">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/7.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/8.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/9.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/10.png?v=1">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/11.png?v=1">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-02-23T08:05:37.938Z">
+<meta property="og:updated_time" content="2018-11-04T09:19:29.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux电源管理">
 <meta name="twitter:description" content="探究Linux电源管理模型，并为Tiny4412的LCD驱动添加电源管理。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/1.jpg">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -217,20 +217,20 @@
 </blockquote>
 <p>需要设置以上模式，只需<code>echo mem &gt; /sys/power/state</code>即可。</p>
 <h2 id="1-2-Runtime电源管理模型"><a href="#1-2-Runtime电源管理模型" class="headerlink" title="1.2 Runtime电源管理模型"></a>1.2 Runtime电源管理模型</h2><p>Runtime电源管理模型给我的感觉是以<strong>模块角度</strong>进行省电。<br>某种程度上是“高内聚和低耦合”的体现。<br>每个设备（包括CPU）都处理好自身的电源管理工作，尽量以最低的能耗完成交代的任务，尽量在不需要工作的时候进入低功耗状态，尽量不和其它模块有过多耦合。每个设备都是最节省的话，整个系统一定是最节省的。</p>
-<h1 id="2-系统睡眠模型suspend"><a href="#2-系统睡眠模型suspend" class="headerlink" title="2. 系统睡眠模型suspend"></a>2. 系统睡眠模型suspend</h1><h2 id="2-1-Suspend流程分析"><a href="#2-1-Suspend流程分析" class="headerlink" title="2.1 Suspend流程分析"></a>2.1 Suspend流程分析</h2><p>suspend的流程还是挺复杂的，向<code>/sys/power/state</code>写入命令后再到唤醒，将进行以下流程：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/1.jpg" alt=""></p>
+<h1 id="2-系统睡眠模型suspend"><a href="#2-系统睡眠模型suspend" class="headerlink" title="2. 系统睡眠模型suspend"></a>2. 系统睡眠模型suspend</h1><h2 id="2-1-Suspend流程分析"><a href="#2-1-Suspend流程分析" class="headerlink" title="2.1 Suspend流程分析"></a>2.1 Suspend流程分析</h2><p>suspend的流程还是挺复杂的，向<code>/sys/power/state</code>写入命令后再到唤醒，将进行以下流程：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/1.jpg" alt=""></p>
 <ul>
-<li>对源码进行分析，其<strong>休眠过程</strong>如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/2.png?v=1" alt=""><br>驱动程序里休眠相关的电源管理函数的调用过程:<code>prepare—&gt;suspend—&gt;suspend_late—&gt;suspend_noirq</code></li>
+<li>对源码进行分析，其<strong>休眠过程</strong>如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/2.png?v=1" alt=""><br>驱动程序里休眠相关的电源管理函数的调用过程:<code>prepare—&gt;suspend—&gt;suspend_late—&gt;suspend_noirq</code></li>
 </ul>
 <ul>
-<li>对源码进行分析，其<strong>唤醒过程</strong>如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/3.png" alt=""><br>驱动程序里唤醒相关的电源管理函数的调用过程:<code>resume_noirq—&gt;resume_early—&gt;resume-&gt;complete</code></li>
+<li>对源码进行分析，其<strong>唤醒过程</strong>如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/3.png" alt=""><br>驱动程序里唤醒相关的电源管理函数的调用过程:<code>resume_noirq—&gt;resume_early—&gt;resume-&gt;complete</code></li>
 </ul>
 <p>对于驱动程序，我们主要关心<code>Device PM</code>(针对每一个驱动)和少量<code>Platform dependent PM</code>(针对CPU芯片相关)的内容。</p>
 <h2 id="2-2-使用Suspend功能"><a href="#2-2-使用Suspend功能" class="headerlink" title="2.2 使用Suspend功能"></a>2.2 使用Suspend功能</h2><p>首先将suspend功能加入内核：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Power management options  ---&gt;</div><div class="line">    [*] Suspend to RAM and standby</div></pre></td></tr></table></figure></p>
 <p>这里默认是勾选上了的，就不管了。</p>
-<p>进入Tiny4412内核，尝试休眠<code>echo mem &gt; /sys/power/state</code>，系统提示<strong><code>No wake-up sources!</code></strong>。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/4.png" alt=""><br>可见，要进入休眠，必须要有唤醒源，没有唤醒源，休眠也没有意义。</p>
+<p>进入Tiny4412内核，尝试休眠<code>echo mem &gt; /sys/power/state</code>，系统提示<strong><code>No wake-up sources!</code></strong>。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/4.png" alt=""><br>可见，要进入休眠，必须要有唤醒源，没有唤醒源，休眠也没有意义。</p>
 <h3 id="2-2-1-设置唤醒源"><a href="#2-2-1-设置唤醒源" class="headerlink" title="2.2.1 设置唤醒源"></a>2.2.1 设置唤醒源</h3><p>唤醒源最常见的就是按键中断，就如同手机进入锁屏状态下，按下电源键唤醒一样，因此先写一个按键驱动。</p>
 <ul>
-<li><p>原理图：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/5.png" alt=""><br>底板上有四个按键，分别连在GPX3_2、GPX3_3、GPX3_4、GPX3_5，引脚状态常高，按键按下变低电平。</p>
+<li><p>原理图：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/5.png" alt=""><br>底板上有四个按键，分别连在GPX3_2、GPX3_3、GPX3_4、GPX3_5，引脚状态常高，按键按下变低电平。</p>
 </li>
 <li><p><a href="ttps://github.com/hceng/learn/blob/master/tiny4412/04_power_management/suspend/exynos4412-tiny4412.dts" target="_blank" rel="external">设备树</a>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">button_interrupt: button_interrupt &#123;</div><div class="line">    compatible         = &quot;tiny4412,button_interrupt&quot;;</div><div class="line">    tiny4412,gpx3_2 = &lt;&amp;gpx3 2 GPIO_ACTIVE_HIGH&gt;;</div><div class="line">    tiny4412,gpx3_3 = &lt;&amp;gpx3 3 GPIO_ACTIVE_HIGH&gt;;</div><div class="line">    tiny4412,gpx3_4 = &lt;&amp;gpx3 4 GPIO_ACTIVE_HIGH&gt;;</div><div class="line">    tiny4412,gpx3_5 = &lt;&amp;gpx3 5 GPIO_ACTIVE_HIGH&gt;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
@@ -242,7 +242,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">#ifdef CONFIG_PM_SLEEP</div><div class="line">static int usb4604_i2c_suspend(struct device *dev)</div><div class="line">&#123;</div><div class="line">	struct i2c_client *client = to_i2c_client(dev);</div><div class="line">	struct usb4604 *hub = i2c_get_clientdata(client);</div><div class="line"></div><div class="line">	usb4604_switch_mode(hub, USB4604_MODE_STANDBY);</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">static int usb4604_i2c_resume(struct device *dev)</div><div class="line">&#123;</div><div class="line">	struct i2c_client *client = to_i2c_client(dev);</div><div class="line">	struct usb4604 *hub = i2c_get_clientdata(client);</div><div class="line"></div><div class="line">	usb4604_switch_mode(hub, hub-&gt;mode);</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line">#endif</div><div class="line"></div><div class="line">static SIMPLE_DEV_PM_OPS(usb4604_i2c_pm_ops, usb4604_i2c_suspend,</div><div class="line">		usb4604_i2c_resume);</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="2-2-2-休眠唤醒-未成功"><a href="#2-2-2-休眠唤醒-未成功" class="headerlink" title="2.2.2 休眠唤醒(未成功)"></a>2.2.2 休眠唤醒(未成功)</h3><p>加入中断源后，休眠过程不再提示<code>No wake-up sources!</code>，看样子休眠应该成功了。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/6.png" alt=""><br>此时，按下按键，板子并未唤醒，琢磨了一阵，初步怀疑有以下原因：</p>
+<h3 id="2-2-2-休眠唤醒-未成功"><a href="#2-2-2-休眠唤醒-未成功" class="headerlink" title="2.2.2 休眠唤醒(未成功)"></a>2.2.2 休眠唤醒(未成功)</h3><p>加入中断源后，休眠过程不再提示<code>No wake-up sources!</code>，看样子休眠应该成功了。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/6.png" alt=""><br>此时，按下按键，板子并未唤醒，琢磨了一阵，初步怀疑有以下原因：</p>
 <ul>
 <li>唤醒的时候，应该需要uboot配合，uboot读取某个寄存器来判断是正常启动还是唤醒；</li>
 <li>Exynos4412的PMU特性没摸透，可能需要其它额外的操作；</li>
@@ -254,7 +254,7 @@
 <p><strong>a.定义notifier_block结构体</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">static struct notifier_block lcd_pm_notif_block = &#123;</div><div class="line">	.notifier_call = lcd_suspend_notifier,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 <p><strong>b.notifier操作函数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">static int lcd_suspend_notifier(struct notifier_block *nb, unsigned long event, void *dummy)</div><div class="line">&#123;</div><div class="line">	switch (event) &#123;</div><div class="line">	case PM_SUSPEND_PREPARE:</div><div class="line">		printk(&quot;lcd suspend notifiler test: PM_SUSPEND_PREPARE\n&quot;);</div><div class="line">		return NOTIFY_OK;</div><div class="line">	case PM_POST_SUSPEND:</div><div class="line">		printk(&quot;lcd suspend notifiler test: PM_POST_SUSPEND\n&quot;);</div><div class="line">		return NOTIFY_OK;</div><div class="line"></div><div class="line">	default:</div><div class="line">		return NOTIFY_DONE;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>c.注册notifier</strong><br>在驱动init()或probe()里注册：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ret = register_pm_notifier(&amp;lcd_pm_notif_block);</div><div class="line">   if(ret) &#123;</div><div class="line">       printk(&quot;failed to register pm notifier.\n&quot;);</div><div class="line">       return  -EINVAL;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-<p>在前面LCD驱动上修改<a href="https://github.com/hceng/learn/blob/master/tiny4412/04_power_management/suspend/lcd_drv.c" target="_blank" rel="external"><code>lcd_drv.c</code></a>，测试如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/7.png" alt=""></p>
+<p>在前面LCD驱动上修改<a href="https://github.com/hceng/learn/blob/master/tiny4412/04_power_management/suspend/lcd_drv.c" target="_blank" rel="external"><code>lcd_drv.c</code></a>，测试如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/7.png" alt=""></p>
 <h3 id="2-3-2-Suspend和Resume"><a href="#2-3-2-Suspend和Resume" class="headerlink" title="2.3.2 Suspend和Resume"></a>2.3.2 Suspend和Resume</h3><p>前面的<code>notifier</code>只是通知，在<strong>冻结APP之前</strong>和<strong>重启APP之后</strong>通知，<br>而电源管理应该刚好相反，是在<strong>冻结APP之后</strong>和<strong>重启APP之前</strong>对驱动的电源进行控制，<br>这就需要<code>suspend</code>和<code>resume</code>来实现。</p>
 <ul>
 <li><p>a.在<code>platform_driver</code>里的<code>driver</code>里添加<code>pm</code>结构体:</p>
@@ -273,9 +273,9 @@
 <p>Runtime电源管理模型的原理比较简单，就是计数，<br>当该设备驱动被使用时就加1，放弃使用时就减1，<br>计数大于1时，就打开该设备的电源，等于0时就关闭电源。</p>
 <p>Runtime PM相关的函数：<br>a. 使能/禁止 Runtime PM：<code>pm_runtime_enable</code> / <code>pm_runtime_disable</code>  (修改disable_depth变量)<br>b. 增加计数/减少计数：<code>pm_runtime_get_sync</code> / <code>pm_runtime_put_sync</code>   (修改usage_count变量)<br>c. 回调函数 暂停/恢复/空闲：<code>runtime_suspend</code> / <code>runtime_resume</code> / <code>runtime_idle</code></p>
 <h2 id="3-1-Runtime流程分析"><a href="#3-1-Runtime流程分析" class="headerlink" title="3.1 Runtime流程分析"></a>3.1 Runtime流程分析</h2><ul>
-<li><p>调用<code>pm_runtime_get_sync</code>去<strong>增加使用次数以及恢复</strong>的流程如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/8.png" alt=""></p>
+<li><p>调用<code>pm_runtime_get_sync</code>去<strong>增加使用次数以及恢复</strong>的流程如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/8.png" alt=""></p>
 </li>
-<li><p>调用<code>pm_runtime_put_sync</code>去<strong>减少使用次数以及暂停</strong>的流程如下：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/9.png" alt=""></p>
+<li><p>调用<code>pm_runtime_put_sync</code>去<strong>减少使用次数以及暂停</strong>的流程如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/9.png" alt=""></p>
 </li>
 </ul>
 <p>前面的两个流程，只看到了<code>runtime_resume</code>和<code>runtime_idle</code>的调用，没有看到<code>runtime_suspend</code>，<br>实际上，如果设备不提供<code>runtime_idle</code>, 则最终会调用<code>runtime_suspend</code>。</p>
@@ -323,12 +323,12 @@
 <p>通过函数<code>pm_runtime_set_autosuspend_delay()</code>或修改<code>echo xx &gt;  /sys/devices/.../power/autosuspend_delay_ms</code>来修改自动休眠时间。</p>
 <p>完整代码见<a href="https://github.com/hceng/learn/tree/master/tiny4412/04_power_management/runtime" target="_blank" rel="external">Github</a>。</p>
 <h1 id="4-regulator系统"><a href="#4-regulator系统" class="headerlink" title="4.regulator系统"></a>4.regulator系统</h1><p>前面的两个电源管理模型偏“软”，regulator系统偏“硬”，<br>在复杂的单板中，有专门的电源管理芯片控制各个模块电源，regulator系统就是为这个电源芯片编写驱动，实现电源管理。</p>
-<h2 id="4-1-regulator框架"><a href="#4-1-regulator框架" class="headerlink" title="4.1 regulator框架"></a>4.1 regulator框架</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/10.png?v=1" alt=""></p>
+<h2 id="4-1-regulator框架"><a href="#4-1-regulator框架" class="headerlink" title="4.1 regulator框架"></a>4.1 regulator框架</h2><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/10.png?v=1" alt=""></p>
 <blockquote>
 <p>①Regulator(稳定器):指可以自动维持恒定电压(voltage)或电流(current)的装置，一般指电源芯片。在嵌入式设备中，基本上每一种电压，都是经过regulator输出的；<br>②③Consumer(使用者):使用电源的装置，Regulator是给Consumer供电的；<br>④Machine(单板):使用软件语言(struct regulator_init_data)，静态的描述regulator在板级的物理现状，包含：<br>　　a.级联关系:Regulator A的输出是Regulator B的输入，Regulator A就是<strong>Supply regulator</strong>，B是<strong>Consumer regulator</strong>；<br>　　b.约束限制:Regulator Constraints，比如电压/电流最大值/最小值、允许的操作等；</p>
 </blockquote>
 <p>从设备驱动的角度看，regulator系统比较简单，<br>Machine提供Supply与Consumer的对应关系、单板相关的约束条件(device)；<br>Regulator提供电源芯片的控制函数，如使能/去能、设置电压/电流等(driver)；<br>Consumer调用Regulator相关函数控制电源的开关、调节(use)；<br>即一个描述关系,一个提供相关函数，一个调用相关函数。</p>
-<h2 id="4-2-regulator流程"><a href="#4-2-regulator流程" class="headerlink" title="4.2 regulator流程"></a>4.2 regulator流程</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180118/11.png?v=1" alt=""></p>
+<h2 id="4-2-regulator流程"><a href="#4-2-regulator流程" class="headerlink" title="4.2 regulator流程"></a>4.2 regulator流程</h2><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180118/11.png?v=1" alt=""></p>
 <h2 id="4-3-regulator驱动"><a href="#4-3-regulator驱动" class="headerlink" title="4.3 regulator驱动"></a>4.3 regulator驱动</h2><p>regulator系统仍然是采用<strong><em>总线设备驱动模型</em></strong>。<br>device采用c文件或设备树的形式，提供硬件相关信息;<br>driver加载后，一但和device名字匹配，就调用<code>probe()</code>函数注册<code>register</code>，并绑定操作函数；</p>
 <p>后面将使用两种实现regulator驱动。<br>这两种方式的核心都是一样的，<br><code>device</code>先提供Supply与Consumer的对应关系、单板相关的约束条件;<br><code>driver</code>提供电源芯片的控制函数，如使能/去能、设置电压/电流等。</p>
 <h3 id="4-3-1-C文件方式"><a href="#4-3-1-C文件方式" class="headerlink" title="4.3.1 C文件方式"></a>4.3.1 C文件方式</h3><ul>
@@ -620,19 +620,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -648,11 +648,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -664,19 +668,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -692,15 +688,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -712,6 +704,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -720,7 +716,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -732,18 +744,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -752,11 +752,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -765,10 +769,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

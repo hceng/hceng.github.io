@@ -2,6 +2,132 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2018-11-04T09:56:28.650Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/09/12/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2018-11-04T09:56:06.468Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
+    
+    <lastmod>2018-11-04T09:54:34.217Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
+    
+    <lastmod>2018-11-04T09:49:21.913Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T09:41:22.209Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
+    
+    <lastmod>2018-11-04T09:38:14.594Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
+    
+    <lastmod>2018-11-04T09:37:01.208Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
+    
+    <lastmod>2018-11-04T09:35:55.383Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/04/22/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
+    
+    <lastmod>2018-11-04T09:33:35.435Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/</loc>
+    
+    <lastmod>2018-11-04T09:28:49.417Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94vivid/</loc>
+    
+    <lastmod>2018-11-04T09:24:24.899Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/03/01/%E5%8D%9A%E5%AE%A2%E4%B8%80%E5%91%A8%E5%B9%B4/</loc>
+    
+    <lastmod>2018-11-04T09:20:34.388Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
+    
+    <lastmod>2018-11-04T09:19:29.525Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/12/30/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94TCP_UDP/</loc>
+    
+    <lastmod>2018-11-04T09:17:43.131Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T09:16:43.466Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T09:15:40.547Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
+    
+    <lastmod>2018-11-04T09:03:22.239Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2017/11/07/Exynos4412%E2%80%94%E2%80%94SD%E5%8D%A1%E5%90%AF%E5%8A%A8/</loc>
+    
+    <lastmod>2018-11-04T09:02:16.176Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2017/10/31/Exynos4412%E2%80%94%E2%80%94%E7%BD%91%E5%8D%A1%E7%A7%BB%E6%A4%8D%E5%92%8CNFS%E5%90%AF%E5%8A%A8/</loc>
     
     <lastmod>2018-11-04T09:00:50.588Z</lastmod>
@@ -208,132 +334,6 @@
     <loc>http://hceng.cn/2017/03/01/SkillTree/</loc>
     
     <lastmod>2018-11-03T09:26:48.755Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    
-    <lastmod>2018-10-14T08:34:04.918Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/09/12/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    
-    <lastmod>2018-09-24T12:50:45.351Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
-    
-    <lastmod>2018-09-13T03:44:11.478Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2018-09-13T03:43:27.406Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
-    
-    <lastmod>2018-07-30T15:29:53.753Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
-    
-    <lastmod>2018-07-30T03:19:22.310Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/12/30/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94TCP_UDP/</loc>
-    
-    <lastmod>2018-07-27T05:04:01.368Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/04/22/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
-    
-    <lastmod>2018-06-29T03:23:42.563Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
-    
-    <lastmod>2018-06-21T03:15:39.185Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
-    
-    <lastmod>2018-06-01T10:27:13.761Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2018-04-29T10:58:55.730Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/</loc>
-    
-    <lastmod>2018-03-30T17:47:54.938Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94vivid/</loc>
-    
-    <lastmod>2018-03-14T07:04:10.361Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/03/01/%E5%8D%9A%E5%AE%A2%E4%B8%80%E5%91%A8%E5%B9%B4/</loc>
-    
-    <lastmod>2018-03-01T05:16:28.372Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
-    
-    <lastmod>2018-02-23T08:05:37.938Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
-    
-    <lastmod>2018-02-23T02:49:26.275Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
-    
-    <lastmod>2018-01-23T08:04:15.945Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2017/11/07/Exynos4412%E2%80%94%E2%80%94SD%E5%8D%A1%E5%90%AF%E5%8A%A8/</loc>
-    
-    <lastmod>2017-11-07T07:56:54.732Z</lastmod>
     
   </url>
   

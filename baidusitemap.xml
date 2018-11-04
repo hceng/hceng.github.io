@@ -4,6 +4,366 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2018-11-04T09:56:28.650Z</lastmod>
+    <data>
+        <display>
+        <title>C++学习笔记</title>
+        <pubTime>2018-09-24T12:46:52.000Z</pubTime>
+        
+        <tag>C++</tag>
+         
+        <tag>Android基础</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/09/12/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2018-11-04T09:56:06.468Z</lastmod>
+    <data>
+        <display>
+        <title>JAVA学习笔记</title>
+        <pubTime>2018-09-12T14:48:34.000Z</pubTime>
+        
+        <tag>Android基础</tag>
+         
+        <tag>Java</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
+    <lastmod>2018-11-04T09:54:34.217Z</lastmod>
+    <data>
+        <display>
+        <title>RK3399——裸机大全</title>
+        <pubTime>2018-08-16T09:40:06.000Z</pubTime>
+        
+        <tag>裸机</tag>
+         
+        <tag>Uboot</tag>
+         
+        <tag>RK3399</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
+    <lastmod>2018-11-04T09:49:21.913Z</lastmod>
+    <data>
+        <display>
+        <title>RK3288——LCD裸机</title>
+        <pubTime>2018-07-19T01:12:32.000Z</pubTime>
+        
+        <tag>裸机</tag>
+         
+        <tag>LCD</tag>
+         
+        <tag>RK3288</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2018-11-04T09:41:22.209Z</lastmod>
+    <data>
+        <display>
+        <title>Linux声卡驱动</title>
+        <pubTime>2018-06-27T01:22:47.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>音频驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
+    <lastmod>2018-11-04T09:38:14.594Z</lastmod>
+    <data>
+        <display>
+        <title>嵌入式Linux——WIFI网卡</title>
+        <pubTime>2018-06-21T06:58:18.000Z</pubTime>
+        
+        <tag>Linux环境编程</tag>
+         
+        <tag>WiFi网卡</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
+    <lastmod>2018-11-04T09:37:01.208Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动4——CMOS摄像头</title>
+        <pubTime>2018-05-20T08:02:12.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
+         
+        <tag>CMOS</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
+    <lastmod>2018-11-04T09:35:55.383Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动3——LCD显示</title>
+        <pubTime>2018-05-18T08:01:05.000Z</pubTime>
+        
+        <tag>LCD</tag>
+         
+        <tag>摄像头</tag>
+         
+        <tag>UVC</tag>
+         
+        <tag>Linux环境编程</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/04/22/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
+    <lastmod>2018-11-04T09:33:35.435Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动2——UVC</title>
+        <pubTime>2018-04-22T12:18:08.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/</loc>
+    <lastmod>2018-11-04T09:28:49.417Z</lastmod>
+    <data>
+        <display>
+        <title>iMX6ULL上手体验</title>
+        <pubTime>2018-03-28T06:12:36.000Z</pubTime>
+        
+        <tag>裸机</tag>
+         
+        <tag>i.MX6ULL</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94vivid/</loc>
+    <lastmod>2018-11-04T09:24:24.899Z</lastmod>
+    <data>
+        <display>
+        <title>Linux摄像头驱动1——vivid</title>
+        <pubTime>2018-03-08T07:59:30.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/03/01/%E5%8D%9A%E5%AE%A2%E4%B8%80%E5%91%A8%E5%B9%B4/</loc>
+    <lastmod>2018-11-04T09:20:34.388Z</lastmod>
+    <data>
+        <display>
+        <title>博客一周年</title>
+        <pubTime>2018-03-01T05:02:26.000Z</pubTime>
+        
+        <tag>随笔</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2018-11-04T09:19:29.525Z</lastmod>
+    <data>
+        <display>
+        <title>Linux电源管理</title>
+        <pubTime>2018-01-18T06:32:20.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>电源管理</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/12/30/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94TCP_UDP/</loc>
+    <lastmod>2018-11-04T09:17:43.131Z</lastmod>
+    <data>
+        <display>
+        <title>嵌入式Linux网络编程——TCP/UDP</title>
+        <pubTime>2017-12-30T01:55:13.000Z</pubTime>
+        
+        <tag>Linux环境编程</tag>
+         
+        <tag>TCP/UDP</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2018-11-04T09:16:43.466Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——触摸屏驱动</title>
+        <pubTime>2017-12-26T01:34:47.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>触摸屏</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2018-11-04T09:15:40.547Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——LCD驱动</title>
+        <pubTime>2017-12-22T12:15:29.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+        <tag>LCD</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
+    <lastmod>2018-11-04T09:03:22.239Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——LCD之backligth</title>
+        <pubTime>2017-11-22T11:27:44.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>Exynos4412</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/11/07/Exynos4412%E2%80%94%E2%80%94SD%E5%8D%A1%E5%90%AF%E5%8A%A8/</loc>
+    <lastmod>2018-11-04T09:02:16.176Z</lastmod>
+    <data>
+        <display>
+        <title>Exynos4412——SD卡启动</title>
+        <pubTime>2017-11-07T10:36:29.000Z</pubTime>
+        
+        <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
+         
+        <tag>Uboot</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/10/31/Exynos4412%E2%80%94%E2%80%94%E7%BD%91%E5%8D%A1%E7%A7%BB%E6%A4%8D%E5%92%8CNFS%E5%90%AF%E5%8A%A8/</loc>
     <lastmod>2018-11-04T09:00:50.588Z</lastmod>
     <data>
@@ -279,9 +639,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
@@ -563,366 +923,6 @@
         <pubTime>2017-03-01T00:00:00.000Z</pubTime>
         
         <tag>随笔</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2018-10-14T08:34:04.918Z</lastmod>
-    <data>
-        <display>
-        <title>C++学习笔记</title>
-        <pubTime>2018-09-24T12:46:52.000Z</pubTime>
-        
-        <tag>C++</tag>
-         
-        <tag>Android基础</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/09/12/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2018-09-24T12:50:45.351Z</lastmod>
-    <data>
-        <display>
-        <title>JAVA学习笔记</title>
-        <pubTime>2018-09-12T14:48:34.000Z</pubTime>
-        
-        <tag>Android基础</tag>
-         
-        <tag>Java</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
-    <lastmod>2018-09-13T03:44:11.478Z</lastmod>
-    <data>
-        <display>
-        <title>RK3399——裸机大全</title>
-        <pubTime>2018-08-16T09:40:06.000Z</pubTime>
-        
-        <tag>裸机</tag>
-         
-        <tag>Uboot</tag>
-         
-        <tag>RK3399</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/06/27/Linux%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2018-09-13T03:43:27.406Z</lastmod>
-    <data>
-        <display>
-        <title>Linux声卡驱动</title>
-        <pubTime>2018-06-27T01:22:47.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-        <tag>音频驱动</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/07/19/RK3288%E2%80%94%E2%80%94LCD%E8%A3%B8%E6%9C%BA/</loc>
-    <lastmod>2018-07-30T15:29:53.753Z</lastmod>
-    <data>
-        <display>
-        <title>RK3288——LCD裸机</title>
-        <pubTime>2018-07-19T01:12:32.000Z</pubTime>
-        
-        <tag>裸机</tag>
-         
-        <tag>LCD</tag>
-         
-        <tag>RK3288</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
-    <lastmod>2018-07-30T03:19:22.310Z</lastmod>
-    <data>
-        <display>
-        <title>嵌入式Linux——WIFI网卡</title>
-        <pubTime>2018-06-21T06:58:18.000Z</pubTime>
-        
-        <tag>Linux环境编程</tag>
-         
-        <tag>WiFi网卡</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/12/30/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94TCP_UDP/</loc>
-    <lastmod>2018-07-27T05:04:01.368Z</lastmod>
-    <data>
-        <display>
-        <title>嵌入式Linux网络编程——TCP/UDP</title>
-        <pubTime>2017-12-30T01:55:13.000Z</pubTime>
-        
-        <tag>Linux环境编程</tag>
-         
-        <tag>TCP/UDP</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/04/22/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
-    <lastmod>2018-06-29T03:23:42.563Z</lastmod>
-    <data>
-        <display>
-        <title>Linux摄像头驱动2——UVC</title>
-        <pubTime>2018-04-22T12:18:08.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>摄像头</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
-    <lastmod>2018-06-21T03:15:39.185Z</lastmod>
-    <data>
-        <display>
-        <title>Linux摄像头驱动4——CMOS摄像头</title>
-        <pubTime>2018-05-20T08:02:12.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>摄像头</tag>
-         
-        <tag>CMOS</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/05/18/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A83%E2%80%94%E2%80%94LCD%E6%98%BE%E7%A4%BA/</loc>
-    <lastmod>2018-06-01T10:27:13.761Z</lastmod>
-    <data>
-        <display>
-        <title>Linux摄像头驱动3——LCD显示</title>
-        <pubTime>2018-05-18T08:01:05.000Z</pubTime>
-        
-        <tag>LCD</tag>
-         
-        <tag>摄像头</tag>
-         
-        <tag>UVC</tag>
-         
-        <tag>Linux环境编程</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/12/22/Exynos4412%E2%80%94%E2%80%94LCD%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2018-04-29T10:58:55.730Z</lastmod>
-    <data>
-        <display>
-        <title>Exynos4412——LCD驱动</title>
-        <pubTime>2017-12-22T12:15:29.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-        <tag>LCD</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/03/28/iMX6ULL%E4%B8%8A%E6%89%8B%E4%BD%93%E9%AA%8C/</loc>
-    <lastmod>2018-03-30T17:47:54.938Z</lastmod>
-    <data>
-        <display>
-        <title>iMX6ULL上手体验</title>
-        <pubTime>2018-03-28T06:12:36.000Z</pubTime>
-        
-        <tag>裸机</tag>
-         
-        <tag>i.MX6ULL</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/03/08/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A81%E2%80%94%E2%80%94vivid/</loc>
-    <lastmod>2018-03-14T07:04:10.361Z</lastmod>
-    <data>
-        <display>
-        <title>Linux摄像头驱动1——vivid</title>
-        <pubTime>2018-03-08T07:59:30.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>摄像头</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/03/01/%E5%8D%9A%E5%AE%A2%E4%B8%80%E5%91%A8%E5%B9%B4/</loc>
-    <lastmod>2018-03-01T05:16:28.372Z</lastmod>
-    <data>
-        <display>
-        <title>博客一周年</title>
-        <pubTime>2018-03-01T05:02:26.000Z</pubTime>
-        
-        <tag>随笔</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/01/18/Linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2018-02-23T08:05:37.938Z</lastmod>
-    <data>
-        <display>
-        <title>Linux电源管理</title>
-        <pubTime>2018-01-18T06:32:20.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-        <tag>电源管理</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/</loc>
-    <lastmod>2018-02-23T02:49:26.275Z</lastmod>
-    <data>
-        <display>
-        <title>Exynos4412——LCD之backligth</title>
-        <pubTime>2017-11-22T11:27:44.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/12/26/Exynos4412%E2%80%94%E2%80%94%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2018-01-23T08:04:15.945Z</lastmod>
-    <data>
-        <display>
-        <title>Exynos4412——触摸屏驱动</title>
-        <pubTime>2017-12-26T01:34:47.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>Exynos4412</tag>
-         
-        <tag>触摸屏</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/11/07/Exynos4412%E2%80%94%E2%80%94SD%E5%8D%A1%E5%90%AF%E5%8A%A8/</loc>
-    <lastmod>2017-11-07T07:56:54.732Z</lastmod>
-    <data>
-        <display>
-        <title>Exynos4412——SD卡启动</title>
-        <pubTime>2017-11-07T10:36:29.000Z</pubTime>
-        
-        <tag>Exynos4412</tag>
-         
-        <tag>SD卡</tag>
-         
-        <tag>Uboot</tag>
          
          
            

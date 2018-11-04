@@ -14,15 +14,15 @@
 <meta property="og:url" content="http://yoursite.com/2018/09/12/JAVA学习笔记/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="毕业后就没怎么碰Java了，为了后面Android的学习，将Java的基础知识整理一下。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/2.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/3.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-09-24T12:50:45.351Z">
+<meta property="og:updated_time" content="2018-11-04T09:56:06.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA学习笔记">
 <meta name="twitter:description" content="毕业后就没怎么碰Java了，为了后面Android的学习，将Java的基础知识整理一下。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -195,7 +195,7 @@
 <li>这里解释下为什么这样繁琐的设置两个分区。<br>假如只有一个分区，在以后的使用中，假如Ubuntu不小心被损坏，不能进入系统，那么系统里保存的数据就无法获取，资料也就没了。<br>假如分成了两个分区，一个作为系统分区，一个作为工作数据分区，即使Ubuntu系统崩溃，只需重新安装一个Ubuntu，挂接原来的工作数据分区即可，所有的文件仍然会保留。此外，扩展分区大小，也相对比较方便。</li>
 </ul>
 <h2 id="0-2-为Ubuntu设置交换分区"><a href="#0-2-为Ubuntu设置交换分区" class="headerlink" title="0.2 为Ubuntu设置交换分区"></a>0.2 为Ubuntu设置交换分区</h2><p>首次启动虚拟机后，进入系统配置界面，选择默认语言“English”，点击“Install Ubuntu”，选择默认键盘布局，选择最小安装“Minimal installation”，去掉“Download update while installing Ubuntu”，不然要安装很久，然后点击“Continue”，选择“Someting else”，选中“/dev/sda”(20G的root分区)，右键点击“New Partition Table……”，在弹出的窗口选择“Continue”，再选中新出现的“free space”，右键点击“Add……”，在“Use as:”选项卡里选择“swap area”，大小改为10240(Android编译要求16G的内存+交换分区，内存不够交换分区凑)，完成后再点击该“free space”，把剩下的大小作为“Ext4 journaling file system”，“Mount point:”设置为根目录“/”，然后以类似的方式设置“/dev/sdb”，全部空间作为“Ext4 journaling file system”，“Mount point:”设置为手动编辑的“/work”，分区完成效果如下：</p>
-<div align="center"><img width="500" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/1.png"></div>
+<div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/1.png"></div>
 
 <p>最后点击“Install Now”，选择时区为“Shanghai”，设置主机名字、密码等，再根据提示重启。</p>
 <h2 id="0-3-为Ubuntu安装基本软件"><a href="#0-3-为Ubuntu安装基本软件" class="headerlink" title="0.3 为Ubuntu安装基本软件"></a>0.3 为Ubuntu安装基本软件</h2><p>前面的博客<a href="http://localhost:4000/2017/08/05/Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%8F%8Ashell-script/#more" target="_blank" rel="external">Linux开发环境配置及shell script</a>对嵌入式开发所需使用到的软件有过一次分析，另外博客<a href="http://localhost:4000/2017/03/23/%E6%90%AD%E5%BB%BA%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/#2-3%E5%AE%89%E8%A3%85%E3%80%81-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1" target="_blank" rel="external">搭建嵌入式Linux开发环境</a>有如何安装和配置，参考博客，完成对ftp、ssh、nfs、smaba、vim的安装和配置，这些就不废话了，目前只是学习Java，至于其它的软件，后面需要再安装。</p>
@@ -484,7 +484,7 @@
 <li><strong>Error(错误)</strong>：<code>Error</code>类以及他的子类的实例，代表了JVM本身的错误，不能被程序员通过代码处理，所以不用管；</li>
 <li><strong>Exception(异常)</strong>：<code>Exception</code>以及他的子类，代表程序运行时发送的各种不期望发生的事件，可以被Java异常处理机制使用；</li>
 </ul>
-<div align="center"><img width="900" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/2.jpg"></div>
+<div align="center"><img width="900" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/2.jpg"></div>
 
 <blockquote>
 <p>针对Javac对异常的处理要求，将异常类分为2类:</p>
@@ -494,7 +494,7 @@
 </ul>
 </blockquote>
 <p>针对要处理的异常，可以自己处理，也可也通过<code>throws</code>抛出异常，让别人处理：</p>
-<div align="center"><img width="500" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180913/3.jpg"></div>
+<div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180912/3.jpg"></div>
 
 <ul>
 <li><p>示例：</p>
@@ -921,19 +921,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -949,11 +949,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -965,19 +969,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -993,15 +989,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1013,6 +1005,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -1021,7 +1017,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1033,18 +1045,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -1053,11 +1053,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1066,10 +1070,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

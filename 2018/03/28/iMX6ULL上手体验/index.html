@@ -14,16 +14,16 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/28/iMX6ULL上手体验/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手的技巧和思维的方式。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/2.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/3.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/3.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/4.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-03-30T17:47:54.938Z">
+<meta property="og:updated_time" content="2018-11-04T09:28:49.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iMX6ULL上手体验">
 <meta name="twitter:description" content="第一次接触NXP/Freescale的SOC，记录拿到板子后快速上手的技巧和思维的方式。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -199,8 +199,8 @@
 <li><p>网络<br>Google/Baidu用于搜索相关博文的一些细节资料，比如某一块别人的分析。<br>随便提一下，科学上网是基本素养。</p>
 </li>
 </ul>
-<h1 id="2-观察开发板"><a href="#2-观察开发板" class="headerlink" title="2.观察开发板"></a>2.观察开发板</h1><p>拿到一个板子，首先是观察板子上大致有什么资源。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/1.png" alt=""><br>比如看到SOC附近有两个芯片，一般一个是RAM，一个Flash；<br>有个TF卡接口和拨动开关，多半是TF卡启动和Flash的启动选择；<br>一个网口、USB接口、Micro USB接口、电源接口，USB接口可能用于下载或串口或供电；<br>三组排针，其中三针上的丝印有RX、TX、GND，肯定是串口接口；<br>两个按键和几个LED灯，背后还有一个FPC插座，多半是接显示屏；<br>以及我的是IOT版，还有一个WIFI天线。</p>
-<p>再查看厂家提供的资料，验证一些猜想。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/2.jpg" alt=""></p>
+<h1 id="2-观察开发板"><a href="#2-观察开发板" class="headerlink" title="2.观察开发板"></a>2.观察开发板</h1><p>拿到一个板子，首先是观察板子上大致有什么资源。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/1.png" alt=""><br>比如看到SOC附近有两个芯片，一般一个是RAM，一个Flash；<br>有个TF卡接口和拨动开关，多半是TF卡启动和Flash的启动选择；<br>一个网口、USB接口、Micro USB接口、电源接口，USB接口可能用于下载或串口或供电；<br>三组排针，其中三针上的丝印有RX、TX、GND，肯定是串口接口；<br>两个按键和几个LED灯，背后还有一个FPC插座，多半是接显示屏；<br>以及我的是IOT版，还有一个WIFI天线。</p>
+<p>再查看厂家提供的资料，验证一些猜想。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/2.jpg" alt=""></p>
 <p>上面的猜想几乎八九不离十，现在知道了可以通过“Boot Select”来TF/Nand启动。</p>
 <p>现在有三个方向，</p>
 <ul>
@@ -244,7 +244,7 @@
 <p>此时，将编译好的<code>u-boot.bin</code>，使用上面的命令完成加头操作，得到自己的<code>u-boot.imx</code>，尝试烧到SD卡上，看能否启动。</p>
 <p>这里的烧写有一个坑，当使用<code>dd</code>命令进行烧写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo dd if=u-boot.imx of=/dev/sdb bs=512 seek=2 conv=fsync</div></pre></td></tr></table></figure></p>
 <p>还是先介绍下<code>dd</code>命令，<code>dd</code>是对块进行操作，<code>cp</code>是对文件操作，<br>比如复制一个数据从A-&gt;B，<code>dd</code>是放在指定的位置，<code>cp</code>是放在空闲的位置。</p>
-<p>同时结合SD卡的分区简图：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/3.jpg" alt=""></p>
+<p>同时结合SD卡的分区简图：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/3.jpg" alt=""></p>
 <p>可以看出，烧写到SD卡上，是无法直观的从SD上得知是否烧写成功的，烧写的偏移地址1K位置处，无法从SD卡的分区剩余大小上判断。</p>
 <p>解决方法是，通过<code>dd</code>命令读取出数据，再将读取的数据和烧写的数据进行简单比较，因此烧写完成后，要使用以下命令进行检查，判断是否烧写成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo dd if=/dev/sdb of=read_uboot.bin  bs=512 skip=2 count=2</div><div class="line"></div><div class="line">hexdump u-boot.imx | more</div><div class="line">hexdump read_uboot.bin | more</div></pre></td></tr></table></figure></p>
 <p>比较两者前面部分数据相同即可。</p>
@@ -285,7 +285,7 @@
 <li>复制提供的<code>printf.c</code>和<code>printf.h</code>；</li>
 <li>将<code>printf.h</code>里定义的<code>__out_putchar</code>宏改为uart里打印字符的函数即可；</li>
 </ul>
-<p>实测效果：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180328/3.png" alt=""></p>
+<p>实测效果：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180328/4.png" alt=""></p>
 <h1 id="9-其它"><a href="#9-其它" class="headerlink" title="9.其它"></a>9.其它</h1><p>以上就是拿到一个全新的板子，如何快速上手板子的过程。</p>
 <p>将以上思路，应用于RK3288，发现完全适用，也是先编译Uboot，得知加头的方式，然后得知下载方式，点灯，重定位，仅仅半天就可以实现串口的打印。<br>对RK3288的操作就不详细写了，思路上是完全一摸一样的，相关代码在文章最后。</p>
 <p>后续有时间的话，可能会尝试去移植Nand，这些后续再看情况。</p>
@@ -547,19 +547,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -575,11 +575,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -591,19 +595,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -619,15 +615,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -639,6 +631,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -647,7 +643,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -659,18 +671,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -679,11 +679,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -692,10 +696,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

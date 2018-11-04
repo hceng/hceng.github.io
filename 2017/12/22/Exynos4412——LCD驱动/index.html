@@ -14,26 +14,26 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/22/Exynos4412——LCD驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="Exynos4412的LCD驱动。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0_0.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_4.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_5.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_6.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_7.png?v=1">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/1.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/7.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/8.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/9.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/10.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/11.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/12.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/13.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/14.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-04-29T10:58:55.730Z">
+<meta property="og:updated_time" content="2018-11-04T09:15:40.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——LCD驱动">
 <meta name="twitter:description" content="Exynos4412的LCD驱动。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0_0.jpg">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -206,19 +206,19 @@
 <h2 id="1-2-图像的构成"><a href="#1-2-图像的构成" class="headerlink" title="1.2 图像的构成"></a>1.2 图像的构成</h2><p><strong>像素：</strong><br>显示的最小单位；<br>用若干位数据来表示一个像素，比如使用R8、G8、B8共24位来表示一个像素，这个也称为像素深度，单位为BPP 常见的有16BPP/24BPP；<br>像素越高，则一个像素点所显示的颜色就越多，所显示的颜色更广；</p>
 <p><strong>帧：</strong><br>一幅图像被称为一帧，<br>每帧里面由行列排列的像素组成；</p>
 <p><strong>调色板：</strong><br>画油画的时候，通常先在调色板里配好想要的颜色，再用画笔沾到画布上作画。<br>LCD控制器里也借用了这个概念，从FrameBuffer获得数据，这个数据作为索引从调色板获得对应数据，再发给电子枪显示出来。</p>
-<div align="center"><img width="617" height="933" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0_0.jpg"></div>
+<div align="center"><img width="617" height="933" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/1.jpg"></div>
 
 <p>如图，假如是16BPP的数据，LCD控制器从FB取出16bit数据，显示到LCD上。<br>当如果想节约内存，对颜色要求也没那么高，就可以采用调色板的方式，调色板里存放了256个16bit的数据，FB只存放每个像素的索引，根据索引去调色板找到对应的数据传给LCD控制器，再通过电子枪显示出来。         </p>
-<h2 id="1-3-LCD显示原理"><a href="#1-3-LCD显示原理" class="headerlink" title="1.3 LCD显示原理"></a>1.3 LCD显示原理</h2><p>常见的TFT显示屏幕都会有如下控制信号：<br>1)使用HSYNC信号来控制一行的显示；<br>2)使用VSYNC信号来控制一帧(列)的显示；<br>3)使用VCLK信号来控制一个像素的显示；<br>4)使用VDEN信号来控制数据的输出；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/0.jpg" alt=""><br>想象每个像素点是由电子枪发射出来的，电子枪依次扫描整个LCD界面，就显示了一副完整的图像。<br>当发出一个HSYNC信号后，电子枪就会从行末花费HBP时长移动到行首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了行末后，再等待HFP时长待HSYNC信号到来，再移动到行首，如此往复。因此，HBP和HFP分别决定了左边和右边的黑框。<br>同理，当发出一个VSYNC信号后，电子枪就会从列末花费VBP时长移动到列首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了列末后，再等待VFP时长待VSYNC信号到来，再移动到列首，如此往复。因此，VBP和VFP分别决定了上边和下边的黑框。<br>真实显示区域为图中阴影部分。</p>
+<h2 id="1-3-LCD显示原理"><a href="#1-3-LCD显示原理" class="headerlink" title="1.3 LCD显示原理"></a>1.3 LCD显示原理</h2><p>常见的TFT显示屏幕都会有如下控制信号：<br>1)使用HSYNC信号来控制一行的显示；<br>2)使用VSYNC信号来控制一帧(列)的显示；<br>3)使用VCLK信号来控制一个像素的显示；<br>4)使用VDEN信号来控制数据的输出；<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/2.jpg" alt=""><br>想象每个像素点是由电子枪发射出来的，电子枪依次扫描整个LCD界面，就显示了一副完整的图像。<br>当发出一个HSYNC信号后，电子枪就会从行末花费HBP时长移动到行首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了行末后，再等待HFP时长待HSYNC信号到来，再移动到行首，如此往复。因此，HBP和HFP分别决定了左边和右边的黑框。<br>同理，当发出一个VSYNC信号后，电子枪就会从列末花费VBP时长移动到列首；然后在VCLK时钟下，在图中阴影区域显示像素；等到了列末后，再等待VFP时长待VSYNC信号到来，再移动到列首，如此往复。因此，VBP和VFP分别决定了上边和下边的黑框。<br>真实显示区域为图中阴影部分。</p>
 <h2 id="1-4-LCD硬件控制思路"><a href="#1-4-LCD硬件控制思路" class="headerlink" title="1.4 LCD硬件控制思路"></a>1.4 LCD硬件控制思路</h2><ol>
 <li>查看LCD芯片手册，查看相关的时间参数、分辨率、引脚极性等；</li>
 <li>根据以上信息设置LCD控制器寄存器，让其发出正确信号；</li>
 <li>在内存里面分配一个FrameBuffer，在里面用若干位表示一个像素，再把首地址告诉LCD控制器；</li>
 </ol>
 <p>之后LCD控制器就能周而复始取出FrameBuffer里面的像素数据，配合其它控制信号，发送给电子枪，电子枪再让在LCD上显示出来。以后我们想显示图像，只需要编写程序向FrameBuffer填入相应数据即可，硬件会自动的完成显示操作。</p>
-<h2 id="1-5-LCD驱动框架"><a href="#1-5-LCD驱动框架" class="headerlink" title="1.5 LCD驱动框架"></a>1.5 LCD驱动框架</h2><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.png" alt=""><br>LCD框架的<code>fbmem.c</code>已经帮我们完成了日常驱动程序的工作，如：注册字符设备、分配设备号、创建类等。<br>也有了操作函数<code>fb_fops</code>，但它只是一个框架，在具体执行的时候需要知道硬件具体的一些参数，比如分辨率、数据基地址等信息。<br>因此，我们要利用这一框架，就得构造一个<code>fb_info</code>结构体，完成硬件初始化，设置相关参数等操作，再使用<code>register_framebuffer()</code>将<code>fb_info</code>向上注册。<br>这样，<code>fbmem.c</code>就可以从<code>registered_fb[]</code>这个数组获得<code>fb_info</code>参数，进行相关的硬件操作。<br>比如：应用层app想<code>read()</code>，就会调用<code>fbmem.c</code>的<code>fb_read()</code>，在<code>fb_read</code>里面会先尝试使用<code>xxfb.c</code>提供的<code>read()</code>操作函数，如果没有，再根据<code>fb_info</code><br>信息得到数据基地址，将基地址开始的数据，返回给应用层，实现读操作。</p>
+<h2 id="1-5-LCD驱动框架"><a href="#1-5-LCD驱动框架" class="headerlink" title="1.5 LCD驱动框架"></a>1.5 LCD驱动框架</h2><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/3.png" alt=""><br>LCD框架的<code>fbmem.c</code>已经帮我们完成了日常驱动程序的工作，如：注册字符设备、分配设备号、创建类等。<br>也有了操作函数<code>fb_fops</code>，但它只是一个框架，在具体执行的时候需要知道硬件具体的一些参数，比如分辨率、数据基地址等信息。<br>因此，我们要利用这一框架，就得构造一个<code>fb_info</code>结构体，完成硬件初始化，设置相关参数等操作，再使用<code>register_framebuffer()</code>将<code>fb_info</code>向上注册。<br>这样，<code>fbmem.c</code>就可以从<code>registered_fb[]</code>这个数组获得<code>fb_info</code>参数，进行相关的硬件操作。<br>比如：应用层app想<code>read()</code>，就会调用<code>fbmem.c</code>的<code>fb_read()</code>，在<code>fb_read</code>里面会先尝试使用<code>xxfb.c</code>提供的<code>read()</code>操作函数，如果没有，再根据<code>fb_info</code><br>信息得到数据基地址，将基地址开始的数据，返回给应用层，实现读操作。</p>
 <h1 id="2-原理图"><a href="#2-原理图" class="headerlink" title="2. 原理图"></a>2. 原理图</h1><ul>
-<li>Tiny4412SDK-1506-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171122/1.png" alt=""></li>
+<li>Tiny4412SDK-1506-Schematic.pdf：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/4.png" alt=""></li>
 </ul>
 <p>从上到下，接口依次是：</p>
 <table>
@@ -278,7 +278,7 @@
 </tbody>
 </table>
 <ul>
-<li>Tiny4412-1412-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1.png" alt=""><br>LCD数据和控制部分使用了GPF0_0-GPF0_7、GPF1_0-GPF1_7、GPF2_0-GPF2_7、GPF3_0-GPF3_5，共3*8+4=28个引脚。</li>
+<li>Tiny4412-1412-Schematic.pdf：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/5.png" alt=""><br>LCD数据和控制部分使用了GPF0_0-GPF0_7、GPF1_0-GPF1_7、GPF2_0-GPF2_7、GPF3_0-GPF3_5，共3*8+4=28个引脚。</li>
 </ul>
 <h1 id="3-设备树文件"><a href="#3-设备树文件" class="headerlink" title="3. 设备树文件"></a>3. 设备树文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">lcd_s702@11C00000 &#123;</div><div class="line">    compatible = &quot;tiny4412, lcd_s702&quot;;</div><div class="line">    reg = &lt;0x11C00000  0x20c0 0x10010210 0x08 0x10023c80 0x04 0x1003c000 0x1000&gt;;</div><div class="line">    pinctrl-names = &quot;default&quot;;</div><div class="line">    pinctrl-0 = &lt;&amp;lcd_s702&gt;;</div><div class="line">    clocks = &lt;&amp;clock CLK_FIMD0 &amp;clock CLK_ACLK160&gt;;</div><div class="line">    clock-names = &quot;fimd0&quot;,&quot;aclk160&quot;;</div><div class="line">&#125;;</div><div class="line">&amp;pinctrl_0 &#123;</div><div class="line">    lcd_s702:lcd &#123;</div><div class="line">        samsung,pins = &quot;gpf0-0&quot;, &quot;gpf0-1&quot;, &quot;gpf0-2&quot;, &quot;gpf0-3&quot;, &quot;gpf0-4&quot;,</div><div class="line">        &quot;gpf0-5&quot;, &quot;gpf0-6&quot;,&quot;gpf0-7&quot;, &quot;gpf1-0&quot;, &quot;gpf1-1&quot;,</div><div class="line">        &quot;gpf1-2&quot;, &quot;gpf1-3&quot;, &quot;gpf1-4&quot;, &quot;gpf1-5&quot;, &quot;gpf1-6&quot;,</div><div class="line">        &quot;gpf1-7&quot;, &quot;gpf2-0&quot;, &quot;gpf2-1&quot;, &quot;gpf2-2&quot;, &quot;gpf2-3&quot;, </div><div class="line">        &quot;gpf2-4&quot;, &quot;gpf2-5&quot;, &quot;gpf2-6&quot;,&quot;gpf2-7&quot;, &quot;gpf3-0&quot;,</div><div class="line">        &quot;gpf3-1&quot;, &quot;gpf3-2&quot;, &quot;gpf3-3&quot;;</div><div class="line">        samsung,pin-function = &lt;2&gt;;</div><div class="line">        samsung,pin-pud = &lt;0&gt;;</div><div class="line">        samsung,pin-drv = &lt;0&gt;;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>其中，<br>0x11C00000是LCD寄存器基地址；<br>0x10010210是LCD时钟寄存器基地址；<br>0x10023c80是LCD时钟寄存器基地址；<br>0x10023c80是LCD时钟寄存器基地址；</p>
@@ -316,19 +316,19 @@
 <p><strong>b. 设置时钟</strong><br>时钟部分还是有点乱，没有从头开始去分析，当这里的目的是生成VCLK，因此配置出VCLK即可：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//时钟源选择\使能时钟</span></div><div class="line"><span class="comment">//Selects clock source for LCD_BLK</span></div><div class="line"><span class="comment">//FIMD0_SEL:bit[3:0]=0110=SCLKMPLL_USER_T=800M</span></div><div class="line">temp = readl(clk_regs_base + CLK_SRC_LCD0);</div><div class="line">temp &amp;= ~(<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">temp |= (<span class="number">0x3</span>&lt;&lt;<span class="number">1</span>);</div><div class="line">writel(temp, clk_regs_base + CLK_SRC_LCD0);</div><div class="line"></div><div class="line"><span class="comment">//Clock source mask for LCD_BLK    </span></div><div class="line"><span class="comment">//FIMD0_MASK:Mask output clock of MUXFIMD0 (1=Unmask)</span></div><div class="line">temp = readl(clk_regs_base + CLK_SRC_MASK_LCD);</div><div class="line">temp |= (<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">writel(temp, clk_regs_base + CLK_SRC_MASK_LCD);</div><div class="line"></div><div class="line"><span class="comment">//Clock source mask for LCD_BLK    </span></div><div class="line"><span class="comment">//SCLK_FIMD0 = MOUTFIMD0/(FIMD0_RATIO + 1),分频比 1/1</span></div><div class="line">temp = readl(clk_regs_base + CLK_DIV_LCD);</div><div class="line">temp &amp;= ~(<span class="number">0x0F</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">writel(temp, clk_regs_base + CLK_DIV_LCD);</div><div class="line"></div><div class="line"><span class="comment">//Controls IP clock gating for LCD_BLK   </span></div><div class="line"><span class="comment">//CLK_FIMD0:Gating all clocks for FIMD0 (1=Pass)</span></div><div class="line">temp = readl(clk_regs_base + CLK_GATE_IP_LCD);</div><div class="line">temp |= (<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">writel(temp, clk_regs_base + CLK_GATE_IP_LCD);</div><div class="line"></div><div class="line"><span class="comment">//FIMDBYPASS_LBLK0:FIMD of LBLK0 Bypass Selection (1=FIMD Bypass)</span></div><div class="line">temp = readl(lcdblk_regs_base + LCDBLK_CFG);</div><div class="line">temp |= (<span class="number">0x01</span>&lt;&lt;<span class="number">1</span>);</div><div class="line">writel(temp, lcdblk_regs_base + LCDBLK_CFG);</div><div class="line"></div><div class="line"><span class="comment">//MIE0_DISPON:MIE0_DISPON: PWM output control (1=PWM outpupt enable)</span></div><div class="line">temp = readl(lcdblk_regs_base + LCDBLK_CFG2);</div><div class="line">temp |= (<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">writel(temp, lcdblk_regs_base + LCDBLK_CFG2);</div><div class="line"></div><div class="line">mdelay(<span class="number">1000</span>);</div><div class="line"></div><div class="line"><span class="comment">//LCD时钟:  VCLK=FIMD*SCLK/(CLKVAL+1), where CLKVAL&gt;=1</span></div><div class="line"><span class="comment">//800/(19+1) == 40M&lt;80M</span></div><div class="line">temp = readl(lcd_regs_base + VIDCON0);</div><div class="line">temp |= (<span class="number">19</span>&lt;&lt;<span class="number">6</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDCON0);</div></pre></td></tr></table></figure><br>思路就是选择时钟源，然后启用时钟源，再分频得到所需VCLK。</p>
 <p><strong>c. 设置引脚极性和时序</strong></p>
 <ul>
-<li>LCD手册“S702-AT070TN92.pdf”中的时序图和时间参数：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_1.png" alt=""><br>(PS:手册图片做得真烂，源PDF都模糊)<br>上半部分为水平输入时序图，下半部分为垂直方向输入时序图。</li>
+<li>LCD手册“S702-AT070TN92.pdf”中的时序图和时间参数：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/6.png" alt=""><br>(PS:手册图片做得真烂，源PDF都模糊)<br>上半部分为水平输入时序图，下半部分为垂直方向输入时序图。</li>
 </ul>
-<p>然后是图中的时间参数：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_2.png" alt=""></p>
+<p>然后是图中的时间参数：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/7.png" alt=""></p>
 <ul>
-<li>Exynos 4412手册“Exynos 4412 SCP_Users Manual.pdf”中的时序图：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_3.png" alt=""></li>
+<li>Exynos 4412手册“Exynos 4412 SCP_Users Manual.pdf”中的时序图：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/8.png" alt=""></li>
 </ul>
 <p>我的经验就是<strong>结合LCD的时序图和控制器的时序图，对比两者的时序得出关系式和极性</strong>。<br>因此，可以得出：<br><strong>极性方面：</strong><br>VS与VSYNC极性相反，<br>HS与HSYNC极性相反，<br>DE与VDEN极性一致，<br>DCLK是在上升沿触发。</p>
 <p>对于寄存器VIDCON1：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * VIDTCON1:</div><div class="line"> * [5]:IVSYNC  ===&gt; 1 : Inverted(反转)</div><div class="line"> * [6]:IHSYNC  ===&gt; 1 : Inverted(反转)</div><div class="line"> * [7]:IVCLK   ===&gt; 1 : Fetches video data at VCLK rising edge (上降沿触发)</div><div class="line"> * [10:9]:FIXVCLK  ====&gt; 01 : VCLK running</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + VIDCON1);</div><div class="line">temp |= (<span class="number">1</span> &lt;&lt; <span class="number">9</span>) | (<span class="number">1</span> &lt;&lt; <span class="number">7</span>) | (<span class="number">1</span> &lt;&lt; <span class="number">5</span>) | (<span class="number">1</span> &lt;&lt; <span class="number">6</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDCON1);</div></pre></td></tr></table></figure></p>
 <p><strong>时序方面：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">VSPW+1=tvpw=1~20(暂取11) --&gt; VSPW=10</div><div class="line">VBPD+1=tvb-tvpw=23-11=12 --&gt; VBPD=11</div><div class="line">VFPD+1=tvfp=22 --&gt; VFPD=21</div><div class="line"></div><div class="line">HSPW+1=hpw=1~40(暂取21) --&gt; HSPW=20</div><div class="line">HBPD+1=thb-hpw=46-21=25 --&gt; HBPD=24</div><div class="line">HOZVAL+1=thd=800 --&gt; HOZVAL=799</div><div class="line">HFPD+1=thfp=210 --&gt; HFPD=209</div></pre></td></tr></table></figure></p>
-<p>对于寄存器VIDTCON0：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_4.png" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * VIDTCON0:</div><div class="line"> * [23:16]:  VBPD+1=tvb-tvpw=23-11=12 --&gt; VBPD=11</div><div class="line"> * [15:8] :  VFPD+1=tvfp=22 --&gt; VFPD=21</div><div class="line"> * [7:0]  :  VSPW+1=tvpw=1~20(暂取11) --&gt; VSPW=10</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + VIDTCON0);</div><div class="line">temp |= (<span class="number">11</span> &lt;&lt; <span class="number">16</span>) | (<span class="number">21</span> &lt;&lt; <span class="number">8</span>) | (<span class="number">10</span> &lt;&lt; <span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDTCON0);</div></pre></td></tr></table></figure></p>
-<p>对于寄存器VIDTCON1：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_5.png" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * VIDTCON1:</div><div class="line"> * [23:16]:  HBPD+1=thb-hpw=46-21=25 --&gt; HBPD=24</div><div class="line"> * [15:8] :  HFPD+1=thfp=210 --&gt; HFPD=209</div><div class="line"> * [7:0]  :  HSPW+1=hpw=1~40(暂取21) --&gt; HSPW=20</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + VIDTCON1);</div><div class="line">temp |= (<span class="number">24</span> &lt;&lt; <span class="number">16</span>) | (<span class="number">209</span> &lt;&lt; <span class="number">8</span>)  | (<span class="number">20</span> &lt;&lt; <span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDTCON1);</div></pre></td></tr></table></figure></p>
-<p><strong>d. 设置分辨率</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_6.png" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * HOZVAL = (Horizontal display size) - 1 and LINEVAL = (Vertical display size) - 1.</div><div class="line"> * Horizontal(水平) display size : 800</div><div class="line"> * Vertical(垂直) display size : 480</div><div class="line"> */</div><div class="line">temp = ((LCD_WIDTH<span class="number">-1</span>) &lt;&lt; <span class="number">11</span>) | (LCD_LENTH &lt;&lt; <span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDTCON2);</div></pre></td></tr></table></figure></p>
-<p><strong>e. 设置数据格式</strong><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1220_7.png?v=1" alt=""><br>如前面可变参数所设置的一样，本次采用的是24BPP格式，每个像素占用32位(实际使用24位)。<br>当使能字节交换时(BSWP=0, HWSWP=0, WSWP=1)，则低位像素存放在低字节，即[23:0]放像素1，[31:24]空，[55:32]放第二个像素，[63:56]空，依次类推，这种存放方式更符合日常习惯。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * WINCON0:</div><div class="line"> * [15]:Specifies Word swap control bit.  1 = Enables swap 低位像素存放在低字节</div><div class="line"> * [5:2]: Selects Bits Per Pixel (BPP) mode for Window image : 1101 ===&gt; Unpacked 25 BPP (non-palletized A:1-R:8-G:8-B:8)</div><div class="line"> * [0]:Enables/disables video output   1 = Enables</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + WINCON0);</div><div class="line">temp &amp;= ~(<span class="number">0x0F</span> &lt;&lt; <span class="number">2</span>);</div><div class="line">temp |= (<span class="number">0X01</span> &lt;&lt; <span class="number">15</span>) | (<span class="number">0x0D</span> &lt;&lt; <span class="number">2</span>) | (<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + WINCON0);</div></pre></td></tr></table></figure></p>
+<p>对于寄存器VIDTCON0：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/9.png" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * VIDTCON0:</div><div class="line"> * [23:16]:  VBPD+1=tvb-tvpw=23-11=12 --&gt; VBPD=11</div><div class="line"> * [15:8] :  VFPD+1=tvfp=22 --&gt; VFPD=21</div><div class="line"> * [7:0]  :  VSPW+1=tvpw=1~20(暂取11) --&gt; VSPW=10</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + VIDTCON0);</div><div class="line">temp |= (<span class="number">11</span> &lt;&lt; <span class="number">16</span>) | (<span class="number">21</span> &lt;&lt; <span class="number">8</span>) | (<span class="number">10</span> &lt;&lt; <span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDTCON0);</div></pre></td></tr></table></figure></p>
+<p>对于寄存器VIDTCON1：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/10.png" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * VIDTCON1:</div><div class="line"> * [23:16]:  HBPD+1=thb-hpw=46-21=25 --&gt; HBPD=24</div><div class="line"> * [15:8] :  HFPD+1=thfp=210 --&gt; HFPD=209</div><div class="line"> * [7:0]  :  HSPW+1=hpw=1~40(暂取21) --&gt; HSPW=20</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + VIDTCON1);</div><div class="line">temp |= (<span class="number">24</span> &lt;&lt; <span class="number">16</span>) | (<span class="number">209</span> &lt;&lt; <span class="number">8</span>)  | (<span class="number">20</span> &lt;&lt; <span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDTCON1);</div></pre></td></tr></table></figure></p>
+<p><strong>d. 设置分辨率</strong><br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/11.png" alt=""><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * HOZVAL = (Horizontal display size) - 1 and LINEVAL = (Vertical display size) - 1.</div><div class="line"> * Horizontal(水平) display size : 800</div><div class="line"> * Vertical(垂直) display size : 480</div><div class="line"> */</div><div class="line">temp = ((LCD_WIDTH<span class="number">-1</span>) &lt;&lt; <span class="number">11</span>) | (LCD_LENTH &lt;&lt; <span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + VIDTCON2);</div></pre></td></tr></table></figure></p>
+<p><strong>e. 设置数据格式</strong><br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/12.png" alt=""><br>如前面可变参数所设置的一样，本次采用的是24BPP格式，每个像素占用32位(实际使用24位)。<br>当使能字节交换时(BSWP=0, HWSWP=0, WSWP=1)，则低位像素存放在低字节，即[23:0]放像素1，[31:24]空，[55:32]放第二个像素，[63:56]空，依次类推，这种存放方式更符合日常习惯。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * WINCON0:</div><div class="line"> * [15]:Specifies Word swap control bit.  1 = Enables swap 低位像素存放在低字节</div><div class="line"> * [5:2]: Selects Bits Per Pixel (BPP) mode for Window image : 1101 ===&gt; Unpacked 25 BPP (non-palletized A:1-R:8-G:8-B:8)</div><div class="line"> * [0]:Enables/disables video output   1 = Enables</div><div class="line"> */</div><div class="line">temp = readl(lcd_regs_base + WINCON0);</div><div class="line">temp &amp;= ~(<span class="number">0x0F</span> &lt;&lt; <span class="number">2</span>);</div><div class="line">temp |= (<span class="number">0X01</span> &lt;&lt; <span class="number">15</span>) | (<span class="number">0x0D</span> &lt;&lt; <span class="number">2</span>) | (<span class="number">0x01</span>&lt;&lt;<span class="number">0</span>);</div><div class="line">writel(temp, lcd_regs_base + WINCON0);</div></pre></td></tr></table></figure></p>
 <p><strong>f. 设置/使能显示窗口</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Enables Channel 0.</span></div><div class="line">temp = readl(lcd_regs_base + SHADOWCON);</div><div class="line">writel(temp | <span class="number">0x01</span>, lcd_regs_base + SHADOWCON);</div><div class="line"><span class="comment">//Selects Channel 0</span></div><div class="line">temp = readl(lcd_regs_base + WINCHMAP2);</div><div class="line">temp &amp;= ~(<span class="number">7</span> &lt;&lt; <span class="number">16</span>);</div><div class="line">temp |= (<span class="number">0x01</span> &lt;&lt; <span class="number">16</span>);<span class="comment">//CH0FISEL:Selects Channel 0's channel.001 = Window 0</span></div><div class="line">temp &amp;= ~(<span class="number">7</span> &lt;&lt; <span class="number">0</span>);</div><div class="line">temp |= (<span class="number">0x01</span> &lt;&lt; <span class="number">0</span>);<span class="comment">//W0FISEL:Selects Window 0's channel.001 = Channel 0</span></div><div class="line">writel(temp, lcd_regs_base + WINCHMAP2);</div></pre></td></tr></table></figure></p>
 <p><strong>g. 设置OSD功能</strong></p>
 <blockquote>
@@ -381,7 +381,7 @@
 <p>b. 加载背光和LCD驱动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">insmod backlight_drv.ko</div><div class="line">insmod lcd_drv.ko</div></pre></td></tr></table></figure></p>
 <p>c. 开启背光：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./app 200</div></pre></td></tr></table></figure></p>
 <p>d. 运行应用程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./jpg_rgb cq.jpg</div></pre></td></tr></table></figure></p>
-<h3 id="5-1-6-实际效果"><a href="#5-1-6-实际效果" class="headerlink" title="5.1.6 实际效果"></a>5.1.6 实际效果</h3><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_1.jpg" alt=""></p>
+<h3 id="5-1-6-实际效果"><a href="#5-1-6-实际效果" class="headerlink" title="5.1.6 实际效果"></a>5.1.6 实际效果</h3><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/13.jpg" alt=""></p>
 <h2 id="5-2移除左上角光标"><a href="#5-2移除左上角光标" class="headerlink" title="5.2移除左上角光标"></a>5.2移除左上角光标</h2><p>现在已经实现了图片的显示，仔细观察，发现左上角有个小光标一直在闪烁。<br>查阅了<a href="http://blog.csdn.net/PengPengQian/article/details/49250089" target="_blank" rel="external">相关资料</a>，解决方案如下:</p>
 <p>修改Linux内核中的文件：<code>drivers/video/console/fbcon.c</code></p>
 <ul>
@@ -391,7 +391,7 @@
 </li>
 </ul>
 <p>再重新编译、烧写内核。</p>
-<h1 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h1><p><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171201/1221_2.jpg" alt=""></p>
+<h1 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h1><p><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171222/14.jpg" alt=""></p>
 <p align="center">Beautiful Chongqing.</p>
 
 <p>总算搞完了LCD，真累。<br>拖拖拉拉了差不多一个月。<br>对LCD这块，不管是基础知识、驱动还是应用程序，都有了一个新的认识，也除去了LCD这块拦路虎的“心结”，有信心去迎接更复杂的模块。</p>
@@ -656,19 +656,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -684,11 +684,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -700,19 +704,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -728,15 +724,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -748,6 +740,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -756,7 +752,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -768,18 +780,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -788,11 +788,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -801,10 +805,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

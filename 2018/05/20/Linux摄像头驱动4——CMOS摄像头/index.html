@@ -14,16 +14,16 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/20/Linux摄像头驱动4——CMOS摄像头/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="Linux摄像头驱动学习第四篇，对CMOS摄像头进行学习，实现在Tiny4412上使用CMOS摄像头采集图像，在LCD上显示图像。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/1.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/2.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/3.jpg">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/4.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/1.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/3.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/4.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-06-21T03:15:39.185Z">
+<meta property="og:updated_time" content="2018-11-04T09:37:01.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动4——CMOS摄像头">
 <meta name="twitter:description" content="Linux摄像头驱动学习第四篇，对CMOS摄像头进行学习，实现在Tiny4412上使用CMOS摄像头采集图像，在LCD上显示图像。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/1.jpg">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -192,7 +192,7 @@
         <p>Linux摄像头驱动学习第四篇，对CMOS摄像头进行学习，实现在Tiny4412上使用CMOS摄像头采集图像，在LCD上显示图像。<br><a id="more"></a><br>坚持到了Linux摄像头学习的最后一部分——CMOS摄像头。<br>写完本篇博客后，摄像头部分就暂告一个段落，希望以后有机会继续接触更多。</p>
 <h1 id="1-CMOS摄像头基础"><a href="#1-CMOS摄像头基础" class="headerlink" title="1.CMOS摄像头基础"></a>1.CMOS摄像头基础</h1><p>本次使用的是<a href="http://www.100ask.org/" target="_blank" rel="external">百问网</a>提供的OV7740摄像头模块，先对该模块的基础知识进行整理。</p>
 <p>CMOS摄像头是指采用<strong>CMOS图像传感器</strong>的摄像头。<br>CMOS摄像头的结构一般如下：</p>
-<div align="center"><img width="497" height="332" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/1.jpg"></div>
+<div align="center"><img width="497" height="332" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/1.jpg"></div>
 
 <h2 id="1-1-摄像头参数"><a href="#1-1-摄像头参数" class="headerlink" title="1.1 摄像头参数"></a>1.1 摄像头参数</h2><p>根据OV7740的<a href="http://www.dragonwake.com/download/camera/vc0706_spi/OV7740_CSP.pdf" target="_blank" rel="external">datasheet</a>可以得到以下特性和参数：</p>
 <blockquote>
@@ -225,7 +225,7 @@
 </ul>
 <hr>
 <p>再来看看OV7740的内部数据处理框图：</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/2.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/2.jpg"></div>
 
 <p>分为了三部分：</p>
 <ul>
@@ -237,10 +237,10 @@
 </li>
 </ul>
 <h2 id="1-2-硬件接口"><a href="#1-2-硬件接口" class="headerlink" title="1.2 硬件接口"></a>1.2 硬件接口</h2><p>CMOS摄像头模块对外的接口如下：</p>
-<div align="center"><img width="283" height="363" src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/3.jpg"></div>
+<div align="center"><img width="283" height="363" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/3.jpg"></div>
 
 <p>对应接到Tiny4412的引脚：</p>
-<div align="center"><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/180520/4.jpg"></div>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180520/4.jpg"></div>
 
 <p>按功能可以将接口分为两类：</p>
 <ul>
@@ -579,19 +579,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -607,11 +607,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -623,19 +627,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -651,15 +647,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -671,6 +663,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -679,7 +675,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -691,18 +703,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -711,11 +711,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -724,10 +728,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">

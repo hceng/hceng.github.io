@@ -14,18 +14,18 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/26/Exynos4412——触摸屏驱动/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="移植Exynos4412的I2C接口触摸屏驱动。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/3.png?v=1">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/4.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/6.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/3.png?v=1">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/5.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-01-23T08:04:15.945Z">
+<meta property="og:updated_time" content="2018-11-04T09:16:43.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exynos4412——触摸屏驱动">
 <meta name="twitter:description" content="移植Exynos4412的I2C接口触摸屏驱动。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -193,18 +193,18 @@
       
         <p>移植Exynos4412的I2C接口触摸屏驱动。<br><a id="more"></a><br>这应该是Exynos4412 LCD部分的最后一部分了。<br>为了去探索LCD驱动，前面做了一系列的准备工作，最后终于完成了LCD驱动，现在只剩下触摸屏这个最后的“尾巴”。</p>
 <h1 id="1-工作原理"><a href="#1-工作原理" class="headerlink" title="1.工作原理"></a>1.工作原理</h1><p>前面<a href="https://hceng.cn/2017/11/22/Exynos4412%E2%80%94%E2%80%94LCD%E4%B9%8Bbackligth/#more" target="_blank" rel="external">LCD之backligth</a>部分说了，友善之臂这个屏，为了改善大尺寸四线电阻触摸屏的性能，外加了一个低成本的MCU去控制专业的触控芯片，将滤波后的稳定数据通过GPIO传回到ARM上。<br>但我的板子LCD是电容屏，查阅相关资料后得知，是通过一个FT5406触摸屏芯片实现的电容触摸功能。</p>
-<p>根据<a href="https://www.newhavendisplay.com/app_notes/FT5x06.pdf" target="_blank" rel="external">FT5x06.pdf</a>手册可得知其工作的框架：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/1.png" alt=""><br>当触摸屏上发生触摸操作时，通过TXn(Transmit output pin)和RXn(Receiver input pins)传输给FT5406，FT5406经过处理后，将坐标信息通过Serial Interface(I2C or SPI)发给Host(开发板)。</p>
-<p>查阅FT5x06.pdf，可以看到FT5x06对外有如下接口：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/2.png" alt=""></p>
+<p>根据<a href="https://www.newhavendisplay.com/app_notes/FT5x06.pdf" target="_blank" rel="external">FT5x06.pdf</a>手册可得知其工作的框架：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/1.png" alt=""><br>当触摸屏上发生触摸操作时，通过TXn(Transmit output pin)和RXn(Receiver input pins)传输给FT5406，FT5406经过处理后，将坐标信息通过Serial Interface(I2C or SPI)发给Host(开发板)。</p>
+<p>查阅FT5x06.pdf，可以看到FT5x06对外有如下接口：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/2.png" alt=""></p>
 <blockquote>
 <p>I2C/SPI：与主机进行数据交换的接口<br>INT：中断信号接口，通知主处理器触摸数据准备好读取<br>WAKE：主机将FT5x06从休眠模式切换到主动模式的中断信号<br>RST：外部低电平信号复位芯片</p>
 </blockquote>
 <p>因此，开发板至少的有I2C/SPI和INT与FT5x06相连。</p>
 <h1 id="2-原理图"><a href="#2-原理图" class="headerlink" title="2.原理图"></a>2.原理图</h1><ul>
-<li><p>Tiny4412-1412-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/3.png?v=1" alt=""><br>I2C使用I2C1，INT使用GPX1_6引脚。</p>
+<li><p>Tiny4412-1412-Schematic.pdf：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/3.png?v=1" alt=""><br>I2C使用I2C1，INT使用GPX1_6引脚。</p>
 </li>
-<li><p>Tiny4412SDK-1506-Schematic.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/4.png" alt=""><br>在底板上经过一次电平转换引出到LCD1接口上。</p>
+<li><p>Tiny4412SDK-1506-Schematic.pdf：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/4.png" alt=""><br>在底板上经过一次电平转换引出到LCD1接口上。</p>
 </li>
-<li><p>LCD-S702-1509.pdf：<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/6.png" alt=""><br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/171226/5.png" alt=""><br>LCD上并没有FT5x06的相关信息，只提供了一个CON5接口。<br>友善之臂封装好了LCD和触摸屏，对外只提供I2C接口。</p>
+<li><p>LCD-S702-1509.pdf：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/6.png" alt=""><br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/171226/5.png" alt=""><br>LCD上并没有FT5x06的相关信息，只提供了一个CON5接口。<br>友善之臂封装好了LCD和触摸屏，对外只提供I2C接口。</p>
 </li>
 </ul>
 <p>对于驱动来说，触摸屏就是一个带中断的信号的I2C设备。</p>
@@ -474,19 +474,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -502,11 +502,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -518,19 +522,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -546,15 +542,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -566,6 +558,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -574,7 +570,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -586,18 +598,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -606,11 +606,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -619,10 +623,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
