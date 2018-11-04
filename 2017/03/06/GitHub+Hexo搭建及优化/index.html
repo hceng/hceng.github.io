@@ -14,19 +14,19 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/06/GitHub+Hexo搭建及优化/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="本文主要是记录本博客的搭建和优化。">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/1.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/2.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/3.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/4.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/5.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/6.png">
-<meta property="og:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/7.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/2.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/3.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/4.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/5.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/6.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/7.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-01-11T02:49:19.094Z">
+<meta property="og:updated_time" content="2018-11-04T04:00:08.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
 <meta name="twitter:description" content="本文主要是记录本博客的搭建和优化。">
-<meta name="twitter:image" content="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/1.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/1.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -199,7 +199,7 @@
 <hr>
 <p>首先说下本博客搭建的大致流程:<br>1.有一个GitHub账号，同时配置GitHub Pages；<br>2.安装、配置Hexo；<br>3.配置博客、Markdown写文章；<br>4.绑定自己域名（可选）；<br>5.优化日常操作（可选）；</p>
 <hr>
-<h1 id="1-Github-Pages"><a href="#1-Github-Pages" class="headerlink" title="1.Github Pages"></a>1.Github Pages</h1><p>　　Github Pages是GitHub提供的免费静态站点；<br>　　创建Github Pages后，在里面存放网页源码，然后在对应网址就可看到对应网页效果；<br>　　使用GitHub账号创建一个仓库，但是这个仓库是有规则的，其格式必须为：yourusername.github.io；<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/1.png" alt=""></p>
+<h1 id="1-Github-Pages"><a href="#1-Github-Pages" class="headerlink" title="1.Github Pages"></a>1.Github Pages</h1><p>　　Github Pages是GitHub提供的免费静态站点；<br>　　创建Github Pages后，在里面存放网页源码，然后在对应网址就可看到对应网页效果；<br>　　使用GitHub账号创建一个仓库，但是这个仓库是有规则的，其格式必须为：yourusername.github.io；<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/1.png" alt=""></p>
 <blockquote>
 <p><strong>注：</strong></p>
 <ul>
@@ -208,7 +208,7 @@
 </ul>
 </blockquote>
 <hr>
-<h1 id="2-安装、配置Hexo"><a href="#2-安装、配置Hexo" class="headerlink" title="2.安装、配置Hexo"></a>2.安装、配置Hexo</h1><p>　　<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo</a> 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br>1、安装 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>;<br>2、下载<a href="https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip" target="_blank" rel="external">Cmder</a>代替Windows自带cmd;<br>3、安装 <a href="https://github.com/waylau/git-for-win" target="_blank" rel="external">Git</a>;<br>4、添加本机密钥到GitHub;<br>5、安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，在Git上设置username和email；<br>其中3-5步在前一篇博文<a href="http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/#more" target="_blank" rel="external">Git日常使用小结</a>中已设置过了，无需再设置。<br>6、安装 Hexo：使用 npm 安装 Hexo。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure><br>至此，已经安装完Hexo,后续进行相关配置。<br>7、在电脑上选一个盘，建个文件夹存放博客数据，例我的：E:\blog；然后打开cmder，输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ e: &amp; cd blog   #进入所建文件夹</div><div class="line">$ hexo init blog #初始化blog</div></pre></td></tr></table></figure><br>成功初始化blog后将出现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO  Start blogging with Hexo!</div></pre></td></tr></table></figure><br>8、最后再生成静态网页，即可看到网页模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate # 启动本地服务器</div><div class="line">$ hexo server   # 在浏览器输入 http://localhost:4000/就可以看见网页和模板了</div></pre></td></tr></table></figure><br>完成后，将会看到如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure><br>此时，打开浏览器，输入<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a>就可以看见默认的网页和模板了。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/2.png" alt=""></p>
+<h1 id="2-安装、配置Hexo"><a href="#2-安装、配置Hexo" class="headerlink" title="2.安装、配置Hexo"></a>2.安装、配置Hexo</h1><p>　　<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">Hexo</a> 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br>1、安装 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>;<br>2、下载<a href="https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip" target="_blank" rel="external">Cmder</a>代替Windows自带cmd;<br>3、安装 <a href="https://github.com/waylau/git-for-win" target="_blank" rel="external">Git</a>;<br>4、添加本机密钥到GitHub;<br>5、安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，在Git上设置username和email；<br>其中3-5步在前一篇博文<a href="http://hceng.cn/2017/03/02/Git%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/#more" target="_blank" rel="external">Git日常使用小结</a>中已设置过了，无需再设置。<br>6、安装 Hexo：使用 npm 安装 Hexo。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure><br>至此，已经安装完Hexo,后续进行相关配置。<br>7、在电脑上选一个盘，建个文件夹存放博客数据，例我的：E:\blog；然后打开cmder，输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ e: &amp; cd blog   #进入所建文件夹</div><div class="line">$ hexo init blog #初始化blog</div></pre></td></tr></table></figure><br>成功初始化blog后将出现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO  Start blogging with Hexo!</div></pre></td></tr></table></figure><br>8、最后再生成静态网页，即可看到网页模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate # 启动本地服务器</div><div class="line">$ hexo server   # 在浏览器输入 http://localhost:4000/就可以看见网页和模板了</div></pre></td></tr></table></figure><br>完成后，将会看到如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure><br>此时，打开浏览器，输入<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a>就可以看见默认的网页和模板了。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/2.png" alt=""></p>
 <hr>
 <h1 id="3-配置博客、发表文章"><a href="#3-配置博客、发表文章" class="headerlink" title="3.配置博客、发表文章"></a>3.配置博客、发表文章</h1><p>　　在blog目录下，用<a href="http://www.sublimetext.com/3" target="_blank" rel="external">Sublime Text</a>(使用它的原因是默认是UTF-8编码，中文不会乱码)打开<strong>_config.yml</strong>文件，修改参数信息；</p>
 <blockquote>
@@ -257,12 +257,12 @@
 <li>我是在万网买的，首推买.com，其次.me、.top、.cn系列，根据自己喜好来，各有特色优缺点；</li>
 <li>然后继续交实名认证、审核，还是比较快；<h2 id="4-2绑定域名"><a href="#4-2绑定域名" class="headerlink" title="4.2绑定域名"></a><strong>4.2绑定域名</strong></h2></li>
 <li>保证上述工作完成，域名可用；</li>
-<li>修改DNS，分别修改为：f1g1ns1.dnspod.net和f1g1ns2.dnspod.net<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/3.png" alt=""></li>
+<li>修改DNS，分别修改为：f1g1ns1.dnspod.net和f1g1ns2.dnspod.net<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/3.png" alt=""></li>
 <li>本地站点目录里的source目录下添加一个CNAME文件，里面写上网址；<blockquote>
 <p>注:<br>CNAME不要有任何后缀；<br>网址不要写www或http：//,直接写hceng.cn这种；</p>
 </blockquote>
 </li>
-<li>注册DNSpod，然后添加域名，添加记录：<br>　　参考红线部分填写，一个主机纪录是@，记录类型是CNAME，线路类型填默认（图片中略有不同，是我测试百度抓取用的，暂时可不管），记录值写对应的GitHub Pages的地址；另一个主机纪录填www，其它和上面的一样。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/4.png" alt=""></li>
+<li>注册DNSpod，然后添加域名，添加记录：<br>　　参考红线部分填写，一个主机纪录是@，记录类型是CNAME，线路类型填默认（图片中略有不同，是我测试百度抓取用的，暂时可不管），记录值写对应的GitHub Pages的地址；另一个主机纪录填www，其它和上面的一样。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/4.png" alt=""></li>
 <li>最后把本地的Hexo生成一下，再提交到Github pages上；</li>
 </ul>
 <hr>
@@ -275,7 +275,7 @@
 <ul>
 <li>修改主题的ejs文件<br>　　打开文件：<code>themes/你的主题/layout/_partial/article.ejs</code><br>　　在这个文件中找到<code>&lt;%- post.content %&gt;</code>，并在这之前加入以下代码：<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Table <span class="keyword">of</span> Contents --&gt;</div><div class="line">&lt;% if (!index &amp;&amp; post.toc)&#123; %&gt;</div><div class="line">&lt;div id="toc" class="toc-article"&gt;</div><div class="line">&lt;strong class="toc-title"&gt;文章目录&lt;/strong&gt;</div><div class="line">&lt;%- toc(post.content, &#123;list_number: false&#125;) %&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
 　　这里if语句中有两个条件，!index是为了不在首页的文章摘要中生成目录，post.toc确保了只在显式地标记了toc: true的文章中生成目录。若这两个条件满足，则创建一个目录的div。第五行表示不自动生成标号，不然加上自己的标号会有两个。</li>
-<li>为需要的文章添加标记<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/5.png" alt=""></li>
+<li>为需要的文章添加标记<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/5.png" alt=""></li>
 </ul>
 <h2 id="5-4添加访问人数统计-已舍弃-："><a href="#5-4添加访问人数统计-已舍弃-：" class="headerlink" title="5.4添加访问人数统计(已舍弃)："></a><strong>5.4添加访问人数统计(已舍弃)：</strong></h2><blockquote>
 <p>20180105更新：舍弃本块功能；<br>原因:底部信息太多了，访问统计在实际使用中感觉并没用，故舍弃；</p>
@@ -305,14 +305,14 @@
 </blockquote>
 <p>用Github登陆b格满满，还支持代码高亮，基于GitHub Issues也不容易挂掉，初步感觉很符合要求。设置步骤如下：</p>
 <p><strong>a. 申请一个Github OAuth Application</strong><br>Github头像下拉菜单-&gt;Settings-&gt;左边Developer settings下的OAuth Application-&gt;Register a new application，填写相关信息：</p>
-<p><code>Application name</code>, <code>Homepage URL</code>, <code>Application description</code>都可以随意填写，<br><code>Authorization callback URL</code>一定要写自己博客的的URL。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/6.png" alt=""></p>
+<p><code>Application name</code>, <code>Homepage URL</code>, <code>Application description</code>都可以随意填写，<br><code>Authorization callback URL</code>一定要写自己博客的的URL。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/6.png" alt=""></p>
 <p>填写完上述信息后按<code>Register application</code>按钮，得到<code>Client ID</code>和<code>Client Secret</code></p>
 <p><strong>b. 修改配置文件</strong><br>然后修改主题路径下的<code>_config.yml</code>配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#5、Gitment</div><div class="line">gitment_owner: hceng      </div><div class="line">gitment_repo: &apos;hceng.github.io&apos;         </div><div class="line">gitment_oauth:</div><div class="line">  client_id: &apos;xxxxxxxxxxxxxxxxxx&apos;    </div><div class="line">  client_secret: &apos;xxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;</div></pre></td></tr></table></figure></p>
 <p><code>gitment_owner</code>为GitHub用户名；<br><code>gitment_repo</code>填写用来存放评论的GitHub仓库，由于评论是通过issues来存放的，建议这里直接填Github Pages个人博客所在的仓库；<br><code>client_id</code>为申请到的应用的Client ID；<br><code>client_secret</code>为申请到的应用的Client Secret；</p>
 <p>然后重新清理，生成，上传(由于要求回调URL和当前地址一样，这里必须要上传后才能测试后续的操作，本地调试是不行的)。</p>
 <p><strong>c. 初始化评论系统</strong><br>Gitment的原理是为每一遍博文以其URL作为标识创建一个GitHub issue，对该篇博客的评论就是对这个issue的评论。<br>因此，需要为每篇博文初始化一下评论系统，初始化后，就在Github上会创建相对应的issue。</p>
 <p>前面重新上传后，打开博客，可以在博文页下面看到一个评论框，还有看到以下错误<code>Error: Comments Not Initialized</code>，提示该篇博文的评论系统还没初始化。</p>
-<p>点击<code>Login with GitHub</code>后，使用自己的GitHub账号登录后，就可以在上面错误信息处看到一个<code>Initialize Comments</code>的按钮。<br><img src="http://oo2opkb6t.bkt.clouddn.com/image/blog/170306/7.jpg" alt=""></p>
+<p>点击<code>Login with GitHub</code>后，使用自己的GitHub账号登录后，就可以在上面错误信息处看到一个<code>Initialize Comments</code>的按钮。<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/7.jpg" alt=""></p>
 <p>点击<code>Initialize Comments</code>按钮后，就可以开始对该篇博文开始评论了， 同时也可以在对应的GitHub仓库看到相应的issue。</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
@@ -578,15 +578,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -598,6 +594,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
@@ -606,19 +606,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -634,7 +622,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -643,6 +639,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -666,19 +666,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -687,6 +679,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,11 +710,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
