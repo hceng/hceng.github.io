@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2018-11-04T09:56:28.650Z</lastmod>
+    <lastmod>2018-11-06T09:07:53.595Z</lastmod>
     <data>
         <display>
         <title>C++学习笔记</title>
@@ -350,9 +350,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          

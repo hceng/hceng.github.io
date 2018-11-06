@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="学习完了Java，继续C++的学习，C++还有点印象，之前用Qt的时候还写过。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-11-04T09:56:28.650Z">
+<meta property="og:updated_time" content="2018-11-06T09:07:53.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习笔记">
 <meta name="twitter:description" content="学习完了Java，继续C++的学习，C++还有点印象，之前用Qt的时候还写过。">
@@ -252,7 +252,23 @@
 <p>1.1 函数<code>add1()</code>传入形参，在函数里面修改值，并不改变实参；<br>1.2 函数<code>add2()</code>传入的是指针，在函数里修改该指针，改变了实参；<br>1.3 函数<code>add3()</code>传入的是引用，在函数里修改该引用，改变了实参；<br>1.4 <strong>使用指针作为函数的形参达到的效果虽然和使用引用一样，但当调用函数时仍需要为形参指针变量在内存中分配空间，而引用则不需要这样，故在C++中推荐使用引用而非指针作为函数的参数</strong>；<br>　<br>2.1 使用e引用d，对e进行操作，实际就是对d进行操作，修改了d；</p>
 </blockquote>
 <p>引用参考博客：<a href="https://www.cnblogs.com/duwenxing/p/7421100.html" target="_blank" rel="external">C++：引用的简单理解</a></p>
-<h2 id="1-5-构造函数-析构函数-拷贝构造函数"><a href="#1-5-构造函数-析构函数-拷贝构造函数" class="headerlink" title="1.5 构造函数/析构函数/拷贝构造函数"></a>1.5 构造函数/析构函数/拷贝构造函数</h2><h2 id="1-6-静态成员与友员"><a href="#1-6-静态成员与友员" class="headerlink" title="1.6 静态成员与友员"></a>1.6 静态成员与友员</h2><h2 id="1-7-运算符的重载——类外函数"><a href="#1-7-运算符的重载——类外函数" class="headerlink" title="1.7 运算符的重载——类外函数"></a>1.7 运算符的重载——类外函数</h2><h2 id="1-8-运算符的重载——成员函数"><a href="#1-8-运算符的重载——成员函数" class="headerlink" title="1.8 运算符的重载——成员函数"></a>1.8 运算符的重载——成员函数</h2><h1 id="2-C-面向对象编程"><a href="#2-C-面向对象编程" class="headerlink" title="2. C++面向对象编程"></a>2. C++面向对象编程</h1><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
+<h2 id="1-5-构造函数-析构函数-拷贝构造函数"><a href="#1-5-构造函数-析构函数-拷贝构造函数" class="headerlink" title="1.5 构造函数/析构函数/拷贝构造函数"></a>1.5 构造函数/析构函数/拷贝构造函数</h2><blockquote>
+<p><strong>构造函数</strong>：与Java里面的构造函数类似，用于实例化对象时，对其初始化；<br><strong>析构函数</strong>：C++独有的，在对象销毁前瞬间，由系统自动调用析构函数；<br><strong>拷贝构造函数</strong>：C++独有的，只有一个形参，且该形参是对本类类型对象的引用；</p>
+</blockquote>
+<ul>
+<li><p>示例：</p>
+<figure class="highlight"><figcaption><span>[Person.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;unistd.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">class Person &#123;</div><div class="line">private: </div><div class="line">    char *name; </div><div class="line">    int age;</div><div class="line">    char *work;</div><div class="line"></div><div class="line">public:</div><div class="line">    void setName(char *name)</div><div class="line">    &#123;</div><div class="line">        this-&gt;name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    int setAge(int age)</div><div class="line">    &#123;</div><div class="line">        if(age &lt; 0 || age &gt; 150)</div><div class="line">        &#123;</div><div class="line">            this-&gt;age = 0;</div><div class="line">            return -1;</div><div class="line">        &#125;</div><div class="line">        this-&gt;age = age;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    void setWork(char *work)</div><div class="line">    &#123;</div><div class="line">        this-&gt;work = work;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    void printInfo(void)</div><div class="line">    &#123;</div><div class="line">        if (this-&gt;name &amp;&amp; this-&gt;work) </div><div class="line">            cout&lt;&lt;"name = "&lt;&lt;name&lt;&lt;", age = "&lt;&lt;age&lt;&lt;", work = "&lt;&lt;work&lt;&lt;endl;</div><div class="line">        else</div><div class="line">            cout&lt;&lt;"name = NULL"&lt;&lt;", age = "&lt;&lt;age&lt;&lt;", work = NULL"&lt;&lt;endl;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    //构造函数:和类名相同,无返回值,可以设置默认值</div><div class="line">    Person()  //一但有了其它构造函数,默认的就必须写出来才能使用</div><div class="line">    &#123;</div><div class="line">        this-&gt;name = NULL;</div><div class="line">        this-&gt;age = 0;</div><div class="line">        this-&gt;work = NULL;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    Person(char *name, int age = 0, char *work = (char *)"none") //age和work设置有默认值</div><div class="line">    &#123;</div><div class="line">        //this-&gt;name = name;</div><div class="line">        this-&gt;name = new char[strlen(name) + 1]; //为了测试析构函数的自动调用,这里使用开辟堆空间存放数据</div><div class="line">        strcpy(this-&gt;name, name);</div><div class="line"></div><div class="line">        //this-&gt;work = work;</div><div class="line">        this-&gt;work = new char[strlen(work) + 1];</div><div class="line">        strcpy(this-&gt;work, work);</div><div class="line">        </div><div class="line">        if(age &lt; 0 || age &gt; 150)</div><div class="line">            this-&gt;age = 0;</div><div class="line">        else</div><div class="line">            this-&gt;age = age;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    ~Person()</div><div class="line">    &#123;</div><div class="line">        cout &lt;&lt; "~Person()"&lt;&lt;endl;</div><div class="line">        if (this-&gt;name) &#123;</div><div class="line">            cout&lt;&lt;"name = "&lt;&lt;name&lt;&lt;endl;</div><div class="line">            delete this-&gt;name;</div><div class="line">        &#125;</div><div class="line">        if (this-&gt;work) &#123;</div><div class="line">            cout&lt;&lt;"work = "&lt;&lt;work&lt;&lt;endl;</div><div class="line">            delete this-&gt;work;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    //拷贝构造函数</div><div class="line">    Person(Person &amp;per)</div><div class="line">    &#123;       </div><div class="line">        cout &lt;&lt; "Person(Person &amp;per)"&lt;&lt;endl;</div><div class="line">        </div><div class="line">        this-&gt;name = new char[strlen(per.name) + 1]; </div><div class="line">        strcpy(this-&gt;name, per.name);</div><div class="line"></div><div class="line">        this-&gt;work = new char[strlen(per.work) + 1];</div><div class="line">        strcpy(this-&gt;work, per.work);</div><div class="line">        </div><div class="line">        if(age &lt; 0 || age &gt; 150)</div><div class="line">            this-&gt;age = 0;</div><div class="line">        else</div><div class="line">            this-&gt;age = per.age;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void test_object()</div><div class="line">&#123;</div><div class="line">    Person per0; //调用无参构造函数(后面无括号,有括号相当于声明)</div><div class="line">    Person per1((char *)"jack"); //调用带参构造函数,未传入的未默认值</div><div class="line">    Person *per2 = new Person((char *)"hceng", 23, (char *)"Embedded engineer"); //这种方式需要使用delete手动清除</div><div class="line">    </div><div class="line">    per0.printInfo();</div><div class="line">    per1.printInfo();</div><div class="line">    per2-&gt;printInfo();</div><div class="line">    </div><div class="line">    delete per2; //如果不手动删除,在调用完test_object()后,分配的堆空间不会被释放</div><div class="line">    cout &lt;&lt; "delete per2 end"&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">int main(int argc, char **argv)</div><div class="line">&#123;</div><div class="line">    test_object();</div><div class="line">    cout &lt;&lt; "run test_object end"&lt;&lt;endl;</div><div class="line">    </div><div class="line">    </div><div class="line">    Person per1((char *)"hceng", 23, (char *)"Embedded engineer");</div><div class="line">    Person per2(per1); </div><div class="line">    per2.printInfo();</div><div class="line">    </div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">name = NULL, age = 0, work = NULL</div><div class="line">name = jack, age = 0, work = none</div><div class="line">name = hceng, age = 23, work = Embedded engineer</div><div class="line">~Person()</div><div class="line">name = hceng</div><div class="line">work = Embedded engineer</div><div class="line">delete per2 end</div><div class="line">~Person()</div><div class="line">name = jack</div><div class="line">work = none</div><div class="line">~Person()</div><div class="line">run test_object end</div><div class="line">Person(Person &amp;per)</div><div class="line">name = hceng, age = 23, work = Embedded engineer</div><div class="line">~Person()</div><div class="line">name = hceng</div><div class="line">work = Embedded engineer</div><div class="line">~Person()</div><div class="line">name = hceng</div><div class="line">work = Embedded engineer</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对该示例进行分析：</p>
+<blockquote>
+<p>1.1 定义了一个Person类，里面有三个私有的成员变量，四个公共的成员函数，两个构造函数，一个析构函数，一个拷贝构造函数；<br>1.2 外部两个函数，一个主函数，一个被主函数调用的<code>test_object()</code>；</p>
+<p>2.1 主函数首先调用<code>test_object()</code>；<br>2.2 <code>test_object()</code>里使用三种方式实例化对象：调用无参构造函数，调用带参构造函数，<code>new</code>创建一个对象，调用带参的构造函数；<br>2.3 带参的构造函数，参数可以指定默认值；<br>2.4 一但有了带参的构造函数，就必须写出无参的构造函数才能调用无参的构造函数；<br>2.5 前两种实例化方式，在对象销毁前瞬间，由系统自动调用析构函数；而第三种方式必须手动使用<code>delete</code>删除；<br>　<br>3.1 将<code>Person</code>类的实例化对象<code>per1</code>作为参数传给<code>Person per2()</code>，就是拷贝构造函数，将调用<code>Person(Person &amp;per)</code>；<br>3.2 在拷贝构造函数里，将传入的<code>per</code>赋值给自己；<br>　<br>4.1 从打印结果，可以看出，先调用<code>test_object()</code>，实例化了三个对象，然后对应的打印出他们信息；<br>4.2 接着<code>delete per2</code>，调用析构函数清理了<code>per2</code>；<br>4.3 结束<code>test_object()</code>的调用，释放<code>per0</code>和<code>per1</code>，自动调用析构函数清理；<br>4.4 接着实例化<code>per1</code>，再将其作为参数传给<code>per2</code>，此时调用拷贝构造函数，将<code>per1</code>的内容拷贝给<code>per2</code>；<br>4.5 结束时，自动调用析构函数，依次清理<code>per0</code>和<code>per2</code>；</p>
+</blockquote>
+<h2 id="1-6-静态成员与友员"><a href="#1-6-静态成员与友员" class="headerlink" title="1.6 静态成员与友员"></a>1.6 静态成员与友员</h2><h2 id="1-7-运算符的重载——类外函数"><a href="#1-7-运算符的重载——类外函数" class="headerlink" title="1.7 运算符的重载——类外函数"></a>1.7 运算符的重载——类外函数</h2><h2 id="1-8-运算符的重载——成员函数"><a href="#1-8-运算符的重载——成员函数" class="headerlink" title="1.8 运算符的重载——成员函数"></a>1.8 运算符的重载——成员函数</h2><h1 id="2-C-面向对象编程"><a href="#2-C-面向对象编程" class="headerlink" title="2. C++面向对象编程"></a>2. C++面向对象编程</h1><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -503,7 +519,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -511,7 +527,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -523,11 +539,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,15 +555,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,11 +583,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,7 +603,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,10 +612,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -631,19 +647,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
