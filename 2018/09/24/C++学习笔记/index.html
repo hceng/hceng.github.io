@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180924/1.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180924/2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-12-03T10:52:39.221Z">
+<meta property="og:updated_time" content="2018-12-10T16:07:13.148Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习笔记">
 <meta name="twitter:description" content="学习完了Java，继续C++的学习，C++还有点印象，之前用Qt的时候还写过。">
@@ -410,7 +410,33 @@
 <blockquote>
 <p>1.1 定义了三个类，<code>Human</code>是基类，<code>American</code>和<code>Chinese</code>是其派生类；<br>1.2 <code>Human</code>里有一个<code>virtual</code>修饰的<code>eating()</code>虚函数，两个派生类同名的函数也自动是虚函数；<br>1.3 一般只有函数名、参数和返回值都相同的才能设为虚函数，但当返回值为当前对象的指针或引用时，也可以设为虚函数，这里每个类都有一个<code>test()</code>函数，函数名、参数都一样，只是返回类型是对象的指针，因此可以被设置为虚函数；<br>1.4 析构函数一般都声明为虚函数，不然可能都释放的都是基类；<br>　<br>2.1 主函数里，分别实例化三个类，分别调用<code>test_eating()</code>，因为<code>eating()</code>是虚函数，编译时对象生成一个指针指向虚函数表，调用虚函数时，会根据对象里的指针找到表，从而找到对应的函数执行；<br>2.2 <code>test()</code>在每个类中的名字、参数相同，返回值为该对象的指针，因此可以设置为虚函数，从而实现调用各自类中对应函数；<br>　<br>3.1 只有类的成员函数才能声明为虚函数；<br>3.2 静态成员函数、内联函数、构造函数不能是虚函数；<br>3.3 对于重载(函数参数不同)，也不可设为虚函数；<br>3.4 对于覆盖(函数参数、返回值相同)，才可以设为虚函数；<br>3.5 函数参数相同，但是返回值是当前对象的指针或引用时，也可以设为虚函数；</p>
 </blockquote>
-<h2 id="2-5-类型转换"><a href="#2-5-类型转换" class="headerlink" title="2.5 类型转换"></a>2.5 类型转换</h2><h2 id="2-6-抽象类"><a href="#2-6-抽象类" class="headerlink" title="2.6 抽象类"></a>2.6 抽象类</h2><h2 id="2-7-函数模板"><a href="#2-7-函数模板" class="headerlink" title="2.7 函数模板"></a>2.7 函数模板</h2><h2 id="2-8-类模板"><a href="#2-8-类模板" class="headerlink" title="2.8 类模板"></a>2.8 类模板</h2><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
+<h2 id="2-5-类型转换"><a href="#2-5-类型转换" class="headerlink" title="2.5 类型转换"></a>2.5 类型转换</h2><p>对比C语言，C++的类型转换也分<strong>显式转换</strong>和<strong>隐式转换</strong>。</p>
+<p>在C语言中，隐式转换，类似将<code>short</code>类型变量直接赋值给<code>int</code>类型变量，就会自动隐式转换；<br>在C语言中，显式转换，通过<code>(int)</code>修饰<code>short</code>，就是指定转换类型的显示转换；<br>在C++中，隐式转换和C语言差不多，这里重点记录下C++的显式转换。</p>
+<p>C++有四种强制类型转换操作符：<code>static_cast</code>、<code>dynamic_cast</code>、<code>const_cast</code>、<code>reinterpret_cast</code>。<br>格式为：<code>强制类型转换操作符&lt;type&gt;(expression)</code></p>
+<ul>
+<li><p><strong>static_cast：</strong>最常用的类型转换符，比如基本数据类型之间的转换。<br>也可用于基类和子类之间指针或引用的转换，进行<strong>上行转换</strong>(把子类的指针或引用转换成基类表示)是安全的；进行<strong>下行转换</strong>(把基类指针或引用转换成子类指针或引用)时，由于没有动态类型检查，所以是不安全的。<br>注意：<code>static_cast</code>不能转换掉<code>const</code>、<code>volital</code>e、或者<code>__unaligned</code>属性。</p>
+</li>
+<li><p><strong>dynamic_cast：</strong>用于<strong>运行时检查</strong>该转换是否类型安全，但只在多态场合时合法，即该类至少具有一个<strong>虚函数</strong>。<br>主要用于类层次间的上行转换和下行转换，还可以用于类之间的交叉转换。在类层次间进行上行转换时，<code>dynamic_cas</code>t和<code>static_cast</code>的效果是一样的；在进行下行转换时，<code>dynamic_cast</code>具有类型检查的功能，比<code>static_cast</code>更安全。<br><code>Type</code>必须是类的指针、类的引用或者<code>void *</code>，且<code>type</code>类型要和<code>expression</code>一致。</p>
+</li>
+<li><p><strong>const_cast：</strong>该操作符用于去除原来类型的<code>const</code>或<code>volatile</code>属性，<code>type</code>和<code>expression</code>的类型是一样的。</p>
+</li>
+<li><p><strong>reinterpret_cast：</strong><code>reinterpret</code>的意思就是重新解释，此操作符的意思即为数据的二进制形式重新解释，但是不改变其值。<br><code>type</code>必须是一个指针、引用、算术类型、函数指针或者成员指针，它可以把一个指针转换成一个整数，也可以把一个整数转换成一个指针。<br>如果<code>type</code>是类指针类型，那么<code>expression</code>也必须是一个指针；如果<code>type</code>是一个引用，那么<code>expression</code>也必须是一个引用。<br>和C语言的强制转换类似，没有安全性检查。</p>
+</li>
+</ul>
+<p>下面举个例子，对其具体分析。</p>
+<ul>
+<li><p>示例：</p>
+<figure class="highlight cpp"><figcaption><span>[human.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Human &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span> </span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"use hand to eat"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">class</span> American : <span class="keyword">public</span> Human &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span> </span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"use knife to eat"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Chinese : <span class="keyword">public</span> Human &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span> </span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"use chopsticks to eat"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Chongqing : <span class="keyword">public</span> Chinese &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span> </span></div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"use chopsticks to eat Chongqing"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_type</span><span class="params">(Human&amp; h)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">//Pointer </span></div><div class="line">    American *a;</div><div class="line">    Chinese *c;</div><div class="line">    Chongqing *cq;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (a = <span class="keyword">dynamic_cast</span>&lt;American *&gt;(&amp;h))</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"this human is American"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">if</span> (c = <span class="keyword">dynamic_cast</span>&lt;Chinese *&gt;(&amp;h))</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"this human is Chinese"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">if</span> (cq = <span class="keyword">dynamic_cast</span>&lt;Chongqing *&gt;(&amp;h))</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"this human is Chongqing"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    </div><div class="line">    <span class="comment">//Reference</span></div><div class="line">    <span class="keyword">if</span> (cq = <span class="keyword">dynamic_cast</span>&lt;Chongqing *&gt;(&amp;h))</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//American&amp; am = dynamic_cast&lt;American&amp;&gt;(h); //unable convert, generate aborted</span></div><div class="line">        Chinese&amp; ch = <span class="keyword">dynamic_cast</span>&lt;Chinese&amp;&gt;(h);    </div><div class="line">        Chongqing&amp; cqr = <span class="keyword">dynamic_cast</span>&lt;Chongqing&amp;&gt;(h);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">double</span> a = <span class="number">4.44</span>;</div><div class="line">    <span class="keyword">int</span> b = a; <span class="comment">//double to int</span></div><div class="line">	<span class="keyword">int</span> c = (<span class="keyword">int</span>)a;</div><div class="line">    <span class="keyword">int</span> d = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(a);</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"b = "</span>&lt;&lt;b&lt;&lt;<span class="string">"  "</span>&lt;&lt;<span class="string">"c = "</span>&lt;&lt;c&lt;&lt;<span class="string">"  "</span>&lt;&lt;<span class="string">"d = "</span>&lt;&lt;d&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *e = <span class="string">"www.hceng.cn"</span>;</div><div class="line">    <span class="keyword">char</span> *f = <span class="keyword">const_cast</span>&lt;<span class="keyword">char</span> *&gt;(e); <span class="comment">//clear const attribute</span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"e = "</span>&lt;&lt;e&lt;&lt;<span class="string">"  "</span>&lt;&lt;<span class="string">"f = "</span>&lt;&lt;f&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> *g =<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">unsigned</span> <span class="keyword">int</span> *&gt;(f); <span class="comment">//char * to unsigned int * </span></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"g = "</span>&lt;&lt;g&lt;&lt;<span class="built_in">endl</span>; </div><div class="line">    </div><div class="line">    </div><div class="line">    Human hu;</div><div class="line">    American am;</div><div class="line">    Chinese ch;</div><div class="line">    Chongqing cq;</div><div class="line">    </div><div class="line">    show_type(hu);</div><div class="line">    show_type(am);</div><div class="line">    show_type(ch);</div><div class="line">    show_type(cq);</div><div class="line">    </div><div class="line">    American *h1 =<span class="keyword">static_cast</span>&lt;American *&gt;(&amp;hu);</div><div class="line">    <span class="comment">//American *h2 = static_cast&lt;American *&gt;(&amp;cq);</span></div><div class="line">    Chinese *h3 = <span class="keyword">static_cast</span>&lt;Chinese *&gt;(&amp;cq);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">b = 4  c = 4  d = 4</div><div class="line">e = www.hceng.cn  f = www.hceng.cn</div><div class="line">g = 0x55be4eac1347</div><div class="line">this human is American</div><div class="line">this human is Chinese</div><div class="line">this human is Chinese</div><div class="line">this human is Chongqing</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对该示例进行分析：</p>
+<blockquote>
+<p>1.1 定义了四个类，<code>Human</code>是<code>American</code>和<code>Chinese</code>的基类，<code>Chinese</code>是<code>Chongqing</code>的基类；<br>1.2 基类<code>Human</code>有个虚函数<code>eating()</code>，其它三个类都直接或间接从它继承过来，因此也各种有该虚函数；<br>　<br>2.1 主函数里，首先是将一个<code>double</code>转换成<code>int</code>，<code>b</code>是通过隐式转换得到，<code>c</code>是通过C语言风格的强制转换得到，<code>d</code>是通过C++的<code>static_cast</code>强制类型转换操作符得到；<br>2.2 字符串指针<code>e</code>，定义时被<code>const</code>修饰，通过<code>const_cast</code>强制类型转换操作符，可以去掉<code>const</code>得到<code>f</code>，注意两者的数据类型要一致；<br>2.3 接着通过<code>reinterpret_cast</code>强制类型转换操作符，将字符串指针<code>char *</code>转换成了<code>unsigned int *</code>类型的指针，从而直接打印<code>g</code>就是<code>f</code>的地址。另外因为前面去掉了<code>const</code>，这里才能对<code>f</code>操作；这里<code>f</code>是指针，因此<code>g</code>也必须是指针；<br>2.4 分别实例化四个类，调用<code>show_type()</code>。在<code>show_type()</code>里，先通过<code>dynamic_cast</code>尝试类的平行转换，如果转换成功，说明传入的参数就是该类，两个无关联的类是不能直接转换的。在传入的是<code>Chongqing</code>类时，即可向上转换成<code>Chinese</code>，也可平行转换成<code>Chongqing</code>，因此打印了两次。<code>dynamic_cast</code>必须用于多态场合，因此各个类里面需要有虚函数；<br>2.5 在<code>show_type()</code>里，前面<code>dynamic_cast</code>的<code>type</code>是指针，后面使用的<code>type</code>是引用。使用引用的缺点是转换失败是产生异常，中断程序，因此最好使用<code>type</code>是指针。<br>2.6 继续看主函数，使用<code>static_cast</code>进行类的转换，将<code>Human</code>向下转换成<code>American</code>，<code>static_cast</code>不会检查是否能转换，因此是不安全的；再将<code>Chongqing</code>转换成<code>American</code>，两个无关联的类之间转换，编译器检查到了就无法编译通过；最后尝试将<code>Chongqing</code>向上转换成<code>Chinese</code>，效果和<code>dynamic_cast</code>是一样的；</p>
+</blockquote>
+<h2 id="2-6-抽象类"><a href="#2-6-抽象类" class="headerlink" title="2.6 抽象类"></a>2.6 抽象类</h2><h2 id="2-7-函数模板"><a href="#2-7-函数模板" class="headerlink" title="2.7 函数模板"></a>2.7 函数模板</h2><h2 id="2-8-类模板"><a href="#2-8-类模板" class="headerlink" title="2.8 类模板"></a>2.8 类模板</h2><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -665,11 +691,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -681,15 +707,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -697,19 +719,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -721,19 +731,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -741,7 +755,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -753,15 +767,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -773,7 +803,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -789,11 +819,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -801,15 +835,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
