@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180924/1.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180924/2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-12-10T16:07:13.148Z">
+<meta property="og:updated_time" content="2018-12-17T03:44:11.115Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习笔记">
 <meta name="twitter:description" content="学习完了Java，继续C++的学习，C++还有点印象，之前用Qt的时候还写过。">
@@ -436,7 +436,68 @@
 <blockquote>
 <p>1.1 定义了四个类，<code>Human</code>是<code>American</code>和<code>Chinese</code>的基类，<code>Chinese</code>是<code>Chongqing</code>的基类；<br>1.2 基类<code>Human</code>有个虚函数<code>eating()</code>，其它三个类都直接或间接从它继承过来，因此也各种有该虚函数；<br>　<br>2.1 主函数里，首先是将一个<code>double</code>转换成<code>int</code>，<code>b</code>是通过隐式转换得到，<code>c</code>是通过C语言风格的强制转换得到，<code>d</code>是通过C++的<code>static_cast</code>强制类型转换操作符得到；<br>2.2 字符串指针<code>e</code>，定义时被<code>const</code>修饰，通过<code>const_cast</code>强制类型转换操作符，可以去掉<code>const</code>得到<code>f</code>，注意两者的数据类型要一致；<br>2.3 接着通过<code>reinterpret_cast</code>强制类型转换操作符，将字符串指针<code>char *</code>转换成了<code>unsigned int *</code>类型的指针，从而直接打印<code>g</code>就是<code>f</code>的地址。另外因为前面去掉了<code>const</code>，这里才能对<code>f</code>操作；这里<code>f</code>是指针，因此<code>g</code>也必须是指针；<br>2.4 分别实例化四个类，调用<code>show_type()</code>。在<code>show_type()</code>里，先通过<code>dynamic_cast</code>尝试类的平行转换，如果转换成功，说明传入的参数就是该类，两个无关联的类是不能直接转换的。在传入的是<code>Chongqing</code>类时，即可向上转换成<code>Chinese</code>，也可平行转换成<code>Chongqing</code>，因此打印了两次。<code>dynamic_cast</code>必须用于多态场合，因此各个类里面需要有虚函数；<br>2.5 在<code>show_type()</code>里，前面<code>dynamic_cast</code>的<code>type</code>是指针，后面使用的<code>type</code>是引用。使用引用的缺点是转换失败是产生异常，中断程序，因此最好使用<code>type</code>是指针。<br>2.6 继续看主函数，使用<code>static_cast</code>进行类的转换，将<code>Human</code>向下转换成<code>American</code>，<code>static_cast</code>不会检查是否能转换，因此是不安全的；再将<code>Chongqing</code>转换成<code>American</code>，两个无关联的类之间转换，编译器检查到了就无法编译通过；最后尝试将<code>Chongqing</code>向上转换成<code>Chinese</code>，效果和<code>dynamic_cast</code>是一样的；</p>
 </blockquote>
-<h2 id="2-6-抽象类"><a href="#2-6-抽象类" class="headerlink" title="2.6 抽象类"></a>2.6 抽象类</h2><h2 id="2-7-函数模板"><a href="#2-7-函数模板" class="headerlink" title="2.7 函数模板"></a>2.7 函数模板</h2><h2 id="2-8-类模板"><a href="#2-8-类模板" class="headerlink" title="2.8 类模板"></a>2.8 类模板</h2><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
+<h2 id="2-6-抽象类"><a href="#2-6-抽象类" class="headerlink" title="2.6 抽象类"></a>2.6 抽象类</h2><p>前面介绍了虚函数，这里再衍生出纯虚函数，实现抽象类。</p>
+<ul>
+<li>纯虚函数：在声明虚函数时被“初始化”为0的函数，形式如：<code>virtual void eating(void) = 0;</code>；</li>
+<li>抽象类：凡是有纯虚函数的类，都是抽象类，抽象类不能实例化，其派生的子类需覆写所有纯虚函数才能实例化，否则子类还是抽象类；</li>
+</ul>
+<p>引入抽象类的意义：<br>1.为了实现运行时多态性，需要在基类中定义虚函数；<br>2.在很多情况下，基类本身生成对象是不合情理的。<br>例如，动物作为基类可以派生出小猫、小狗等实例化，但对动物进行实例化就明显是不合理的。</p>
+<p>将函数定义为虚函数，则编译器要求在派生类中必须予以重写以实现多态性。<br>同时含有纯虚拟函数的类称为抽象类，它不能生成对象，这样就很好地解决了上述两个问题。</p>
+<p>本次示例将各个类的代码分离成独自的文件，更贴近实际工作。</p>
+<ul>
+<li>示例：<figure class="highlight makefile"><figcaption><span>[Makefile]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Human: main.o libHuman.so</div><div class="line">	g++ -o $@ $&lt; -L. -lHuman</div><div class="line"></div><div class="line">%.o : %.cpp</div><div class="line">	g++ -fPIC -c -o $@ $&lt;</div><div class="line">	</div><div class="line">libHuman.so	: Chinese.o American.o Human.o</div><div class="line">	g++ -shared -o $@ $^</div><div class="line">	</div><div class="line"><span class="section">clean:</span></div><div class="line">	rm -f *.o *.so Human	</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>分析：</p>
+<blockquote>
+<ol>
+<li>这里使用了分层的思想，将<strong>提供类</strong>(各个类的声明和定义)和<strong>使用类</strong>(主函数里使用类)分开；</li>
+<li><code>libHuman.so</code>包含了所有类，当对类做了修改时，只需要<code>make libHuman.so</code>即可；</li>
+<li>之后<code>libHuman.so</code>和<code>main.o</code>合并，当在主函数对类的使用做了修改时，只需要<code>make</code>，不会重新编译各个类；</li>
+<li>执行时候，需要先指定库的路径，即<code>LD_LIBRARY_PATH=. ./Human</code>；</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>[human.h]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _HUMAN_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _HUMAN_H</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Human &#123;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">char</span> *name;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setName</span><span class="params">(<span class="keyword">char</span> *name)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">char</span> *<span class="title">getName</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span> </span>= <span class="number">0</span>; <span class="comment">//纯虚函数,提供模板</span></div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">wearing</span><span class="params">(<span class="keyword">void</span>)</span> </span>= <span class="number">0</span>;</div><div class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">driving</span><span class="params">(<span class="keyword">void</span>)</span> </span>= <span class="number">0</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">virtual</span> ~Human();</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">Human&amp; <span class="title">CreateAmerican</span><span class="params">(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">char</span> *addr)</span></span>;</div><div class="line"><span class="function">Human&amp; <span class="title">CreateChinese</span><span class="params">(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">char</span> *addr)</span></span>;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>[human.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Human.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">void</span> Human::setName(<span class="keyword">char</span> *name)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">this</span>-&gt;name = name;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">char</span> *Human::getName(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>-&gt;name;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Human::~Human()</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"~Human()"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分析：</p>
+<blockquote>
+<ol>
+<li>定义类<code>Human</code>，其中有三个纯虚函数；　</li>
+<li>在类外，声明了两个函数，用于创建两个类。</li>
+<li>把两个函数声明放在这是因为，减少主函数包含类的头文件，这样主函数只包含<code>Human.h</code>，其它类做了修改时，不再编译主函数；</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>[American.h]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _AMERICAN_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _AMERICAN_H</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Human.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> American : <span class="keyword">public</span> Human&#123;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">char</span> addr[<span class="number">100</span>];</div><div class="line">    <span class="keyword">int</span> age;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span></span>;  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">wearing</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">driving</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line">    American();</div><div class="line">    American(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">char</span> *addr);</div><div class="line">    <span class="keyword">virtual</span> ~American();</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>[American.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"American.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">void</span> American::eating(<span class="keyword">void</span>) </div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Eating American food"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> American::wearing(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Wearing American clothes"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> American::driving(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Driving American car"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">American::American()</div><div class="line">&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line">American::American(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">char</span> *addr)</div><div class="line">&#123;</div><div class="line">    setName(name);</div><div class="line">    <span class="keyword">this</span>-&gt;age = age;</div><div class="line">    <span class="built_in">memset</span>(<span class="keyword">this</span>-&gt;addr, <span class="number">0</span>, <span class="number">100</span>);</div><div class="line">    <span class="built_in">strcpy</span>(<span class="keyword">this</span>-&gt;addr, addr);</div><div class="line">&#125;</div><div class="line"></div><div class="line">American::~American()</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"~American()"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">Human&amp; <span class="title">CreateAmerican</span><span class="params">(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">char</span> *addr)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> *(<span class="keyword">new</span> American(name, age, addr));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分析：</p>
+<blockquote>
+<ol>
+<li>类<code>American</code>继承于抽象类<code>Human</code>，必须实现抽象类的所有纯虚函数；</li>
+<li>函数<code>CreateAmerican()</code>实现<code>American</code>类的创建；</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>[Chinese.h]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _CHINESE_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _CHINESE_H</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Human.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> Chinese : <span class="keyword">public</span> Human&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">(<span class="keyword">void</span>)</span></span>;  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">wearing</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">driving</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line">    <span class="keyword">virtual</span> ~Chinese();</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>[Chinese.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Chinese.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">void</span> Chinese::eating(<span class="keyword">void</span>)  </div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Eating Chinese food"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Chinese::wearing(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Wearing Chinese clothes"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Chinese::driving(<span class="keyword">void</span>)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Driving Chinese car"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Chinese::~Chinese()</div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"~Chinese()"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"><span class="function">Human&amp; <span class="title">CreateChinese</span><span class="params">(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">char</span> *addr)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> *(<span class="keyword">new</span> Chinese());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分析：</p>
+<blockquote>
+<ol>
+<li>类<code>Chinese</code>继承于抽象类<code>Human</code>，必须实现抽象类的所有纯虚函数；</li>
+<li>函数<code>CreateChinese()</code>实现<code>Chinese</code>类的创建；</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>[main.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Human.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_eating</span><span class="params">(Human *h)</span></span></div><div class="line">&#123;</div><div class="line">    h-&gt;eating();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></div><div class="line">&#123;</div><div class="line">    Human&amp; a = CreateAmerican((<span class="keyword">char</span> *)<span class="string">"jk"</span>, <span class="number">22</span>, (<span class="keyword">char</span> *)<span class="string">"America"</span>);</div><div class="line">    Human&amp; c = CreateChinese((<span class="keyword">char</span> *)<span class="string">"hceng"</span>, <span class="number">23</span>, (<span class="keyword">char</span> *)<span class="string">"Chine"</span>);</div><div class="line">    </div><div class="line">    Human* h[<span class="number">2</span>] = &#123;&amp;a, &amp;c&#125;;</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">2</span>; i++)</div><div class="line">        test_eating(h[i]);</div><div class="line">    <span class="keyword">delete</span> &amp;a;</div><div class="line">    <span class="keyword">delete</span> &amp;c;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分析：</p>
+<blockquote>
+<ol>
+<li>通过函数间接创建两个子类，利用虚函数的特性调用各自的函数；</li>
+<li>删除各自实例化的类，前提是类的析构函数是<code>virtual</code>修饰的；</li>
+</ol>
+</blockquote>
+<ul>
+<li>结果：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Eating American food</div><div class="line">Eating Chinese food</div><div class="line">~American()</div><div class="line">~Human()</div><div class="line">~Chinese()</div><div class="line">~Human()</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="2-7-函数模板"><a href="#2-7-函数模板" class="headerlink" title="2.7 函数模板"></a>2.7 函数模板</h2><h2 id="2-8-类模板"><a href="#2-8-类模板" class="headerlink" title="2.8 类模板"></a>2.8 类模板</h2><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -719,15 +780,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -739,11 +800,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -755,18 +812,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -775,7 +820,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -787,11 +840,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -803,7 +856,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -819,7 +872,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -827,7 +880,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -835,7 +888,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
