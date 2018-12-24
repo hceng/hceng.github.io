@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180924/1.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180924/2.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-12-17T03:44:11.115Z">
+<meta property="og:updated_time" content="2018-12-24T02:40:28.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习笔记">
 <meta name="twitter:description" content="学习完了Java，继续C++的学习，C++还有点印象，之前用Qt的时候还写过。">
@@ -436,7 +436,7 @@
 <blockquote>
 <p>1.1 定义了四个类，<code>Human</code>是<code>American</code>和<code>Chinese</code>的基类，<code>Chinese</code>是<code>Chongqing</code>的基类；<br>1.2 基类<code>Human</code>有个虚函数<code>eating()</code>，其它三个类都直接或间接从它继承过来，因此也各种有该虚函数；<br>　<br>2.1 主函数里，首先是将一个<code>double</code>转换成<code>int</code>，<code>b</code>是通过隐式转换得到，<code>c</code>是通过C语言风格的强制转换得到，<code>d</code>是通过C++的<code>static_cast</code>强制类型转换操作符得到；<br>2.2 字符串指针<code>e</code>，定义时被<code>const</code>修饰，通过<code>const_cast</code>强制类型转换操作符，可以去掉<code>const</code>得到<code>f</code>，注意两者的数据类型要一致；<br>2.3 接着通过<code>reinterpret_cast</code>强制类型转换操作符，将字符串指针<code>char *</code>转换成了<code>unsigned int *</code>类型的指针，从而直接打印<code>g</code>就是<code>f</code>的地址。另外因为前面去掉了<code>const</code>，这里才能对<code>f</code>操作；这里<code>f</code>是指针，因此<code>g</code>也必须是指针；<br>2.4 分别实例化四个类，调用<code>show_type()</code>。在<code>show_type()</code>里，先通过<code>dynamic_cast</code>尝试类的平行转换，如果转换成功，说明传入的参数就是该类，两个无关联的类是不能直接转换的。在传入的是<code>Chongqing</code>类时，即可向上转换成<code>Chinese</code>，也可平行转换成<code>Chongqing</code>，因此打印了两次。<code>dynamic_cast</code>必须用于多态场合，因此各个类里面需要有虚函数；<br>2.5 在<code>show_type()</code>里，前面<code>dynamic_cast</code>的<code>type</code>是指针，后面使用的<code>type</code>是引用。使用引用的缺点是转换失败是产生异常，中断程序，因此最好使用<code>type</code>是指针。<br>2.6 继续看主函数，使用<code>static_cast</code>进行类的转换，将<code>Human</code>向下转换成<code>American</code>，<code>static_cast</code>不会检查是否能转换，因此是不安全的；再将<code>Chongqing</code>转换成<code>American</code>，两个无关联的类之间转换，编译器检查到了就无法编译通过；最后尝试将<code>Chongqing</code>向上转换成<code>Chinese</code>，效果和<code>dynamic_cast</code>是一样的；</p>
 </blockquote>
-<h2 id="2-6-抽象类"><a href="#2-6-抽象类" class="headerlink" title="2.6 抽象类"></a>2.6 抽象类</h2><p>前面介绍了虚函数，这里再衍生出纯虚函数，实现抽象类。</p>
+<h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h2 id="3-1-抽象类"><a href="#3-1-抽象类" class="headerlink" title="3.1 抽象类"></a>3.1 抽象类</h2><p>前面介绍了虚函数，这里再衍生出纯虚函数，实现抽象类。</p>
 <ul>
 <li>纯虚函数：在声明虚函数时被“初始化”为0的函数，形式如：<code>virtual void eating(void) = 0;</code>；</li>
 <li>抽象类：凡是有纯虚函数的类，都是抽象类，抽象类不能实例化，其派生的子类需覆写所有纯虚函数才能实例化，否则子类还是抽象类；</li>
@@ -497,7 +497,24 @@
 <li>结果：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Eating American food</div><div class="line">Eating Chinese food</div><div class="line">~American()</div><div class="line">~Human()</div><div class="line">~Chinese()</div><div class="line">~Human()</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="2-7-函数模板"><a href="#2-7-函数模板" class="headerlink" title="2.7 函数模板"></a>2.7 函数模板</h2><h2 id="2-8-类模板"><a href="#2-8-类模板" class="headerlink" title="2.8 类模板"></a>2.8 类模板</h2><h1 id="3-C-高级编程"><a href="#3-C-高级编程" class="headerlink" title="3. C++高级编程"></a>3. C++高级编程</h1><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
+<h2 id="3-2-函数模板"><a href="#3-2-函数模板" class="headerlink" title="3.2 函数模板"></a>3.2 函数模板</h2><p>C++是一门强类型语言，所以无法做到像动态语言(python javascript)那样子，编写一段通用的逻辑，可以把任意类型的变量传进去处理。<br>泛型编程弥补了这个缺点，通过把通用逻辑设计为模板，摆脱了类型的限制，提供了继承机制以外的另一种抽象机制，极大地提升了代码的可重用性。</p>
+<p>模板又分为<strong>函数模板</strong>和<strong>类模板</strong>，这里先分析函数模板。<br>函数模板只是编译指令，一般写在头文件中。编译程序时，编译器根据函数的参数来“推导”模板的参数，然后生成具体的模板函数。</p>
+<p>函数模板只支持两种隐式转换：<strong>const转换</strong>和<strong>数组/函数指针转换</strong>。<br>const转换：函数参数为非const引用/指针, 它可以隐式转换为const引用/指针；<br>数组/函数指针转换：数组可以隐式转换为“指向第1个元素的指针”(a[0]);参数为“函数的名字”时，它隐式转换为“函数指针”；<br>其他隐式转换都不支持，比如：算术转换、派生类对象向上转换等；</p>
+<p>函数模板支持<strong>重载</strong>，注意函数的选择规则：<br>1.先列出候选函数，包括普通函数、参数推导成功的模板函数；<br>2.这些候选函数，根据“类型转换”来排序(其中模板函数只支持前面介绍的两种隐式转换)；<br>3.如果某个候选函数的参数，和调用时传入的参数更匹配，则选择该候选函数；<br>4.如果这些候选函数参数匹配度相同，如果只要一个非模板函数，就选它；如果只有模板函数，就选“更特化”的模板函数；否则导致“二义性”；</p>
+<p>举个例子，需要实现一个比较两个数大小的函数，<br>在原来C语言中，需要定义多个功能一样，但参数不一样，函数名也不一样的函数，然后根据不同的参数，调用对应的函数。<br>在现在的C++中，利用模板函数和模板函数的重载，可以极大的精简该过程。</p>
+<ul>
+<li>示例：<figure class="highlight cpp"><figcaption><span>[compare.cpp]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">int&amp; compare_max1(int&amp; a, int&amp; b)</div><div class="line">&#123;</div><div class="line">    return (a &lt; b) ? b : a;</div><div class="line">&#125;</div><div class="line"></div><div class="line">double&amp; compare_max2(double&amp; a, double&amp; b)</div><div class="line">&#123;</div><div class="line">    return (a &lt; b) ? b : a;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function">T&amp; <span class="title">compare_max1</span><span class="params">(T&amp; a, T&amp; b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> (a &lt; b) ? b : a;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function"><span class="keyword">const</span> T&amp; <span class="title">compare_max2</span><span class="params">(<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> T&amp; b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> (a &lt; b) ? b : a;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function">T* <span class="title">compare_max3</span><span class="params">(T* a, T* b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> (a &lt; b) ? b : a;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_func</span><span class="params">(T f)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">float</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></div><div class="line">&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*******************************/</span></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 1</span></div><div class="line"><span class="function"><span class="keyword">int</span>&amp; <span class="title">overload_template</span><span class="params">(<span class="keyword">int</span>&amp; a, <span class="keyword">int</span>&amp; b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"1 "</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 1</span></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function">T&amp; <span class="title">overload_template</span><span class="params">(T&amp; a, T&amp; b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"2 "</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function">T <span class="title">overload_template</span><span class="params">(T a, T b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"3 "</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 1</span></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="function"><span class="keyword">const</span> T&amp; <span class="title">overload_template</span><span class="params">(<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> T&amp; b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"4 "</span>&lt;&lt;__PRETTY_FUNCTION__&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ia = <span class="number">2</span>, ib = <span class="number">3</span>;</div><div class="line">    <span class="keyword">float</span> fa = <span class="number">2</span>, fb = <span class="number">3</span>;</div><div class="line">    </div><div class="line">    compare_max1(ia,ib);</div><div class="line">    compare_max1(fa,fb);</div><div class="line"></div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"-------------------------"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    </div><div class="line">    compare_max2(ia,ib);</div><div class="line">    </div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"-------------------------"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">char</span> ca[] = <span class="string">"ca"</span>;</div><div class="line">    <span class="keyword">char</span> cb[] = <span class="string">"cb"</span>;</div><div class="line">    <span class="keyword">char</span> cc[]  = <span class="string">"cc123"</span>;</div><div class="line">    </div><div class="line">    compare_max1(ca, cb);</div><div class="line">    <span class="comment">//compare_max1(ca, cc);</span></div><div class="line">    compare_max3(ca, cc);</div><div class="line">    </div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"-------------------------"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    </div><div class="line">    test_func(f1);</div><div class="line">    test_func(*f1);</div><div class="line">    </div><div class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"-------------------------"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    </div><div class="line">    overload_template(ia,ib);</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> *pa = &amp;ia;</div><div class="line">    <span class="keyword">int</span> *pb = &amp;ib;</div><div class="line">    overload_template(pa, pb);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>结果：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">T&amp; compare_max1(T&amp;, T&amp;) [with T = int]</div><div class="line">T&amp; compare_max1(T&amp;, T&amp;) [with T = float]</div><div class="line">-------------------------</div><div class="line">const T&amp; compare_max2(const T&amp;, const T&amp;) [with T = int]</div><div class="line">-------------------------</div><div class="line">T&amp; compare_max1(T&amp;, T&amp;) [with T = char [3]]</div><div class="line">T* compare_max3(T*, T*) [with T = char]</div><div class="line">-------------------------</div><div class="line">void test_func(T) [with T = float (*)(int, int)]</div><div class="line">void test_func(T) [with T = float (*)(int, int)]</div><div class="line">-------------------------</div><div class="line">1 int&amp; overload_template(int&amp;, int&amp;)</div><div class="line">2 T&amp; overload_template(T&amp;, T&amp;) [with T = int*]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对该示例进行分析：</p>
+<blockquote>
+<p>1.1 首先定义了三个模板函数：<code>compare_max1()</code>(参数为引用)、<code>compare_max2()</code>(参数为const修饰的引用)、<code>compare_max3()</code>(参数为指针)；<br>1.2 再定义了一个模板函数<code>test_func()</code>，和一个普通函数<code>f1()</code>；<br>1.3 又定义四个名字一样的函数<code>overload_template()</code>，第一个是普通函数，第二个是参数为引用的模板函数，第三个是参数为普通的模板函数，第四个是参数为<code>const</code>修饰的引用模板函数；<br>1.4 宏<code>__PRETTY_FUNCTION__</code>可以打印带参数类型的函数，便于分析；<br>2.1 主函数里，首先定义了两组不同类型的数据，都可以调用<code>compare_max1()</code>，从打印结果可以看到，函数的参数类型都转换为传入的参数类型；<br>2.2 再调用<code>compare_max2()</code>，从打印结果可以看到参数类型自动转换成了<code>const</code>类型，该隐式转换是支持的；<br>2.3 再定义了三个数据，<code>cc</code>的长度和<code>ca</code>、<code>cb</code>不一样。使用<code>compare_max1()</code>传入<code>ca</code>和<code>cb</code>，可以看到数据类型都是<code>char [3]</code>.<br>2.4 而如果使用<code>compare_max1()</code>传入<code>ca</code>和<code>cc</code>，它们一个数据类型为<code>char [3]</code>，一个为<code>char [6]</code>，和模板函数的定义(两个参数类型一样)不一致，无法编译通过。<br>2.5 使用<code>compare_max3()</code>传入<code>ca</code>和<code>cc</code>却有可以，因为函数模板定义的是指针类型，传入数组可以隐式转换为“指向第1个元素的指针”(a[0])，它们的数据类型就是一致的了；<br>2.6 使用<code>test_func()</code>分别传入函数名字<code>f1</code>和函数指针<code>*f1</code>，其效果是一样的，因为传入参数为“函数的名字”时，它隐式转换为“函数指针”；<br>2.7 向函数<code>overload_template()</code>传入两个<code>int</code>类型数据，最优调用的是参数吻合的非模板函数；<br>2.8 向函数<code>overload_template()</code>传入两个指针类型数据，非模板函数的参数类型为<code>int</code>肯定不用调用了，就去看模板函数，模板函数的2、3都是最优吻合的，存在“二义性”，需要屏蔽一个。模板函数4因为有<code>const</code>修饰，优先级稍微靠后一点，除非前面的都屏蔽，才会调用他它；<br>　<br>3.模板函数重载后，注意函数的选择规则；</p>
+</blockquote>
+<h2 id="2-8-类模板"><a href="#2-8-类模板" class="headerlink" title="2.8 类模板"></a>2.8 类模板</h2><h1 id="4-设计模式"><a href="#4-设计模式" class="headerlink" title="4. 设计模式"></a>4. 设计模式</h1><h1 id="5-其它"><a href="#5-其它" class="headerlink" title="5. 其它"></a>5. 其它</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -615,7 +632,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-C-基础知识"><span class="toc-number">1.</span> <span class="toc-text">1. C++基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-类的引入"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 类的引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-访问控制"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 访问控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-程序结构"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 程序结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-重载"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 重载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-指针与引用"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 指针与引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-构造函数-析构函数-拷贝构造函数"><span class="toc-number">1.6.</span> <span class="toc-text">1.5 构造函数/析构函数/拷贝构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-静态成员"><span class="toc-number">1.7.</span> <span class="toc-text">1.6 静态成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-友员函数"><span class="toc-number">1.8.</span> <span class="toc-text">1.7 友员函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-8-运算符的重载"><span class="toc-number">1.9.</span> <span class="toc-text">1.8 运算符的重载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-C-面向对象编程"><span class="toc-number">2.</span> <span class="toc-text">2. C++面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-访问扩展和继承"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 访问扩展和继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-多重继承"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 多重继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-构造顺序"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-多态"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 多态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-类型转换"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-抽象类"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 抽象类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-函数模板"><span class="toc-number">2.7.</span> <span class="toc-text">2.7 函数模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-类模板"><span class="toc-number">2.8.</span> <span class="toc-text">2.8 类模板</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-C-高级编程"><span class="toc-number">3.</span> <span class="toc-text">3. C++高级编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-设计模式"><span class="toc-number">4.</span> <span class="toc-text">4. 设计模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-其它"><span class="toc-number">5.</span> <span class="toc-text">5. 其它</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-C-基础知识"><span class="toc-number">1.</span> <span class="toc-text">1. C++基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-类的引入"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 类的引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-访问控制"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 访问控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-程序结构"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 程序结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-重载"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 重载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-指针与引用"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 指针与引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-构造函数-析构函数-拷贝构造函数"><span class="toc-number">1.6.</span> <span class="toc-text">1.5 构造函数/析构函数/拷贝构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-静态成员"><span class="toc-number">1.7.</span> <span class="toc-text">1.6 静态成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-友员函数"><span class="toc-number">1.8.</span> <span class="toc-text">1.7 友员函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-8-运算符的重载"><span class="toc-number">1.9.</span> <span class="toc-text">1.8 运算符的重载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-C-面向对象编程"><span class="toc-number">2.</span> <span class="toc-text">2. C++面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-访问扩展和继承"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 访问扩展和继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-多重继承"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 多重继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-构造顺序"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-多态"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 多态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-类型转换"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 类型转换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-C-高级编程"><span class="toc-number">3.</span> <span class="toc-text">3. C++高级编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-抽象类"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 抽象类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-函数模板"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 函数模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-类模板"><span class="toc-number">3.3.</span> <span class="toc-text">2.8 类模板</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-设计模式"><span class="toc-number">4.</span> <span class="toc-text">4. 设计模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-其它"><span class="toc-number">5.</span> <span class="toc-text">5. 其它</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -768,15 +785,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -784,11 +793,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -800,15 +817,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -820,11 +837,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -836,15 +849,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -856,15 +869,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -876,15 +893,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -892,11 +905,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
