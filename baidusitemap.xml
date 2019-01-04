@@ -4,8 +4,50 @@
 
     
   <url>
+    <loc>http://hceng.cn/2019/01/01/AM335X%E2%80%94%E2%80%94SPI%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2019-01-04T03:17:43.449Z</lastmod>
+    <data>
+        <display>
+        <title>AM335X——SPI设备驱动</title>
+        <pubTime>2019-01-01T07:54:49.000Z</pubTime>
+        
+        <tag>AM335X</tag>
+         
+        <tag>SPI</tag>
+         
+        <tag>Linux驱动</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
+    <lastmod>2019-01-03T08:52:58.753Z</lastmod>
+    <data>
+        <display>
+        <title>RK3399——裸机大全</title>
+        <pubTime>2018-08-16T09:40:06.000Z</pubTime>
+        
+        <tag>裸机</tag>
+         
+        <tag>Uboot</tag>
+         
+        <tag>RK3399</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2018-12-26T16:34:32.003Z</lastmod>
+    <lastmod>2019-01-01T08:13:26.983Z</lastmod>
     <data>
         <display>
         <title>C++学习笔记</title>
@@ -30,9 +72,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -52,27 +94,6 @@
         <tag>Android基础</tag>
          
         <tag>Java</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
-    <lastmod>2018-11-04T09:54:34.217Z</lastmod>
-    <data>
-        <display>
-        <title>RK3399——裸机大全</title>
-        <pubTime>2018-08-16T09:40:06.000Z</pubTime>
-        
-        <tag>裸机</tag>
-         
-        <tag>Uboot</tag>
-         
-        <tag>RK3399</tag>
          
          
            
@@ -489,9 +510,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -546,9 +567,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -639,9 +660,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            

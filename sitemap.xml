@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2019/01/01/AM335X%E2%80%94%E2%80%94SPI%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/</loc>
+    
+    <lastmod>2019-01-04T03:17:43.449Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
+    
+    <lastmod>2019-01-03T08:52:58.753Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     
-    <lastmod>2018-12-26T16:34:32.003Z</lastmod>
+    <lastmod>2019-01-01T08:13:26.983Z</lastmod>
     
   </url>
   
@@ -19,13 +33,6 @@
     <loc>http://hceng.cn/2018/09/12/JAVA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2018-11-04T09:56:06.468Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2018/08/16/RK3399%E2%80%94%E2%80%94%E8%A3%B8%E6%9C%BA%E5%A4%A7%E5%85%A8/</loc>
-    
-    <lastmod>2018-11-04T09:54:34.217Z</lastmod>
     
   </url>
   
