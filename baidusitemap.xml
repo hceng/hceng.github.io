@@ -5,17 +5,17 @@
     
   <url>
     <loc>http://hceng.cn/2019/01/01/AM335X%E2%80%94%E2%80%94SPI%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2019-01-06T11:34:40.034Z</lastmod>
+    <lastmod>2019-01-07T10:34:12.164Z</lastmod>
     <data>
         <display>
         <title>AM335X——SPI设备驱动</title>
         <pubTime>2019-01-01T07:54:49.000Z</pubTime>
         
+        <tag>Linux驱动</tag>
+         
         <tag>AM335X</tag>
          
         <tag>SPI</tag>
-         
-        <tag>Linux驱动</tag>
          
          
            
@@ -72,9 +72,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -510,9 +510,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -567,9 +567,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -660,9 +660,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
