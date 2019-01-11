@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2019-01-11T03:38:24.743Z</lastmod>
+    <data>
+        <display>
+        <title>C++学习笔记</title>
+        <pubTime>2018-09-24T12:46:52.000Z</pubTime>
+        
+        <tag>C++</tag>
+         
+        <tag>Android基础</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2019/01/01/AM335X%E2%80%94%E2%80%94SPI%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/</loc>
     <lastmod>2019-01-10T08:39:17.293Z</lastmod>
     <data>
@@ -11,11 +30,11 @@
         <title>AM335X——SPI设备驱动</title>
         <pubTime>2019-01-01T07:54:49.000Z</pubTime>
         
+        <tag>Linux驱动</tag>
+         
         <tag>AM335X</tag>
          
         <tag>SPI</tag>
-         
-        <tag>Linux驱动</tag>
          
          
            
@@ -37,25 +56,6 @@
         <tag>Uboot</tag>
          
         <tag>RK3399</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-01-01T08:13:26.983Z</lastmod>
-    <data>
-        <display>
-        <title>C++学习笔记</title>
-        <pubTime>2018-09-24T12:46:52.000Z</pubTime>
-        
-        <tag>C++</tag>
-         
-        <tag>Android基础</tag>
          
          
            
