@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2018/09/24/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-01-11T03:38:24.743Z</lastmod>
+    <lastmod>2019-01-15T06:56:15.541Z</lastmod>
     <data>
         <display>
         <title>C++学习笔记</title>
@@ -24,7 +24,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/01/01/AM335X%E2%80%94%E2%80%94SPI%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2019-01-10T08:39:17.293Z</lastmod>
+    <lastmod>2019-01-14T07:08:06.121Z</lastmod>
     <data>
         <display>
         <title>AM335X——SPI设备驱动</title>
@@ -196,9 +196,9 @@
          
         <tag>摄像头</tag>
          
-        <tag>UVC</tag>
-         
         <tag>Linux环境编程</tag>
+         
+        <tag>UVC</tag>
          
          
            
