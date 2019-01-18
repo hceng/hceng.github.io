@@ -11,9 +11,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>C++</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>C++</tag>
          
          
            
@@ -23,18 +23,18 @@
 
     
   <url>
-    <loc>http://hceng.cn/2019/01/18/AM335X%E2%80%94%E2%80%94hwmon%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%92%8Cinput%E5%AD%90%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>http://hceng.cn/2019/01/18/bak/AM335X%E2%80%94%E2%80%94hwmon%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%92%8Cinput%E5%AD%90%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2019-01-18T13:24:13.734Z</lastmod>
     <data>
         <display>
         <title>AM335X——hwmon子系统和input子系统</title>
         <pubTime>2019-01-18T13:23:41.000Z</pubTime>
         
+        <tag>Linux驱动</tag>
+         
         <tag>AM335X</tag>
          
         <tag>SPI</tag>
-         
-        <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
@@ -55,11 +55,11 @@
         <title>AM335X——SPI设备驱动</title>
         <pubTime>2019-01-01T07:54:49.000Z</pubTime>
         
+        <tag>Linux驱动</tag>
+         
         <tag>AM335X</tag>
          
         <tag>SPI</tag>
-         
-        <tag>Linux驱动</tag>
          
          
            
@@ -97,9 +97,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -116,9 +116,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Android基础</tag>
          
          
            
@@ -415,9 +415,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
@@ -535,9 +535,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -592,9 +592,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -685,9 +685,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
