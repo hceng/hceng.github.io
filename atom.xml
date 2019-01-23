@@ -474,9 +474,9 @@
     </summary>
     
     
-      <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
-    
       <category term="Exynos4412" scheme="http://yoursite.com/tags/Exynos4412/"/>
+    
+      <category term="SD卡" scheme="http://yoursite.com/tags/SD%E5%8D%A1/"/>
     
       <category term="Uboot" scheme="http://yoursite.com/tags/Uboot/"/>
     
