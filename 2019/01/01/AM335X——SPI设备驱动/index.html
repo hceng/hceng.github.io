@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190101/2.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190101/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-01-18T09:47:13.552Z">
+<meta property="og:updated_time" content="2019-01-22T02:55:29.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM335X——SPI设备驱动">
 <meta name="twitter:description" content="最近在AM335X上写了几个SPI设备驱动，记录一下心得。">
@@ -197,6 +197,7 @@
 <h2 id="1-3-测试程序"><a href="#1-3-测试程序" class="headerlink" title="1.3 测试程序"></a>1.3 测试程序</h2><p>使用内核提供的测试程序，编译，测试。<br>测试文件路径：<code>Documentation/spi/spidev_test.c</code>；<br>交叉编译后执行<code>./spidev_test -D /dev/spidev1.0  -v</code><br>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">spi mode: 0x0</div><div class="line">bits per word: 8</div><div class="line">max speed: 500000 Hz (500 KHz)</div><div class="line">TX | FF FF FF FF FF FF 40 00 00 00 00 95 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF F0 0D  | ......@....▒..................▒.</div><div class="line">RX | FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF  | ................................</div></pre></td></tr></table></figure></p>
 <p>此时可以通过逻辑分析仪或者短接MOSI和MISO，判断发出和接收的数据是否正常，从而验证SPI控制器驱动是否正常。</p>
 <h2 id="1-4-编译脚本"><a href="#1-4-编译脚本" class="headerlink" title="1.4 编译脚本"></a>1.4 编译脚本</h2><p>为了方便后续的编译，写了一个脚本进行操作，这个脚本也相当于操作流程，以供参考：<br><figure class="highlight sh"><figcaption><span>[compiler_kernel.sh]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="comment">#step 0:set env</span></div><div class="line"><span class="built_in">export</span> CPUS=`grep -c processor /proc/cpuinfo`</div><div class="line"><span class="built_in">export</span> ARCH=arm</div><div class="line"><span class="built_in">export</span> CROSS_COMPILE=/home/hceng/gcc-linaro-5.3-2016.02-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-</div><div class="line"><span class="built_in">export</span> PATH=/home/hceng/gcc-linaro-5.3-2016.02-x86_64_arm-linux-gnueabihf/bin:<span class="variable">$PATH</span></div><div class="line"></div><div class="line"><span class="comment">#step 1:clean kernel</span></div><div class="line"><span class="comment">#make distclean</span></div><div class="line"></div><div class="line"><span class="comment">#step 2:copy kernel config file </span></div><div class="line"><span class="comment">#make tisdk_am335x-evm_defconfig</span></div><div class="line"></div><div class="line"><span class="comment">#step 3:compiler kernel</span></div><div class="line"><span class="comment">#make uImage LOADADDR=0x10008000 -j$&#123;CPUS&#125;</span></div><div class="line">make zImage -j<span class="variable">$&#123;CPUS&#125;</span></div><div class="line"></div><div class="line"><span class="comment">#step 4:compiler device tree</span></div><div class="line"><span class="comment">#make dtbs</span></div><div class="line">make am335x-evm.dtb</div><div class="line"></div><div class="line"><span class="comment">#step 5:compiler driver module file(dynamic loading)</span></div><div class="line"><span class="comment">#make modules</span></div><div class="line"><span class="comment">#make modules_install INSTALL_MOD_PATH=~/rootfs/lib/modules/4.1.18-gbbe8cfc </span></div><div class="line"></div><div class="line"><span class="comment">#step 6:copy zImage and dtb to tftp download</span></div><div class="line">rm /home/hceng/tftp/zImage</div><div class="line">rm /home/hceng/tftp/am335x-evm.dtb</div><div class="line"></div><div class="line">cp  ./arch/arm/boot/zImage  /home/hceng/tftp/</div><div class="line">cp  ./arch/arm/boot/dts/am335x-evm.dtb   /home/hceng/tftp/</div></pre></td></tr></table></figure></p>
+<p>其中第六步，拷贝倒<code>tftp</code>目录下，是为了方便板子启动的时候，通过U-Boot直接tftp下载编译过的内核和设备树，相关命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">setenv ipaddr 192.168.1.14; setenv serverip 192.168.1.11; setenv gatewayip 192.168.1.1; setenv netmask 255.255.255.0; setenv fdtfile &apos;am335x-evm.dtb&apos;; setenv rootpath &apos;/home/hceng/rootfs&apos;;</div><div class="line"></div><div class="line">setenv netargs &quot;setenv bootargs console=$&#123;console&#125; $&#123;optargs&#125;  root=/dev/nfs  rootfstype=nfsroot  nfsroot=$&#123;serverip&#125;:$&#123;rootpath&#125;  ip=$&#123;ipaddr&#125;:$&#123;serverip&#125;:$&#123;gatewayip&#125;:$&#123;netmask&#125;::eth0:off&quot;</div><div class="line"></div><div class="line">setenv netboot &quot;echo Booting from network ...; setenv autoload no; tftp $&#123;fdtaddr&#125; $&#123;fdtfile&#125;; tftp $&#123;loadaddr&#125; $&#123;bootfile&#125;; run netargs; bootz $&#123;loadaddr&#125; - $&#123;fdtaddr&#125;&quot;</div><div class="line"></div><div class="line">saveenv</div><div class="line"></div><div class="line">run netboot</div></pre></td></tr></table></figure></p>
 <h1 id="2-SPI设备——tlc5615"><a href="#2-SPI设备——tlc5615" class="headerlink" title="2. SPI设备——tlc5615"></a>2. SPI设备——tlc5615</h1><p><a href="http://www.ti.com/lit/ds/symlink/tlc5615.pdf" target="_blank" rel="external">TLC5615</a>是一个10位的DAC，最大输出电压位基准电压的两倍。<br>这个驱动比较简单，没什么特别的难点，<br>唯一特殊的是TLC5615每次传输是12位数据(10位data+2位extra)，因此在<code>probe()</code>函数里，需要<code>spi-&gt;bits_per_word = 12;</code>；<br>另外，因为每次传输的数据位12位，<code>spi_write()</code>的第三个参数不再是1，而是<code>spi_write(spi_tlc5615_dev, &amp;ker_buf, 2);</code>；</p>
 <h2 id="2-1-设备树"><a href="#2-1-设备树" class="headerlink" title="2.1 设备树"></a>2.1 设备树</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* SPI Busses */</span></div><div class="line"><span class="variable">&amp;spi1</span> &#123;</div><div class="line">    status = <span class="string">"okay"</span>;</div><div class="line">    pinctrl-names = <span class="string">"default"</span>;</div><div class="line">    pinctrl<span class="number">-0</span> = <span class="params">&lt;<span class="variable">&amp;spi1_pins</span>&gt;</span>;</div><div class="line"></div><div class="line">    <span class="class">spidev@0 </span>&#123;</div><div class="line">        spi-max-frequency = <span class="params">&lt;<span class="number">25000000</span>&gt;</span>;</div><div class="line">        reg = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</div><div class="line">        compatible = <span class="string">"rohm,dh2228fv"</span>;</div><div class="line"></div><div class="line">        <span class="comment">/* spi-cpha; sets CPHA=1, default is CPHA=0 */</span></div><div class="line">        <span class="comment">/* spi-cpol; sets CPOL=1, default is CPOL=0 */</span></div><div class="line">        <span class="comment">/* spi-cs-high; default is spi cs low       */</span></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="class">spidev@1 </span>&#123;</div><div class="line">        spi-max-frequency = <span class="params">&lt;<span class="number">25000000</span>&gt;</span>;</div><div class="line">        reg = <span class="params">&lt;<span class="number">1</span>&gt;</span>;</div><div class="line">        compatible = <span class="string">"ti,tlc5615"</span>;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="variable">&amp;am33xx_pinmux</span> &#123;</div><div class="line"><span class="symbol">    spi1_pins:</span> <span class="class">pinmux_spi1 </span>&#123;</div><div class="line">        pinctrl-single,pins = <span class="params">&lt;</span></div><div class="line">            <span class="number">0x190</span> (PIN_INPUT_PULLUP  | MUX_MODE3) /* spi1_sclk */</div><div class="line">            <span class="number">0x194</span> (PIN_INPUT_PULLUP  | MUX_MODE3) /* spi1_d0   */</div><div class="line">            <span class="number">0x198</span> (PIN_INPUT_PULLUP  | MUX_MODE3) /* spi1_d1   */</div><div class="line">            <span class="number">0x19c</span> (PIN_INPUT_PULLUP  | MUX_MODE3) /* spi1_cs0  */</div><div class="line">        &gt;;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <h2 id="2-2-驱动程序"><a href="#2-2-驱动程序" class="headerlink" title="2.2 驱动程序"></a>2.2 驱动程序</h2><figure class="highlight c"><figcaption><span>[tl5615.c]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/kernel.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/fs.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/init.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/delay.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/uaccess.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;asm/io.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/of.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/of_device.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/of_platform.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/platform_device.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/slab.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/cdev.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/spi/spi.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> major;</div><div class="line"><span class="keyword">static</span> <span class="keyword">dev_t</span> devid;</div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> <span class="keyword">class</span> *tlc5615_class;</div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> cdev tlc5615_cdev;</div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> spi_device *spi_tlc5615_dev;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">tlc5615_open</span> <span class="params">(<span class="keyword">struct</span> inode *node, <span class="keyword">struct</span> file *filp)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">tlc5615_release</span> <span class="params">(<span class="keyword">struct</span> inode *node, <span class="keyword">struct</span> file *filp)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> ssize_t <span class="title">tlc5615_write</span> <span class="params">(<span class="keyword">struct</span> file *filp, <span class="keyword">const</span> <span class="keyword">char</span> __user *buf, <span class="keyword">size_t</span> size, <span class="keyword">loff_t</span> *off)</span></span></div><div class="line">&#123;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> ker_buf;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(copy_from_user(&amp;ker_buf, buf, <span class="number">4</span>))</div><div class="line">       <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (ker_buf &gt; <span class="number">1023</span>)</div><div class="line">        ker_buf = <span class="number">1023</span>;</div><div class="line">    </div><div class="line">    ker_buf = (ker_buf &lt;&lt; <span class="number">2</span>) &amp; (<span class="number">0xFFC</span>);</div><div class="line">   </div><div class="line">    <span class="comment">//printk("ker_buf=%d\n", ker_buf);</span></div><div class="line">    ret = spi_write(spi_tlc5615_dev, &amp;ker_buf, <span class="number">2</span>);</div><div class="line">    <span class="keyword">if</span>(ret != <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        printk(<span class="string">"spi write error\n"</span>);</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">4</span>; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> file_operations tlc5615_ops = &#123;</div><div class="line">    .owner = THIS_MODULE,</div><div class="line">    .open  = tlc5615_open,</div><div class="line">    .write = tlc5615_write,</div><div class="line">    .release = tlc5615_release,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">tlc5615_probe</span><span class="params">(<span class="keyword">struct</span> spi_device *spi)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">    spi-&gt;bits_per_word = <span class="number">12</span>; <span class="comment">//tl5615 transmits 12bits(10bits data + 2bit extra)each time.</span></div><div class="line">    <span class="keyword">if</span> (spi_setup(spi) &lt; <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        printk(<span class="string">"spi master doesn't support 12 bits/word \n"</span>);</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line">    &#125;   </div><div class="line">        </div><div class="line">    spi_tlc5615_dev = spi;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(alloc_chrdev_region(&amp;devid, <span class="number">0</span>, <span class="number">1</span>, <span class="string">"tlc5615"</span>) &lt; <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        printk(KERN_INFO<span class="string">"Unable to alloc_chrdev_region.\n"</span>);</div><div class="line">        <span class="keyword">return</span> -EINVAL;</div><div class="line">    &#125;   </div><div class="line">        </div><div class="line">    major = MAJOR(devid);</div><div class="line">    cdev_init(&amp;tlc5615_cdev, &amp;tlc5615_ops);        </div><div class="line">    ret = cdev_add(&amp;tlc5615_cdev, devid, <span class="number">1</span>);</div><div class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        printk(KERN_ERR <span class="string">"Unable to cdev_add.\n"</span>);</div><div class="line">        <span class="keyword">goto</span> error;</div><div class="line">    &#125;</div><div class="line">        </div><div class="line">    tlc5615_class = class_create(THIS_MODULE, <span class="string">"tlc5615"</span>); </div><div class="line"></div><div class="line">    device_create(tlc5615_class, <span class="literal">NULL</span>, MKDEV(major, <span class="number">0</span>), <span class="literal">NULL</span>, <span class="string">"tlc5615"</span>); <span class="comment">// /dev/tlc5615</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">error:</div><div class="line">    unregister_chrdev_region(devid, <span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> -EINVAL;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">tlc5615_remove</span><span class="params">(<span class="keyword">struct</span> spi_device *spi)</span></span></div><div class="line">&#123;</div><div class="line">    device_destroy(tlc5615_class,  MKDEV(major, <span class="number">0</span>));</div><div class="line"></div><div class="line">    class_destroy(tlc5615_class);</div><div class="line"> </div><div class="line">    unregister_chrdev_region(devid, <span class="number">1</span>);</div><div class="line">    cdev_del(&amp;tlc5615_cdev);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">struct</span> of_device_id of_match_spi[] = &#123;</div><div class="line">    &#123; .compatible = <span class="string">"ti,tlc5615"</span>, .data = <span class="literal">NULL</span> &#125;,</div><div class="line">    &#123; <span class="comment">/* sentinel */</span> &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> spi_driver tlc5615_driver = &#123;</div><div class="line">    .probe = tlc5615_probe,</div><div class="line">    .remove = tlc5615_remove,</div><div class="line">    .driver = &#123;</div><div class="line">        .name = <span class="string">"tlc5615"</span>,</div><div class="line">        .owner = THIS_MODULE,</div><div class="line">        .of_match_table = of_match_spi,  </div><div class="line">    &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">module_spi_driver(tlc5615_driver);</div><div class="line"></div><div class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</div><div class="line">MODULE_AUTHOR(<span class="string">"hceng &lt;huangcheng.job@foxmail.com&gt;"</span>);</div><div class="line">MODULE_DESCRIPTION(<span class="string">"TI am335x board spi device: tl5615 driver."</span>);</div><div class="line">MODULE_VERSION(<span class="string">"v1.0"</span>);</div></pre></td></tr></table></figure>
@@ -511,18 +512,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
@@ -535,6 +524,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
               </li>
              
@@ -543,7 +536,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,23 +564,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,11 +584,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -607,19 +608,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -631,15 +636,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -655,11 +656,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -667,7 +668,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -683,11 +684,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
             
             <div class="clearfix"></div>
