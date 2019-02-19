@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170911/3.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170911/4.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-11-04T08:48:59.246Z">
+<meta property="og:updated_time" content="2019-02-19T01:55:40.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——I2C驱动">
 <meta name="twitter:description" content="记录AM437x的I2C适配器驱动和I2C设备驱动，以及去除am437x EEPROM验证ID功能。">
@@ -279,6 +279,28 @@
 <p>收获：<br>1.先调通再优化，现在调通了，优化等下次有机会在优化；<br>2.调不动的时候，拿逻辑分析仪抓，再对照标准波形，一找一个准；</p>
 <p>在写博客的时候，发现个BUG：<br>printk()打印调试的时候，一切正常。<br>在关闭printk()打印后，先对EEPROM写操作，再去读操作，发现怎么都是255。<br>这种情况，多半是哪里延时时序问题。<br>用逻辑分析仪抓波形，一个个printk()的关，最终发现问题在am437x_i2c_stop()。<br>波形如下：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170911/4.png" alt=""><br>可以看到地址发错了，加上一个2ms的延时后，即正常。</p>
 <p>I2C驱动完了，下一个计划，LCD驱动。😀</p>
+<h1 id="7-i2c-tools的使用"><a href="#7-i2c-tools的使用" class="headerlink" title="7. i2c-tools的使用"></a>7. i2c-tools的使用</h1><p><a href="https://i2c.wiki.kernel.org/index.php/I2C_Tools" target="_blank" rel="external">i2c-tools</a>是Linux应用层，用于对i2c总线、设备进行简单测试、操作的工具。<br>包含的工具有：</p>
+<blockquote>
+<p>i2cdetect – 用来列举I2C Bus上的所有设备<br>i2cdump – 显示指定I2C设备的寄存器值<br>i2cget – 读取指定I2C设备的某个寄存器的值<br>i2cset – 写入指定I2C设备的某个寄存器的值</p>
+</blockquote>
+<p>eg：</p>
+<ul>
+<li><p>1.用i2cdetect检测有几组i2c总线在系统上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># i2cdetect -l</div><div class="line">i2c-0   i2c             OMAP I2C adapter                        I2C adapter</div><div class="line">i2c-1   i2c             OMAP I2C adapter                        I2C adapter</div></pre></td></tr></table></figure>
+</li>
+<li><p>2.用i2cdetect检测挂载在i2c总线上器件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># i2cdetect -r -y  1</div><div class="line">     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f</div><div class="line">00:          -- -- -- -- -- -- -- -- -- -- -- -- --</div><div class="line">10: -- -- -- -- -- -- -- -- -- -- -- UU -- -- -- --</div><div class="line">20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --</div><div class="line">30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --</div><div class="line">40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --</div><div class="line">50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --</div><div class="line">60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --</div><div class="line">70: -- -- -- -- -- -- -- --</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到<code>0x1b</code>和<code>0x50</code>地址上挂有有I2C设备；<br><code>UU</code>的代表该设备有被侦测到并正在被内核驱动器使用着；</p>
+<ul>
+<li><p>3.用i2cdump查看器件所有寄存器的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># i2cdump -f -y 1 0x50</div><div class="line">No size specified (using byte-data access)</div><div class="line">     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f    0123456789abcdef</div><div class="line">00: 00 08 04 06 08 ff ff ff ff ff ff ff ff ff ff ff    .????...........</div><div class="line">10: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">20: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">30: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">40: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">50: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">60: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">70: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">90: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">a0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">b0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">c0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">d0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">e0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div><div class="line">f0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................</div></pre></td></tr></table></figure>
+</li>
+<li><p>3.用i2cset设置单个寄存器值，用i2cget读取单个寄存器值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># i2cget -f -y 1 0x50 0x01</div><div class="line">0x08</div><div class="line"># i2cset -f -y 1 0x50 0x01 0x44</div><div class="line"># i2cget -f -y 1 0x50 0x01</div><div class="line">0x44</div></pre></td></tr></table></figure>
+</li>
+</ul>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng’s blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -294,11 +316,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">AM437X</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
         		</li>
       		
 		</ul>
@@ -406,7 +428,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-I2C驱动"><span class="toc-number">1.</span> <span class="toc-text">1.I2C驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-去除am437x-EEPROM验证ID功能"><span class="toc-number">2.</span> <span class="toc-text">2.去除am437x EEPROM验证ID功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-I2C设备驱动"><span class="toc-number">3.</span> <span class="toc-text">3.I2C设备驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-编写I2C设备驱动的四种方法"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 编写I2C设备驱动的四种方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-采用Method-2编写驱动"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 采用Method 2编写驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-完整代码"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 完整代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-I2C适配器驱动"><span class="toc-number">4.</span> <span class="toc-text">4.I2C适配器驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-编写I2C适配器驱动"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 编写I2C适配器驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-完整代码"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 完整代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-测试结果"><span class="toc-number">5.</span> <span class="toc-text">5.测试结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-心得"><span class="toc-number">6.</span> <span class="toc-text">6.心得</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-I2C驱动"><span class="toc-number">1.</span> <span class="toc-text">1.I2C驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-去除am437x-EEPROM验证ID功能"><span class="toc-number">2.</span> <span class="toc-text">2.去除am437x EEPROM验证ID功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-I2C设备驱动"><span class="toc-number">3.</span> <span class="toc-text">3.I2C设备驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-编写I2C设备驱动的四种方法"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 编写I2C设备驱动的四种方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-采用Method-2编写驱动"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 采用Method 2编写驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-完整代码"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 完整代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-I2C适配器驱动"><span class="toc-number">4.</span> <span class="toc-text">4.I2C适配器驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-编写I2C适配器驱动"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 编写I2C适配器驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-完整代码"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 完整代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-测试结果"><span class="toc-number">5.</span> <span class="toc-text">5.测试结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-心得"><span class="toc-number">6.</span> <span class="toc-text">6.心得</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-i2c-tools的使用"><span class="toc-number">7.</span> <span class="toc-text">7. i2c-tools的使用</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -427,17 +449,17 @@
 
   
   <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
-<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  //id: "http://yoursite.com/2017/09/11/AM437x——I2C驱动/",
-  id: "Mon Sep 11 2017 14:30:36 GMT+0800",
-  owner: 'hceng',
-  repo: 'hceng.github.io',
+  //id: "<%=url%>",
+  id: "<%= page.date%>",
+  owner: '<%=theme.gitment_owner%>',
+  repo: '<%=theme.gitment_repo%>',
   oauth: {
-    client_id: 'de50a34b011b0759d610',
-    client_secret: '30e1dc53fc27e2d2e00ce018448473af768b825e',
+    client_id: '<%=theme.gitment_oauth.client_id%>',
+    client_secret: '<%=theme.gitment_oauth.client_secret%>',
   },
 })
 gitment.render('gitment-ctn')
@@ -536,11 +558,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -552,35 +594,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -596,7 +614,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -620,11 +642,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -632,7 +654,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -640,11 +662,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -653,10 +679,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -676,11 +698,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -693,6 +715,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -709,10 +735,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
             
             <div class="clearfix"></div>
