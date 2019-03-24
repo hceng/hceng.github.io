@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/03/15/Tiny4412%E2%80%94%E2%80%94Android%E8%AE%BF%E9%97%AE%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2019-03-14T16:33:48.849Z</lastmod>
+    <lastmod>2019-03-24T13:25:19.056Z</lastmod>
     <data>
         <display>
         <title>Tiny4412——Android访问硬件的方法</title>
@@ -110,9 +110,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>Linux驱动</tag>
-         
         <tag>SPI</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -131,13 +131,13 @@
         
         <tag>AM335X</tag>
          
+        <tag>SPI</tag>
+         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
-         
-        <tag>SPI</tag>
          
          
            
@@ -299,9 +299,9 @@
          
         <tag>摄像头</tag>
          
-        <tag>UVC</tag>
-         
         <tag>Linux环境编程</tag>
+         
+        <tag>UVC</tag>
          
          
            
@@ -799,9 +799,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>Uboot</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Uboot</tag>
          
         <tag>bootloader</tag>
          
@@ -875,11 +875,11 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>Uboot</tag>
+        <tag>环境搭建</tag>
          
         <tag>驱动相关</tag>
          
-        <tag>环境搭建</tag>
+        <tag>Uboot</tag>
          
          
            
@@ -896,9 +896,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
