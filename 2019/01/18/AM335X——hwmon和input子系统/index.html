@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190118/2.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190118/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-01-21T07:21:15.818Z">
+<meta property="og:updated_time" content="2019-04-08T09:58:16.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM335X——hwmon和input子系统">
 <meta name="twitter:description" content="记录两个SPI设备分别采用hwmon子系统和input子系统。">
@@ -246,7 +246,7 @@
 <h3 id="1-3-4-设置私有变量"><a href="#1-3-4-设置私有变量" class="headerlink" title="1.3.4 设置私有变量"></a>1.3.4 设置私有变量</h3><p>将定义的<code>ad7705</code>结构体<code>adc</code>，保存到<code>spi_device</code>:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spi_set_drvdata(spi, adc);</div></pre></td></tr></table></figure><br>后面其它函数就可以通过<code>device</code>得到<code>spi_device</code>，再提取到私有数据：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> spi_device *spi = to_spi_device(dev);</div><div class="line"><span class="keyword">struct</span> ad7705 *adc = spi_get_drvdata(spi);</div></pre></td></tr></table></figure></p>
 <h3 id="1-3-5-创建sysfs属性文件"><a href="#1-3-5-创建sysfs属性文件" class="headerlink" title="1.3.5 创建sysfs属性文件"></a>1.3.5 创建sysfs属性文件</h3><p>首先解释一下<code>sysfs</code>：<br><code>sysfs</code>是Linux所提供的一种虚拟档案系统；<br>在设备模型中，<code>sysfs</code>文件系统用来表示设备的结构，将设备的层次结构形象的反应到用户空间中，从而可以通过修改<code>sysfs</code>中的文件属性来修改设备的属性值；<br><code>sysfs</code>被挂载到根目录下的<code>/sys</code>文件夹下。</p>
 <p>使用函数<code>device_create_file()</code>将会调用到<code>sysfs_create_file()</code>，将在<code>/sys/class/hwmon/</code>下创建文件夹，并按照<code>hwmon0</code>、<code>hwmon1</code>、<code>hwmon2</code>等顺序编号</p>
-<p>第二个参数是<code>struct device_attribute</code>结构体，通过定义的<code>sensor_device_attribute</code>结构体成员传给它。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> sensor_device_attribute ad_input[] = &#123;</div><div class="line">    SENSOR_ATTR(ad7705_ch1, S_IRUGO, ad7705_get_sensor_value, <span class="literal">NULL</span>, CH_1),</div><div class="line">    SENSOR_ATTR(ad7705_ch2, S_IRUGO, ad7705_get_sensor_value, <span class="literal">NULL</span>, CH_2),</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>参数含义分别是节点名字、节点访问权限(<code>S_IRUGO</code>:用户、组、其它成员都可读)、读函数(<code>cat</code>命令时将调用)、写函数(<code>echo</code>命令时将调用`)、索引。</p>
+<p>第二个参数是<code>struct device_attribute</code>结构体，通过定义的<code>sensor_device_attribute</code>结构体成员传给它。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> sensor_device_attribute ad_input[] = &#123;</div><div class="line">    SENSOR_ATTR(ad7705_ch1, S_IRUGO, ad7705_get_sensor_value, <span class="literal">NULL</span>, CH_1),</div><div class="line">    SENSOR_ATTR(ad7705_ch2, S_IRUGO, ad7705_get_sensor_value, <span class="literal">NULL</span>, CH_2),</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>参数含义分别是节点名字、节点访问权限(<code>S_IRUGO</code>:用户、组、其它成员都可读)、读函数(<code>cat</code>命令时将调用)、写函数(<code>echo</code>命令时将调用)、索引。</p>
 <h3 id="1-3-6-实现device-attribute的函数"><a href="#1-3-6-实现device-attribute的函数" class="headerlink" title="1.3.6 实现device_attribute的函数"></a>1.3.6 实现<code>device_attribute</code>的函数</h3><p>前面的<code>sensor_device_attribute</code>只提供了读函数<code>ad7705_get_sensor_value</code>，并未提供写函数<code>NULL</code>，这里就只实现读函数即可。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> ssize_t <span class="title">ad7705_get_sensor_value</span><span class="params">(<span class="keyword">struct</span> device *dev, <span class="keyword">struct</span> device_attribute *devattr, <span class="keyword">char</span> *buf)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> spi_device *spi = to_spi_device(dev);</div><div class="line">    <span class="keyword">struct</span> sensor_device_attribute *attr = to_sensor_dev_attr(devattr);</div><div class="line">    u16 ad = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> i, ret = <span class="number">-1</span>;</div><div class="line">    <span class="keyword">int</span> vol1, vol2;</div><div class="line"></div><div class="line">    <span class="comment">//After switching channels, the value of the other channel is read for the first time.</span></div><div class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">2</span>; i++) </div><div class="line">    &#123;</div><div class="line">        ret = ad7705_read_channel(dev, attr-&gt;index, &amp;ad);</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        <span class="keyword">if</span> (<span class="number">0</span> &gt; ret)</div><div class="line">        &#123;</div><div class="line">            ad7705_reset_and_reconfig(spi);</div><div class="line">            <span class="keyword">return</span> ret;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></div><div class="line">    ret = <span class="built_in">sprintf</span>(buf, <span class="string">"%u\n"</span>, ad);</div><div class="line"><span class="meta">#<span class="meta-keyword">else</span></span></div><div class="line">    vol1 = ad*<span class="number">5</span>/<span class="number">65535</span>; <span class="comment">//Voltage integral part</span></div><div class="line">    vol2 = (ad*<span class="number">5</span>*<span class="number">1000</span>/<span class="number">65535</span>) - (vol1*<span class="number">1000</span>);<span class="comment">//Voltage fraction part</span></div><div class="line">    ret = <span class="built_in">sprintf</span>(buf, <span class="string">"vol = %d.%dV\n"</span>,vol1, vol2);</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span>    </span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>AD7705有两个ADC通道，它们都调用<code>ad7705_get_sensor_value()</code>，但通过<code>sensor_device_attribute</code>结构体中的<code>index</code>成员，将会读指定通道值。<br><code>sprintf()</code>将指定格式的数据传给用户层。</p>
 <h3 id="1-3-7-注册hwmon子系统"><a href="#1-3-7-注册hwmon子系统" class="headerlink" title="1.3.7 注册hwmon子系统"></a>1.3.7 注册hwmon子系统</h3><p>使用<code>hwmon_device_register</code>注册<code>hwmon</code>设备。</p>
 <h3 id="1-3-8-引脚GPIO初始化"><a href="#1-3-8-引脚GPIO初始化" class="headerlink" title="1.3.8 引脚GPIO初始化"></a>1.3.8 引脚GPIO初始化</h3><p>AD7705除了SPI引脚，还用到了一个就绪引脚和复位引脚。<br>这两个脚的信息可以从设备树中指定，再获取，这里直接写死在驱动里面了。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">status = gpio_request(DRDY_PIN, <span class="string">"ad7705_drdy"</span>);   <span class="comment">//ad7705 DRDY Pin</span></div><div class="line"><span class="keyword">if</span> (status)</div><div class="line">&#123;</div><div class="line">    dev_err(&amp;spi-&gt;dev, <span class="string">"gpio_request(AD705_DRDY_PIN) fail.\n"</span>);</div><div class="line">    <span class="keyword">goto</span> fail_device_register;</div><div class="line">&#125;</div><div class="line">gpio_direction_input(DRDY_PIN);</div><div class="line"></div><div class="line">status = gpio_request(RESET_PIN, <span class="string">"ad7705_reset"</span>);  <span class="comment">//ad7705 RESET Pin</span></div><div class="line"><span class="keyword">if</span> (status)</div><div class="line">&#123;</div><div class="line">    dev_err(&amp;spi-&gt;dev, <span class="string">"gpio_request(RESET_PIN) fail.\n"</span>);</div><div class="line">    <span class="keyword">goto</span> fail_request_drdy_pin;</div><div class="line">&#125;</div><div class="line">gpio_direction_output(RESET_PIN, <span class="number">1</span>);</div></pre></td></tr></table></figure><br>GPIO常见的操作:</p>
@@ -326,6 +326,10 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SPI</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux驱动</a>
         		</li>
       		 
@@ -335,10 +339,6 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">input子系统</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SPI</a>
         		</li>
       		
 		</ul>
@@ -576,7 +576,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,14 +600,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -612,19 +612,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -633,18 +629,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -660,11 +644,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -676,15 +676,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -696,19 +700,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -720,11 +716,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -736,15 +736,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
