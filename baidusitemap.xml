@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/04/08/Linux%E9%A9%B1%E5%8A%A8%E3%80%81%E5%BA%94%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2019-04-12T10:54:42.513Z</lastmod>
+    <lastmod>2019-04-15T06:41:34.507Z</lastmod>
     <data>
         <display>
         <title>Linux驱动、应用调试技巧</title>
@@ -32,13 +32,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -154,9 +154,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -763,9 +763,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
@@ -818,9 +818,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Uboot</tag>
+         
+        <tag>驱动相关</tag>
          
         <tag>bootloader</tag>
          
@@ -894,9 +894,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Uboot</tag>
+         
+        <tag>驱动相关</tag>
          
         <tag>环境搭建</tag>
          
