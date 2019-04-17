@@ -4,6 +4,29 @@
 
     
   <url>
+    <loc>http://hceng.cn/2019/02/15/AM335X%E2%80%94%E2%80%941-Wire%E5%92%8CIrDA%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2019-04-17T07:59:20.507Z</lastmod>
+    <data>
+        <display>
+        <title>AM335X——1-Wire和IrDA驱动</title>
+        <pubTime>2019-02-15T06:38:22.000Z</pubTime>
+        
+        <tag>AM335X</tag>
+         
+        <tag>Linux驱动</tag>
+         
+        <tag>hwmon子系统</tag>
+         
+        <tag>input子系统</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2019/04/08/Linux%E9%A9%B1%E5%8A%A8%E3%80%81%E5%BA%94%E7%94%A8%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2019-04-15T06:41:34.507Z</lastmod>
     <data>
@@ -58,29 +81,6 @@
         <tag>Android应用</tag>
          
         <tag>Android驱动</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2019/02/15/AM335X%E2%80%94%E2%80%941-Wire%E5%92%8CIrDA%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2019-03-25T05:14:29.131Z</lastmod>
-    <data>
-        <display>
-        <title>AM335X——1-Wire和IrDA驱动</title>
-        <pubTime>2019-02-15T06:38:22.000Z</pubTime>
-        
-        <tag>AM335X</tag>
-         
-        <tag>Linux驱动</tag>
-         
-        <tag>hwmon子系统</tag>
-         
-        <tag>input子系统</tag>
          
          
            
@@ -318,9 +318,9 @@
          
         <tag>摄像头</tag>
          
-        <tag>UVC</tag>
-         
         <tag>Linux环境编程</tag>
+         
+        <tag>UVC</tag>
          
          
            
