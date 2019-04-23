@@ -91,13 +91,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -169,9 +169,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>C++</tag>
+         
+        <tag>Android基础</tag>
          
          
            
@@ -190,9 +190,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -249,9 +249,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>Java</tag>
          
          
            
@@ -529,9 +529,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          
@@ -780,9 +780,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
