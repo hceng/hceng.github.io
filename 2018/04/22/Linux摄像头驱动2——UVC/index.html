@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180422/9.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180422/10.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-11-04T09:33:35.435Z">
+<meta property="og:updated_time" content="2019-04-23T12:12:20.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动2——UVC">
 <meta name="twitter:description" content="Linux摄像头驱动学习第二篇，对USB摄像头驱动USB video class(UVC)进行详细分析、编写。">
@@ -350,6 +350,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ret = __uvc_query_ctrl(video-&gt;dev /*哪一个USB设备*/, SET_CUR, 0, video-&gt;streaming-&gt;intfnum /*哪一个接口: VS*/, probe ? VS_PROBE_CONTROL : VS_COMMIT_CONTROL, data, size, uvc_timeout_param);</div></pre></td></tr></table></figure>
 </li>
 </ul>
+<p>这里的参数<code>VS_PROBE_CONTROL</code>只是枚举尝试，并不是设置，真正要设置需要使用参数<code>VS_COMMIT_CONTROL</code>。</p>
 <h2 id="1-3-USB描述符"><a href="#1-3-USB描述符" class="headerlink" title="1.3 USB描述符"></a>1.3 USB描述符</h2><p>前面提到摄像头要把自己的特性(比如支持哪几种分辨率)告诉驱动，这个特性就是被放在USB描述符里面。<br>在前面下载的<code>USB_Video_Example 1.5.pdf</code>文档里，有个UVC描述符层次结构例子：<br><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180422/4.jpg" alt=""><br>将USB插在Ubuntu主机上，执行<code>lsusb</code>可以看到当前的USB设备：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</div><div class="line">Bus 002 Device 012: ID 1b3b:2977 iPassion Technology Inc. </div><div class="line">Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub</div></pre></td></tr></table></figure></p>
 <p>可根据厂家名字<code>iPassion Technology Inc</code>知道ID为<code>1b3b:2977</code>的USB设备就是摄像头。<br>再使用<code>-v</code>(显示USB设备的详细信息)和<code>-d</code>(仅显示指定厂商和产品编号的设备)获取指定设备的详细信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lsusb -v -d 1b3b:2977</div></pre></td></tr></table></figure></p>
 <p>此时会打印出许多<a href="https://github.com/hceng/learn/blob/master/tiny4412/08_uvc/USB%E8%AE%BE%E5%A4%87%E6%8F%8F%E8%BF%B0%E7%AC%A6.txt" target="_blank" rel="external">信息</a>，精简去掉详细的数据，只留下大致框架如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">Device Descriptor:</div><div class="line">  Configuration Descriptor:</div><div class="line">    Interface Association:</div><div class="line">    Interface Descriptor:</div><div class="line">      VideoControl Interface Descriptor:</div><div class="line">      VideoControl Interface Descriptor:</div><div class="line">      Endpoint Descriptor:</div><div class="line">    Interface Descriptor:</div><div class="line">      VideoStreaming Interface Descriptor:</div><div class="line">      VideoStreaming Interface Descriptor:</div><div class="line">    Interface Descriptor:</div><div class="line">      Endpoint Descriptor:</div><div class="line">    Interface Descriptor:</div><div class="line">      Endpoint Descriptor:</div><div class="line">    </div><div class="line">	Interface Association:</div><div class="line">    Interface Descriptor:</div><div class="line">      AudioControl Interface Descriptor:</div><div class="line">      AudioControl Interface Descriptor:</div><div class="line">    Interface Descriptor:</div><div class="line">      AudioStreaming Interface Descriptor:</div><div class="line">      AudioStreaming Interface Descriptor:</div><div class="line">      Endpoint Descriptor:</div><div class="line">        AudioControl Endpoint Descriptor:</div><div class="line">    Interface Descriptor:</div><div class="line">      AudioStreaming Interface Descriptor:</div><div class="line">      AudioStreaming Interface Descriptor:</div><div class="line">      Endpoint Descriptor:</div><div class="line">        AudioControl Endpoint Descriptor:</div></pre></td></tr></table></figure></p>
@@ -496,7 +497,7 @@
 <hr>
 <p>尝试设置了USB后，再把摄像头修正的参数读取出来保存到<code>my_uvc_streaming_control</code>结构体中。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_get_streaming_params</span><span class="params">(<span class="keyword">struct</span> my_uvc_streaming_control *ctrl)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret = <span class="number">0</span>;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *data;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> size;</div><div class="line"></div><div class="line">    <span class="comment">//lsusb得到:bcdUVC=1.00;再BCD转换,eg:2.10 -&gt; 210H, 1.50 -&gt; 150H</span></div><div class="line">    size = my_uvc_bcdUVC &gt;= <span class="number">0x0110</span> ? <span class="number">34</span> : <span class="number">26</span>; <span class="comment">//根据版本分配buf大小</span></div><div class="line">    data = kmalloc(size, GFP_KERNEL);</div><div class="line">    <span class="keyword">if</span> (data == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> -ENOMEM;</div><div class="line"></div><div class="line">    <span class="comment">//通过usb获取摄像头参数</span></div><div class="line">    ret = usb_control_msg(my_uvc_udev, usb_rcvctrlpipe(my_uvc_udev, <span class="number">0</span>),</div><div class="line">                          GET_CUR, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,</div><div class="line">                          VS_PROBE_CONTROL &lt;&lt; <span class="number">8</span>, <span class="number">0</span> &lt;&lt; <span class="number">8</span> | my_uvc_streaming_intf, data, size, <span class="number">5000</span>); </div><div class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">goto</span> done;</div><div class="line"></div><div class="line">    <span class="comment">//返回摄像头参数</span></div><div class="line">    data_to_ctrl(data, ctrl, size);</div><div class="line"></div><div class="line">done:</div><div class="line">    kfree(data);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
-<p>最后再将新的参数设置给摄像头，这样就能保证现在设置的参数对摄像头是有效的。<br>这里不是真正的设置，所以传入的参数是<code>VS_COMMIT_CONTROL</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_set_streaming_params</span><span class="params">(<span class="keyword">struct</span> my_uvc_streaming_control *ctrl)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret = <span class="number">0</span>;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *data;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> size;</div><div class="line"></div><div class="line">    <span class="comment">//lsusb得到:bcdUVC=1.00;再BCD转换,eg:2.10 -&gt; 210H, 1.50 -&gt; 150H</span></div><div class="line">    size = my_uvc_bcdUVC &gt;= <span class="number">0x0110</span> ? <span class="number">34</span> : <span class="number">26</span>; <span class="comment">//根据版本分配buf大小</span></div><div class="line">    data = kmalloc(size, GFP_KERNEL);</div><div class="line">    <span class="keyword">if</span> (data == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> -ENOMEM;</div><div class="line"></div><div class="line">    ctrl_to_data(ctrl, data, size);</div><div class="line"></div><div class="line">    <span class="comment">//通过usb尝试设置摄像头参数</span></div><div class="line">    ret = usb_control_msg(my_uvc_udev,  usb_sndctrlpipe(my_uvc_udev, <span class="number">0</span>),</div><div class="line">                          SET_CUR, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,</div><div class="line">                          VS_COMMIT_CONTROL &lt;&lt; <span class="number">8</span>, <span class="number">0</span> &lt;&lt; <span class="number">8</span> | my_uvc_streaming_intf, data, size, <span class="number">5000</span>); </div><div class="line">    kfree(data);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后再将新的参数设置给摄像头，这样就能保证现在设置的参数对摄像头是有效的。<br>这里是真正的设置，所以传入的参数是<code>VS_COMMIT_CONTROL</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">my_uvc_set_streaming_params</span><span class="params">(<span class="keyword">struct</span> my_uvc_streaming_control *ctrl)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> ret = <span class="number">0</span>;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *data;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> size;</div><div class="line"></div><div class="line">    <span class="comment">//lsusb得到:bcdUVC=1.00;再BCD转换,eg:2.10 -&gt; 210H, 1.50 -&gt; 150H</span></div><div class="line">    size = my_uvc_bcdUVC &gt;= <span class="number">0x0110</span> ? <span class="number">34</span> : <span class="number">26</span>; <span class="comment">//根据版本分配buf大小</span></div><div class="line">    data = kmalloc(size, GFP_KERNEL);</div><div class="line">    <span class="keyword">if</span> (data == <span class="literal">NULL</span>)</div><div class="line">        <span class="keyword">return</span> -ENOMEM;</div><div class="line"></div><div class="line">    ctrl_to_data(ctrl, data, size);</div><div class="line"></div><div class="line">    <span class="comment">//通过usb尝试设置摄像头参数</span></div><div class="line">    ret = usb_control_msg(my_uvc_udev,  usb_sndctrlpipe(my_uvc_udev, <span class="number">0</span>),</div><div class="line">                          SET_CUR, USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,</div><div class="line">                          VS_COMMIT_CONTROL &lt;&lt; <span class="number">8</span>, <span class="number">0</span> &lt;&lt; <span class="number">8</span> | my_uvc_streaming_intf, data, size, <span class="number">5000</span>); </div><div class="line">    kfree(data);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
 <p>然后还要指定<code>bAlternateSetting</code>，<code>bAlternateSetting</code>用于在同一个接口中的多个描述符中进行切换。<br>也就是说，USB摄像头提供多种<code>Interface Descriptor</code>(接口)，每个接口的支持一种<code>wMaxPacketSize</code>(带宽，一次传输提供的数据量)、<code>dwMaxPayloadTransferSize</code>(每帧最大数据，实测等于分辨率加512)。<br>当摄像头分辨率变化时，相应所需的接口也会变化，比如分辨率变大，要选择带宽更大的接口。<br><code>bAlternateSetting</code>就相当于是接口的索引，因此不同分辨率，应该选择对应的接口。比如本次使用的分辨率为<code>640x480</code>，从<code>my_uvc_params</code>获取的推荐接口就是<code>bAlternateSetting=6</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Interface Descriptor:</div><div class="line">  bLength                 9</div><div class="line">  bDescriptorType         4</div><div class="line">  bInterfaceNumber        1</div><div class="line">  bAlternateSetting       6</div><div class="line">  bNumEndpoints           1</div><div class="line">  bInterfaceClass        14 Video</div><div class="line">  bInterfaceSubClass      2 Video Streaming</div><div class="line">  bInterfaceProtocol      0 </div><div class="line">  iInterface              0 </div><div class="line">  Endpoint Descriptor:</div><div class="line">    bLength                 7</div><div class="line">    bDescriptorType         5</div><div class="line">    bEndpointAddress     0x82  EP 2 IN</div><div class="line">    bmAttributes            5</div><div class="line">      Transfer Type            Isochronous</div><div class="line">      Synch Type               Asynchronous</div><div class="line">      Usage Type               Data</div><div class="line">    wMaxPacketSize     0x03bc  1x 956 bytes</div><div class="line">    bInterval               1</div></pre></td></tr></table></figure></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 1. 向USB摄像头设置参数:比如使用哪个format, 使用这个format下的哪个frame(分辨率等) */</span></div><div class="line"><span class="comment">// 根据结构体my_uvc_streaming_control设置数据包;再调用usb_control_msg发出数据包;</span></div><div class="line"></div><div class="line"><span class="comment">//a.测试参数</span></div><div class="line">my_uvc_try_streaming_params(&amp;my_uvc_params);</div><div class="line"><span class="comment">//b.取出参数</span></div><div class="line">my_uvc_get_streaming_params(&amp;my_uvc_params);</div><div class="line"><span class="comment">//c.设置参数</span></div><div class="line">my_uvc_set_streaming_params(&amp;my_uvc_params);</div><div class="line"></div><div class="line"><span class="comment">//d.设置VideoStreaming Interface所使用的setting</span></div><div class="line"><span class="comment">//从my_uvc_params.dwMaxPayloadTransferSize得知所需带宽;实测分辨率不一样,所需的带宽也不一样;</span></div><div class="line"><span class="comment">//根据wMaxPacketSize得到对应的bAlternateSetting;</span></div><div class="line">usb_set_interface(my_uvc_udev, my_uvc_streaming_intf, my_uvc_bAlternateSetting); </div></pre></td></tr></table></figure>
@@ -782,7 +783,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -806,27 +815,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -842,11 +835,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -858,19 +859,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -882,35 +875,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -922,7 +903,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -934,7 +931,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -950,11 +951,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
