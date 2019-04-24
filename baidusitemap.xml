@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2019-04-24T01:21:35.799Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub+Hexo博客搭建及优化</title>
+        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Hexo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2018/04/22/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A82%E2%80%94%E2%80%94UVC/</loc>
     <lastmod>2019-04-23T12:12:20.233Z</lastmod>
     <data>
@@ -529,9 +548,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
@@ -913,9 +932,9 @@
         
         <tag>Uboot</tag>
          
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -932,9 +951,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
@@ -1011,25 +1030,6 @@
         <tag>驱动相关</tag>
          
         <tag>汇编</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2018-11-04T04:00:08.037Z</lastmod>
-    <data>
-        <display>
-        <title>GitHub+Hexo博客搭建及优化</title>
-        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>Hexo</tag>
          
          
            
