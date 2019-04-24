@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/</loc>
-    <lastmod>2019-04-24T05:26:11.889Z</lastmod>
+    <lastmod>2019-04-24T07:24:54.259Z</lastmod>
     <data>
         <display>
         <title>黑群晖</title>
@@ -110,13 +110,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -169,9 +169,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -209,9 +209,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -249,9 +249,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -706,9 +706,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
