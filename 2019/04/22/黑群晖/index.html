@@ -19,9 +19,14 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/3.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/4.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/5.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/6.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/7.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/8.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/9.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/10.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/11.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-04-24T10:32:02.878Z">
+<meta property="og:updated_time" content="2019-04-25T02:00:24.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="黑群晖">
 <meta name="twitter:description" content="黑群晖折腾记录。">
@@ -237,25 +242,36 @@
 <li>键盘、鼠标</li>
 <li>可用网络、网线</li>
 <li>一个做好PE的U盘</li>
-<li>查看SSD的信息<a href="http://down.nas2x.com/tools/" target="_blank" rel="external">ChipEasy.exe</a>     </li>
+<li>查看SSD的信息<a href="http://www.upantool.com/liangchan/Phison/2012/MPALL_V3.63.html" target="_blank" rel="external">MPALL_V3.63</a>或<a href="http://down.nas2x.com/tools/" target="_blank" rel="external">ChipEasy.exe</a>     </li>
 <li>写IMG工具<a href="http://www.roadkil.net/program.php?ProgramID=12" target="_blank" rel="external">Roadkil’s Disk Image V1.6</a></li>
 <li>引导系统<a href="http://down.nas2x.com/synology/dsm/6.2/6.2.0/ds3617_6.2/" target="_blank" rel="external">synoboot.img</a></li>
 <li>DSM系统<a href="https://archive.synology.com/download/DSM/release/6.2/23739/" target="_blank" rel="external">DSM_DS3617xs_23739.pat</a></li>
 </ul>
-<p>将<code>ChipEasy.exe</code>、<code>synoboot.img</code>和<code>Roadkil&#39;s Disk Image</code>拷贝到U盘里。<br>连接好显示器、键盘、鼠标，插上U盘，启动电源，跳按<code>Delete</code>(一般就<code>F2</code>、<code>F10</code>、<code>Delete</code>中某一个)进入BIOS。<br>在<code>BOOT</code>选项卡里将U盘设置为第一启动顺序，保存，重启。</p>
-<h2 id="2-3-安装引导系统"><a href="#2-3-安装引导系统" class="headerlink" title="2.3 安装引导系统"></a>2.3 安装引导系统</h2><p>进入PE后，打开<code>DiskGenius</code>查看分区情况，可以看到四个盘，两个硬盘，一个SSD，一个U盘：<br>DiskGenius截图6</p>
-<p>运行<code>ChipEasy.exe</code>，记录下SSD的<code>VID</code>和<code>PID</code>：<br>ChipEasy截图7</p>
-<p>在<code>DiskGenius</code>里选择<code>硬盘</code>-&gt;<code>打开虚拟磁盘文件</code>，选择<code>synoboot.img</code>，点击<code>grub</code>文件夹，选择<code>grub.cfg</code>，右键选择<code>复制到&quot;桌面&quot;</code>。<br>DiskGenius截图8</p>
+<p>将<code>MPALL_V3.63</code>、<code>synoboot.img</code>和<code>Roadkil&#39;s Disk Image</code>拷贝到U盘里。<br>连接好显示器、键盘、鼠标，插上U盘，启动电源，跳按<code>Delete</code>(一般就<code>F2</code>、<code>F10</code>、<code>Delete</code>中某一个)进入BIOS。<br>在<code>BOOT</code>选项卡里将U盘设置为第一启动顺序，保存，重启。</p>
+<h2 id="2-3-安装引导系统"><a href="#2-3-安装引导系统" class="headerlink" title="2.3 安装引导系统"></a>2.3 安装引导系统</h2><p>进入PE后，打开<code>DiskGenius</code>查看分区情况，可以看到四个盘：两个500G的机械硬盘，一个32G的固态硬盘，一个16G的U盘。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/6.jpg"></div>
+
+<p>使用<code>DiskGenius</code>先将SSD格式化，再运行<code>MPALL_V3.63</code>，输入对应的盘符，记录下SSD的<code>VID</code>和<code>PID</code>：</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/7.jpg"></div>
+
+<p>在<code>DiskGenius</code>里选择<code>硬盘</code>-&gt;<code>打开虚拟磁盘文件</code>，选择<code>synoboot.img</code>，点击<code>grub</code>文件夹，选择<code>grub.cfg</code>，右键选择<code>复制到&quot;桌面&quot;</code>。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/8.jpg"></div>
+
 <p>打开<code>grub.cfg</code>，找到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">set vid=0x058f</div><div class="line">set pid=0x6387</div><div class="line">set sn=A8ODN02468</div><div class="line">set mac1=0011322CA603</div></pre></td></tr></table></figure></p>
-<p><code>set vid=0x058f</code> 改为U盘的VID<br><code>set pid=0x6387</code> 改为U盘的PID<br><code>set sn=A8ODN02468</code> 序列号，用于洗白，现在不好洗白，不用修改<br><code>set mac1=0011322CA603</code> MAC地址，用于洗白，现在不好洗白，不用修改</p>
-<p>改完之后，在<code>DiskGenius</code>里，右键<code>复制文件到当前分区</code>，覆盖掉原来的<code>grub.cfg</code>，退出<code>DiskGenius</code>。<br>DiskGenius截图9</p>
-<p>接着打开<code>Roadkil&#39;s Disk Image</code>，在<code>映像写入</code>选项卡里，选择要写入的SSD，再选中前面修改过的<code>synoboot.img</code>，点击<code>开始</code>，待写入完成后退出程序。<br>Roadkil’s Disk Image截图10</p>
+<p><code>set vid=0x058f</code> 改为U盘的VID：0x13fe<br><code>set pid=0x6387</code> 改为U盘的PID：0x5500<br><code>set sn=A8ODN02468</code> 序列号，用于洗白，现在不好洗白，不用修改<br><code>set mac1=0011322CA603</code> MAC地址，用于洗白，现在不好洗白，不用修改</p>
+<p>改完之后，在<code>DiskGenius</code>里，右键<code>复制文件到当前分区</code>，覆盖掉原来的<code>grub.cfg</code>，退出<code>DiskGenius</code>。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/9.jpg"></div>
+
+<p>接着打开<code>Roadkil&#39;s Disk Image</code>，在<code>映像写入</code>选项卡里，选择要写入的SSD，再选中前面修改过的<code>synoboot.img</code>，点击<code>开始</code>，待写入完成后退出程序。</p>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/10.jpg"></div>
+
 <p>重启PE，进入BIOS，将SSD设置为第一启动顺序，拔掉U盘，再次重启。</p>
 <h2 id="2-4-安装DSM系统"><a href="#2-4-安装DSM系统" class="headerlink" title="2.4 安装DSM系统"></a>2.4 安装DSM系统</h2><p>插上网线，SSD作为引导盘，启动后显示屏上显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Screen will stop updating shortly, please open http://find.synology.com to continue.</div></pre></td></tr></table></figure></p>
 <p>此时，使用在同一局域网的笔记本，浏览器打开<code>http://find.synology.com</code>搜索设备，或者安装<a href="https://archive.synology.com/download/Tools/Assistant/6.2-23733/Windows/" target="_blank" rel="external"><code>SynologyAssistant</code></a>搜索设备。<br>搜出设备后，根据提示点击<code>设置</code>，上传<code>DSM_DS3617xs_23739.pat</code>安装，待安装完成后，自动重启即可。</p>
 <div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/11.jpg"></div>
 
-<h1 id="3-必要设置"><a href="#3-必要设置" class="headerlink" title="3.必要设置"></a>3.必要设置</h1><h1 id="4-扩展设置"><a href="#4-扩展设置" class="headerlink" title="4.扩展设置"></a>4.扩展设置</h1><hr>
+<p>重启后，进入系统初始化设置界面，根据提示进行设置，因为是黑群晖，没有洗白的缘故，不能使用<code>QuickConnect</code>，在该设置界面直接跳过即可。</p>
+<h1 id="3-必要设置"><a href="#3-必要设置" class="headerlink" title="3.必要设置"></a>3.必要设置</h1><h2 id="3-1-设置存储空间"><a href="#3-1-设置存储空间" class="headerlink" title="3.1 设置存储空间"></a>3.1 设置存储空间</h2><h2 id="3-2-外部访问和端口映射"><a href="#3-2-外部访问和端口映射" class="headerlink" title="3.2 外部访问和端口映射"></a>3.2 外部访问和端口映射</h2><h1 id="4-扩展设置"><a href="#4-扩展设置" class="headerlink" title="4.扩展设置"></a>4.扩展设置</h1><h2 id="4-1-自动修改登陆壁纸"><a href="#4-1-自动修改登陆壁纸" class="headerlink" title="4.1 自动修改登陆壁纸"></a>4.1 自动修改登陆壁纸</h2><h2 id="4-2-将Nas入口添加到博客"><a href="#4-2-将Nas入口添加到博客" class="headerlink" title="4.2 将Nas入口添加到博客"></a>4.2 将Nas入口添加到博客</h2><h2 id="4-3-安装浏览器访问内网"><a href="#4-3-安装浏览器访问内网" class="headerlink" title="4.3 安装浏览器访问内网"></a>4.3 安装浏览器访问内网</h2><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -369,7 +385,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件篇"><span class="toc-number">1.</span> <span class="toc-text">1.硬件篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-硬件成本"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 硬件成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-改善噪音"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 改善噪音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统篇"><span class="toc-number">2.</span> <span class="toc-text">2.系统篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-装机思路"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 装机思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-装机准备"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 装机准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-安装引导系统"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 安装引导系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-安装DSM系统"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 安装DSM系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-必要设置"><span class="toc-number">3.</span> <span class="toc-text">3.必要设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-扩展设置"><span class="toc-number">4.</span> <span class="toc-text">4.扩展设置</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件篇"><span class="toc-number">1.</span> <span class="toc-text">1.硬件篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-硬件成本"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 硬件成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-改善噪音"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 改善噪音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统篇"><span class="toc-number">2.</span> <span class="toc-text">2.系统篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-装机思路"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 装机思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-装机准备"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 装机准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-安装引导系统"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 安装引导系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-安装DSM系统"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 安装DSM系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-必要设置"><span class="toc-number">3.</span> <span class="toc-text">3.必要设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-设置存储空间"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 设置存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-外部访问和端口映射"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 外部访问和端口映射</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-扩展设置"><span class="toc-number">4.</span> <span class="toc-text">4.扩展设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-自动修改登陆壁纸"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 自动修改登陆壁纸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-将Nas入口添加到博客"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 将Nas入口添加到博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-安装浏览器访问内网"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 安装浏览器访问内网</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -394,13 +410,13 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  //id: "<%=url%>",
-  id: "<%= page.date%>",
-  owner: '<%=theme.gitment_owner%>',
-  repo: '<%=theme.gitment_repo%>',
+  //id: "http://yoursite.com/2019/04/22/黑群晖/",
+  id: "Mon Apr 22 2019 16:39:05 GMT+0800",
+  owner: 'hceng',
+  repo: 'hceng.github.io',
   oauth: {
-    client_id: '<%=theme.gitment_oauth.client_id%>',
-    client_secret: '<%=theme.gitment_oauth.client_secret%>',
+    client_id: 'de50a34b011b0759d610',
+    client_secret: '30e1dc53fc27e2d2e00ce018448473af768b825e',
   },
 })
 gitment.render('gitment-ctn')
@@ -535,6 +551,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
@@ -547,10 +567,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -559,15 +575,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -591,15 +607,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -607,7 +619,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -615,11 +627,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -632,6 +640,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -675,7 +691,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -683,7 +699,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
