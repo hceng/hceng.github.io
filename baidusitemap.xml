@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2019-04-29T06:41:59.038Z</lastmod>
+    <lastmod>2019-04-29T06:54:18.678Z</lastmod>
     <data>
         <display>
         <title>GitHub+Hexo博客搭建及优化</title>
@@ -110,13 +110,13 @@
         
         <tag>AM335X</tag>
          
+        <tag>SPI</tag>
+         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
-         
-        <tag>SPI</tag>
          
          
            
@@ -209,9 +209,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>Linux驱动</tag>
-         
         <tag>SPI</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
