@@ -358,9 +358,9 @@
     
       <category term="LCD" scheme="http://yoursite.com/tags/LCD/"/>
     
-      <category term="UVC" scheme="http://yoursite.com/tags/UVC/"/>
-    
       <category term="摄像头" scheme="http://yoursite.com/tags/%E6%91%84%E5%83%8F%E5%A4%B4/"/>
+    
+      <category term="UVC" scheme="http://yoursite.com/tags/UVC/"/>
     
       <category term="Linux环境编程" scheme="http://yoursite.com/tags/Linux%E7%8E%AF%E5%A2%83%E7%BC%96%E7%A8%8B/"/>
     
