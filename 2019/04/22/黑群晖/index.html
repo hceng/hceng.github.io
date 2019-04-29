@@ -42,8 +42,15 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/26.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/27.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/28.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/29.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/30.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/31.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/32.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/33.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/34.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/35.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-04-28T08:38:02.512Z">
+<meta property="og:updated_time" content="2019-04-29T01:17:00.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="黑群晖">
 <meta name="twitter:description" content="黑群晖折腾记录。">
@@ -335,11 +342,12 @@
 <div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/22.jpg"></div>
 
 <p>切换到<code>Proxies</code>选项卡，选择<code>HTTP</code>，可以看到<code>hceng.nas</code>的状态是<code>online</code>，说明连接成功。</p>
-<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/23.jpg"></div>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/23.jpg"></div>
 
 <p><strong>4.设置DNS</strong><br>最后还要域名解析，我们希望通过<code>nas.hceng.cn</code>的方式来访问，虽然在<code>frpc.ini</code>里设置了该域名，还需要找个DNS解析服务商，将<code>nas.hceng.cn</code>解析到<code>aliyunsz2.waiwang.men</code>。<br>参考之前<a href="https://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/#4-2%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D" target="_blank" rel="external">GitHub+Hexo博客搭建及优化——4.2绑定域名</a>，在<a href="https://www.dnspod.cn" target="_blank" rel="external">DNSPod</a>里添加一条记录。<br>主机记录：<code>nas</code><br>记录类型：<code>CNAME</code><br>线路类型：默认<br>记录值：<code>aliyunsz2.waiwang.men</code> （frp服务器域名）</p>
 <div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/24.jpg"></div>
 
+<p>优点：相对稳定，无需公网IP；<br>缺点：需要VPS搭建frps，配置相对复杂；</p>
 <p>参考资料：<br><a href="https://zhuanlan.zhihu.com/p/46580280" target="_blank" rel="external">DDNS简单教程</a><br><a href="http://blog.adiglobal.us/how-ddns-works/" target="_blank" rel="external">How DDNS Works</a><br><a href="https://zhuanlan.zhihu.com/p/57477087" target="_blank" rel="external">内网穿透：在公网访问你家的 NAS</a><br><a href="https://odcn.top/2018/10/27/1156/" target="_blank" rel="external">群晖 Docker版的frp客户端配置详解+免费服务器分享</a></p>
 <h1 id="4-扩展设置"><a href="#4-扩展设置" class="headerlink" title="4.扩展设置"></a>4.扩展设置</h1><p>后面这些设置就不是必须的了，以后遇到什么有趣的，就记录下来，不断更新。</p>
 <h2 id="4-1-自动修改登陆壁纸"><a href="#4-1-自动修改登陆壁纸" class="headerlink" title="4.1 自动修改登陆壁纸"></a>4.1 自动修改登陆壁纸</h2><p><strong>实现每日抓取bing美图作为登陆界面壁纸，并替换欢迎信息为美图简介。</strong></p>
@@ -367,11 +375,42 @@
 
 </li>
 </ul>
-<h2 id="4-3-安装浏览器访问内网"><a href="#4-3-安装浏览器访问内网" class="headerlink" title="4.3 安装浏览器访问内网"></a>4.3 安装浏览器访问内网</h2><p><strong>实现外网访问群晖里的浏览器，进行科学上网或访问内网路由器，并设置访问密码</strong></p>
-<p>之前有个需求，在不能使用SSR的情况下，想科学上网访问Google，下载文件资料。</p>
+<h2 id="4-3-安装浏览器访问内网"><a href="#4-3-安装浏览器访问内网" class="headerlink" title="4.3 安装浏览器访问内网"></a>4.3 安装浏览器访问内网</h2><p><strong>通过外网访问群晖里的浏览器，实现科学上网或访问内网路由器，并设置访问密码</strong></p>
+<p>之前有个需求：在不能使用SSR的特殊情况下，想科学上网访问Google，并且下载文件资料。<br>家里的路由器搭了<code>ShadowSocks</code>，可以访问外网，只要能够访问家里的内网，就能科学上网。<br>群辉的<code>docker</code>就像一个大宝盒，由它可以扩展出许多意想不到的功能，<code>chrome</code>也是通过它实现的。</p>
+<p><strong>1、安装<code>chrome</code></strong><br>参考前面安装<code>frpc</code>的过程。打开<code>docker</code>，在“注册表”选项卡搜索框里输入<code>oldiy</code>，找到<code>oldiy/chrome-novnc</code>，并双击下载。<br>下载完成后，在“映像”选项卡里双击<code>oldiy/chrome-novnc:latest</code>，在弹出的“创建容器”窗口里设置“容器名字”，再点击“高级设置”。<br>在弹出的“编辑”窗口里，选择“常规设置”选项卡，勾选“创建桌面快捷方式”，选择“网页”，输入自定义域名或本地IP+端口号+vnc.html。<br>因为想后面通过外网访问，所以这里填写自定义域名，<code>frps</code>提供的<code>http</code>端口为88。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/29.jpg"></div>
+
+<p>接着切换到“卷”选项卡，因为要通过<code>chrome</code>下载文件，默认的下载路径在<code>docker</code>里的<code>/root/Downloads</code>，这里将其映射到本地文件路径，后面通过<code>chrome</code>下载的文件放在默认路径，就可以在群辉的<code>public/download</code>里找到。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/30.jpg"></div>
+
+<p>再切换到“端口设置”选项卡，右边的容器端口<code>5900</code>和<code>8083</code>不要修改，左边的本地端口，根据自己需求，自行设置。需要考虑<code>frps</code>中是否被占用，设置的端口是否在开放范围以内。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/31.jpg"></div>
+
+<p>最后点击“应用”即可。</p>
+<p><strong>2、设置<code>frpc</code></strong><br>要想通过外网访问，还要配置<code>frpc</code>进行反向代理，因为<code>chrome</code>用到了两个端口，这里也需要配置两个，修改<code>frpc.ini</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"># frps信息</div><div class="line">[common]</div><div class="line">server_addr = aliyunsz2.waiwang.men #服务器地址</div><div class="line">server_port = 6666                  #服务器端口</div><div class="line">token = waiwang.men                 #连接凭证</div><div class="line">protocol= tcp                       #协议类型</div><div class="line"></div><div class="line"># frpc信息</div><div class="line">[hceng.web]                         #名字，同一类型的名字不能一样</div><div class="line">type = tcp                          #类型</div><div class="line">local_ip = 192.168.123.123          #群晖本地IP地址</div><div class="line">local_port = 12140                  #chrome端口号</div><div class="line">remote_port = 12140                 #反向代理后的端口号</div><div class="line"></div><div class="line">[hceng.web]                         #名字，同一类型的名字不能一样</div><div class="line">type = http                         #类型</div><div class="line">local_ip = 192.168.123.123          #群晖本地IP地址</div><div class="line">local_port = 12141                  #chrome端口号</div><div class="line">use_encryption = true               #开启加密</div><div class="line">use_compression = true              #开启压缩</div><div class="line">custom_domains = web.hceng.cn       #绑定的域名</div></pre></td></tr></table></figure>  
+<p>修改完后，重新启动<code>frpc</code>。</p>
+<p><strong>3、设置DNS</strong><br>在<a href="https://www.dnspod.cn" target="_blank" rel="external">DNSPod</a>里添加一条记录。<br>主机记录：<code>web</code><br>记录类型：<code>CNAME</code><br>线路类型：默认<br>记录值：<code>aliyunsz2.waiwang.men</code> </p>
+<p>此时，访问<code>web.hceng.cn:88/vnc.html</code>就可以访问<code>chrome</code>。但这样任何人都可以访问，导致一些安全隐患，因此还需设置密码。</p>
+<p><strong>4、设置密码</strong><br>在<code>docker</code>的“容器”选项卡里选中正在运行的<code>chrome</code>，点击上方“详情”，在弹出的窗口里切换到“终端”选项卡，点击“新增”，再点击刚才出现的<code>bash</code>，此时右边就会出现终端。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/32.jpg"></div>
+
+<p>在终端输入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x11vnc -storepasswd</div></pre></td></tr></table></figure></p>
+<p>然后输入密码，确认再输入一次，然后会有提示，问你是否保存到<code>/root/.vnc/passwd</code>，按<code>y</code>回车。<br>接着还要改下启动命令，让x11启动时候加载密码文件。先安装<code>vim</code>以便后面修改文件，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt install -y vim</div></pre></td></tr></table></figure></p>
+<p>安装完成后，输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/supervisor/conf.d/supervisord.conf</div></pre></td></tr></table></figure></p>
+<p>在第9行后面添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-rfbauth /root/.vnc/passwd</div></pre></td></tr></table></figure></p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/33.jpg"></div>
+
+<p>这里会用到<code>vim</code>编辑器的基本操作，自行百度。随后重启<code>chrome</code>容器即可。<br>以后，通过群晖桌面的快捷方式或者输入<code>web.hceng.cn:88/vnc.html</code>就可以打开<code>noVNC</code>，再输入密码即可打开<code>chrome</code>。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/34.jpg"></div>
+
+<p>建议把缩放模式改为“本地缩放”，这样就可以全屏显示<code>chrome</code>。</p>
 <p>参考文章：<br><a href="https://odcn.top/2019/02/01/2373/" target="_blank" rel="external">在群晖里使用浏览器，通过Docker安装火狐/Chrome浏览器+Enpass，可以外网访问群晖所在内网路由等！</a><br><a href="https://odcn.top/2019/03/09/2902/" target="_blank" rel="external">给Docker镜像运行的chrome镜像添加访问密码</a></p>
 <h2 id="4-4-加快群晖自带下载器速度"><a href="#4-4-加快群晖自带下载器速度" class="headerlink" title="4.4 加快群晖自带下载器速度"></a>4.4 加快群晖自带下载器速度</h2><p><strong>加快群晖自带<code>Download Station</code>下载种子的速度。</strong></p>
 <p>群辉自带的下载工具<code>Download Station</code>下载效果还是可以，如果遇到下载比较慢的任务，可以添加<code>tracker</code>服务器。<br>打开<a href="https://github.com/ngosang/trackerslist" target="_blank" rel="external"><code>trackerslist</code></a>，选择<code>trackers_best_ip.txt</code>，复制里面所有的内容。</p>
+<p>再打开<code>Download Station</code>，选中下载慢的种子，切换到“Tracker服务器”选项卡，点击“加入”，粘贴前面复制的内容，最后点击“确定”。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/35.jpg"></div>
+
 <p>参考链接：<a href="https://wp.gxnas.com/2618.html" target="_blank" rel="external">自己添加tracker服务器，加快群晖下载速度</a></p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
@@ -617,6 +656,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
@@ -633,15 +676,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -650,10 +689,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -681,15 +716,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -701,7 +740,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -717,6 +760,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
@@ -729,15 +780,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -749,11 +796,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -769,11 +812,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -782,10 +829,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -802,10 +845,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
             
             <div class="clearfix"></div>
