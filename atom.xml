@@ -144,13 +144,13 @@
     
       <category term="AM335X" scheme="http://yoursite.com/tags/AM335X/"/>
     
-      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
-    
       <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
     
       <category term="hwmon子系统" scheme="http://yoursite.com/tags/hwmon%E5%AD%90%E7%B3%BB%E7%BB%9F/"/>
     
       <category term="input子系统" scheme="http://yoursite.com/tags/input%E5%AD%90%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
     
   </entry>
   
@@ -172,9 +172,9 @@
     
       <category term="AM335X" scheme="http://yoursite.com/tags/AM335X/"/>
     
-      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
-    
       <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
+    
+      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
     
   </entry>
   
@@ -194,9 +194,9 @@
     </summary>
     
     
-      <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+    
+      <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -216,9 +216,9 @@
     </summary>
     
     
-      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
-    
       <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
     
   </entry>
   
