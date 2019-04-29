@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/6.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/7.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-04-29T04:06:29.848Z">
+<meta property="og:updated_time" content="2019-04-29T04:54:49.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
 <meta name="twitter:description" content="本文主要是记录本博客的搭建和优化。">
@@ -190,13 +190,10 @@
 
 		
         
-        <a href="/2017/03/06/GitHub+Hexo搭建及优化/" class="archive-article-date">
-    <time datetime="2017-03-06T11:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-06</time>
+        <a 
+    href="/2017/03/06/GitHub+Hexo搭建及优化/" class="archive-article-date">
     
-     <!-- 需要添加的位置 -->
-     <!-- 开始添加字数统计-->   
-    &nbsp; <span style="font-size:15px; color:#9a989b;">| </span> &nbsp;
-    
+    <!-- 开始添加字数统计-->   
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
@@ -212,6 +209,11 @@
       </span>
     </span>
     <!-- 添加完成 -->
+	
+	<!-- 修改原来的date,使样式保持一致 -->
+	&nbsp; <span style="font-size:15px; color:#9a989b;">| </span> &nbsp;
+	
+    <time datetime="2017-03-06T11:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon" style="color:#9a989b" ></i> <span style="font-size:15px; color:#9a989b;"> 2017-03-06</time> </span>
     
 </a>
 
@@ -346,7 +348,7 @@
 <p>点击<code>Initialize Comments</code>按钮后，就可以开始对该篇博文开始评论了， 同时也可以在对应的GitHub仓库看到相应的issue。</p>
 <p><strong>d. 解决标题过长，无法初始化gitment</strong><br><code>themes\yilia\layout\_partial\post\gitment.ejs</code>是<code>yilia</code>主题集成的<code>gitment</code>源码，里面使用文章标题<code>url</code>作为<code>id</code>，GitHub的<code>issue</code>标题有字数限制，因此可能出现自己文章的标题过长，导致无法初始化<code>gitment</code>，因此这里修改源码，改为使用时间作为标题：<br><figure class="highlight plain"><figcaption><span>[gitment.ejs]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;gitment-ctn&quot;&gt;&lt;/div&gt; </div><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;//imsun.github.io/gitment/style/default.css&quot;&gt;</div><div class="line">&lt;script src=&quot;//imsun.github.io/gitment/dist/gitment.browser.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script&gt;</div><div class="line">var gitment = new Gitment(&#123;</div><div class="line">  //id: &quot;&lt;%=url%&gt;&quot;,</div><div class="line">  id: &quot;&lt;%= page.date%&gt;&quot;,</div><div class="line">  owner: &apos;&lt;%=theme.gitment_owner%&gt;&apos;,</div><div class="line">  repo: &apos;&lt;%=theme.gitment_repo%&gt;&apos;,</div><div class="line">  oauth: &#123;</div><div class="line">    client_id: &apos;&lt;%=theme.gitment_oauth.client_id%&gt;&apos;,</div><div class="line">    client_secret: &apos;&lt;%=theme.gitment_oauth.client_secret%&gt;&apos;,</div><div class="line">  &#125;,</div><div class="line">&#125;)</div><div class="line">gitment.render(&apos;gitment-ctn&apos;)</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure><br>注释掉了第六行，改为了第七行。</p>
 <h2 id="5-8添加字数统计"><a href="#5-8添加字数统计" class="headerlink" title="5.8添加字数统计"></a><strong>5.8添加字数统计</strong></h2><p><strong>a. 安装hexo-wordcount</strong><br>在博客根目录下，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-wordcount --save</div></pre></td></tr></table></figure></p>
-<p><strong>b. 文件配置</strong><br>在<code>themes\yilia\layout\_partial\post\date.ejs</code>下创建<code>date.ejs</code>文件：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;a href=<span class="string">"&lt;%- url_for(post.path) %&gt;"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"&lt;%= class_name %&gt;"</span>&gt;</div><div class="line">    &lt;time datetime="&lt;%= date_xml(post.date) %&gt;" itemprop="datePublished"&gt;&lt;i class="icon-calendar icon"&gt;&lt;/i&gt;&lt;%= date(post.date, date_format) %&gt;&lt;/time&gt;</div><div class="line">    </div><div class="line">     &lt;!-- 需要添加的位置 --&gt;</div><div class="line">     &lt;!-- 开始添加字数统计--&gt;   </div><div class="line">    &amp;nbsp; &lt;span style="font-size:15px; color:#9a989b;"&gt;| &lt;/span&gt; &amp;nbsp;</div><div class="line">    </div><div class="line">     &lt;span class="post-time"&gt;</div><div class="line">      &lt;span class="icon-word icon" style="color:#9a989b"&gt;</div><div class="line">        &lt;span class="post-meta-item-text"&gt;  &lt;span style="font-size:15px; color:#9a989b;"&gt;字数统计: &lt;/span&gt; &lt;/span&gt;</div><div class="line">        &lt;span class="post-count"&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt; &lt;%= wordcount(post.content) %&gt; &lt;/span&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt;字 &lt;/span&gt; &lt;/span&gt;</div><div class="line">      &lt;/span&gt;</div><div class="line">    &lt;/span&gt;</div><div class="line"></div><div class="line">    &lt;span class="post-time"&gt;</div><div class="line">      &amp;nbsp; &lt;span style="font-size:15px; color:#9a989b;"&gt;| &lt;/span&gt; &amp;nbsp;</div><div class="line">      &lt;span class="icon-clock icon" style="color:#9a989b"&gt;</div><div class="line">        &lt;span class="post-meta-item-text"&gt;  &lt;span style="font-size:15px; color:#9a989b;"&gt;阅读时长: &lt;/span&gt; &lt;/span&gt;</div><div class="line">        &lt;span class="post-count"&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt; &lt;%= min2read(post.content) %&gt; &lt;/span&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt;分 &lt;/span&gt; &lt;/span&gt;</div><div class="line">      &lt;/span&gt;</div><div class="line">    &lt;/span&gt;</div><div class="line">    &lt;!-- 添加完成 --&gt;</div><div class="line">    </div><div class="line">&lt;/a&gt;</div></pre></td></tr></table></figure><br>这里可自定义图标，修改字体的大小，间距，颜色，内容。<br>对于图标的修改，增添，参考<a href="https://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/#4-2-%E5%B0%86NAS%E5%85%A5%E5%8F%A3%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%8D%9A%E5%AE%A2" target="_blank" rel="external">黑群晖-4.2 将NAS入口添加到博客</a><br>如果出现中文字体乱码，把<code>word.ejs</code>编码格式改为<code>UTF-8 无BOM格式</code>。</p>
+<p><strong>b. 文件配置</strong><br>在<code>themes\yilia\layout\_partial\post\date.ejs</code>下创建<code>date.ejs</code>文件：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;a </div><div class="line">    href=<span class="string">"&lt;%- url_for(post.path) %&gt;"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"&lt;%= class_name %&gt;"</span>&gt;</div><div class="line">    </div><div class="line">    &lt;!-- 开始添加字数统计--&gt;   </div><div class="line">     &lt;span class="post-time"&gt;</div><div class="line">      &lt;span class="icon-word icon" style="color:#9a989b"&gt;</div><div class="line">        &lt;span class="post-meta-item-text"&gt;  &lt;span style="font-size:15px; color:#9a989b;"&gt;字数统计: &lt;/span&gt; &lt;/span&gt;</div><div class="line">        &lt;span class="post-count"&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt; &lt;%= wordcount(post.content) %&gt; &lt;/span&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt;字 &lt;/span&gt; &lt;/span&gt;</div><div class="line">      &lt;/span&gt;</div><div class="line">    &lt;/span&gt;</div><div class="line"></div><div class="line">    &lt;span class="post-time"&gt;</div><div class="line">      &amp;nbsp; &lt;span style="font-size:15px; color:#9a989b;"&gt;| &lt;/span&gt; &amp;nbsp;</div><div class="line">      &lt;span class="icon-clock icon" style="color:#9a989b"&gt;</div><div class="line">        &lt;span class="post-meta-item-text"&gt;  &lt;span style="font-size:15px; color:#9a989b;"&gt;阅读时长: &lt;/span&gt; &lt;/span&gt;</div><div class="line">        &lt;span class="post-count"&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt; &lt;%= min2read(post.content) %&gt; &lt;/span&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt;分 &lt;/span&gt; &lt;/span&gt;</div><div class="line">      &lt;/span&gt;</div><div class="line">    &lt;/span&gt;</div><div class="line">    &lt;!-- 添加完成 --&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 修改原来的date,使样式保持一致 --&gt;</div><div class="line">	&amp;nbsp; &lt;span style="font-size:15px; color:#9a989b;"&gt;| &lt;/span&gt; &amp;nbsp;</div><div class="line">	</div><div class="line">    &lt;time datetime="&lt;%= date_xml(post.date) %&gt;" itemprop="datePublished"&gt;&lt;i class="icon-calendar icon" style="color:#9a989b" &gt;&lt;/i&gt; &lt;span style="font-size:15px; color:#9a989b;"&gt; &lt;%= date(post.date, date_format) %&gt;&lt;/time&gt; &lt;/span&gt;</div><div class="line">    </div><div class="line">&lt;/a&gt;</div></pre></td></tr></table></figure><br>这里可自定义图标，修改字体的大小，间距，颜色，内容。<br>对于图标的修改，增添，参考<a href="https://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/#4-2-%E5%B0%86NAS%E5%85%A5%E5%8F%A3%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%8D%9A%E5%AE%A2" target="_blank" rel="external">黑群晖-4.2 将NAS入口添加到博客</a><br>如果出现中文字体乱码，把<code>word.ejs</code>编码格式改为<code>UTF-8 无BOM格式</code>。</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -495,17 +497,17 @@
 
   
   <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="https://wzxjayce.github.io/gitment.css">
-<script src="https://wzxjayce.github.io/gitment.js"></script>
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  //id: "http://yoursite.com/2017/03/06/GitHub+Hexo搭建及优化/",
-  id: "Mon Mar 06 2017 19:26:00 GMT+0800",
-  owner: 'hceng',
-  repo: 'hceng.github.io',
+  //id: "<%=url%>",
+  id: "<%= page.date%>",
+  owner: '<%=theme.gitment_owner%>',
+  repo: '<%=theme.gitment_repo%>',
   oauth: {
-    client_id: 'de50a34b011b0759d610',
-    client_secret: '30e1dc53fc27e2d2e00ce018448473af768b825e',
+    client_id: '<%=theme.gitment_oauth.client_id%>',
+    client_secret: '<%=theme.gitment_oauth.client_secret%>',
   },
 })
 gitment.render('gitment-ctn')
@@ -612,6 +614,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
@@ -621,10 +627,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -648,11 +650,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -676,15 +678,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -704,10 +706,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
@@ -716,7 +714,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -728,19 +738,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -752,6 +750,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
@@ -760,15 +766,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
