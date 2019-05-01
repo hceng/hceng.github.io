@@ -371,11 +371,11 @@
         
         <tag>LCD</tag>
          
+        <tag>UVC</tag>
+         
         <tag>摄像头</tag>
          
         <tag>Linux环境编程</tag>
-         
-        <tag>UVC</tag>
          
          
            
@@ -854,9 +854,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>Uboot</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Uboot</tag>
          
         <tag>bootloader</tag>
          
@@ -930,11 +930,11 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
+        <tag>驱动相关</tag>
+         
         <tag>Uboot</tag>
          
         <tag>环境搭建</tag>
-         
-        <tag>驱动相关</tag>
          
          
            
@@ -951,9 +951,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>环境搭建</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>环境搭建</tag>
          
          
            
