@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/7.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/8.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-11-04T09:38:14.594Z">
+<meta property="og:updated_time" content="2019-05-04T09:57:34.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="嵌入式Linux——WIFI网卡">
 <meta name="twitter:description" content="如何在嵌入式Linux中，使用WIFI无线网卡。">
@@ -234,10 +234,10 @@
 <li><p>常用的加密算法有:<strong>WEB加密、TKIP加密、CCMP加密算法</strong>。<br>其中WEB加密和TKIP加密都是RC4的加密算法，安全性较低；CCMP加密采用AES对称加密算法，安全性较高。</p>
 </li>
 </ul>
-<table><tr><th>安全策略</th><th>认证方式</th><th>加密方式</th><th>备注</th></tr><tr><td rowspan="2">Open</td><td>open</td><td>open</td><td>开放WiFi，无任何加密</td></tr><tr><td>open</td><td>WEP</td><td>开放WiFi，仅数据加密</td></tr><tr><td>WEP</td><td>WEP</td><td>WEP</td><td>共享密钥认证，容易破解</td></tr><tr><td rowspan="2">WAP</td><td>802.11X</td><td>TKIP/WEP</td><td>比较安全，用于企业</td></tr><tr><td>PSK</td><td>TKIP/WEP</td><td>比较安全，用于个人</td></tr><tr><td rowspan="2">WAP2</td><td>802.11X</td><td>CCMP/TKIP/WEP</td><td>目前最安全，用于个人</td></tr><tr><td>PSK</td><td>CCMP/TKIP/WEP</td><td>目前最安全，用于个人</td></tr></table>
+<table><tr><th>安全策略</th><th>认证方式</th><th>加密方式</th><th>备注</th></tr><tr><td rowspan="2">Open</td><td>open</td><td>open</td><td>开放WiFi，无任何加密</td></tr><tr><td>open</td><td>WEP</td><td>开放WiFi，仅数据加密</td></tr><tr><td>WEP</td><td>WEP</td><td>WEP</td><td>共享密钥认证，容易破解</td></tr><tr><td rowspan="2">WPA</td><td>802.11X</td><td>TKIP/WEP</td><td>比较安全，用于企业</td></tr><tr><td>PSK</td><td>TKIP/WEP</td><td>比较安全，用于个人</td></tr><tr><td rowspan="2">WPA2</td><td>802.11X</td><td>CCMP/TKIP/WEP</td><td>目前最安全，用于个人</td></tr><tr><td>PSK</td><td>CCMP/TKIP/WEP</td><td>目前最安全，用于个人</td></tr></table>
 
-<p>连入超市、商场等公共WIFI的时候，不需要输入密码，但要通过网页输入手机号，使用验证码验证，也就是采用802.11X进行的验证，通过服务器完成的验证。<br>使用手机开个人热点的时候，可以选择安全性OPEN、WEP、WAP、WAP2，也就对应不同的安全等级。</p>
-<p>我手里的MIX2S，MIUI10个人热点里面就仅OPEN和WAP2两个选项，感觉这是个趋势，要么最简单的OPEN，要么就最安全的WAP2(WAP2是向下兼容的)，逐渐扔掉历史的包袱。</p>
+<p>连入超市、商场等公共WIFI的时候，不需要输入密码，但要通过网页输入手机号，使用验证码验证，也就是采用802.11X进行的验证，通过服务器完成的验证。<br>使用手机开个人热点的时候，可以选择安全性OPEN、WEP、WPA、WPA2，也就对应不同的安全等级。</p>
+<p>我手里的MIX2S，MIUI10个人热点里面就仅OPEN和WPA2两个选项，感觉这是个趋势，要么最简单的OPEN，要么就最安全的WPA2(WPA2是向下兼容的)，逐渐扔掉历史的包袱。</p>
 <h2 id="1-2-选择无线网卡"><a href="#1-2-选择无线网卡" class="headerlink" title="1.2 选择无线网卡"></a>1.2 选择无线网卡</h2><p>首先是选择合适的无线网卡，选取的原则是<strong>根据WIFI无线网卡的<code>VID</code>和<code>PID</code>判断内核是否支持该无线网卡。</strong></p>
 <ul>
 <li><p>1.获取无线网卡ID<br>将无线网卡插入Windows电脑，打开设备管理器，选中无线网卡，右键“属性”，切换到“详细信”息选项卡，在“属性”下拉栏中选择”硬件ld”，即可得到无线网卡的ID：<br><div align="center"><img width="390" height="374" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180621/1.jpg"></div><br>我的无线网卡<code>VID</code>是<code>0x148F</code>，<code>PID</code>是<code>0x3070</code>；</p>
@@ -715,15 +715,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -735,23 +735,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -771,15 +755,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -791,11 +771,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -803,11 +783,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -815,11 +807,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -831,7 +827,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -843,10 +843,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
@@ -855,7 +851,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -863,7 +859,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -871,7 +871,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
+    <lastmod>2019-05-04T09:57:34.238Z</lastmod>
+    <data>
+        <display>
+        <title>嵌入式Linux——WIFI网卡</title>
+        <pubTime>2018-06-21T06:58:18.000Z</pubTime>
+        
+        <tag>Linux环境编程</tag>
+         
+        <tag>WiFi网卡</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2019-05-04T05:57:39.465Z</lastmod>
     <data>
@@ -322,25 +341,6 @@
 
     
   <url>
-    <loc>http://hceng.cn/2018/06/21/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E2%80%94%E2%80%94WIFI%E7%BD%91%E5%8D%A1/</loc>
-    <lastmod>2018-11-04T09:38:14.594Z</lastmod>
-    <data>
-        <display>
-        <title>嵌入式Linux——WIFI网卡</title>
-        <pubTime>2018-06-21T06:58:18.000Z</pubTime>
-        
-        <tag>Linux环境编程</tag>
-         
-        <tag>WiFi网卡</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://hceng.cn/2018/05/20/Linux%E6%91%84%E5%83%8F%E5%A4%B4%E9%A9%B1%E5%8A%A84%E2%80%94%E2%80%94CMOS%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
     <lastmod>2018-11-04T09:37:01.208Z</lastmod>
     <data>
@@ -371,9 +371,9 @@
         
         <tag>LCD</tag>
          
-        <tag>摄像头</tag>
-         
         <tag>UVC</tag>
+         
+        <tag>摄像头</tag>
          
         <tag>Linux环境编程</tag>
          
@@ -799,9 +799,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
@@ -854,9 +854,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>Uboot</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Uboot</tag>
          
         <tag>bootloader</tag>
          
@@ -930,11 +930,11 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>Uboot</tag>
+        <tag>环境搭建</tag>
          
         <tag>驱动相关</tag>
          
-        <tag>环境搭建</tag>
+        <tag>Uboot</tag>
          
          
            
@@ -951,9 +951,9 @@
         <title>搭建嵌入式Linux开发环境</title>
         <pubTime>2017-03-23T09:19:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>环境搭建</tag>
+         
+        <tag>驱动相关</tag>
          
          
            
