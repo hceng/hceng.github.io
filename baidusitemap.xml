@@ -110,13 +110,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -188,9 +188,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>C++</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>C++</tag>
          
          
            
@@ -209,9 +209,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -268,9 +268,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Android基础</tag>
          
          
            
@@ -371,9 +371,9 @@
         
         <tag>LCD</tag>
          
-        <tag>UVC</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>UVC</tag>
          
         <tag>Linux环境编程</tag>
          
@@ -799,9 +799,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
@@ -854,9 +854,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Uboot</tag>
+         
+        <tag>驱动相关</tag>
          
         <tag>bootloader</tag>
          
@@ -930,9 +930,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Uboot</tag>
+         
+        <tag>驱动相关</tag>
          
         <tag>环境搭建</tag>
          
