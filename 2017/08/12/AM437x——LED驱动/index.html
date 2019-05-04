@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/3.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/4.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-11-04T08:37:05.627Z">
+<meta property="og:updated_time" content="2019-05-04T11:46:43.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM437x——LED驱动">
 <meta name="twitter:description" content="本文主要记录AM437X驱动的LED。含简单的字符设备驱动、设备驱动模型、设备树以及LED子系统。">
@@ -229,7 +229,7 @@
 </blockquote>
 <p><strong>关于框架，目前的理解是：</strong></p>
 <blockquote>
-<p>以LED驱动为例，之前印象中就是韦老大的思路，现在init里注册、硬件初始化，然后应用层open()、read()就调用了file_operations里面的drv_open()、drv_write()等，算是最简单的驱动框架。<br>然后韦老大又提及了总线设备驱动模型，将设备和驱动分离，感受到了新的框架。不久前，简单接触了下设备树，感觉就是总线设备驱动模型的修改（升级），将原来的设备部分，不再单独放在代码里，而是放在dts里面，开机加载，然后驱动匹配获取硬件资源。因此，感觉驱动的框架在一步一步的发展，优化，最原始的注册、open等框架，还是不变。<br>同时，了解到了除输入子系统的其它子系统，加深了对这一模式的理解。感觉就是，将某个硬件资源无缝的融入现有的环境中，而无须改变应用层的程序。</p>
+<p>以LED驱动为例，之前印象中就是韦老大的思路，先在init里注册字符设备、硬件初始化，然后应用层open()、read()就调用了file_operations里面的drv_open()、drv_write()等，算是最简单的驱动框架。<br>　<br>然后韦老大又提及了<strong>总线设备驱动模型</strong>，将设备和驱动分离，慢慢的体会到了新的框架。不久前，简单接触了下设备树，感觉就是总线设备驱动模型的修改（升级），将原来的设备部分，不再单独放在代码里，而是放在dts里面，开机在U-boot加载，然后与驱动匹配获取硬件资源。因此，感觉驱动的框架在一步一步的发展，优化，最原始的注册字符设备、open等框架，还是不变。<br>　<br>同时，了解到了除输入子系统的其它子系统，加深了对这一模式的理解。感觉就是，将某个硬件资源无缝的融入现有的环境中，而无须改变应用层的程序。</p>
 </blockquote>
 <p>这就是目前的一点小小理解吧，算是打开了个入口，希望以后了解得更加全面、细致。</p>
 <div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170812/1.png"></div>
@@ -294,8 +294,7 @@
 <h2 id="4-2修改AM437x设备树"><a href="#4-2修改AM437x设备树" class="headerlink" title="4.2修改AM437x设备树"></a>4.2修改AM437x设备树</h2><p>AM437x的设备树文件在<code>~/ti-processor-sdk-linux-am437x-evm-01.00.00.03/board-support/linux-3.14.43+gitAUTOINC+875c69b2c3-g875c69b/arch/arm/boot/dts/</code>中，主要是<strong>am4372.dtsi</strong>和<strong>am437x-sk-evm.dts</strong>。我的目的是希望写个设备树框架的LED程序，因此想让am437x-sk-evm.dts干净点，只包含LED硬件描述，因此我需要删除am437x-sk-evm.dts里面的其它硬件描述。经过测试，am437x-sk-evm.dts里面包含部分MMC的描述，一旦删除将不能成功启动内核。而且，后面调试的时候，希望开发板通过NFS挂载的方式，直接加载编译的驱动模块，因此需要保留网卡描述部分。最后，将MMC和网卡必须的部分，提取了出来，放在了<a href="https://github.com/hceng/am437x/blob/master/drive/1th_led/v3.0/am4372.dtsi" target="_blank" rel="external">am4372.dtsi</a>中。精简后的am437x-sk-evm.dts内容如下：<br><figure class="highlight c"><figcaption><span>[am437x-sk-evm.dts]</span><a href="https://github.com/hceng/am437x/blob/master/drive/1th_led/v3.0/am437x-sk-evm.dts" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* AM437x SK EVM */</span></div><div class="line"></div><div class="line">/dts-v1/;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"am4372.dtsi"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dt-bindings/pinctrl/am43xx.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dt-bindings/gpio/gpio.h&gt;</span></span></div><div class="line"></div><div class="line">/ &#123;</div><div class="line">	model = <span class="string">"TI AM437x SK EVM"</span>;</div><div class="line">	compatible = <span class="string">"ti,am437x-sk-evm"</span>,<span class="string">"ti,am4372"</span>,<span class="string">"ti,am43"</span>;</div><div class="line"></div><div class="line">    led_pin &#123;</div><div class="line">        compatible    = <span class="string">"ti_leds"</span>;</div><div class="line">        pinctrl-names = <span class="string">"default"</span>;</div><div class="line">        pinctrl<span class="number">-0</span> = &lt;&amp;leds_pins&gt;;</div><div class="line">        am437x,led_gpio0 = &lt;&amp;gpio5 <span class="number">0</span> GPIO_ACTIVE_HIGH&gt;;</div><div class="line">        am437x,led_gpio1 = &lt;&amp;gpio5 <span class="number">1</span> GPIO_ACTIVE_HIGH&gt;;</div><div class="line">        am437x,led_gpio2 = &lt;&amp;gpio5 <span class="number">2</span> GPIO_ACTIVE_HIGH&gt;;</div><div class="line">        am437x,led_gpio3 = &lt;&amp;gpio5 <span class="number">3</span> GPIO_ACTIVE_HIGH&gt;;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">&amp;am43xx_pinmux &#123;</div><div class="line">	</div><div class="line">	leds_pins: leds_pins &#123;</div><div class="line">		pinctrl-single,pins = &lt;</div><div class="line">			<span class="number">0x228</span> (PIN_OUTPUT | MUX_MODE7)	<span class="comment">/* uart3_rxd.gpio5_2 */</span></div><div class="line">			<span class="number">0x22c</span> (PIN_OUTPUT | MUX_MODE7)	<span class="comment">/* uart3_txd.gpio5_3 */</span></div><div class="line">			<span class="number">0x230</span> (PIN_OUTPUT | MUX_MODE7)	<span class="comment">/* uart3_ctsn.gpio5_0 */</span></div><div class="line">			<span class="number">0x234</span> (PIN_OUTPUT | MUX_MODE7)	<span class="comment">/* uart3_rtsn.gpio5_1 */</span></div><div class="line">		&gt;;</div><div class="line">	&#125;;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">&amp;gpio5 &#123;</div><div class="line">	status = <span class="string">"okay"</span>;</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>额，在调试的过程中，需要不断编译新的DTB和复制到SD卡的rootfs分区中，仿照前面写了个<a href="https://github.com/hceng/am437x/blob/master/drive/1th_led/v3.0/hceng.sh" target="_blank" rel="external">脚本</a>进行自动编译和复制，同时检查文件的生成时间间隔，实际中，确实减少了焦躁的重复操作。</p>
 <h2 id="4-3驱动代码"><a href="#4-3驱动代码" class="headerlink" title="4.3驱动代码"></a>4.3驱动代码</h2><figure class="highlight c"><figcaption><span>[leds_drv.c]</span><a href="https://github.com/hceng/am437x/blob/master/drive/1th_led/v3.0/leds_drv.c" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/version.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/init.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/fs.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/interrupt.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/irq.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/sched.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/pm.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/sysctl.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/proc_fs.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/delay.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/platform_device.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/input.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/irq.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;asm/uaccess.h&gt;</span>  </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;asm/io.h&gt;</span> </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/cdev.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;asm/uaccess.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/gpio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/of_gpio.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> TI_LEDS_CNT     4</span></div><div class="line"></div><div class="line"><span class="keyword">int</span> major;</div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> cdev leds_cdev;</div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> <span class="keyword">class</span> *leds_cls;</div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> led0,led1,led2,led3; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">leds_drv_open</span><span class="params">(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *file)</span>  </span></div><div class="line">&#123;    </div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__); </div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;     </div><div class="line">&#125;   </div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">static</span> ssize_t <span class="title">leds_drv_write</span><span class="params">(<span class="keyword">struct</span> file *file, <span class="keyword">const</span> <span class="keyword">char</span> __user *user_buf, <span class="keyword">size_t</span> count, <span class="keyword">loff_t</span> * ppos)</span>  </span></div><div class="line">&#123;  </div><div class="line">    <span class="keyword">int</span> minor = iminor(file-&gt;f_inode); </div><div class="line">	<span class="keyword">char</span> buf;</div><div class="line">	</div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(count != <span class="number">1</span>)&#123;</div><div class="line">        printk(KERN_INFO<span class="string">"write count != 1.\n"</span>); </div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (copy_from_user(&amp;buf, user_buf, count))</div><div class="line">        <span class="keyword">return</span> -EFAULT;</div><div class="line">	</div><div class="line">    <span class="keyword">if</span>(<span class="number">0x01</span> == buf)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">switch</span>(minor)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">            gpio_set_value(led0, <span class="number">0</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            gpio_set_value(led1, <span class="number">0</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            gpio_set_value(led2, <span class="number">0</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">            gpio_set_value(led3, <span class="number">0</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            printk(KERN_INFO<span class="string">"%s receive minor error.\n"</span>,__func__);</div><div class="line">        &#125;                       </div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="number">0x00</span> == buf)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">switch</span>(minor)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">            gpio_set_value(led0, <span class="number">1</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            gpio_set_value(led1, <span class="number">1</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            gpio_set_value(led2, <span class="number">1</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">            gpio_set_value(led3, <span class="number">1</span>);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            printk(KERN_INFO<span class="string">"%s receive minor error\n"</span>,__func__);</div><div class="line">        &#125;       </div><div class="line">    &#125;</div><div class="line">	</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">&#125;  </div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> file_operations leds_fops = &#123;  </div><div class="line">    .owner  =   THIS_MODULE,   </div><div class="line">    .open   =   leds_drv_open,       </div><div class="line">    .write  =   leds_drv_write,       </div><div class="line">&#125;; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">leds_probe</span><span class="params">(<span class="keyword">struct</span> platform_device *pdev)</span>  </span></div><div class="line">&#123;  </div><div class="line">    <span class="keyword">struct</span> device *dev = &amp;pdev-&gt;dev;</div><div class="line">    <span class="keyword">dev_t</span> devid;</div><div class="line">	</div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line"></div><div class="line">    <span class="comment">//1.申请设备号</span></div><div class="line">    <span class="keyword">if</span>(alloc_chrdev_region(&amp;devid, <span class="number">0</span>, TI_LEDS_CNT, <span class="string">"ti_leds"</span>) &lt; <span class="number">0</span>)</div><div class="line">    &#123;</div><div class="line">        printk(KERN_INFO<span class="string">"%s ERROR.\n"</span>,__func__);</div><div class="line">        <span class="keyword">goto</span> error;</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">    major = MAJOR(devid);</div><div class="line"></div><div class="line">    <span class="comment">//2.注册到系统中</span></div><div class="line">    cdev_init(&amp;leds_cdev, &amp;leds_fops);        </div><div class="line">    cdev_add(&amp;leds_cdev, devid, TI_LEDS_CNT);   </div><div class="line"></div><div class="line">    leds_cls = class_create(THIS_MODULE, <span class="string">"ti_leds"</span>);</div><div class="line">	</div><div class="line">    device_create(leds_cls, <span class="literal">NULL</span>, MKDEV(major, <span class="number">0</span>), <span class="literal">NULL</span>, <span class="string">"ti_led0"</span>); </div><div class="line">    device_create(leds_cls, <span class="literal">NULL</span>, MKDEV(major, <span class="number">1</span>), <span class="literal">NULL</span>, <span class="string">"ti_led1"</span>); </div><div class="line">    device_create(leds_cls, <span class="literal">NULL</span>, MKDEV(major, <span class="number">2</span>), <span class="literal">NULL</span>, <span class="string">"ti_led2"</span>); </div><div class="line">    device_create(leds_cls, <span class="literal">NULL</span>, MKDEV(major, <span class="number">3</span>), <span class="literal">NULL</span>, <span class="string">"ti_led3"</span>);</div><div class="line"></div><div class="line">    <span class="comment">//3.硬件相关</span></div><div class="line">    led0 = of_get_named_gpio(dev-&gt;of_node, <span class="string">"am437x,led_gpio0"</span>, <span class="number">0</span>);;</div><div class="line">    led1 = of_get_named_gpio(dev-&gt;of_node, <span class="string">"am437x,led_gpio1"</span>, <span class="number">0</span>);;</div><div class="line">    led2 = of_get_named_gpio(dev-&gt;of_node, <span class="string">"am437x,led_gpio2"</span>, <span class="number">0</span>);;</div><div class="line">    led3 = of_get_named_gpio(dev-&gt;of_node, <span class="string">"am437x,led_gpio3"</span>, <span class="number">0</span>);</div><div class="line">	</div><div class="line">    <span class="comment">//printk(KERN_INFO"led0 = %d\n",led0);</span></div><div class="line">    <span class="comment">//printk(KERN_INFO"led1 = %d\n",led1);</span></div><div class="line">    <span class="comment">//printk(KERN_INFO"led2 = %d\n",led2);</span></div><div class="line">    <span class="comment">//printk(KERN_INFO"led3 = %d\n",led3);</span></div><div class="line"></div><div class="line">    devm_gpio_request_one(dev, led0, GPIOF_OUT_INIT_HIGH, <span class="string">"LED0"</span>);</div><div class="line">    devm_gpio_request_one(dev, led1, GPIOF_OUT_INIT_HIGH, <span class="string">"LED1"</span>);</div><div class="line">    devm_gpio_request_one(dev, led2, GPIOF_OUT_INIT_HIGH, <span class="string">"LED2"</span>);</div><div class="line">    devm_gpio_request_one(dev, led3, GPIOF_OUT_INIT_HIGH, <span class="string">"LED3"</span>);</div><div class="line"></div><div class="line">error:</div><div class="line">    unregister_chrdev_region(MKDEV(major, <span class="number">0</span>), TI_LEDS_CNT);	</div><div class="line">	</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">leds_remove</span><span class="params">(<span class="keyword">struct</span> platform_device *pdev)</span>  </span></div><div class="line">&#123;  </div><div class="line">    <span class="keyword">unsigned</span> i;</div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line"></div><div class="line">    </div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;TI_LEDS_CNT;i++)</div><div class="line">    &#123;</div><div class="line">        device_destroy(leds_cls,  MKDEV(major, i));	</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">    class_destroy(leds_cls);</div><div class="line">    cdev_del(&amp;leds_cdev);</div><div class="line">    unregister_chrdev(major, <span class="string">"ti_leds"</span>); </div><div class="line">	</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">struct</span> of_device_id of_gpio_leds_match[] = &#123;</div><div class="line">	&#123; .compatible = <span class="string">"ti_leds"</span>, &#125;,</div><div class="line">	&#123;&#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> platform_driver leds_drv = &#123;</div><div class="line">	.probe		= leds_probe,</div><div class="line">	.remove		= leds_remove,</div><div class="line">	.driver		= &#123;</div><div class="line">		.name	= <span class="string">"ti_am437x_leds_platform"</span>,</div><div class="line">		.owner	= THIS_MODULE,</div><div class="line">		.of_match_table = of_match_ptr(of_gpio_leds_match),</div><div class="line">	&#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">leds_drv_init</span><span class="params">(<span class="keyword">void</span>)</span>  </span></div><div class="line">&#123;  </div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line">    <span class="keyword">return</span> platform_driver_register(&amp;leds_drv);  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">leds_drv_exit</span><span class="params">(<span class="keyword">void</span>)</span>  </span></div><div class="line">&#123;  </div><div class="line">    printk(KERN_INFO<span class="string">"%s OK.\n"</span>,__func__);</div><div class="line">    platform_driver_unregister(&amp;leds_drv);  </div><div class="line">&#125;  </div><div class="line"></div><div class="line"></div><div class="line">module_init(leds_drv_init);</div><div class="line">module_exit(leds_drv_exit);</div><div class="line"></div><div class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</div><div class="line">MODULE_AUTHOR(<span class="string">"hceng &lt;huangcheng.job@foxmail.com&gt;"</span>);</div><div class="line">MODULE_DESCRIPTION(<span class="string">"TI am437x board leds drvice"</span>);</div><div class="line">MODULE_ALIAS(<span class="string">"platform:device tree:ti_leds"</span>);</div><div class="line">MODULE_VERSION(<span class="string">"V3.0"</span>);</div></pre></td></tr></table></figure>
 <p>测试程序同前面的一样。</p>
-<h1 id="5-LED子系统驱动"><a href="#5-LED子系统驱动" class="headerlink" title="5.LED子系统驱动"></a>5.LED子系统驱动</h1><p>留个挂念，以后再添加。</p>
-<h1 id="6-心得"><a href="#6-心得" class="headerlink" title="6.心得"></a>6.心得</h1><p>在我理解到驱动=裸机+软件框架的时候，我对之前的裸机也就没那么排斥了。<br>而且这个软件框架，就现在来看，核心的那几步像：申请设备号、注册设备、创建类和创建节点这些都不变，早晚会做。<br>所以，我算入门了吗？😀<br>下一步，开始另一个阶段~</p>
+<h1 id="5-LED子系统驱动"><a href="#5-LED子系统驱动" class="headerlink" title="5.LED子系统驱动"></a>5.LED子系统驱动</h1><h1 id="6-心得"><a href="#6-心得" class="headerlink" title="6.心得"></a>6.心得</h1><p>在我理解到驱动=裸机+软件框架的时候，我对之前的裸机也就没那么排斥了。<br>而且这个软件框架，就现在来看，核心的那几步像：申请设备号、注册设备、创建类和创建节点这些都不变，早晚会做。<br>所以，我算入门了吗？😀<br>下一步，开始另一个阶段~</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -454,7 +453,7 @@
 <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 <script>
-   var notify = 'false' == true ? true : false;
+   var notify = 'true' == true ? true : false;
    var verify = 'false' == true ? true : false;
     window.onload = function() {
         new Valine({
@@ -572,10 +571,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
@@ -588,6 +583,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -596,15 +595,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -620,19 +631,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -644,7 +643,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -652,27 +651,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shell script</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -684,6 +679,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
@@ -692,11 +695,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -712,11 +723,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -724,11 +731,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -736,15 +739,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -752,7 +751,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
             
             <div class="clearfix"></div>
