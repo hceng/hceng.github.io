@@ -96,9 +96,9 @@
     </summary>
     
     
-      <category term="Android驱动" scheme="http://yoursite.com/tags/Android%E9%A9%B1%E5%8A%A8/"/>
-    
       <category term="Android应用" scheme="http://yoursite.com/tags/Android%E5%BA%94%E7%94%A8/"/>
+    
+      <category term="Android驱动" scheme="http://yoursite.com/tags/Android%E9%A9%B1%E5%8A%A8/"/>
     
   </entry>
   
