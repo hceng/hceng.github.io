@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2019-05-06T02:47:25.800Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub+Hexo博客搭建及优化</title>
+        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Hexo</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2017/08/12/AM437x%E2%80%94%E2%80%94LED%E9%A9%B1%E5%8A%A8/</loc>
     <lastmod>2019-05-05T09:19:02.952Z</lastmod>
     <data>
@@ -52,25 +71,6 @@
         <tag>Linux环境编程</tag>
          
         <tag>WiFi网卡</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/03/06/GitHub+Hexo%E6%90%AD%E5%BB%BA%E5%8F%8A%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2019-05-04T05:57:39.465Z</lastmod>
-    <data>
-        <display>
-        <title>GitHub+Hexo博客搭建及优化</title>
-        <pubTime>2017-03-06T11:26:00.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>Hexo</tag>
          
          
            
@@ -167,13 +167,13 @@
         
         <tag>AM335X</tag>
          
+        <tag>SPI</tag>
+         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
-         
-        <tag>SPI</tag>
          
          
            
@@ -266,9 +266,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>Linux驱动</tag>
-         
         <tag>SPI</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
