@@ -21,8 +21,9 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/5.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/6.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/7.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/8.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-05-08T15:20:04.510Z">
+<meta property="og:updated_time" content="2019-05-09T02:41:25.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
 <meta name="twitter:description" content="本文主要是记录本博客的搭建和优化。">
@@ -197,7 +198,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 6.1k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.9k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -205,7 +206,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 25 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 35 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -325,8 +326,8 @@
 <p>　　每次发布文章大致分为清理静态文件、生成静态文件、启动本地预览或上传部署，连续这么多命令何不合成一个，于是在windows下，可新建几个批处理脚本:<br><figure class="highlight plain"><figcaption><span>[make1.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#生成最新本地预览</div><div class="line">hexo clean &amp; hexo g &amp;hexo s</div></pre></td></tr></table></figure><br><figure class="highlight plain"><figcaption><span>[make2.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#发布生成最新博客</div><div class="line">hexo clean &amp; hexo g &amp; hexo d</div></pre></td></tr></table></figure><br><figure class="highlight plain"><figcaption><span>[make3.bat]</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#发成最新博客并上传源码到Coding私有库，以便在其它电脑上编辑</div><div class="line">hexo clean &amp; hexo g &amp; hexo d &amp; git add -A &amp; git commit -m &quot;from make3&quot; &amp; \</div><div class="line">git push origin master</div></pre></td></tr></table></figure><br>　　在Cmder中，输入对应的makeN,即可自动完成一系列命令。</p>
 <h2 id="5-6-提交搜索引擎（百度-谷歌-必应）"><a href="#5-6-提交搜索引擎（百度-谷歌-必应）" class="headerlink" title="5.6 提交搜索引擎（百度+谷歌+必应）"></a><strong>5.6 提交搜索引擎（百度+谷歌+必应）</strong></h2><p>稳定测试已完成。<br>在百度/谷歌/必应搜索“hceng”或者博客内容关键字都会有相关结果。<br>直接在搜索引擎输入：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">site:hceng.cn</div></pre></td></tr></table></figure><br>即可检测收录文章数量。</p>
 <p>这块内容也不复杂，主要参考的这篇<a href="http://www.cnblogs.com/tengj/p/5357879.html" target="_blank" rel="external">博客</a>，感兴趣的去摸索下。</p>
-<h2 id="5-7-添加评论模块-已舍弃"><a href="#5-7-添加评论模块-已舍弃" class="headerlink" title="5.7 添加评论模块(已舍弃)"></a><strong>5.7 添加评论模块(已舍弃)</strong></h2><blockquote>
-<p>20190504更新：舍弃本块功能；<br>原因:gitment其实蛮好用，但因为原作者弃坑，逐渐出现了一些问题，更改评论模块，详见后面；</p>
+<h2 id="5-7-添加评论模块Gitment-已舍弃"><a href="#5-7-添加评论模块Gitment-已舍弃" class="headerlink" title="5.7 添加评论模块Gitment(已舍弃)"></a><strong>5.7 添加评论模块Gitment(已舍弃)</strong></h2><blockquote>
+<p>20190504更新：舍弃本块功能；<br>原因:gitment其实蛮好用，但因为原作者弃坑，逐渐出现了一些问题，更改评论模块使用Valine，详见后面；</p>
 </blockquote>
 <p>国内目前由不少的第三方评论系统，比如：多说、畅言、友言、网易云跟贴、disqus等。很多都陆续停止服务或者国情原因并不好用，设置也麻烦。<br>2018年初升级主题的时候发现支持<a href="https://github.com/imsun/gitment" target="_blank" rel="external">gitment</a>了，一款基于GitHub Issues的评论系统。<br>有如下特性：</p>
 <blockquote>
@@ -366,7 +367,20 @@
 <p>然后执行<code>hexo clean</code>清理缓存，执行<code>hexo g</code>重新生成博客文件，最后执行<code>hexo d</code>上传到仓库。<br>因为新增上传过程会比较慢，</p>
 <h2 id="5-10-添加评论模块Valine"><a href="#5-10-添加评论模块Valine" class="headerlink" title="5.10 添加评论模块Valine"></a><strong>5.10 添加评论模块Valine</strong></h2><p>舍弃了<code>gitment</code>，尝试使用<code>Valine</code>评论。</p>
 <p>测试了一段时间，主要有优势：<br>1、无需账号，也可评论，降低门槛；<br>2、可以设置<a href="https://docs.akismet.com/" target="_blank" rel="external"><code>Akismet</code></a>，一个应用广泛的垃圾留言过滤系统，实现垃圾评论过滤；<br>3、有评论邮件通知，以及回复评论通知，且回复模板可以实现自定义，相对比较好看；</p>
-<p><strong>a. 注册、配置Leancloud</strong><br>打开<a href="https://leancloud.cn/dashboard/login.html#/signup" target="_blank" rel="external"><code>Leancloud</code></a>注册账号。<br>然后创建应用，然后点击创建的应用&gt;设置&gt;选择应用 Key，然后你就能看到你的APP ID和APP KEY了</p>
+<p>设置步骤有如下几步：<br><strong>a. 注册、配置Leancloud</strong><br><strong>b. 修改博客主题配置文件</strong><br><strong>c. 部署云引擎实现邮件通知和后台管理</strong><br><strong>d. 添加垃圾评论检测</strong><br><strong>e. 添加定时任务解决云引擎自动休眠</strong><br>操作步骤在<a href="https://github.com/DesertsP/Valine-Admin/" target="_blank" rel="external">Valine-Admin</a>、<a href="https://deserts.io/diy-a-comment-system/" target="_blank" rel="external">Valine: 独立博客评论系统</a>里已经写得很清楚了，我就只补充几个值得注意的地方。</p>
+<p>1、因为使用的是<code>Yilia</code>主题，修改博客主题配置文件有些区别。<br>在<code>themes\yilia\_config.yml</code>末尾添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># Valine https://valine.js.org</div><div class="line">valine: </div><div class="line"> appid:  xxxxxxxxxxxxxxxxxxxxxxxxx #Leancloud应用的appId</div><div class="line"> appkey: xxxxxxxxxxxxxxxxxxxxxxxxx #Leancloud应用的appKey</div><div class="line"> verify: false #验证码</div><div class="line"> notify: false #评论回复提醒(关闭，不然后面会重新推送)</div><div class="line"> #avatar: mm #评论列表头像样式：https://valine.js.org/avatar</div><div class="line"> avatar: identicon #评论列表头像样式：&apos;&apos;/mm/identicon/monsterid/wavatar/retro/hide</div><div class="line"> placeholder: 友情提醒：无需填入昵称、邮箱、网站也能匿名评论！\n \n (填入邮箱可以接收回复提醒；填写邮箱后，该邮箱会收到一封验证邮件，请点击“验证邮箱”以确认邮箱是您本人使用) #评论框占位符  </div><div class="line"> pageSize: 15 #评论分页</div></pre></td></tr></table></figure></p>
+<p>在<code>themes\yilia\layout\_partial\article.ejs</code>添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">  &lt;% if (theme.gitment_owner &amp;&amp; theme.gitment_repo &amp;&amp;theme.gitment_oauth &amp;&amp; theme.gitment_oauth.client_id &amp;&amp; theme.gitment_oauth.client_secret)&#123; %&gt;</div><div class="line">  &lt;%- partial(&apos;post/gitment&apos;, &#123;</div><div class="line">      key: post.slug,</div><div class="line">      title: post.title,</div><div class="line">      url: config.url+url_for(post.path)</div><div class="line">    &#125;) %&gt;</div><div class="line">  &lt;% &#125; %&gt;</div><div class="line"> </div><div class="line">&lt;!-- 评论系统Valine:添加开始位置 --&gt; 	  </div><div class="line">&lt;% if (theme.valine &amp;&amp; theme.valine.appid &amp;&amp; theme.valine.appkey)&#123; %&gt;</div><div class="line">  &lt;section id=&quot;comments&quot; class=&quot;comments&quot;&gt;</div><div class="line">    &lt;style&gt;</div><div class="line">      .comments&#123;margin:30px;padding:10px;background:#fff&#125;</div><div class="line">      @media screen and (max-width:800px)&#123;.comments&#123;margin:auto;padding:10px;background:#fff&#125;&#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">    &lt;%- partial(&apos;post/valine&apos;, &#123;</div><div class="line">      key: post.slug,</div><div class="line">      title: post.title,</div><div class="line">      url: config.url+url_for(post.path)</div><div class="line">      &#125;) %&gt;</div><div class="line">  &lt;/section&gt;</div><div class="line">&lt;% &#125; %&gt;</div><div class="line">&lt;!-- 评论系统Valine:添加结束位置 --&gt;</div></pre></td></tr></table></figure></p>
+<p>最后新建一个<code>themes\yilia\layout\_partial\post\valine.ejs</code>，内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;vcomment&quot; class=&quot;comment&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;script src=&quot;//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;//cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&apos;//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js&apos;&gt;&lt;/script&gt;</div><div class="line">&lt;script&gt;</div><div class="line">   var notify = &apos;&lt;%= theme.valine.notify %&gt;&apos; == true ? true : false;</div><div class="line">   var verify = &apos;&lt;%= theme.valine.verify %&gt;&apos; == true ? true : false;</div><div class="line">   new Valine(&#123;</div><div class="line">            av: AV,</div><div class="line">            el: &apos;#vcomment&apos;,</div><div class="line">            notify: notify,</div><div class="line">            verify: verify,</div><div class="line">            app_id: &quot;&lt;%= theme.valine.appid %&gt;&quot;,</div><div class="line">            app_key: &quot;&lt;%= theme.valine.appkey %&gt;&quot;,</div><div class="line">            placeholder: &quot;&lt;%= theme.valine.placeholder %&gt;&quot;,</div><div class="line">            avatar: &quot;&lt;%= theme.valine.avatar %&gt;&quot;,</div><div class="line">            avatar_cdn: &quot;&lt;%= theme.valine.avatar_cdn %&gt;&quot;,</div><div class="line">            pageSize: &lt;%= theme.valine.pageSize %&gt;</div><div class="line">    &#125;);</div><div class="line">    if(window.location.hash)&#123;</div><div class="line">          var checkExist = setInterval(function() &#123;</div><div class="line">            if (document.getElementById(window.location.hash.replace(&quot;#&quot;,&quot;&quot;))) &#123;</div><div class="line">              location.href = window.location.hash;</div><div class="line">              clearInterval(checkExist);</div><div class="line">            &#125;</div><div class="line">          &#125;, 250);</div><div class="line">        &#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>2、云引擎的配置，参考如下：</p>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/8.jpg"></div>
+
+<p><code>SMTP_PASS</code>是前面<code>SMTP_USER</code>所填邮箱密码，如果是<code>QQ</code>系列，需要去网页端的QQ邮箱页面的设置-&gt;账户-&gt;POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务-&gt;生成授权码得到。</p>
+<p><code>MAIL_TEMPLATE_ADMIN</code>的邮箱模板，是别人在博客上评论，自己收到的邮件样式，内容为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div style=&quot;border-top:2px solid #12ADDB;box-shadow:0 1px 3px #AAAAAA;line-height:180%;padding:0 15px 12px;margin:50px auto;font-size:12px;&quot;&gt;&lt;h2 style=&quot;border-bottom:1px solid #DDD;font-size:14px;font-weight:normal;padding:13px 0 10px 8px;&quot;&gt;您在&lt;a style=&quot;text-decoration:none;color: #12ADDB;&quot; href=&quot;$&#123;SITE_URL&#125;&quot; target=&quot;_blank&quot;&gt;$&#123;SITE_NAME&#125;&lt;/a&gt;上的文章有了新的评论&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;$&#123;NICK&#125;&lt;/strong&gt;回复说：&lt;/p&gt;&lt;div style=&quot;background-color: #f5f5f5;padding: 10px 15px;margin:18px 0;word-wrap:break-word;&quot;&gt; $&#123;COMMENT&#125;&lt;/div&gt;&lt;p&gt;您可以点击&lt;a style=&quot;text-decoration:none; color:#12addb&quot; href=&quot;$&#123;POST_URL&#125;&quot; target=&quot;_blank&quot;&gt;查看回复的完整內容&lt;/a&gt;&lt;br&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p><code>MAIL_TEMPLATE</code>是在博客上回复评论者，评论者收到的邮件模板样式，可选有两种风格：<br>系统默认：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div style=&quot;border-top:2px solid #12ADDB;box-shadow:0 1px 3px #AAAAAA;line-height:180%;padding:0 15px 12px;margin:50px auto;font-size:12px;&quot;&gt;&lt;h2 style=&quot;border-bottom:1px solid #DDD;font-size:14px;font-weight:normal;padding:13px 0 10px 8px;&quot;&gt;您在&lt;a style=&quot;text-decoration:none;color: #12ADDB;&quot; href=&quot;$&#123;SITE_URL&#125;&quot; target=&quot;_blank&quot;&gt;            $&#123;SITE_NAME&#125;&lt;/a&gt;上的评论有了新的回复&lt;/h2&gt; $&#123;PARENT_NICK&#125; 同学，您曾发表评论：&lt;div style=&quot;padding:0 12px 0 12px;margin-top:18px&quot;&gt;&lt;div style=&quot;background-color: #f5f5f5;padding: 10px 15px;margin:18px 0;word-wrap:break-word;&quot;&gt;            $&#123;PARENT_COMMENT&#125;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;$&#123;NICK&#125;&lt;/strong&gt;回复说：&lt;/p&gt;&lt;div style=&quot;background-color: #f5f5f5;padding: 10px 15px;margin:18px 0;word-wrap:break-word;&quot;&gt; $&#123;COMMENT&#125;&lt;/div&gt;&lt;p&gt;您可以点击&lt;a style=&quot;text-decoration:none; color:#12addb&quot; href=&quot;$&#123;POST_URL&#125;&quot; target=&quot;_blank&quot;&gt;查看回复的完整內容&lt;/a&gt;，欢迎再次光临&lt;a style=&quot;text-decoration:none; color:#12addb&quot; href=&quot;$&#123;SITE_URL&#125;&quot; target=&quot;_blank&quot;&gt;$&#123;SITE_NAME&#125;&lt;/a&gt;。&lt;br&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>彩虹样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MAIL_TEMPLATE: 回复给评论的人</div><div class="line">&lt;div style=&quot;border-radius: 10px 10px 10px 10px;font-size:13px;    color: #555555;width: 666px;font-family:&apos;Century Gothic&apos;,&apos;Trebuchet MS&apos;,&apos;Hiragino Sans GB&apos;,微软雅黑,&apos;Microsoft Yahei&apos;,Tahoma,Helvetica,Arial,&apos;SimSun&apos;,sans-serif;margin:50px auto;border:1px solid #eee;max-width:100%;background: #ffffff repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);&quot;&gt;&lt;div style=&quot;width:100%;background:#49BDAD;color:#ffffff;border-radius: 10px 10px 0 0;background-image: -moz-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));background-image: -webkit-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));height: 66px;&quot;&gt;&lt;p style=&quot;font-size:15px;word-break:break-all;padding: 23px 32px;margin:0;background-color: hsla(0,0%,100%,.4);border-radius: 10px 10px 0 0;&quot;&gt;您在&lt;a style=&quot;text-decoration:none;color: #ffffff;&quot; href=&quot;$&#123;SITE_URL&#125;&quot;&gt; $&#123;SITE_NAME&#125;&lt;/a&gt;上的留言有新回复啦！&lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;margin:40px auto;width:90%&quot;&gt;&lt;p&gt;$&#123;PARENT_NICK&#125; 同学，您曾在文章上发表评论：&lt;/p&gt;&lt;div style=&quot;background: #fafafa repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);margin:20px 0px;padding:15px;border-radius:5px;font-size:14px;color:#555555;&quot;&gt;$&#123;PARENT_COMMENT&#125;&lt;/div&gt;&lt;p&gt;$&#123;NICK&#125; 给您的回复如下：&lt;/p&gt;&lt;div style=&quot;background: #fafafa repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);margin:20px 0px;padding:15px;border-radius:5px;font-size:14px;color:#555555;&quot;&gt;$&#123;COMMENT&#125;&lt;/div&gt;&lt;p&gt;您可以点击&lt;a style=&quot;text-decoration:none; color:#12addb&quot; href=&quot;$&#123;POST_URL&#125;#comments&quot;&gt;查看回复的完整內容&lt;/a&gt;，欢迎再次光临&lt;a style=&quot;text-decoration:none; color:#12addb&quot;                href=&quot;$&#123;SITE_URL&#125;&quot;&gt; $&#123;SITE_NAME&#125;&lt;/a&gt;。&lt;/p&gt;&lt;style type=&quot;text/css&quot;&gt;a:link&#123;text-decoration:none&#125;a:visited&#123;text-decoration:none&#125;a:hover&#123;text-decoration:none&#125;a:active&#123;text-decoration:none&#125;&lt;/style&gt;&lt;/div&gt;&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p><code>AKISMET_KEY</code>是<code>Akismet</code>垃圾留言过滤系统的<code>Key</code>，需要去<a href="https://docs.akismet.com/getting-started/api-key/" target="_blank" rel="external">官网注册</a>，选择非商业使用，免费得到<code>Key</code>。</p>
+<p>另外，每次修改完环境变量后，要<strong>重启</strong>才能生效。</p>
+<p>其它的应该没什么问题了，如果出现问题，可查看云引擎-&gt;应用日志的报错提示。</p>
 <h2 id="5-11-添加总字数统计和网站运行时长"><a href="#5-11-添加总字数统计和网站运行时长" class="headerlink" title="5.11 添加总字数统计和网站运行时长 "></a><strong>5.11 添加总字数统计和网站运行时长 </strong></h2><p>本着精简、清爽的审美，博客一直没有加太多信息，像每篇文章的字数统计，最近才加的，而且是加在的文章标题附近，也不算违和。<br>另外像访问统计，加过一段时间，但后来又觉得下方空间不够，信息太多，就给去掉了，最近做了修改，加在了文章末尾，也不算太违和。<br>至于本次准备添加的总字数统计和网站运行时长，之前想过加，但又感觉没位置了，加在其它地方，信息显示太多，比较乱，不能接受。</p>
 <p>这两天对博客自定义修改比较多，看到“关于我”那块，比较单调，干脆加上字数统计和网站运行时长，一来显得没那么单调，二来默认不显示，整体也清爽。</p>
 <p><strong>a. 安装字数统计插件hexo-wordcount</strong><br>在博客根目录下，执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i hexo-wordcount --save</div></pre></td></tr></table></figure></p>
@@ -545,7 +559,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Github-Pages"><span class="toc-number">1.</span> <span class="toc-text">1.Github Pages</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-安装、配置Hexo"><span class="toc-number">2.</span> <span class="toc-text">2.安装、配置Hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-配置博客、发表文章"><span class="toc-number">3.</span> <span class="toc-text">3.配置博客、发表文章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1修改网站相关信息："><span class="toc-number">3.1.</span> <span class="toc-text">3.1修改网站相关信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2修改配置部署相关信息："><span class="toc-number">3.2.</span> <span class="toc-text">3.2修改配置部署相关信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3修改主题："><span class="toc-number">3.3.</span> <span class="toc-text">3.3修改主题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4发表文章："><span class="toc-number">3.4.</span> <span class="toc-text">3.4发表文章：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-绑定自己域名（可选）"><span class="toc-number">4.</span> <span class="toc-text">4.绑定自己域名（可选）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1购买域名"><span class="toc-number">4.1.</span> <span class="toc-text">4.1购买域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2绑定域名"><span class="toc-number">4.2.</span> <span class="toc-text">4.2绑定域名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-优化日常操作（可选）"><span class="toc-number">5.</span> <span class="toc-text">5.优化日常操作（可选）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-hexo命令简写"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 hexo命令简写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-添加版权信息"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 添加版权信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-自动添加目录-已舍弃"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 自动添加目录(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-添加访问人数统计-已更新"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 添加访问人数统计(已更新)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-脚本自动化-已舍弃"><span class="toc-number">5.5.</span> <span class="toc-text">5.5 脚本自动化(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-提交搜索引擎（百度-谷歌-必应）"><span class="toc-number">5.6.</span> <span class="toc-text">5.6 提交搜索引擎（百度+谷歌+必应）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-添加评论模块-已舍弃"><span class="toc-number">5.7.</span> <span class="toc-text">5.7 添加评论模块(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-8-添加字数统计"><span class="toc-number">5.8.</span> <span class="toc-text">5.8 添加字数统计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-9-添加live2d看板动画-已舍弃"><span class="toc-number">5.9.</span> <span class="toc-text">5.9 添加live2d看板动画(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-10-添加评论模块Valine"><span class="toc-number">5.10.</span> <span class="toc-text">5.10 添加评论模块Valine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-11-添加总字数统计和网站运行时长"><span class="toc-number">5.11.</span> <span class="toc-text">5.11 添加总字数统计和网站运行时长 </span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Github-Pages"><span class="toc-number">1.</span> <span class="toc-text">1.Github Pages</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-安装、配置Hexo"><span class="toc-number">2.</span> <span class="toc-text">2.安装、配置Hexo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-配置博客、发表文章"><span class="toc-number">3.</span> <span class="toc-text">3.配置博客、发表文章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1修改网站相关信息："><span class="toc-number">3.1.</span> <span class="toc-text">3.1修改网站相关信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2修改配置部署相关信息："><span class="toc-number">3.2.</span> <span class="toc-text">3.2修改配置部署相关信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3修改主题："><span class="toc-number">3.3.</span> <span class="toc-text">3.3修改主题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4发表文章："><span class="toc-number">3.4.</span> <span class="toc-text">3.4发表文章：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-绑定自己域名（可选）"><span class="toc-number">4.</span> <span class="toc-text">4.绑定自己域名（可选）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1购买域名"><span class="toc-number">4.1.</span> <span class="toc-text">4.1购买域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2绑定域名"><span class="toc-number">4.2.</span> <span class="toc-text">4.2绑定域名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-优化日常操作（可选）"><span class="toc-number">5.</span> <span class="toc-text">5.优化日常操作（可选）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-hexo命令简写"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 hexo命令简写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-添加版权信息"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 添加版权信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-自动添加目录-已舍弃"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 自动添加目录(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-添加访问人数统计-已更新"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 添加访问人数统计(已更新)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-脚本自动化-已舍弃"><span class="toc-number">5.5.</span> <span class="toc-text">5.5 脚本自动化(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-提交搜索引擎（百度-谷歌-必应）"><span class="toc-number">5.6.</span> <span class="toc-text">5.6 提交搜索引擎（百度+谷歌+必应）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-添加评论模块Gitment-已舍弃"><span class="toc-number">5.7.</span> <span class="toc-text">5.7 添加评论模块Gitment(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-8-添加字数统计"><span class="toc-number">5.8.</span> <span class="toc-text">5.8 添加字数统计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-9-添加live2d看板动画-已舍弃"><span class="toc-number">5.9.</span> <span class="toc-text">5.9 添加live2d看板动画(已舍弃)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-10-添加评论模块Valine"><span class="toc-number">5.10.</span> <span class="toc-text">5.10 添加评论模块Valine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-11-添加总字数统计和网站运行时长"><span class="toc-number">5.11.</span> <span class="toc-text">5.11 添加总字数统计和网站运行时长 </span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -565,7 +579,8 @@
   
 
   
-  
+ 
+<!-- 评论系统Valine:添加开始位置 --> 	  
 
   <section id="comments" class="comments">
     <style>
@@ -588,7 +603,7 @@
             app_key: "amfFf8PG5jc4y0tbESLbDgnR",
             placeholder: "友情提醒：无需填入昵称、邮箱、网站也能匿名评论！\n \n (填入邮箱可以接收回复提醒；填写邮箱后，该邮箱会收到一封验证邮件，请点击“验证邮箱”以确认邮箱是您本人使用)",
             avatar: "identicon",
-            avatar_cdn: "https://sdn.geekzu.org/avatar/",
+            avatar_cdn: "undefined",
             pageSize: 15
     });
     if(window.location.hash){
@@ -602,6 +617,7 @@
 </script>
   </section>
 
+<!-- 评论系统Valine:添加结束位置 --> 	 
 
 
 
@@ -700,6 +716,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
@@ -713,10 +733,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -744,23 +760,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -772,15 +776,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -796,7 +812,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -808,7 +824,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -816,15 +832,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -836,7 +848,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -848,11 +860,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -860,15 +868,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -880,7 +896,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -888,11 +904,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
             
             <div class="clearfix"></div>
@@ -948,7 +964,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;221.1k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;222.9k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
