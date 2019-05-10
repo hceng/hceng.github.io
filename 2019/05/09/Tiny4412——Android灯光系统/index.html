@@ -14,12 +14,13 @@
 <meta property="og:url" content="http://yoursite.com/2019/05/09/Tiny4412——Android灯光系统/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="继续学习Android驱动，Android灯光系统。">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-05-09T15:40:09.536Z">
+<meta property="og:updated_time" content="2019-05-10T10:06:21.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tiny4412——Android灯光系统">
 <meta name="twitter:description" content="继续学习Android驱动，Android灯光系统。">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -190,7 +191,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 570 </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 1.8k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -198,7 +199,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 2 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 8 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -220,9 +221,37 @@
         <p>继续学习Android驱动，Android灯光系统。<br><a id="more"></a></p>
 <h1 id="1-思路分析"><a href="#1-思路分析" class="headerlink" title="1.思路分析"></a>1.思路分析</h1><p>前面对<a href="http://localhost:4000/2019/03/15/Tiny4412%E2%80%94%E2%80%94Android%E8%AE%BF%E9%97%AE%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/#3-2-Android%E7%A1%AC%E4%BB%B6%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1" target="_blank" rel="external">3.2 Android硬件访问服务</a>进行了详细的分析，知道了Android大致可以分为四层：<code>APP</code>、<code>JNI</code>、<code>HAL</code>、<code>Driver</code>。<br>回顾下前面写的点灯程序过程：<code>APP</code>调用<code>JNI</code>提供的本地接口方法；<code>JNI</code>除了向上提供接口，还要调用<code>HAL</code>提供的硬件操作函数；<code>HAL</code>操作Linux用户态的LED设备节点；<code>Driver</code>操作硬件，提供设备节点。</p>
 <p>在编写<code>JNI</code>时，我们自己创建的<code>com_android_server_LedService.cpp</code>，这样就会导致提供的接口，只有我们才知道，在<code>APP</code>不通用。因此，更好的做法是使用Android提供的灯光系统，即使用自带的<code>com_android_server_lights_LightsService.cpp</code>，这样LED的接口就可以通用，<code>APP</code>也就可以实现通用。相应的，我们要做的就是<strong>编写<code>HAL</code>层代码，提供<code>JNI</code>所需要的函数，以及编写<code>Driver</code>提供给<code>HAL</code></strong>。</p>
-<p>首先分析下<code>frameworks/base/services/core/jni/com_android_server_lights_LightsService.cpp</code>。<br>找到<code>JNINativeMethod</code>，里面建立Java本地方法与C函数名的映射关系，可以看到有三个函数:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> JNINativeMethod method_table[] = &#123;</div><div class="line">    &#123; <span class="string">"init_native"</span>, <span class="string">"()J"</span>, (<span class="keyword">void</span>*)init_native &#125;,</div><div class="line">    &#123; <span class="string">"finalize_native"</span>, <span class="string">"(J)V"</span>, (<span class="keyword">void</span>*)finalize_native &#125;,</div><div class="line">    &#123; <span class="string">"setLight_native"</span>, <span class="string">"(JIIIIII)V"</span>, (<span class="keyword">void</span>*)setLight_native &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>先看<code>init_native()</code>：<br>a.使用<code>hw_get_module()</code>，获得<code>hw_module_t</code>结构体；<br>b.使用<code>module-&gt;methods-&gt;open()</code>，根据传入的不同名字，再经过转换，获得不同的<code>light_device_t</code>结构体，;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> light_device_t* <span class="title">get_device</span><span class="params">(<span class="keyword">hw_module_t</span>* <span class="keyword">module</span>, <span class="keyword">char</span> <span class="keyword">const</span>* name)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> err;</div><div class="line">    <span class="keyword">hw_device_t</span>* device;</div><div class="line">    err = <span class="keyword">module</span>-&gt;methods-&gt;open(<span class="keyword">module</span>, name, &amp;device);</div><div class="line">    <span class="keyword">if</span> (err == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">light_device_t</span>*)device;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> jlong <span class="title">init_native</span><span class="params">(JNIEnv *env, jobject clazz)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> err;</div><div class="line">    <span class="keyword">hw_module_t</span>* <span class="keyword">module</span>;</div><div class="line">    Devices* devices;</div><div class="line">    </div><div class="line">    devices = (Devices*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Devices));</div><div class="line"></div><div class="line">    err = hw_get_module(LIGHTS_HARDWARE_MODULE_ID, (<span class="keyword">hw_module_t</span> <span class="keyword">const</span>**)&amp;<span class="keyword">module</span>);</div><div class="line">    <span class="keyword">if</span> (err == <span class="number">0</span>) &#123;</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BACKLIGHT]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BACKLIGHT);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_KEYBOARD]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_KEYBOARD);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BUTTONS]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BUTTONS);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BATTERY]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BATTERY);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_NOTIFICATIONS]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_NOTIFICATIONS);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_ATTENTION]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_ATTENTION);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BLUETOOTH]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BLUETOOTH);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_WIFI]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_WIFI);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">memset</span>(devices, <span class="number">0</span>, <span class="keyword">sizeof</span>(Devices));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (jlong)devices;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="2-编写Driver"><a href="#2-编写Driver" class="headerlink" title="2.编写Driver"></a>2.编写Driver</h1><h1 id="3-编写HAL"><a href="#3-编写HAL" class="headerlink" title="3.编写HAL"></a>3.编写HAL</h1><!-- 
+<p>首先分析<code>JNI</code>层的<code>frameworks/base/services/core/jni/com_android_server_lights_LightsService.cpp</code>。<br>找到<code>JNINativeMethod</code>，里面建立Java本地方法与C函数名的映射关系，可以看到有三个函数:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> JNINativeMethod method_table[] = &#123;</div><div class="line">    &#123; <span class="string">"init_native"</span>, <span class="string">"()J"</span>, (<span class="keyword">void</span>*)init_native &#125;,</div><div class="line">    &#123; <span class="string">"finalize_native"</span>, <span class="string">"(J)V"</span>, (<span class="keyword">void</span>*)finalize_native &#125;,</div><div class="line">    &#123; <span class="string">"setLight_native"</span>, <span class="string">"(JIIIIII)V"</span>, (<span class="keyword">void</span>*)setLight_native &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>先看<code>init_native()</code>：<br>a.使用<code>hw_get_module()</code>，获得<code>hw_module_t</code>结构体；<br>b.根据传入的不同<code>name</code>，使用<code>module-&gt;methods-&gt;open()</code>，获得不同的<code>light_device_t</code>结构体;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> light_device_t* <span class="title">get_device</span><span class="params">(<span class="keyword">hw_module_t</span>* <span class="keyword">module</span>, <span class="keyword">char</span> <span class="keyword">const</span>* name)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> err;</div><div class="line">    <span class="keyword">hw_device_t</span>* device;</div><div class="line">    err = <span class="keyword">module</span>-&gt;methods-&gt;open(<span class="keyword">module</span>, name, &amp;device);</div><div class="line">    <span class="keyword">if</span> (err == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">light_device_t</span>*)device;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> jlong <span class="title">init_native</span><span class="params">(JNIEnv *env, jobject clazz)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> err;</div><div class="line">    <span class="keyword">hw_module_t</span>* <span class="keyword">module</span>;</div><div class="line">    Devices* devices;</div><div class="line">    </div><div class="line">    devices = (Devices*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Devices));</div><div class="line"></div><div class="line">    err = hw_get_module(LIGHTS_HARDWARE_MODULE_ID, (<span class="keyword">hw_module_t</span> <span class="keyword">const</span>**)&amp;<span class="keyword">module</span>);</div><div class="line">    <span class="keyword">if</span> (err == <span class="number">0</span>) &#123;</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BACKLIGHT]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BACKLIGHT);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_KEYBOARD]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_KEYBOARD);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BUTTONS]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BUTTONS);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BATTERY]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BATTERY);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_NOTIFICATIONS]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_NOTIFICATIONS);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_ATTENTION]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_ATTENTION);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_BLUETOOTH]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_BLUETOOTH);</div><div class="line">        devices-&gt;lights[LIGHT_INDEX_WIFI]</div><div class="line">                = get_device(<span class="keyword">module</span>, LIGHT_ID_WIFI);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">memset</span>(devices, <span class="number">0</span>, <span class="keyword">sizeof</span>(Devices));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (jlong)devices;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>再来看<code>setLight_native()</code>：<br>主要就是根据<code>APP</code>传入的参数，调用前面<code>light_device_t</code>结构体里的<code>set_light()</code>。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setLight_native</span><span class="params">(JNIEnv *env, jobject clazz, jlong ptr,</span></span></div><div class="line">        jint light, jint colorARGB, jint flashMode, jint onMS, jint offMS, jint brightnessMode)</div><div class="line">&#123;</div><div class="line">    Devices* devices = (Devices*)ptr;</div><div class="line">    <span class="keyword">light_state_t</span> state;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (light &lt; <span class="number">0</span> || light &gt;= LIGHT_COUNT || devices-&gt;lights[light] == <span class="literal">NULL</span>) &#123;</div><div class="line">        <span class="keyword">return</span> ;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">memset</span>(&amp;state, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="keyword">light_state_t</span>));</div><div class="line">    state.color = colorARGB;</div><div class="line">    state.flashMode = flashMode;</div><div class="line">    state.flashOnMS = onMS;</div><div class="line">    state.flashOffMS = offMS;</div><div class="line">    state.brightnessMode = brightnessMode;</div><div class="line"></div><div class="line">    &#123;</div><div class="line">        ALOGD_IF_SLOW(<span class="number">50</span>, <span class="string">"Excessive delay setting light"</span>);</div><div class="line">        devices-&gt;lights[light]-&gt;set_light(devices-&gt;lights[light], &amp;state);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后<code>finalize_native()</code>做一些清理操作。</p>
+<p>理清楚了<code>JNI</code>层的操作，对应的<code>HAL</code>层需要提供什么，也基本清晰了：<br>a.实现<code>hw_module_t</code>结构体；<br>b.实现<code>open()</code>，根据传入的<code>name</code>，返回不同的<code>light_device_t</code>结构体；<br>c.针对功能需求，实现对应<code>light_device_t</code>结构体里的<code>set_light()</code>：<code>set_light_battery()</code>、<code>set_light_notifications()</code>、<code>set_light_backlight()</code>；</p>
+<p>根据<code>HAL</code>层的需求，<code>Driver</code>层要做的就是：<br>a.对于<code>set_light_battery()</code>、<code>set_light_notifications()</code>，实现控制R、G、B三个LED的亮、灭、闪烁；<br>b.对于<code>set_light_backlight()</code>，设置<code>PWM</code>实现亮度控制；</p>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/1.jpg"></div>
+
+<h1 id="2-编写Driver"><a href="#2-编写Driver" class="headerlink" title="2.编写Driver"></a>2.编写Driver</h1><p>驱动需要两个，一个是用于电源灯/通知灯的，一个是用于LCD背光的。<br>用于电源灯/通知灯的，需要实现控制LED亮灭、LED灯定时闪烁；用于LCD背光的需要<code>PWM</code>操作。</p>
+<h2 id="2-1-LED驱动"><a href="#2-1-LED驱动" class="headerlink" title="2.1 LED驱动"></a>2.1 LED驱动</h2><p>先说用于电源灯/通知灯的驱动，之前在<a href="https://hceng.cn/2019/03/15/Tiny4412%E2%80%94%E2%80%94Android%E8%AE%BF%E9%97%AE%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/#3-1-1-%E7%BC%96%E5%86%99LED%E9%A9%B1%E5%8A%A8" target="_blank" rel="external">Android访问硬件的方法:3.1.1编写LED驱动</a>写过一次，但当时的驱动只支持LED的亮灭，不支持定时闪烁。我们完全可以添加个<code>ioctl()</code>操作，利用定时器实现闪烁功能，但没有必要，可以直接利用Linux的LED子系统。关于LED子系统，在以前写<a href="https://hceng.cn/2017/08/12/AM437x%E2%80%94%E2%80%94LED%E9%A9%B1%E5%8A%A8/#5-LED%E5%AD%90%E7%B3%BB%E7%BB%9F%E9%A9%B1%E5%8A%A8" target="_blank" rel="external">AM437x——LED驱动</a>已经详细介绍过了，这里直接采用LED子系统的方式编写LED驱动程序。</p>
+<ul>
+<li>编写步骤：<br>a.分配<code>led_classde</code>结构体；<br>b.设置<code>led_classdev</code>结构体：<br>　　<code>max_brightness = LED_FULL;</code><br>　　<code>brightness_set = tiny4412_brightness_set;</code><br>　　<code>flags = LED_CORE_SUSPENDRESUME;</code><br>　　<code>brightness = LED_OFF;</code><br>　　<code>name = led_gpios[i].name;</code><br>　　<code>default_trigger = &quot;none&quot;;</code><br>c.硬件相关初始化(设置GPIO，关闭LED等)；<br>d.使用<code>led_classdev_register()</code>注册<code>led_classde</code>；<br>e.实现<code>tiny4412_brightness_set()</code>(GPIO不支持亮度设置，这里仅支持亮灭)；</li>
+</ul>
+<ul>
+<li><p>参考代码：</p>
+<figure class="highlight c"><figcaption><span>[tiny4412_leds.c]</span><a href="https://github.com/hceng/learn/blob/master/android/02_%E7%81%AF%E5%85%89%E7%B3%BB%E7%BB%9F/driver/leds/tiny4412_leds.c" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/kernel.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/slab.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/gpio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/leds.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;plat/gpio-cfg.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">struct</span> led_desc &#123;</div><div class="line">    <span class="keyword">int</span> gpio;</div><div class="line">    <span class="keyword">char</span> *name;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> led_desc led_gpios[] = &#123;</div><div class="line">    &#123;EXYNOS4212_GPM4(<span class="number">0</span>), <span class="string">"led1"</span>&#125;,</div><div class="line">    &#123;EXYNOS4212_GPM4(<span class="number">1</span>), <span class="string">"led2"</span>&#125;,</div><div class="line">    &#123;EXYNOS4212_GPM4(<span class="number">2</span>), <span class="string">"led3"</span>&#125;,</div><div class="line">    &#123;EXYNOS4212_GPM4(<span class="number">3</span>), <span class="string">"led4"</span>&#125;,</div><div class="line">&#125;;</div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> pin_num = <span class="keyword">sizeof</span>(led_gpios)/<span class="keyword">sizeof</span>(led_gpios[<span class="number">0</span>]);</div><div class="line"></div><div class="line"><span class="keyword">struct</span> tiny4412_led_data &#123;</div><div class="line">    <span class="keyword">struct</span> led_classdev led_dev;</div><div class="line">    <span class="keyword">int</span> gpio;</div><div class="line">    <span class="keyword">struct</span> mutex lock; </div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> tiny4412_led_data *led_devs;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">tiny4412_brightness_set</span><span class="params">(<span class="keyword">struct</span> led_classdev *led_cdev,</span></span></div><div class="line">                      <span class="keyword">enum</span> led_brightness brightness)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">struct</span> tiny4412_led_data *dev = (<span class="keyword">struct</span> tiny4412_led_data *)led_cdev;</div><div class="line">    </div><div class="line">    printk(KERN_DEBUG <span class="string">"Passed %s %d \n"</span>,__FUNCTION__,__LINE__);</div><div class="line"></div><div class="line">    led_cdev-&gt;brightness = brightness;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (brightness != LED_OFF)</div><div class="line">        gpio_set_value(dev-&gt;gpio, <span class="number">0</span>);</div><div class="line">    <span class="keyword">else</span></div><div class="line">        gpio_set_value(dev-&gt;gpio, <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">leds_drv_init</span><span class="params">(<span class="keyword">void</span>)</span>  </span></div><div class="line">&#123;   </div><div class="line">    <span class="keyword">int</span> i, ret;</div><div class="line">    </div><div class="line">    printk(KERN_DEBUG <span class="string">"Passed %s %d \n"</span>,__FUNCTION__,__LINE__);</div><div class="line">    </div><div class="line">    <span class="comment">//1. alloc led_classdev</span></div><div class="line">    led_devs = kzalloc(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> tiny4412_led_data) * pin_num, GFP_KERNEL);</div><div class="line">    <span class="keyword">if</span> (led_devs == <span class="literal">NULL</span>) &#123;</div><div class="line">        printk(KERN_ERR <span class="string">"No memory for device\n"</span>);</div><div class="line">        <span class="keyword">return</span> -ENOMEM;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pin_num; i++)</div><div class="line">    &#123;</div><div class="line">        mutex_init(&amp;led_devs[i].lock);</div><div class="line">        mutex_lock(&amp;led_devs[i].lock);</div><div class="line"></div><div class="line">        <span class="comment">//2. set led_classdev</span></div><div class="line">        led_devs[i].led_dev.max_brightness = LED_FULL; <span class="comment">//255</span></div><div class="line">        led_devs[i].led_dev.brightness_set = tiny4412_brightness_set;</div><div class="line">        led_devs[i].led_dev.flags = LED_CORE_SUSPENDRESUME;</div><div class="line">        led_devs[i].led_dev.brightness = LED_OFF;</div><div class="line">        led_devs[i].led_dev.name = led_gpios[i].name;</div><div class="line">        led_devs[i].led_dev.default_trigger = <span class="string">"none"</span>;</div><div class="line">        </div><div class="line">        led_devs[i].gpio = led_gpios[i].gpio;</div><div class="line">        </div><div class="line">        <span class="comment">//3. Hardware setup(Default led off)</span></div><div class="line">        s3c_gpio_cfgpin(led_gpios[i].gpio, S3C_GPIO_OUTPUT);</div><div class="line">        <span class="keyword">if</span> (led_devs[i].led_dev.brightness == LED_OFF)</div><div class="line">            gpio_set_value(led_gpios[i].gpio, <span class="number">1</span>);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            gpio_set_value(led_gpios[i].gpio, <span class="number">0</span>);</div><div class="line"></div><div class="line">        <span class="comment">//4. led_classdev_register </span></div><div class="line">        ret = led_classdev_register(<span class="literal">NULL</span>, &amp;led_devs[i].led_dev);</div><div class="line">        <span class="keyword">if</span> (ret) &#123;</div><div class="line">            i--;</div><div class="line">            <span class="keyword">while</span> (i &gt;= <span class="number">0</span>) &#123;</div><div class="line">                led_classdev_unregister(&amp;led_devs[i].led_dev);</div><div class="line">                i--;</div><div class="line">            &#125;</div><div class="line">            mutex_unlock(&amp;led_devs[i].lock);</div><div class="line">            kfree(led_devs);</div><div class="line">            <span class="keyword">return</span> -EIO;</div><div class="line">        &#125;</div><div class="line">        mutex_unlock(&amp;led_devs[i].lock);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">leds_drv_exit</span><span class="params">(<span class="keyword">void</span>)</span>  </span></div><div class="line">&#123;  </div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    </div><div class="line">    printk(KERN_DEBUG <span class="string">"Passed %s %d \n"</span>,__FUNCTION__,__LINE__);</div><div class="line">        </div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pin_num; i++)</div><div class="line">    &#123;</div><div class="line">        mutex_lock(&amp;led_devs[i].lock);</div><div class="line">        </div><div class="line">        led_classdev_unregister(&amp;led_devs[i].led_dev);</div><div class="line">    </div><div class="line">        mutex_unlock(&amp;led_devs[i].lock);</div><div class="line">    &#125;</div><div class="line">    kfree(led_devs);</div><div class="line">&#125; </div><div class="line"></div><div class="line"></div><div class="line">module_init(leds_drv_init);</div><div class="line">module_exit(leds_drv_exit);</div><div class="line">MODULE_LICENSE(<span class="string">"GPL"</span>);</div><div class="line">MODULE_AUTHOR(<span class="string">"hceng &lt;huangcheng.job@foxmail.com&gt;"</span>);</div><div class="line">MODULE_DESCRIPTION(<span class="string">"Tiny4412 leds driver."</span>);</div><div class="line">MODULE_VERSION(<span class="string">"v1.0"</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译进内核：<br>首先让内核支持LED子系统，且支持<code>Timer</code>触发，在内核根目录执行<code>make menuconfig</code>，勾选上下面选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[*] LED Support  ---&gt;</div><div class="line">    --- LED Support                                              </div><div class="line">    [*]   LED Class Support  </div><div class="line">    ……</div><div class="line">    [*]   LED Trigger support </div><div class="line">     *** LED Triggers ***                                                      </div><div class="line">     &lt;*&gt;   LED Timer Trigger</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>接着将<code>tiny4412_leds.c</code>放在<code>drivers/leds/</code>里，并在该路径下的<code>Makefile</code>添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">obj-y += tiny4412_leds.o</div></pre></td></tr></table></figure></p>
+<p>最后执行<code>make zImage</code>重新编译内核，并重新烧写内核。</p>
+<ul>
+<li>应用层测试：<br>进入系统，可以看到已经生成了<code>LED</code>的节点：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ls /sys/class/leds/ -l</div><div class="line">lrwxrwxrwx root     root              2019-05-10 09:58 led1 -&gt; ../../devices/virtual/leds/led1</div><div class="line">lrwxrwxrwx root     root              2019-05-10 09:58 led2 -&gt; ../../devices/virtual/leds/led2</div><div class="line">lrwxrwxrwx root     root              2019-05-10 09:58 led3 -&gt; ../../devices/virtual/leds/led3</div><div class="line">lrwxrwxrwx root     root              2019-05-10 09:58 led4 -&gt; ../../devices/virtual/leds/led4</div><div class="line">lrwxrwxrwx root     root              2019-05-10 10:05 mmc1:: -&gt; ../../devices/platform/s3c-sdhci.2/leds/mmc1::</div><div class="line">lrwxrwxrwx root     root              2019-05-10 10:05 mmc2:: -&gt; ../../devices/platform/s3c-sdhci.3/leds/mmc2::</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>执行<code>su</code>切换到<code>root</code>用户，再执如下命令即可控制对应LED亮灭：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo 255 &gt; /sys/class/leds/led1/brightness</div><div class="line">echo 0 &gt; /sys/class/leds/led1/brightness</div></pre></td></tr></table></figure></p>
+<p>执行以下命令，修改触发模式为<code>timer</code>，即可实现LED闪烁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo timer &gt; /sys/class/leds/led1/trigger</div></pre></td></tr></table></figure></p>
+<p>此时<code>/sys/class/leds/led1/</code>会生成<code>delay_off</code>和<code>delay_on</code>，可修改这两个值，控制闪烁亮灭时间。</p>
+<h2 id="2-2-背光驱动"><a href="#2-2-背光驱动" class="headerlink" title="2.2 背光驱动"></a>2.2 背光驱动</h2><h1 id="3-编写HAL"><a href="#3-编写HAL" class="headerlink" title="3.编写HAL"></a>3.编写HAL</h1><!-- 
 
 https://github.com/weidongshan/DRV_0001_LEDS/blob/v2/leds_4412.c
 
@@ -393,7 +422,7 @@ https://github.com/weidongshan/DRV_0001_LEDS/blob/v2/leds_4412.c
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-思路分析"><span class="toc-number">1.</span> <span class="toc-text">1.思路分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-编写Driver"><span class="toc-number">2.</span> <span class="toc-text">2.编写Driver</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写HAL"><span class="toc-number">3.</span> <span class="toc-text">3.编写HAL</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-思路分析"><span class="toc-number">1.</span> <span class="toc-text">1.思路分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-编写Driver"><span class="toc-number">2.</span> <span class="toc-text">2.编写Driver</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-LED驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 LED驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-背光驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 背光驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写HAL"><span class="toc-number">3.</span> <span class="toc-text">3.编写HAL</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -582,15 +611,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -614,18 +647,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -634,7 +655,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -646,7 +667,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -658,11 +687,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -670,11 +695,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -686,7 +707,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -698,11 +723,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,7 +743,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -719,10 +752,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -798,7 +827,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;223.3k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;224.5k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
