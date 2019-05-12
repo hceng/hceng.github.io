@@ -16,7 +16,7 @@
 <meta property="og:description" content="继续学习Android驱动，Android灯光系统。">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-05-12T10:21:07.522Z">
+<meta property="og:updated_time" content="2019-05-12T11:11:36.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tiny4412——Android灯光系统">
 <meta name="twitter:description" content="继续学习Android驱动，Android灯光系统。">
@@ -229,7 +229,7 @@
 <p>根据<code>HAL</code>层的需求，<code>Driver</code>层要做的就是：<br>a.对于<code>set_light_battery()</code>、<code>set_light_notifications()</code>，实现控制R、G、B三个LED的亮、灭、闪烁；<br>b.对于<code>set_light_backlight()</code>，设置<code>PWM</code>实现亮度控制；</p>
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/1.jpg"></div>
 
-<h1 id="2-编写Driver"><a href="#2-编写Driver" class="headerlink" title="2.编写Driver"></a>2.编写Driver</h1><p>驱动需要两个，一个是用于电源灯/通知灯的，一个是用于LCD背光的。<br>用于电源灯/通知灯的，需要实现控制LED亮灭、LED灯定时闪烁；用于LCD背光的需要<code>PWM</code>操作。</p>
+<h1 id="2-编写驱动"><a href="#2-编写驱动" class="headerlink" title="2.编写驱动"></a>2.编写驱动</h1><p>驱动需要两个，一个是用于电源灯/通知灯的，一个是用于LCD背光的。<br>用于电源灯/通知灯的，需要实现控制LED亮灭、LED灯定时闪烁；用于LCD背光的需要<code>PWM</code>操作。</p>
 <h2 id="2-1-LED驱动"><a href="#2-1-LED驱动" class="headerlink" title="2.1 LED驱动"></a>2.1 LED驱动</h2><p>先说用于电源灯/通知灯的驱动，之前在<a href="https://hceng.cn/2019/03/15/Tiny4412%E2%80%94%E2%80%94Android%E8%AE%BF%E9%97%AE%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/#3-1-1-%E7%BC%96%E5%86%99LED%E9%A9%B1%E5%8A%A8" target="_blank" rel="external">Android访问硬件的方法:3.1.1编写LED驱动</a>写过一次，但当时的驱动只支持LED的亮灭，不支持定时闪烁。我们完全可以添加个<code>ioctl()</code>操作，利用定时器实现闪烁功能，但没有必要，可以直接利用Linux的LED子系统。关于LED子系统，在以前写<a href="https://hceng.cn/2017/08/12/AM437x%E2%80%94%E2%80%94LED%E9%A9%B1%E5%8A%A8/#5-LED%E5%AD%90%E7%B3%BB%E7%BB%9F%E9%A9%B1%E5%8A%A8" target="_blank" rel="external">AM437x——LED驱动</a>已经详细介绍过了，这里直接采用LED子系统的方式编写LED驱动程序。</p>
 <ul>
 <li>编写步骤：<br>a.分配<code>led_classde</code>结构体；<br>b.设置<code>led_classdev</code>结构体：<br>　　<code>max_brightness = LED_FULL;</code><br>　　<code>brightness_set = tiny4412_brightness_set;</code><br>　　<code>flags = LED_CORE_SUSPENDRESUME;</code><br>　　<code>brightness = LED_OFF;</code><br>　　<code>name = led_gpios[i].name;</code><br>　　<code>default_trigger = &quot;none&quot;;</code><br>c.硬件相关初始化(设置GPIO，关闭LED等)；<br>d.使用<code>led_classdev_register()</code>注册<code>led_classde</code>；<br>e.实现<code>tiny4412_brightness_set()</code>(GPIO不支持亮度设置，这里仅支持亮灭)；</li>
@@ -278,7 +278,7 @@
 <p>执行<code>make zImage</code>编译内核，烧写内核。</p>
 <p>e.效果<br>重新启动后，执行<code>logcat lights:V *:S</code>，打开APP设置，显示，设置亮度，可以看到如下打印信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">shell@tiny4412:/ $ logcat lights:V *:S</div><div class="line">--------- beginning of main</div><div class="line">--------- beginning of system</div><div class="line">V/lights  ( 1973): set_light_battery flashMode=1 onMS = 125 offMS = 2875 color=0xffff0000</div><div class="line">V/lights  ( 1973): set_light_backlight brightness=255 color=0xffffffff</div><div class="line"></div><div class="line">V/lights  ( 1983): set_light_backlight brightness=10 color=0xff0a0a0a</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=11 color=0xff0b0b0b</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=18 color=0xff121212</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=22 color=0xff161616</div><div class="line">……</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=228 color=0xffe4e4e4</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=238 color=0xffeeeeee</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=247 color=0xfff7f7f7</div><div class="line">V/lights  ( 1983): set_light_backlight brightness=255 color=0xffffffff</div></pre></td></tr></table></figure></p>
 <p>可以看到调用了<code>set_light_battery()</code>，模式为1(<code>LIGHT_FLASH_TIMED</code>)闪烁，闪烁时间，颜色为<code>0xff0000</code>红色。因为此时板子连接着电源，且没有电池，认为是充满电状态。<br>接着是<code>set_light_backlight()</code>，将亮度条从最暗拖到最亮，LCD也逐渐变亮，<code>brightness</code>也从10-255变化。</p>
-<h1 id="4-编写APP"><a href="#4-编写APP" class="headerlink" title="4.编写APP"></a>4.编写APP</h1><!-- 
+<h1 id="4-Android源码调用分析"><a href="#4-Android源码调用分析" class="headerlink" title="4.Android源码调用分析"></a>4.Android源码调用分析</h1><!-- 
 
 
  -->
@@ -446,7 +446,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-思路分析"><span class="toc-number">1.</span> <span class="toc-text">1.思路分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-编写Driver"><span class="toc-number">2.</span> <span class="toc-text">2.编写Driver</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-LED驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 LED驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-backligth驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 backligth驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写HAL"><span class="toc-number">3.</span> <span class="toc-text">3.编写HAL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1编写步骤"><span class="toc-number">3.1.</span> <span class="toc-text">3.1编写步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2参考代码及分析"><span class="toc-number">3.2.</span> <span class="toc-text">3.2参考代码及分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3编译、烧写、测试"><span class="toc-number">3.3.</span> <span class="toc-text">3.3编译、烧写、测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-编写APP"><span class="toc-number">4.</span> <span class="toc-text">4.编写APP</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-思路分析"><span class="toc-number">1.</span> <span class="toc-text">1.思路分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-编写驱动"><span class="toc-number">2.</span> <span class="toc-text">2.编写驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-LED驱动"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 LED驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-backligth驱动"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 backligth驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-编写HAL"><span class="toc-number">3.</span> <span class="toc-text">3.编写HAL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1编写步骤"><span class="toc-number">3.1.</span> <span class="toc-text">3.1编写步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2参考代码及分析"><span class="toc-number">3.2.</span> <span class="toc-text">3.2参考代码及分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3编译、烧写、测试"><span class="toc-number">3.3.</span> <span class="toc-text">3.3编译、烧写、测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Android源码调用分析"><span class="toc-number">4.</span> <span class="toc-text">4.Android源码调用分析</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -623,15 +623,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -651,6 +651,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -663,19 +667,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -719,11 +719,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -739,15 +739,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
