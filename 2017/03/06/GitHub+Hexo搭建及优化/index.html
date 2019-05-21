@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/7.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/170306/8.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-05-21T08:49:11.908Z">
+<meta property="og:updated_time" content="2019-05-21T09:00:35.694Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitHub+Hexo博客搭建及优化">
 <meta name="twitter:description" content="本文主要是记录本博客的搭建和优化。">
@@ -391,7 +391,7 @@
 <p>修改之后，会导致<code>yilia\_config.yml</code>里的<code>aboutme:</code>所显示的效果排版比较乱，尝试了下从源头解决无果，现在的解决方案是使用<code>&amp;nbsp;</code>(空格)、<code>&lt;br&gt;</code>(回车)来调整排版，比如我调整的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">aboutme: &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div><div class="line">         &amp;nbsp; &amp;nbsp;About me:&lt;br&gt;</div><div class="line">         &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt;</div><div class="line">         &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt;</div><div class="line">         &lt;br&gt;</div><div class="line">         &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div></pre></td></tr></table></figure></p>
 <p>比较麻烦，但这个一年也改不到一次，暂时这样吧。</p>
 <p>参考博客：<a href="https://xian6ge.cn/posts/82ce1911/" target="_blank" rel="external">Hexo 页脚增加网站运行时间统计</a></p>
-<h2 id="5-12-添加本地站内搜索"><a href="#5-12-添加本地站内搜索" class="headerlink" title="5.12 添加本地站内搜索 "></a><strong>5.12 添加本地站内搜索 </strong></h2><p>使用的<code>Yilia</code>主题，只能搜索<code>tag</code>和<code>title</code>，无法搜索文章里的具体内容。<br>比如我博客里肯定出现过”打印等级”这几个字，使用默认的搜索，是搜索不出来的。<br>作者原本使用的<code>hexo-generator-json-content</code>插件，会根据<code>\_config.yml</code>的配置，生成<code>\public\content.json</code>文件。<br>在<code>_config.yml</code>的相关配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jsonContent:</div><div class="line">  meta: false</div><div class="line">  pages: false</div><div class="line">  posts:</div><div class="line">    title: true</div><div class="line">    date: true</div><div class="line">    path: false</div><div class="line">    text: true</div><div class="line">    raw: false</div><div class="line">    content: false</div><div class="line">    slug: false</div><div class="line">    updated: false</div><div class="line">    comments: false</div><div class="line">    link: false</div><div class="line">    permalink: false</div><div class="line">    excerpt: false</div><div class="line">    categories: false</div><div class="line">    tags: true</div></pre></td></tr></table></figure></p>
+<h2 id="5-12-添加本地站内搜索"><a href="#5-12-添加本地站内搜索" class="headerlink" title="5.12 添加本地站内搜索 "></a><strong>5.12 添加本地站内搜索 </strong></h2><p>使用的<code>Yilia</code>主题，只能搜索<code>tag</code>和<code>title</code>，无法搜索文章里的具体内容。<br>比如我博客里肯定出现过”打印等级”这几个字，使用默认的搜索，是搜索不出来的。<br>作者原本使用的<code>hexo-generator-json-content</code>插件，会根据<code>\_config.yml</code>的配置，生成<code>\public\content.json</code>文件。<br>在<code>_config.yml</code>的相关配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jsonContent:</div><div class="line">  meta: false</div><div class="line">  pages: false</div><div class="line">  posts:</div><div class="line">    title: true</div><div class="line">    date: true</div><div class="line">    path: true</div><div class="line">    text: true</div><div class="line">    raw: false</div><div class="line">    content: false</div><div class="line">    slug: false</div><div class="line">    updated: false</div><div class="line">    comments: false</div><div class="line">    link: false</div><div class="line">    permalink: false</div><div class="line">    excerpt: false</div><div class="line">    categories: false</div><div class="line">    tags: true</div></pre></td></tr></table></figure></p>
 <p>可以看到打开了<code>title</code>、<code>tags</code>、<code>text</code>，查看<code>\public\content.json</code>，可以看到确实生成了如下结构的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;title&quot;: &quot;Tiny4412——Android灯光系统&quot;,</div><div class="line">  &quot;text&quot;: &quot;继续学习Android驱动，Android灯光系统。 1.思路分析……&quot;,</div><div class="line">  &quot;tags&quot;:</div><div class="line">    [</div><div class="line">        &#123;</div><div class="line">        &quot;name&quot;:&quot;Linux驱动&quot;,</div><div class="line">        &quot;slug&quot;:&quot;Linux驱动&quot;,&quot;</div><div class="line">        permalink&quot;:&quot;http://yoursite.com/tags/Linux驱动/&quot;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">        &quot;name&quot;:&quot;Android驱动&quot;,</div><div class="line">        &quot;slug&quot;:&quot;Android驱动&quot;,</div><div class="line">        &quot;permalink&quot;:&quot;http://yoursite.com/tags/Android驱动/&quot;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        &#123;</div><div class="line">        &quot;name&quot;:&quot;灯光系统&quot;,</div><div class="line">        &quot;slug&quot;:&quot;灯光系统&quot;,</div><div class="line">        &quot;permalink&quot;:&quot;http://yoursite.com/tags/灯光系统/&quot;</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">……</div></pre></td></tr></table></figure></p>
 <p>里面有<code>title</code>、<code>tags</code>、<code>text</code>，说明是源码没有解析。</p>
 <p>找到<code>\themes\yilia_new\source-src\js\slider.js</code>，可以看到如下代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleSearch</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">	val = (val || <span class="string">''</span>).toLowerCase()</div><div class="line">	<span class="keyword">let</span> type = <span class="string">'title'</span></div><div class="line">	<span class="keyword">if</span> (val.indexOf(<span class="string">'#'</span>) === <span class="number">0</span>) &#123;</div><div class="line">		val = val.substr(<span class="number">1</span>, val.length)</div><div class="line">		type = <span class="string">'tag'</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">let</span> items = app.items</div><div class="line">  	items.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</div><div class="line">  		<span class="keyword">let</span> matchTitle = <span class="literal">false</span></div><div class="line">  		<span class="keyword">if</span> (item.title.toLowerCase().indexOf(val) &gt; <span class="number">-1</span>) &#123;</div><div class="line">  			matchTitle = <span class="literal">true</span></div><div class="line">  		&#125;</div><div class="line"></div><div class="line">  		<span class="keyword">let</span> matchTags = <span class="literal">false</span></div><div class="line">  		item.tags.forEach(<span class="function">(<span class="params">tag</span>) =&gt;</span> &#123;</div><div class="line">  			<span class="keyword">if</span> (tag.name.toLowerCase().indexOf(val) &gt; <span class="number">-1</span>) &#123;</div><div class="line">      			matchTags = <span class="literal">true</span></div><div class="line">      		&#125;</div><div class="line">  		&#125;)</div><div class="line"></div><div class="line">  		<span class="keyword">if</span> ((type === <span class="string">'title'</span> &amp;&amp; matchTitle) || (type === <span class="string">'tag'</span> &amp;&amp; matchTags)) &#123;</div><div class="line">  			item.isShow = <span class="literal">true</span></div><div class="line">  		&#125; <span class="keyword">else</span> &#123;</div><div class="line">  			item.isShow = <span class="literal">false</span></div><div class="line">  		&#125;</div><div class="line">  	&#125;)</div><div class="line">  	app.$set(<span class="string">'items'</span>, items)</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>使用<code>item.title.toLowerCase().indexOf(val)</code>匹配<code>title</code>，使用<code>tag.name.toLowerCase().indexOf(val)</code>匹配<code>tag</code>，确实没有对<code>text</code>进行匹配，按理应该修改为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleSearch</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">	val = (val || <span class="string">''</span>).toLowerCase()</div><div class="line">	<span class="keyword">let</span> type = <span class="string">'title'</span></div><div class="line">	<span class="keyword">if</span> (val.indexOf(<span class="string">'#'</span>) === <span class="number">0</span>) &#123;</div><div class="line">		val = val.substr(<span class="number">1</span>, val.length)</div><div class="line">		type = <span class="string">'tag'</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">let</span> items = app.items</div><div class="line">  	items.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</div><div class="line">  		<span class="keyword">let</span> matchTitle = <span class="literal">false</span></div><div class="line">  		<span class="keyword">if</span> (item.title.toLowerCase().indexOf(val) &gt; <span class="number">-1</span> || item.text.toLowerCase().indexOf(val) &gt; <span class="number">-1</span>) &#123;</div><div class="line">  			matchTitle = <span class="literal">true</span></div><div class="line">  		&#125;</div><div class="line"></div><div class="line">  		<span class="keyword">let</span> matchTags = <span class="literal">false</span></div><div class="line">  		item.tags.forEach(<span class="function">(<span class="params">tag</span>) =&gt;</span> &#123;</div><div class="line">  			<span class="keyword">if</span> (tag.name.toLowerCase().indexOf(val) &gt; <span class="number">-1</span>) &#123;</div><div class="line">      			matchTags = <span class="literal">true</span></div><div class="line">      		&#125;</div><div class="line">  		&#125;)</div><div class="line"></div><div class="line">  		<span class="keyword">if</span> ((type === <span class="string">'title'</span> &amp;&amp; matchTitle) || (type === <span class="string">'tag'</span> &amp;&amp; matchTags)) &#123;</div><div class="line">  			item.isShow = <span class="literal">true</span></div><div class="line">  		&#125; <span class="keyword">else</span> &#123;</div><div class="line">  			item.isShow = <span class="literal">false</span></div><div class="line">  		&#125;</div><div class="line">  	&#125;)</div><div class="line">  	app.$set(<span class="string">'items'</span>, items)</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>实测并没有成功，发现<code>\themes\yilia_new\source-src\js\slider.js</code>始终没有重新编译，因此直接修改<code>\themes\yilia_new\source\slider.e37972.js</code>，找到:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">function(e)&#123;var r=!1;e.title.toLowerCase().indexOf(t)&gt;-1&amp;&amp;(r=!0);</div></pre></td></tr></table></figure></p>
@@ -664,7 +664,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -730,10 +730,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
@@ -743,6 +739,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -758,10 +758,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
@@ -774,15 +770,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -794,7 +782,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -803,6 +799,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -830,11 +830,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -846,15 +846,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -866,7 +870,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -878,19 +886,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -898,11 +894,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -910,7 +910,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
