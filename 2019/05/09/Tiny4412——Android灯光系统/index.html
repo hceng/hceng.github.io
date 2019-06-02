@@ -17,8 +17,9 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/1.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/2.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/3.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/4.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-05-27T10:50:41.351Z">
+<meta property="og:updated_time" content="2019-06-02T15:27:11.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tiny4412——Android灯光系统">
 <meta name="twitter:description" content="继续学习Android驱动，Android灯光系统。">
@@ -193,7 +194,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 11.7k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 11.9k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -330,7 +331,11 @@
 <p>代码文件如下：<br><figure class="highlight java"><figcaption><span>[MainActivity.java]</span><a href="https://github.com/hceng/learn/blob/master/android/02_%E7%81%AF%E5%85%89%E7%B3%BB%E7%BB%9F/app/notification/lights/MainActivity.java" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.hceng.lights;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.app.Notification;</div><div class="line"><span class="keyword">import</span> android.app.NotificationChannel;</div><div class="line"><span class="keyword">import</span> android.app.NotificationManager;</div><div class="line"><span class="keyword">import</span> android.app.PendingIntent;</div><div class="line"><span class="keyword">import</span> android.content.Intent;</div><div class="line"><span class="keyword">import</span> android.graphics.Color;</div><div class="line"><span class="keyword">import</span> android.net.Uri;</div><div class="line"><span class="keyword">import</span> android.os.Build;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.support.v4.app.NotificationCompat;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.Button;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Button button = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">boolean</span> flashing = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">private</span> <span class="keyword">int</span> LED_NOTIFICATION_ID = <span class="number">12</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Handler mHander = <span class="keyword">new</span> Handler();</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        initView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</div><div class="line">        button = (Button) findViewById(R.id.BUTTON);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> MyButtonListener());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyButtonListener</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            flashing = !flashing;</div><div class="line">            <span class="keyword">if</span> (flashing) &#123;</div><div class="line">                button.setText(<span class="string">"Stop Flashing the Light"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                button.setText(<span class="string">"Flashing Light after 20S"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            mHander.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                    <span class="keyword">if</span> (flashing)</div><div class="line">                        FlashingLight();</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                        StopFlashingLight();</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;, <span class="number">20000</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">FlashingLight</span><span class="params">()</span> </span>&#123;</div><div class="line">        Intent mIntent = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW, Uri.parse(<span class="string">"https://www.hceng.cn"</span>));</div><div class="line">        PendingIntent mPendingIntent = PendingIntent.getActivity(<span class="keyword">this</span>, <span class="number">0</span>, mIntent, <span class="number">0</span>);</div><div class="line"></div><div class="line">        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.O) &#123; <span class="comment">//Android O之上，需要渠道</span></div><div class="line">            NotificationChannel notificationChannel =</div><div class="line">                    <span class="keyword">new</span> NotificationChannel(<span class="string">"channelid1"</span>, <span class="string">"channelname"</span>, NotificationManager.IMPORTANCE_HIGH);<span class="comment">//如果用IMPORTANCE_NOENE需要在系统的设置里面开启渠道，通知才能正常弹出</span></div><div class="line">            mNotificationManager.createNotificationChannel(notificationChannel);</div><div class="line">        &#125;</div><div class="line">        NotificationCompat.Builder mBuilder = <span class="keyword">new</span> NotificationCompat.Builder(MainActivity.<span class="keyword">this</span>, <span class="string">"channelid1"</span>);</div><div class="line">        mBuilder.setContentTitle(<span class="string">"Notification"</span>) <span class="comment">//设置通知栏标题</span></div><div class="line">                .setContentText(<span class="string">"Lights demo"</span>) <span class="comment">//设置通知栏显示内容</span></div><div class="line">                .setSmallIcon(R.mipmap.ic_launcher) <span class="comment">//设置通知ICON</span></div><div class="line">                .setContentIntent(mPendingIntent) <span class="comment">//设置点击通知事件</span></div><div class="line">                .setAutoCancel(<span class="keyword">true</span>) <span class="comment">//设置点击通知后自动取消</span></div><div class="line">                .setDefaults(Notification.FLAG_SHOW_LIGHTS) <span class="comment">//Notification.FLAG_SHOW_LIGHTS  Notification.DEFAULT_SOUND(需要权限)</span></div><div class="line">                .setLights(Color.BLUE, <span class="number">1000</span>, <span class="number">1000</span>); <span class="comment">//ledARGB ledOnMS ledOffMS</span></div><div class="line"></div><div class="line">        Notification mNotification = mBuilder.build();</div><div class="line"></div><div class="line">        <span class="comment">//设置lights参数的另一种方式</span></div><div class="line">        <span class="comment">/*</span></div><div class="line">        mNotification.flags |= Notification.FLAG_SHOW_LIGHTS;</div><div class="line">        mNotification.ledARGB = 0xFF0000FF; //Color.BLUE</div><div class="line">        mNotification.ledOnMS = 1000;</div><div class="line">        mNotification.ledOffMS = 100;</div><div class="line">        */</div><div class="line">        mNotificationManager.notify(LED_NOTIFICATION_ID, mNotification); <span class="comment">//发出通知</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">StopFlashingLight</span><span class="params">()</span> </span>&#123;</div><div class="line">        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);</div><div class="line">        mNotificationManager.cancel(LED_NOTIFICATION_ID); <span class="comment">//取消通知</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>简单说下思路：<br>1、获取<code>Button</code>的<code>ID</code>，绑定监听方法<code>MyButtonListener()</code>；<br>2、实现监听方法<code>MyButtonListener()</code>，延时调用<code>FlashingLight()</code>发送通知或<code>StopFlashingLight()</code>停止通知；<br>3、这里使用<code>Handler</code>的<code>postDelayed()</code>方法实现延迟操作；<br>4、发送通知方法<code>FlashingLight()</code>里：<br>　　a.获取<code>NotificationManager</code>实例；<br>　　b.实例化<code>NotificationCompat.Builder</code>并设置相关属性；(注意Android O以上版本，需要<code>&quot;channelid</code>)<br>　　c.通过<code>builder.build()</code>方法生成<code>Notification</code>对象；并发送通知；</p>
 <p>编译APP，连接Tiny4412开发板，首先在系统设置-&gt;显示-&gt;休眠，把息屏时间改为15秒。<br>选择在Tiny4412开发板运行APP，点击APP上的<code>Flashing Light after 20S</code>按钮，在串口输入<code>logcat lights:V *:S</code>，可以看到如下打印：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">V/lights  ( 1981): set_light_notifications flashMode=1 onMS = 1000 offMS = 1000 color=0xff0000ff</div></pre></td></tr></table></figure></p>
 <p>操作通知灯的模式、时间、颜色与APP的设置相同，说明HAL层的<code>lights.c</code>已经成功被调用，接下来分析调用流程。</p>
-<h3 id="4-4-2-通知灯调用分析"><a href="#4-4-2-通知灯调用分析" class="headerlink" title="4.4.2 通知灯调用分析"></a>4.4.2 通知灯调用分析</h3><h2 id="4-5-背光灯"><a href="#4-5-背光灯" class="headerlink" title="4.5 背光灯"></a>4.5 背光灯</h2><!-- 
+<h3 id="4-4-2-通知灯调用分析"><a href="#4-4-2-通知灯调用分析" class="headerlink" title="4.4.2 通知灯调用分析"></a>4.4.2 通知灯调用分析</h3><p>UML时序图参考如下：</p>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190509/4.jpg"></div>
+
+<p>Setp1-5：和前面的电源灯一样，先启动<code>LightsService</code>，创建<code>LightsManager</code>；<br>Step6-10：启动<code>NotificationManagerService</code>，在启动过程中获取<code>LightsManager</code>，具备了操作LED的能力；<br>Step11-12：<code>ContextImpl</code>在调用过程中会<code>registerService</code>，<code>HashMap</code>将<code>String</code>和<code>ServiceFetcher</code>绑定，通过<code>String</code>就能找到对应的<code>ServiceFetcher</code>，这里就是可以通过<code>NOTIFICATION_SERVICE</code>得到对应的实例化对象。；<br>Step13-14：在APP里，通过<code>getSystemService</code>传入<code>NOTIFICATION_SERVICE</code>获得通知服务，再构造通知，调用<code>notify</code>发送通知；<br>Step15-20：<code>notify</code>里会获取<code>NotificationManagerService</code>，进而调用到HAL层；</p>
+<h2 id="4-5-背光灯"><a href="#4-5-背光灯" class="headerlink" title="4.5 背光灯"></a>4.5 背光灯</h2><!-- 
 
 
  -->
@@ -667,14 +672,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
@@ -683,19 +680,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -715,6 +712,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
@@ -727,14 +736,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -743,7 +744,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -751,11 +756,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -763,19 +772,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -787,19 +796,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -811,15 +812,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -827,7 +820,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -843,11 +848,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
             
             <div class="clearfix"></div>
@@ -903,7 +908,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;235.3k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;235.4k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
