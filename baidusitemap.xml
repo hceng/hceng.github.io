@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/05/09/Tiny4412%E2%80%94%E2%80%94Android%E7%81%AF%E5%85%89%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2019-06-02T15:27:11.780Z</lastmod>
+    <lastmod>2019-06-07T10:58:07.359Z</lastmod>
     <data>
         <display>
         <title>Tiny4412——Android灯光系统</title>
@@ -16,6 +16,25 @@
         <tag>Android驱动</tag>
          
         <tag>灯光系统</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2019-06-06T08:43:25.521Z</lastmod>
+    <data>
+        <display>
+        <title>AM437x——RTC驱动</title>
+        <pubTime>2017-08-27T08:47:02.000Z</pubTime>
+        
+        <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -68,11 +87,11 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
+        <tag>Uboot</tag>
+         
         <tag>驱动相关</tag>
          
         <tag>环境搭建</tag>
-         
-        <tag>Uboot</tag>
          
          
            
@@ -247,13 +266,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -327,9 +346,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -351,25 +370,6 @@
         <tag>Uboot</tag>
          
         <tag>RK3399</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2017/08/27/AM437x%E2%80%94%E2%80%94RTC%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2018-11-21T03:27:40.546Z</lastmod>
-    <data>
-        <display>
-        <title>AM437x——RTC驱动</title>
-        <pubTime>2017-08-27T08:47:02.000Z</pubTime>
-        
-        <tag>Linux驱动</tag>
-         
-        <tag>AM437X</tag>
          
          
            
@@ -472,9 +472,9 @@
          
         <tag>摄像头</tag>
          
-        <tag>UVC</tag>
-         
         <tag>Linux环境编程</tag>
+         
+        <tag>UVC</tag>
          
          
            
@@ -879,9 +879,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
@@ -934,9 +934,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>驱动相关</tag>
-         
         <tag>Uboot</tag>
+         
+        <tag>驱动相关</tag>
          
         <tag>bootloader</tag>
          
