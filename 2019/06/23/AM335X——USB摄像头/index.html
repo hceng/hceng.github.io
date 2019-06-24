@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190623/2.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190623/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-06-23T11:27:13.207Z">
+<meta property="og:updated_time" content="2019-06-24T03:08:41.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AM335X——USB摄像头">
 <meta name="twitter:description" content="记录使用AM335X，在LCD和Web上显示USB摄像头图像。">
@@ -193,7 +193,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 2k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 3.2k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -201,7 +201,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 9 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 15 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -240,7 +240,7 @@
 <div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190623/1.jpg"></div>
 
 <h1 id="3-Web显示"><a href="#3-Web显示" class="headerlink" title="3.Web显示"></a>3.Web显示</h1><p><a href="https://sourceforge.net/projects/mjpg-streamer/" target="_blank" rel="external"><code>MJPG-streamer</code></a>是一个优秀的开源项目，它可以通过HTTP的方式访问Linux上面的兼容摄像头，从而做到远程视频传输的效果。</p>
-<p>在<code>Busybox</code>里添加<code>mjpg-streamer</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Target packages  ---&gt;</div><div class="line">    Networking applications  ---&gt;</div><div class="line">        [*] mjpg-streamer</div></pre></td></tr></table></figure></p>
+<p>在<code>Buildroot</code>里添加<code>mjpg-streamer</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Target packages  ---&gt;</div><div class="line">    Networking applications  ---&gt;</div><div class="line">        [*] mjpg-streamer</div></pre></td></tr></table></figure></p>
 <p>重新烧写根文件系统，执行以下命令启动服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mjpg_streamer -i &quot;/usr/lib/input_uvc.so -d /dev/video0 -r 640x480 -f 30 -q 90 -n&quot; -o &quot;/usr/lib/output_http.so -w /usr/www&quot;</div></pre></td></tr></table></figure></p>
 <p>打开浏览器，输入<code>AM335X的IP:8080</code>即可看到默认显示界面：</p>
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190623/2.jpg"></div>
@@ -251,22 +251,59 @@
 <p>如果想要外网访问，参考之前博客<a href="https://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/#3-2-2-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86frp" target="_blank" rel="external"><code>黑群辉_3.2.2 反向代理frp</code></a>尝试外网访问。</p>
 <p>最后再记录下命令参数含义。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># mjpg_streamer --help</div><div class="line">-----------------------------------------------------------------------</div><div class="line">Usage: mjpg_streamer</div><div class="line">-i | --input &quot;&lt;input-plugin.so&gt; [parameters]&quot;</div><div class="line">-o | --output &quot;&lt;output-plugin.so&gt; [parameters]&quot;</div><div class="line">[-h | --help ]........: display this help</div><div class="line">[-v | --version ].....: display version information</div><div class="line">[-b | --background]...: fork to the background, daemon mode</div><div class="line">-----------------------------------------------------------------------</div><div class="line">Example #1:</div><div class="line">To open an UVC webcam &quot;/dev/video1&quot; and stream it via HTTP:</div><div class="line">mjpg_streamer -i &quot;input_uvc.so -d /dev/video1&quot; -o &quot;output_http.so&quot;</div><div class="line">-----------------------------------------------------------------------</div><div class="line">Example #2:</div><div class="line">To open an UVC webcam and stream via HTTP port 8090:</div><div class="line">mjpg_streamer -i &quot;input_uvc.so&quot; -o &quot;output_http.so -p 8090&quot;</div><div class="line">-----------------------------------------------------------------------</div><div class="line">Example #3:</div><div class="line">To get help for a certain input plugin:</div><div class="line">mjpg_streamer -i &quot;input_uvc.so --help&quot;</div><div class="line">-----------------------------------------------------------------------</div><div class="line">In case the modules (=plugins) can not be found:</div><div class="line">* Set the default search path for the modules with:</div><div class="line">export LD_LIBRARY_PATH=/path/to/plugins,</div><div class="line">* or put the plugins into the &quot;/lib/&quot; or &quot;/usr/lib&quot; folder,</div><div class="line">* or instead of just providing the plugin file name, use a complete</div><div class="line">path and filename:</div><div class="line">mjpg_streamer -i &quot;/path/to/modules/input_uvc.so&quot;</div><div class="line">-----------------------------------------------------------------------</div></pre></td></tr></table></figure>
-<p>得知<code>mjpg_streamer</code>后需要接<code>-i</code>和<code>-o</code>两个参数，再分别看这两个参数提供的不同<code>so</code>文件支持哪些选项。<br>可选的<code>-h</code>查询帮助信息、<code>-v</code>查询版本信息、<code>-b</code>后台执行就不多介绍了。</p>
-<p>输入so包含：<br>输出so包含：</p>
+<p>得知<code>mjpg_streamer</code>后需要接<code>-i</code>和<code>-o</code>两个参数，再分别看这两个参数提供的不同<code>so</code>插件文件支持哪些选项。<br>可选的<code>-h</code>查询帮助信息、<code>-v</code>查询版本信息、<code>-b</code>后台执行就不多介绍了。</p>
+<p>输入so插件包含：<code>input_uvc.so</code>、<code>input_testpicture.so</code>、(<code>input_file.so</code>、<code>input_ptp2.so</code>、<code>input_http.so</code>)<br>输出so插件包含：<code>output_http.so</code>、(<code>output_file.so</code>、<code>output_udp.so</code>、<code>output_rtsp.so</code>、<code>output_viewer.so</code>)<br>其中括号部分，我这个<code>Buildroot</code>的<code>mjpg_streamer</code>版本没有提供。</p>
 <ul>
-<li>输入文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"># mjpg_streamer -i &quot;/usr/lib/input_uvc.so --help&quot;</div><div class="line">MJPG Streamer Version.: 2.0</div><div class="line">---------------------------------------------------------------</div><div class="line">Help for input plugin..: UVC webcam grabber</div><div class="line">---------------------------------------------------------------</div><div class="line">The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line">[-d | --device ].......: video device to open (your camera)</div><div class="line">[-r | --resolution ]...: the resolution of the video device,</div><div class="line">                        can be one of the following strings:</div><div class="line">                        QQVGA QCIF CGA QVGA CIF PAL</div><div class="line">                        VGA SVGA XGA HD SXGA UXGA</div><div class="line">                        FHD</div><div class="line">                        or a custom value like the following</div><div class="line">                        example: 640x480</div><div class="line">[-f | --fps ]..........: frames per second</div><div class="line">                        (activates YUYV format, disables MJPEG)</div><div class="line">[-q | --quality ] .....: set quality of JPEG encoding</div><div class="line">[-m | --minimum_size ].: drop frames smaller then this limit, useful</div><div class="line">                        if the webcam produces small-sized garbage frames</div><div class="line">                        may happen under low light conditions</div><div class="line">[-e | --every_frame ]..: drop all frames except numbered</div><div class="line">[-n | --no_dynctrl ]...: do not initalize dynctrls of Linux-UVC driver</div><div class="line">[-l | --led ]..........: switch the LED &quot;on&quot;, &quot;off&quot;, let it &quot;blink&quot; or leave</div><div class="line">                        it up to the driver using the value &quot;auto&quot;</div><div class="line">[-t | --tvnorm ] ......: set TV-Norm pal, ntsc or secam</div><div class="line">[-u | --uyvy ] ........: Use UYVY format, default: MJPEG (uses more cpu power)</div><div class="line">[-y | --yuv  ] ........: Use YUV format, default: MJPEG (uses more cpu power)</div><div class="line">[-fourcc ] ............: Use FOURCC codec &apos;argopt&apos;,</div><div class="line">                        currently supported codecs are: RGBP</div><div class="line">---------------------------------------------------------------</div><div class="line"></div><div class="line">Optional parameters (may not be supported by all cameras):</div><div class="line"></div><div class="line">[-br ].................: Set image brightness (auto or integer)</div><div class="line">[-co ].................: Set image contrast (integer)</div><div class="line">[-sh ].................: Set image sharpness (integer)</div><div class="line">[-sa ].................: Set image saturation (integer)</div><div class="line">[-cb ].................: Set color balance (auto or integer)</div><div class="line">[-wb ].................: Set white balance (auto or integer)</div><div class="line">[-ex ].................: Set exposure (auto, shutter-priority, aperature-priority, or integer)</div><div class="line">[-bk ].................: Set backlight compensation (integer)</div><div class="line">[-rot ]................: Set image rotation (0-359)</div><div class="line">[-hf ].................: Set horizontal flip (true/false)</div><div class="line">[-vf ].................: Set vertical flip (true/false)</div><div class="line">[-pl ].................: Set power line filter (disabled, 50hz, 60hz, auto)</div><div class="line">[-gain ]...............: Set gain (auto or integer)</div><div class="line">[-cagc ]...............: Set chroma gain control (auto or integer)</div><div class="line">---------------------------------------------------------------</div><div class="line"></div><div class="line">input_init() return value signals to exit</div></pre></td></tr></table></figure>
+<li><strong>输入插件1：input_uvc.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"># mjpg_streamer -i &quot;/usr/lib/input_uvc.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: fd184d0</div><div class="line">---------------------------------------------------------------</div><div class="line">Help for input plugin..: UVC webcam grabber</div><div class="line">---------------------------------------------------------------</div><div class="line">The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line">[-d | --device ].......: video device to open (your camera)</div><div class="line">[-r | --resolution ]...: the resolution of the video device,</div><div class="line">                        can be one of the following strings:</div><div class="line">                        QQVGA QCIF CGA QVGA CIF PAL</div><div class="line">                        VGA SVGA XGA HD SXGA UXGA</div><div class="line">                        FHD</div><div class="line">                        or a custom value like the following</div><div class="line">                        example: 640x480</div><div class="line">[-f | --fps ]..........: frames per second</div><div class="line">                        (activates YUYV format, disables MJPEG)</div><div class="line">[-q | --quality ] .....: set quality of JPEG encoding</div><div class="line">[-m | --minimum_size ].: drop frames smaller then this limit, useful</div><div class="line">                        if the webcam produces small-sized garbage frames</div><div class="line">                        may happen under low light conditions</div><div class="line">[-e | --every_frame ]..: drop all frames except numbered</div><div class="line">[-n | --no_dynctrl ]...: do not initalize dynctrls of Linux-UVC driver</div><div class="line">[-l | --led ]..........: switch the LED &quot;on&quot;, &quot;off&quot;, let it &quot;blink&quot; or leave</div><div class="line">                        it up to the driver using the value &quot;auto&quot;</div><div class="line">[-t | --tvnorm ] ......: set TV-Norm pal, ntsc or secam</div><div class="line">[-u | --uyvy ] ........: Use UYVY format, default: MJPEG (uses more cpu power)</div><div class="line">[-y | --yuv  ] ........: Use YUV format, default: MJPEG (uses more cpu power)</div><div class="line">[-fourcc ] ............: Use FOURCC codec &apos;argopt&apos;,</div><div class="line">                        currently supported codecs are: RGBP</div><div class="line">---------------------------------------------------------------</div><div class="line"></div><div class="line">Optional parameters (may not be supported by all cameras):</div><div class="line"></div><div class="line">[-br ].................: Set image brightness (auto or integer)</div><div class="line">[-co ].................: Set image contrast (integer)</div><div class="line">[-sh ].................: Set image sharpness (integer)</div><div class="line">[-sa ].................: Set image saturation (integer)</div><div class="line">[-cb ].................: Set color balance (auto or integer)</div><div class="line">[-wb ].................: Set white balance (auto or integer)</div><div class="line">[-ex ].................: Set exposure (auto, shutter-priority, aperature-priority, or integer)</div><div class="line">[-bk ].................: Set backlight compensation (integer)</div><div class="line">[-rot ]................: Set image rotation (0-359)</div><div class="line">[-hf ].................: Set horizontal flip (true/false)</div><div class="line">[-vf ].................: Set vertical flip (true/false)</div><div class="line">[-pl ].................: Set power line filter (disabled, 50hz, 60hz, auto)</div><div class="line">[-gain ]...............: Set gain (auto or integer)</div><div class="line">[-cagc ]...............: Set chroma gain control (auto or integer)</div><div class="line">---------------------------------------------------------------</div><div class="line"></div><div class="line">input_init() return value signals to exit</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>基本参数：<br><code>-d</code>：指定video设备节点<br><code>-r</code>：指定分辨率，VGA或640x480类似值<br><code>-f</code>：指定每秒帧数<br><code>-q</code>：指定JPEG编码质量<br><code>-m</code>：指定丢弃小于该值的帧<br><code>-n</code>：指定不要初始化Linux-UVC驱动程序的dynctrls<br><code>-u</code>：指定输入为UYVY格式，通过CPU将UYVC转为MJPEG，这样会消耗更多CPU<br><code>-v</code>：指定输入为YUV格式，通过CPU将YUV转为MJPEG，这样会消耗更多CPU</p>
+<p>基本参数：<br><code>-d</code>：指定video设备节点<br><code>-r</code>：指定分辨率，VGA或640x480类似值<br><code>-f</code>：指定每秒帧数<br><code>-q</code>：指定JPEG编码质量<br><code>-m</code>：指定丢弃小于该值的帧<br><code>-e</code>：删除除编号以外的所有帧<br><code>-n</code>：不要初始化Linux-UVC驱动程序的dynctrls<br><code>-l</code>：设置LED on/off/blink，设置auto将取决于驱动程序<br><code>-t</code>：设置TV-Norm pal，ntsc或secam<br><code>-u</code>：指定输入为UYVY格式，通过CPU将UYVC转为MJPEG，这样会消耗更多CPU<br><code>-v</code>：指定输入为YUV格式，通过CPU将YUV转为MJPEG，这样会消耗更多CPU<br><code>-fourcc</code>：使用FOURCC编解码器argopt，目前支持的编解码器是：RGBP<br>新版新增：<br><code>-timestamp</code>：使用系统时间填充帧时间戳<br><code>-softfps</code>：丢帧以尝试实现此FPS</p>
 <p>图像参数：<br><code>-br</code>：设置图像亮度<br><code>-co</code>：设置图像对比度<br><code>-sh</code>：设置图像清晰度<br><code>-sa</code>：设置图像饱和度<br><code>-cb</code>：设置图像颜色平衡<br><code>-wb</code>：设置图像白平衡<br><code>-ex</code>：设置图像曝光<br><code>-bk</code>：设置图像曝光补偿<br><code>-rot</code>：设置图像旋转0-359<br><code>-hf</code>：设置图像水平翻转<br><code>-vf</code>：设置图像垂直翻转<br><code>-pl</code>：设置图像避免闪烁频率<br><code>-gain</code>：设置图像增益<br><code>-cagc</code>：设置图像色度增益控制</p>
 <ul>
-<li>输出文件1<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># mjpg_streamer -o &quot;/usr/lib/output_http.so --help&quot;</div><div class="line">MJPG Streamer Version.: 2.0</div><div class="line">---------------------------------------------------------------</div><div class="line">Help for output plugin..: HTTP output plugin</div><div class="line">---------------------------------------------------------------</div><div class="line">The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line">[-w | --www ]...........: folder that contains webpages in</div><div class="line">                        flat hierarchy (no subfolders)</div><div class="line">[-p | --port ]..........: TCP port for this HTTP server</div><div class="line">[-l ] --listen ]........: Listen on Hostname / IP</div><div class="line">[-c | --credentials ]...: ask for &quot;username:password&quot; on connect</div><div class="line">[-n | --nocommands ]....: disable execution of commands</div><div class="line">---------------------------------------------------------------</div><div class="line">output_init() return value signals to exit</div></pre></td></tr></table></figure>
+<li><strong>输入插件2：input_testpicture.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># mjpg_streamer -i &quot;/usr/lib/input_testpicture.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: fd184d0</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for input plugin..: TESTPICTURE input plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-d | --delay ]........: delay to pause between frames</div><div class="line"> [-r | --resolution]....: can be 960x720, 640x480, 320x240, 160x120</div><div class="line"> ---------------------------------------------------------------</div><div class="line">input_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br><code>-d</code>：指定在两帧之间的延时<br><code>-r</code>：指定在分辨率</p>
+<ul>
+<li><strong>输入插件3：input_file.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -i &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/input_file.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for input plugin..: FILE input plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-d | --delay ]........: delay (in seconds) to pause between frames</div><div class="line"> [-f | --folder ].......: folder to watch for new JPEG files</div><div class="line"> [-r | --remove ].......: remove/delete JPEG file after reading</div><div class="line"> [-n | --name ].........: ignore changes unless filename matches</div><div class="line"> [-e | --existing ].....: serve the existing *.jpg files from the specified directory</div><div class="line"> ---------------------------------------------------------------</div><div class="line">input_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br><code>-d</code>：指定在两帧之间的延时(单位:s)<br><code>-f</code>：指定查看新JEPG文件的目录<br><code>-r</code>：指定读取后要删除的JEPG文件<br><code>-n</code>：指定除非文件名匹配忽略更改<br><code>-e</code>：指定目录读取现有JPG文件</p>
+<ul>
+<li><strong>输入插件4：input_ptp2.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -i &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/input_ptp2.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line">PTP2 input plugin: invalid option -- &apos;-&apos;</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for input plugin..: PTP2 input plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-h ]..........: print this help</div><div class="line"> [-u X ]........: delay between frames in us (default 0)</div><div class="line"> [-d X ]........: camera address in [usb:xxx,yyy] form; use</div><div class="line">                  gphoto2 --auto-detect to get a list of</div><div class="line">                  available cameras</div><div class="line"> ---------------------------------------------------------------</div><div class="line">input_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br><code>-h</code>：打印帮助<br><code>-u</code>：指定在两帧之间的延时(单位:us)<br><code>-d</code>：指定可用相机</p>
+<ul>
+<li><strong>输入插件5：input_http.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -i &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/input_http.so --help&quot;&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for input plugin..: HTTP Input plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-v | --version ]........: current SVN Revision</div><div class="line"> [-h | --help]............: show this message</div><div class="line"> [-H | --host]............: select host to data from, localhost is default</div><div class="line"> [-p | --port]............: port, defaults to 8080</div><div class="line"> ---------------------------------------------------------------</div><div class="line">input_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br><code>-v</code>：打印版本信息<br><code>-h</code>：打印帮助信息<br><code>-H</code>：指定主机地址<br><code>-p</code>：指定端口</p>
+<ul>
+<li><strong>输出插件1：output_http.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># mjpg_streamer -o &quot;/usr/lib/output_http.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: fd184d0</div><div class="line">---------------------------------------------------------------</div><div class="line">Help for output plugin..: HTTP output plugin</div><div class="line">---------------------------------------------------------------</div><div class="line">The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line">[-w | --www ]...........: folder that contains webpages in</div><div class="line">                        flat hierarchy (no subfolders)</div><div class="line">[-p | --port ]..........: TCP port for this HTTP server</div><div class="line">[-l ] --listen ]........: Listen on Hostname / IP</div><div class="line">[-c | --credentials ]...: ask for &quot;username:password&quot; on connect</div><div class="line">[-n | --nocommands ]....: disable execution of commands</div><div class="line">---------------------------------------------------------------</div><div class="line">output_init() return value signals to exit</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>基本参数：<br><code>-w</code>：指定网页根目录(不支持子文件夹)<br><code>-p</code>：指定HTTP服务器的TCP端口<br><code>-l</code>：指定监听主机IP<br><code>-c</code>：指定在连接时询问的账户名、密码<br><code>-n</code>：指定禁用命令执行</p>
 <ul>
-<li>输出文件2</li>
+<li><strong>输出插件2：output_file.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -o &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/output_file.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for output plugin..: FILE output plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-f | --folder ]........: folder to save pictures</div><div class="line"> [-m | --mjpeg ].........: save the frames to an mjpg file </div><div class="line"> [-l | --link ]..........: link the last picture in ringbuffer as this fixed named file</div><div class="line"> [-d | --delay ].........: delay after saving pictures in ms</div><div class="line"> [-i | --input ].........: read frames from the specified input plugin</div><div class="line"> The following arguments are takes effect only if the current mode is not MJPG</div><div class="line"> [-s | --size ]..........: size of ring buffer (max number of pictures to hold)</div><div class="line"> [-e | --exceed ]........: allow ringbuffer to exceed limit by this amount</div><div class="line"> [-c | --command ].......: execute command after saving picture</div><div class="line"> ---------------------------------------------------------------</div><div class="line">output_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
 </ul>
+<p>基本参数：<br><code>-f</code>：指定保存图片文件夹<br><code>-m</code>：将帧保存的mjpg文件夹<br><code>-l</code>：将ringbuffer中的最后一张图片链接为此固定命名文件<br><code>-d</code>：保存图片后延时(单位:ms)<br><code>-i</code>：从指定的输入插件中读取帧<br>仅当当前模式不是MJPG时，以下参数才会生效<br><code>-s</code>：环形缓冲区的大小（要保留的最大图片数）<br><code>-e</code>：允许ringbuffer超过此数量的限制<br><code>-c</code>：保存图片后执行命令</p>
+<ul>
+<li><strong>输出插件3：output_udp.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -o &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/output_udp.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for output plugin..: UDP output plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-f | --folder ]........: folder to save pictures</div><div class="line"> [-d | --delay ].........: delay after saving pictures in ms</div><div class="line"> [-c | --command ].......: execute command after saveing picture</div><div class="line"> [-p | --port ]..........: UDP port to listen for picture requests. UDP message is the filename to save</div><div class="line"></div><div class="line"> [-i | --input ].......: read frames from the specified input plugin (first input plugin between the arguments is the 0th)</div><div class="line"></div><div class="line"> ---------------------------------------------------------------</div><div class="line">output_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br><code>-f</code>：指定保存图片的文件夹<br><code>-d</code>：保存图片后延时(单位:ms)<br><code>-c</code>：保存图片后执行命令<br><code>-p</code>：指定UDP端口监听图片请求<br><code>-i</code>：从指定的输入插件读取帧</p>
+<ul>
+<li><strong>输出插件4：output_rtsp.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -o &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/output_rtsp.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for output plugin..: RTSP output plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> The following parameters can be passed to this plugin:</div><div class="line"></div><div class="line"> [-p | --port ]..........: UDP port to listen for picture requests. UDP message is the filename to save</div><div class="line"></div><div class="line"> [-i | --input ].......: read frames from the specified input plugin (first input plugin between the arguments is the 0th)</div><div class="line"></div><div class="line"> ---------------------------------------------------------------</div><div class="line">output_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br><code>-p</code>：指定UDP端口监听图片请求<br><code>-i</code>：从指定的输入插件读取帧</p>
+<ul>
+<li><strong>输出插件5：output_viewer.so</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># mjpg-streamer -o &quot;/snap/mjpg-streamer/42/lib/mjpg-streamer/output_viewer.so --help&quot;</div><div class="line">MJPG Streamer Version: git rev: f387bb44e6c087271b763b27da998bf2e06c4f5d</div><div class="line"> ---------------------------------------------------------------</div><div class="line"> Help for output plugin..: VIEWER output plugin</div><div class="line"> ---------------------------------------------------------------</div><div class="line">output_init() return value signals to exit</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基本参数：<br>无</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -587,10 +624,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
@@ -600,6 +633,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -615,15 +652,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -639,19 +676,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -663,7 +688,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -679,23 +704,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -707,11 +724,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -720,6 +749,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -735,6 +772,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
@@ -743,7 +784,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -755,15 +796,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -771,7 +808,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -835,7 +872,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;238.3k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;239.5k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
