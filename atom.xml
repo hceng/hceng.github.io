@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-12T11:07:50.204Z</updated>
+  <updated>2019-07-13T09:15:47.853Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2019/07/12/NFC%E6%89%8B%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%8A%A0%E5%AF%86%E9%97%A8%E7%A6%81%E5%8D%A1/"/>
     <id>http://yoursite.com/2019/07/12/NFC手机模拟加密门禁卡/</id>
     <published>2019-07-12T02:02:50.000Z</published>
-    <updated>2019-07-12T11:07:50.204Z</updated>
+    <updated>2019-07-13T09:15:47.853Z</updated>
     
-    <content type="html"><![CDATA[<p>记录小米手机NFC模拟加密门禁卡。<br><a id="more"></a></p><h1 id="0-缘起"><a href="#0-缘起" class="headerlink" title="0. 缘起"></a>0. 缘起</h1><p>之前，小区用的门禁卡为非加密的门禁卡，使用小米手机系统自带的门卡模拟功能复制即可。<br>后来，小区门禁系统换了一家供应商，再使用之前的方法复制门禁卡，手机提示为加密卡，无法复制。</p><p>新的门禁系统，更安全了，也支持APP远程控制开门了，直到有一天发现门禁卡丢了，开始使用APP开门，这APP写得烂透了，十次有五次点击开门按钮无反应，需要反复退出、打开APP多次才能点击开门按钮成功，还有两次直接没了开门按钮，提示到物业管理处处理……<br>那个时候，我又开始怀念用手机刷门禁的快感了。。</p><h1 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1. 基础知识"></a>1. 基础知识</h1><p>于是，我开始查阅资料，基本确定了小米手机是还是可以通过其它方式模拟加密门禁卡的。<br>然后，资料查多了，记不到，又怕以后用到需要重新找，干脆水一篇博客记录下来。<br>如果熟悉NFC和IC卡，或者只想模拟加密门禁卡，并不关心原理，这章可以跳过了。</p><h2 id="1-1-ID卡和IC卡"><a href="#1-1-ID卡和IC卡" class="headerlink" title="1.1 ID卡和IC卡"></a>1.1 ID卡和IC卡</h2><ul><li><strong>ID卡</strong>：全称身份识别卡(Identification Card)，是一种<strong>不可写入</strong>的感应卡，<strong>含固定的编号</strong>，主要有台湾SYRIS的EM格式，美国HID、TI、MOTOROLA等各类ID卡。</li><li><strong>IC卡</strong>：全称集成电路卡(Integrated Circuit Card)，又称智能卡(Smart Card)。<strong>可读写</strong>、<strong>容量大</strong>、<strong>有加密功能</strong>、数据记录可靠、使用更方便，如一卡通系统、消费系统等，目前主要有PHILIPS的Mifare系列卡。</li></ul><p><strong>主要区别</strong>：<br><strong>ID卡不可写入数据，其记录内容(卡号)只可由芯片生产厂一次性写入，开发商只可读出卡号加以利用，无法根据系统的实际需要制订新的号码管理制度；</strong><br><strong>IC卡不仅可由授权用户读出大量数据，而且亦可由授权用户写入大量数据(如新的卡号、用户的权限、用户资料等)，IC卡所记录内容可反复擦写；</strong></p><p>IC卡由于其固有的信息安全、便于携带、比较完善的标准化等优点，在身份认证、银行、电信、公共交通、车场管理等领域正得到越来越多的应用，例如二代身份证、银行的电子钱包，电信的手机SIM卡、公共交通的公交卡、地铁卡、用于收取停车费的停车卡、小区门禁卡等；</p><div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/1.png"></div><div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/2.png"></div><p>以上图片来自淘宝商家，网上找了半天相关资料，发现淘宝商家解释得最清楚。</p><p><strong>总结：</strong><br>1.IC卡整体上看比ID卡更有优势，市面上使用的大多数也是IC卡；<br>2.对于矩形白卡，里面为矩形线圈、表面没有编号的多为IC卡，里面为圆形线圈、表面有编号的多为ID卡；<br>3.对于异形卡，有编号的多为ID卡，最好使用带NFC的手机进行测试，IC卡会有反应。</p><h2 id="1-2-接触式和非接触式IC卡"><a href="#1-2-接触式和非接触式IC卡" class="headerlink" title="1.2 接触式和非接触式IC卡"></a>1.2 接触式和非接触式IC卡</h2><p>IC卡又可以分为接触式IC卡和非接触式IC卡。</p><ul><li><strong>接触式IC卡</strong>：该类卡是通过IC卡读写设备的触点与IC卡的触点接触后进行数据的读写；</li><li><strong>非接触式IC卡</strong>：又称射频卡、感应式IC卡，该类卡与卡设备无电路接触，而是通过非接触式的读写技术进行读写（例如RFID、NFC），其内嵌芯片除了CPU、逻辑单元、存储单元外，增加了射频收发电路。该类卡一般用在使用频繁、信息量相对较少、可靠性要求较高的场合。</li></ul><p>两者比较好区分，直接看卡上有无金属触点即可。</p><div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/3.jpg"></div><h2 id="1-3-RFID和NFC"><a href="#1-3-RFID和NFC" class="headerlink" title="1.3 RFID和NFC"></a>1.3 RFID和NFC</h2><p>非接触式IC卡又可以分为采用RFID技术和NFC技术。</p><p>RFID是无线射频识别的笼统概念，根据频率划分包含低频、高频（13.56MHz）、超高频、微波等，读写器可读写标签数据信息，作用距离取决于读写器功率、读写器天线增益值、标签天线尺寸等，总的来说是前面那些值越大，距离就越远。<br>NFC频率也是13.56MHz，且兼容大部分RFID高频相关标准（有些是不兼容），但是规定NFC作用距离不能很远。</p><p>不同点：<br>RFID中的读写器和标签可以是一对多关系（低频和高频的14443是一对一），NFC铁定是一对一关系。<br>NFC可以有三种模式，模拟卡（标签）、模拟读卡器、点对点。<br>RFID不同频段标准不一样，数据格式也就不一样，NFC标准数据格式是NDEF格式。<br>虽然NFC也可以读一些高频标签，但是还是会发现有些高频标签不能读，就是上面说的NFC兼容部分高频标准（这也跟NFC读卡芯片有关，不同厂家之间的技术壁垒），就是这个原因。</p><p>要说清楚RFID和NFC之间的区别，还有很多细节要啰嗦的，为了最形象的回答题主问题，做个比喻吧，RFID好比是广东省，NFC就是深圳市，深圳是广东省内 的一个市，深圳大多数时候要遵守广东的规定，但是深圳可以干些广东省规定以外的事。不知道这样比喻是不是恰当。</p><p>NFC是现在主流的非接触式IC卡的读卡技术，其全称是近场通信（near field communication），是基于无线射频识别RFID（Radio Frequency Identification）技术发展起来的一种近距离无线通信技术，与RFID一样，NFC也是通过频谱中无线频率部分的电磁感应耦合方式传递，但两者之间还是存在很大的区别。NFC的传输范围比RFID小，RFID的传输范围可以达到0~1m，但由于NFC采取了独特的信号衰减技术，相对于RFID来说NFC具有成本低、带宽高、能耗低等特点</p><p>参考资料：<br><a href="https://post.smzdm.com/p/ax08z26d/" target="_blank" rel="external">码农生活 篇二：IC卡门卡模拟探秘</a><br><a href="https://www.zhihu.com/question/19931182" target="_blank" rel="external">RFID 和 NFC 有什么区别？</a></p><h1 id="2-操作步骤"><a href="#2-操作步骤" class="headerlink" title="2. 操作步骤"></a>2. 操作步骤</h1><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
+    <content type="html"><![CDATA[<p>记录小米手机NFC模拟加密门禁卡。<br><a id="more"></a></p><h1 id="0-缘起"><a href="#0-缘起" class="headerlink" title="0. 缘起"></a>0. 缘起</h1><p>之前，小区用的门禁卡为非加密的门禁卡，使用小米手机系统自带的门卡模拟功能复制即可。<br>后来，小区门禁系统换了一家供应商，再使用之前的方法复制门禁卡，手机提示为加密卡，无法复制。</p><p>新的门禁系统，更安全了，也支持APP远程控制开门了，直到有一天发现门禁卡丢了，开始使用APP开门，这APP写得烂透了，十次有五次点击开门按钮无反应，需要反复退出、打开APP多次才能点击开门按钮成功，还有两次直接没了开门按钮，提示到物业管理处处理……<br>那个时候，我又开始怀念用手机刷门禁的快感了。。</p><h1 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1. 基础知识"></a>1. 基础知识</h1><p>于是，我开始查阅资料，基本确定了小米手机是还是可以通过其它方式模拟加密门禁卡的。<br>然后，资料查多了，记不到，又怕以后用到需要重新找，干脆水一篇博客记录下来。<br>如果熟悉NFC和IC卡，或者只想模拟加密门禁卡，并不关心原理，这章可以跳过了。</p><h2 id="1-1-ID卡和IC卡"><a href="#1-1-ID卡和IC卡" class="headerlink" title="1.1 ID卡和IC卡"></a>1.1 ID卡和IC卡</h2><ul><li><strong>ID卡</strong>：全称身份识别卡(Identification Card)，是一种<strong>不可写入</strong>的感应卡，<strong>含固定的编号</strong>，主要有台湾SYRIS的EM格式，美国HID、TI、MOTOROLA等各类ID卡。</li><li><strong>IC卡</strong>：全称集成电路卡(Integrated Circuit Card)，又称智能卡(Smart Card)。<strong>可读写</strong>、<strong>容量大</strong>、<strong>有加密功能</strong>、数据记录可靠、使用更方便，如一卡通系统、消费系统等，目前主要有PHILIPS的Mifare系列卡。</li></ul><p><strong>主要区别</strong>：<br><strong>ID卡不可写入数据，其记录内容(卡号)只可由芯片生产厂一次性写入，开发商只可读出卡号加以利用，无法根据系统的实际需要制订新的号码管理制度；</strong><br><strong>IC卡不仅可由授权用户读出大量数据，而且亦可由授权用户写入大量数据(如新的卡号、用户的权限、用户资料等)，IC卡所记录内容可反复擦写；</strong></p><p>IC卡由于其固有的信息安全、便于携带、比较完善的标准化等优点，在身份认证、银行、电信、公共交通、车场管理等领域正得到越来越多的应用，例如二代身份证、银行的电子钱包，电信的手机SIM卡、公共交通的公交卡、地铁卡、用于收取停车费的停车卡、小区门禁卡等；</p><div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/1.png"></div><div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/2.png"></div><p>以上图片来自淘宝商家，网上找了半天相关资料，发现淘宝商家解释得最清楚。</p><p><strong>总结：</strong><br>1.IC卡整体上看比ID卡更有优势，市面上使用的大多数也是IC卡；<br>2.对于矩形白卡，里面为矩形线圈、表面没有编号的多为IC卡，里面为圆形线圈、表面有编号的多为ID卡；<br>3.对于异形卡，有编号的多为ID卡，最好使用带NFC的手机进行测试，IC卡会有反应。</p><h2 id="1-2-接触式和非接触式IC卡"><a href="#1-2-接触式和非接触式IC卡" class="headerlink" title="1.2 接触式和非接触式IC卡"></a>1.2 接触式和非接触式IC卡</h2><p>IC卡又可以分为接触式IC卡和非接触式IC卡。</p><ul><li><strong>接触式IC卡</strong>：该类卡是通过IC卡读写设备的触点与IC卡的触点接触后进行数据的读写；</li><li><strong>非接触式IC卡</strong>：又称射频卡、感应式IC卡，该类卡与卡设备无电路接触，而是通过非接触式的读写技术进行读写（例如RFID、NFC），其内嵌芯片除了CPU、逻辑单元、存储单元外，增加了射频收发电路。该类卡一般用在使用频繁、信息量相对较少、可靠性要求较高的场合。</li></ul><p>两者比较好区分，直接看卡上有无金属触点即可。</p><div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/3.jpg"></div><h2 id="1-3-RFID和NFC"><a href="#1-3-RFID和NFC" class="headerlink" title="1.3 RFID和NFC"></a>1.3 RFID和NFC</h2><p>非接触式的读写技术常见的有两种：RFID技术和NFC技术。</p><ul><li><p><strong>RFID技术：</strong><br>1.通常应用在生产，物流，跟踪和资产管理上；<br>2.根据频率划分包含低频、高频（13.56MHz）、超高频、微波等；<br>3.作用距离取决于频率、读写器功率、读写器天线增益值、标签天线尺寸等，工作距离在几厘米到几十米不等；<br>4.读写器和非接触卡可以是一对多关系，也可以说一对一关系；且读写器和非接触卡是两个实体，不能切换；</p></li><li><p><strong>NFC技术：</strong><br>1.通常应用在门禁，公交卡，手机支付等领域；<br>2.频率也是13.56MHz，且兼容大部分RFID高频相关标准（有些是不兼容）；<br>3.NFC作用距离较短，一般都是0~10厘米；<br>4.读写器和标签几乎都是一对一关系；且支持读写模式和卡模式，可以作为读写器也可变为非接触卡；</p></li></ul><p>总体来说，NFC是RFID的子集，但NFC有些新特性又是RFID所不具备的。</p><h2 id="1-4-IC卡类型"><a href="#1-4-IC卡类型" class="headerlink" title="1.4 IC卡类型"></a>1.4 IC卡类型</h2><p>参考资料：<br><a href="https://post.smzdm.com/p/ax08z26d/" target="_blank" rel="external">码农生活 篇二：IC卡门卡模拟探秘</a><br><a href="https://www.zhihu.com/question/19931182" target="_blank" rel="external">RFID 和 NFC 有什么区别？</a></p><h1 id="2-操作步骤"><a href="#2-操作步骤" class="headerlink" title="2. 操作步骤"></a>2. 操作步骤</h1><hr><p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>]]></content>
     
     <summary type="html">
     
@@ -216,13 +216,13 @@
     
       <category term="AM335X" scheme="http://yoursite.com/tags/AM335X/"/>
     
+      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
+    
       <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
     
       <category term="hwmon子系统" scheme="http://yoursite.com/tags/hwmon%E5%AD%90%E7%B3%BB%E7%BB%9F/"/>
     
       <category term="input子系统" scheme="http://yoursite.com/tags/input%E5%AD%90%E7%B3%BB%E7%BB%9F/"/>
-    
-      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
     
   </entry>
   
@@ -244,9 +244,9 @@
     
       <category term="AM335X" scheme="http://yoursite.com/tags/AM335X/"/>
     
-      <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
-    
       <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
+    
+      <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
     
   </entry>
   
@@ -266,9 +266,9 @@
     </summary>
     
     
-      <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+    
+      <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -288,9 +288,9 @@
     </summary>
     
     
-      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
-    
       <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
     
   </entry>
   
@@ -404,9 +404,9 @@
     </summary>
     
     
-      <category term="摄像头" scheme="http://yoursite.com/tags/%E6%91%84%E5%83%8F%E5%A4%B4/"/>
-    
       <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
+    
+      <category term="摄像头" scheme="http://yoursite.com/tags/%E6%91%84%E5%83%8F%E5%A4%B4/"/>
     
       <category term="CMOS" scheme="http://yoursite.com/tags/CMOS/"/>
     
@@ -454,9 +454,9 @@
     </summary>
     
     
-      <category term="摄像头" scheme="http://yoursite.com/tags/%E6%91%84%E5%83%8F%E5%A4%B4/"/>
-    
       <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
+    
+      <category term="摄像头" scheme="http://yoursite.com/tags/%E6%91%84%E5%83%8F%E5%A4%B4/"/>
     
   </entry>
   
