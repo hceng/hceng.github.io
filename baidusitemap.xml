@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/07/12/NFC%E6%89%8B%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%8A%A0%E5%AF%86%E9%97%A8%E7%A6%81%E5%8D%A1/</loc>
-    <lastmod>2019-07-16T02:46:27.053Z</lastmod>
+    <lastmod>2019-07-16T11:41:22.762Z</lastmod>
     <data>
         <display>
         <title>NFC手机模拟加密门禁卡</title>
@@ -89,9 +89,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -188,9 +188,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -243,9 +243,9 @@
         <title>Linux摄像头驱动2——UVC</title>
         <pubTime>2018-04-22T12:18:08.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -308,11 +308,11 @@
          
         <tag>Linux驱动</tag>
          
+        <tag>SPI</tag>
+         
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
-         
-        <tag>SPI</tag>
          
          
            
@@ -346,9 +346,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -487,9 +487,9 @@
         <title>Linux摄像头驱动4——CMOS摄像头</title>
         <pubTime>2018-05-20T08:02:12.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>Linux驱动</tag>
          
         <tag>CMOS</tag>
          
@@ -550,9 +550,9 @@
         <title>Linux摄像头驱动1——vivid</title>
         <pubTime>2018-03-08T07:59:30.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
