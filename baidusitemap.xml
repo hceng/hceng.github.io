@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/07/12/NFC%E6%89%8B%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%8A%A0%E5%AF%86%E9%97%A8%E7%A6%81%E5%8D%A1/</loc>
-    <lastmod>2019-07-16T11:41:22.762Z</lastmod>
+    <lastmod>2019-07-17T01:17:49.507Z</lastmod>
     <data>
         <display>
         <title>NFC手机模拟加密门禁卡</title>
@@ -89,9 +89,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -188,9 +188,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -308,11 +308,11 @@
          
         <tag>Linux驱动</tag>
          
-        <tag>SPI</tag>
-         
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -346,9 +346,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -365,9 +365,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>C++</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>C++</tag>
          
          
            
@@ -426,9 +426,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Android基础</tag>
          
          
            
@@ -919,9 +919,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            

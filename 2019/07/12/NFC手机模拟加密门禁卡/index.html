@@ -27,13 +27,14 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/11.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/12.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/13.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/14.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/20.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/21.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/22.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/23.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/24.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-07-16T11:41:22.762Z">
+<meta property="og:updated_time" content="2019-07-17T01:17:49.507Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFC手机模拟加密门禁卡">
 <meta name="twitter:description" content="记录小米手机NFC模拟加密门禁卡，以及Proxmark3的使用。">
@@ -208,7 +209,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 5.6k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 5.8k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -216,7 +217,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 19 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 20 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -337,7 +338,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="1-6-IC卡详细分析"><a href="#1-6-IC卡详细分析" class="headerlink" title="1.6 IC卡详细分析"></a>1.6 IC卡详细分析</h2><h3 id="1-6-1-IC卡存储器结构"><a href="#1-6-1-IC卡存储器结构" class="headerlink" title="1.6.1 IC卡存储器结构"></a>1.6.1 IC卡存储器结构</h3><p>以M1卡为例，介绍IC卡数据结构。<br>M1卡有从0到15共16个扇区，每个扇区配备了从0到3共4个数据段，每个数据段可以保存16字节的内容；<br>每个扇区中的段按照0~3编号，第4个段中包含KEYA（密钥A 6位）、控制位（4位）、KEYB（密钥B 6位），每个扇区可以通过它包含的密钥A或者密钥B单独加密；</p>
+<h2 id="1-6-IC卡详细分析"><a href="#1-6-IC卡详细分析" class="headerlink" title="1.6 IC卡详细分析"></a>1.6 IC卡详细分析</h2><h3 id="1-6-1-IC卡存储器结构"><a href="#1-6-1-IC卡存储器结构" class="headerlink" title="1.6.1 IC卡存储器结构"></a>1.6.1 IC卡存储器结构</h3><p>以M1卡为例，介绍IC卡数据结构。<br>M1卡有从0到15共16个扇区，每个扇区配备了从0到3共4个数据段，每个数据段可以保存16字节的内容；<br>每个扇区中的段按照0~3编号，第4个段中包含KEYA（密钥A 6字节）、控制位（4字节）、KEYB（密钥B 6字节），每个扇区可以通过它包含的密钥A或者密钥B单独加密；</p>
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/4.png"></div>
 
 <ul>
@@ -387,10 +388,16 @@
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/12.jpg"></div>
 
 <p>如果密钥B可以在相应的区尾被读出，它就不能用于确认（在前面所有表中的灰色行）。如果读卡器要用这些（带灰色标记的）访问条件的密钥B确认任何段，卡会在确认后拒绝任何存储器访问操作。</p>
-<h3 id="1-6-3-举例说明"><a href="#1-6-3-举例说明" class="headerlink" title="1.6.3 举例说明"></a>1.6.3 举例说明</h3><p>Mifare S50出厂时，访问控制字节（字节6-字节 9）被初始化为“FF 07 80 69”，所以初始访问控制位默认值为：C10C20C30=000；C11C21C31=000；C12C22C32=000；C13C23C33=001。<br>KEY A和KEY B的默认值为“FF FF FF FF FF FF” ，控制段初始值和访问控制字节如下：</p>
+<h3 id="1-6-3-举例说明"><a href="#1-6-3-举例说明" class="headerlink" title="1.6.3 举例说明"></a>1.6.3 举例说明</h3><p>Mifare S50出厂时，访问控制字节（字节6-字节9）被初始化为“FF 07 80 69”，KEY A和KEY B的默认值为“FF FF FF FF FF FF” ；<br>字节6为FF，二进制为1111111；字节7为07，二进制为00000111；字节8为80，二进制为10000000，如下：</p>
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/13.jpg"></div>
 
+<p>对照前面的<em>访问位在区尾的存储形式图</em>，可得知访问控制位为：<br>C10C20C30=000；C11C21C31=000；C12C22C32=000；C13C23C33=001。</p>
+<p>C10C20C30、C11C21C31、C12C22C32对应数据段0、1、2，参考<em>数据段的访问条件图</em>即可得知该段三个数据区的访问权限；<br>C13C23C33对应区尾（段 3），参考<em>区尾的访问条件图</em>即可得知该段的访问权限；</p>
 <p>块0控制位为：0 0 0  权限为：通过A或者B密码认证后可读，可写，可进行加值和减值操作；<br>块1控制位为：0 0 0  权限为：通过A或者B密码认证后可读，可写，可进行加值和减值操作；<br>块2控制位为：0 0 0  权限为：通过A或者B密码认证后可读，可写，可进行加值和减值操作；<br>块3控制位为：0 0 1  权限为：A密码不可读，验证A或者B密码后可改写A密码；验证A或者B密码后，可读可改写存取控制；验证A密码或者B密码后，可读可改写B密码；</p>
+<p>这样每次换算还是有点麻烦，可以使用<a href="http://www.pc6.com/softview/SoftView_94636.html" target="_blank" rel="external">M1 S50卡控制字节生成工具</a>快速换算：</p>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/14.jpg"></div>
+
+<p>最下面一行可以输入想解释的控制字，也可以根据上面的设置生成控制字；<br>最上面一行，左边是数据段0、1、2的访问控制位，右边是对应权限所需要的秘钥；<br>中间的一行，左边是区尾的访问控制位，右边是对应权限所需要的秘钥；</p>
 <h2 id="1-7-非加密IC卡和加密IC卡"><a href="#1-7-非加密IC卡和加密IC卡" class="headerlink" title="1.7 非加密IC卡和加密IC卡"></a>1.7 非加密IC卡和加密IC卡</h2><p>非加密IC卡和加密IC卡的区别就是，非加密IC卡中所有扇区的KEYA和KEYB数值都是默认值FFFFFFFFFFFF；<br>而加密IC卡中，其中有扇区的KEYA和KEYB不等于FFFFFFFFFFFF，部分扇区加密的卡称半加密IC卡，所有扇区都加密的卡称全加密IC卡。</p>
 <p>一般的读卡器，像手机的NFC，是读不到IC卡的加密数据的，需要用专门的工具，比如Proxmark3读取。 </p>
 <p>对于IC卡，除了对卡上数据加密，还有滚动码加密、服务器数据验证等技术。<br>因此，对IC卡的解密，更多的是门禁卡、签到卡、车库卡等的讨论，像公交卡、饭卡等涉及到资金问题的，基本都有服务器定期校验，得先搞定服务器再说，难度高还违法。</p>
@@ -760,19 +767,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -784,11 +779,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -800,10 +807,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
               </li>
              
@@ -812,11 +815,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -836,7 +851,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -844,27 +859,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -872,15 +867,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -892,7 +899,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -908,7 +915,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -916,19 +923,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -936,11 +935,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+                <a href="javascript:void(0)" class="js-tag color5">Android基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
             
             <div class="clearfix"></div>
@@ -996,7 +1003,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;245k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;245.2k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
