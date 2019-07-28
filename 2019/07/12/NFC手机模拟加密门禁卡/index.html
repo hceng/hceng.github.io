@@ -34,8 +34,9 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/18.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/19.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/20.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/21.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-07-21T15:52:34.004Z">
+<meta property="og:updated_time" content="2019-07-28T13:35:52.148Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFC手机模拟加密门禁卡">
 <meta name="twitter:description" content="记录小米手机NFC模拟加密门禁卡，以及Proxmark3的使用。">
@@ -210,7 +211,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 6k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.1k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -218,7 +219,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 21 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 25 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -437,8 +438,328 @@
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/20.jpg"></div>
 
 <p>Proxmark3除了<a href="https://github.com/Proxmark/proxmark3/" target="_blank" rel="external">官方的固件</a>，还有不少<a href="http://proxmark3.info/firmware/" target="_blank" rel="external">第三方固件</a>，这些固件中，以<a href="https://github.com/iceman1001/proxmark3" target="_blank" rel="external">Iceman</a>的固件最流行，除此之外，卖家送的资料里还有<em>离线嗅探固件</em>用于侦测密码，设计的双USB的用意，也是为此。</p>
-<h2 id="3-1-PM3常用指令"><a href="#3-1-PM3常用指令" class="headerlink" title="3.1 PM3常用指令"></a>3.1 PM3常用指令</h2><p>参考资料：<br><a href="https://pm3.echo.cool/index.php/2018/08/20/pm3%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">PM3常用命令</a></p>
-<h2 id="3-2-破解加密门禁卡"><a href="#3-2-破解加密门禁卡" class="headerlink" title="3.2 破解加密门禁卡"></a>3.2 破解加密门禁卡</h2><p>参考资料：<br><a href="https://lzy-wi.github.io/2018/07/26/proxmark3/" target="_blank" rel="external">Proxmark3 Easy破解门禁卡学习过程</a></p>
+<h2 id="3-1-PM3常用指令-部分"><a href="#3-1-PM3常用指令-部分" class="headerlink" title="3.1 PM3常用指令(部分)"></a>3.1 PM3常用指令(部分)</h2><p><code>PM3 Universal GUI</code>是客户端软件，用于Windows上向Proxmark3发送命令。</p>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/21.jpg"></div>
+
+<p>左上角需要选择对应的串口端口，左边是命令介绍，可以点击所需命令，将自动出现在输入框，点击<code>Run</code>则执行。</p>
+<h3 id="3-1-1-help主帮助命令"><a href="#3-1-1-help主帮助命令" class="headerlink" title="3.1.1 help主帮助命令"></a>3.1.1 help主帮助命令</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">help</td>
+<td style="text-align:center">显示帮助</td>
+</tr>
+<tr>
+<td style="text-align:center">data</td>
+<td style="text-align:center">图形窗口/缓冲区数据操作等</td>
+</tr>
+<tr>
+<td style="text-align:center">exit</td>
+<td style="text-align:center">退出Proxmark3的终端环境</td>
+</tr>
+<tr>
+<td style="text-align:center">hf</td>
+<td style="text-align:center">高频相关命令</td>
+</tr>
+<tr>
+<td style="text-align:center">hw</td>
+<td style="text-align:center">硬件检测相关命令</td>
+</tr>
+<tr>
+<td style="text-align:center">lf</td>
+<td style="text-align:center">退出Proxmark3的终端环境等同exit</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-2-hw硬件检测相关命令"><a href="#3-1-2-hw硬件检测相关命令" class="headerlink" title="3.1.2 hw硬件检测相关命令"></a>3.1.2 hw硬件检测相关命令</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">detectreader</td>
+<td style="text-align:center">[‘l’/‘h’] –检测外部读卡器频率区域（选项“l”或“h”限制到低频LF或高频HF）</td>
+</tr>
+<tr>
+<td style="text-align:center">fpgaoff</td>
+<td style="text-align:center">设置FPGA为关闭</td>
+</tr>
+<tr>
+<td style="text-align:center">readmem</td>
+<td style="text-align:center">从芯片中读取10进制地址的存贮器</td>
+</tr>
+<tr>
+<td style="text-align:center">reset</td>
+<td style="text-align:center">重置Proxmark3</td>
+</tr>
+<tr>
+<td style="text-align:center">setlfdivisor</td>
+<td style="text-align:center"><19 255="" -=""> – 在12Mhz/(基数+1)驱动LF天线</19></td>
+</tr>
+<tr>
+<td style="text-align:center">setmux</td>
+<td style="text-align:center"><loraw hiraw="" lopkd="" hipkd=""> – 设置ADC多路复用器为一个特定的值</loraw></td>
+</tr>
+<tr>
+<td style="text-align:center">tune</td>
+<td style="text-align:center">测量天线的调谐</td>
+</tr>
+<tr>
+<td style="text-align:center">version</td>
+<td style="text-align:center">显示Proxmark3的固件版本信息</td>
+</tr>
+<tr>
+<td style="text-align:center">status</td>
+<td style="text-align:center">显示Proxmark3状态信息</td>
+</tr>
+<tr>
+<td style="text-align:center">ping</td>
+<td style="text-align:center">测试Proxmark3连接是否正常</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-3-lf低频相关命令"><a href="#3-1-3-lf低频相关命令" class="headerlink" title="3.1.3 lf低频相关命令"></a>3.1.3 lf低频相关命令</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">cmdread</td>
+<td style="text-align:center"><off> &lt;’0’&gt; &lt;’1’&gt; &lt;命令&gt; [‘h’] – 在读取之前发送命令来调整LF读卡器周期（以微妙为单位）（’h’选项为134）</off></td>
+</tr>
+<tr>
+<td style="text-align:center">em4x</td>
+<td style="text-align:center">EM4X卡类相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">flexdemod</td>
+<td style="text-align:center">解调FlexPass样本</td>
+</tr>
+<tr>
+<td style="text-align:center">hid</td>
+<td style="text-align:center">HID卡类相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">indalademod</td>
+<td style="text-align:center">[‘224’] –解调Indala样本的64位UID（选项’224’是224位）</td>
+</tr>
+<tr>
+<td style="text-align:center">indalaclone</td>
+<td style="text-align:center">UID] [‘l’]– 克隆Indala到T55x7卡 (标签必须在天线上)(UID为16进制)(选项’l’表示224位UID)</td>
+</tr>
+<tr>
+<td style="text-align:center">read</td>
+<td style="text-align:center">[‘h’] – 读取125/134 kHz的低频ID标签(选项’h’是134)</td>
+</tr>
+<tr>
+<td style="text-align:center">sim</td>
+<td style="text-align:center">[GAP] – 从可选GAP的缓冲区模拟低频标签(以微秒为单位)</td>
+</tr>
+<tr>
+<td style="text-align:center">simbidir</td>
+<td style="text-align:center">模拟低频标签（在读卡器和标签之间双向传输数据）</td>
+</tr>
+<tr>
+<td style="text-align:center">simman</td>
+<td style="text-align:center">&lt;时钟&gt; &lt;比特率&gt; [GAP] 模拟任意曼彻斯特低频标签</td>
+</tr>
+<tr>
+<td style="text-align:center">ti</td>
+<td style="text-align:center">TI卡类相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">hitag</td>
+<td style="text-align:center">Hitag标签与应答相关…</td>
+</tr>
+<tr>
+<td style="text-align:center">vchdemod</td>
+<td style="text-align:center">[‘clone’] - 解调VeriChip公司样本</td>
+</tr>
+<tr>
+<td style="text-align:center">t55xx</td>
+<td style="text-align:center">T55xx卡类相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">PCF7931</td>
+<td style="text-align:center">PCF7931卡类相关命令…</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-4-hf高频相关命令"><a href="#3-1-4-hf高频相关命令" class="headerlink" title="3.1.4 hf高频相关命令"></a>3.1.4 hf高频相关命令</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">14a</td>
+<td style="text-align:center">ISO14443A卡的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">14b</td>
+<td style="text-align:center">ISO14443B卡的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">ISO15693卡的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">epa</td>
+<td style="text-align:center">德国身份证的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">legic</td>
+<td style="text-align:center">LEGIC卡的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">iclass</td>
+<td style="text-align:center">ICLASS卡的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">mf</td>
+<td style="text-align:center">MIFARE卡的相关命令…</td>
+</tr>
+<tr>
+<td style="text-align:center">tune</td>
+<td style="text-align:center">连续测量高频天线的调谐</td>
+</tr>
+</tbody>
+</table>
+<p>支持的高频卡很多，最常用的是MIFARE卡，因此暂只详细介绍下MIFARE卡的命令。</p>
+<ul>
+<li><strong>hf mf（MIFARE卡的相关命令…）</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">dbg</td>
+<td style="text-align:center">设置默认调试模式</td>
+</tr>
+<tr>
+<td style="text-align:center">rdbl</td>
+<td style="text-align:center">读取MIFARE classic卡的区块数据</td>
+</tr>
+<tr>
+<td style="text-align:center">rdsc</td>
+<td style="text-align:center">读取MIFARE classic卡的扇区数据</td>
+</tr>
+<tr>
+<td style="text-align:center">dump</td>
+<td style="text-align:center">导出MIFARE classic卡的数据到二进制文件</td>
+</tr>
+<tr>
+<td style="text-align:center">restore</td>
+<td style="text-align:center">从二进制文件恢复数据到空白的MIFARE classic卡</td>
+</tr>
+<tr>
+<td style="text-align:center">wrbl</td>
+<td style="text-align:center">改写MIFARE classic卡的区块数据</td>
+</tr>
+<tr>
+<td style="text-align:center">chk</td>
+<td style="text-align:center">测试MIFARE classic卡的各个区块KEY A/B</td>
+</tr>
+<tr>
+<td style="text-align:center">mifare</td>
+<td style="text-align:center">基于PRNG漏洞，执行mifare “DarkSide”攻击操作</td>
+</tr>
+<tr>
+<td style="text-align:center">nested</td>
+<td style="text-align:center">测试嵌套认证漏洞，基于一个已知Key，获取都有扇区Keys</td>
+</tr>
+<tr>
+<td style="text-align:center">sniff</td>
+<td style="text-align:center">嗅卡片与读写器之间的通讯(等同于hf 14a snoop)</td>
+</tr>
+<tr>
+<td style="text-align:center">sim</td>
+<td style="text-align:center">模拟一个MIFARE卡片</td>
+</tr>
+<tr>
+<td style="text-align:center">eclr</td>
+<td style="text-align:center">清除仿真内存的各区块数据</td>
+</tr>
+<tr>
+<td style="text-align:center">eget</td>
+<td style="text-align:center">获取仿真内存的各区块数据</td>
+</tr>
+<tr>
+<td style="text-align:center">eset</td>
+<td style="text-align:center">设置仿真内存的各区块数据</td>
+</tr>
+<tr>
+<td style="text-align:center">eload</td>
+<td style="text-align:center">从导出的文件加载仿真数据</td>
+</tr>
+<tr>
+<td style="text-align:center">esave</td>
+<td style="text-align:center">导出保存仿真数据到文件</td>
+</tr>
+<tr>
+<td style="text-align:center">ecfill</td>
+<td style="text-align:center">利用仿真器的keys来填补仿真内存</td>
+</tr>
+<tr>
+<td style="text-align:center">ekeyprn</td>
+<td style="text-align:center">打印输出仿真内存中的keys</td>
+</tr>
+<tr>
+<td style="text-align:center">csetuid</td>
+<td style="text-align:center">直接设置可改UID卡的UID</td>
+</tr>
+<tr>
+<td style="text-align:center">csetblk</td>
+<td style="text-align:center">把对应区块数据写入UID卡</td>
+</tr>
+<tr>
+<td style="text-align:center">cgetblk</td>
+<td style="text-align:center">读取UID卡对应区块数据</td>
+</tr>
+<tr>
+<td style="text-align:center">cgetsc</td>
+<td style="text-align:center">读取UID卡对应扇区数据</td>
+</tr>
+<tr>
+<td style="text-align:center">cload</td>
+<td style="text-align:center">写入dump数据到UID卡</td>
+</tr>
+<tr>
+<td style="text-align:center">csave</td>
+<td style="text-align:center">保存UID卡数据到文件或者仿真内存</td>
+</tr>
+</tbody>
+</table>
+<p>参考资料：<br><a href="https://pm3.echo.cool/index.php/2018/08/20/pm3%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">PM3常用命令</a></p>
+<h2 id="3-2-破解加密门禁卡"><a href="#3-2-破解加密门禁卡" class="headerlink" title="3.2 破解加密门禁卡"></a>3.2 破解加密门禁卡</h2><h3 id="3-2-1-破解思路"><a href="#3-2-1-破解思路" class="headerlink" title="3.2.1 破解思路"></a>3.2.1 破解思路</h3><ul>
+<li><p>1.获得任意扇区的密钥（使用以下任一方法成功即可）:<br>　a.PRNG 漏洞攻击得0扇区密匙；<br>　b.默认密码扫描获得密匙；<br>　c.探读卡机和卡片交互数据获得密匙；<br>　d.模拟成M1卡刷卡后捕获密匙（挑读卡机，兼容性不好）；</p>
+</li>
+<li><p>2.利用<code>MFOC</code>漏洞，用已知扇区密匙求所有扇区密匙；</p>
+</li>
+<li><p>3.用破解出的密匙把卡片数据读出导入电脑；</p>
+</li>
+<li><p>4.放上UID/CUID空卡，把电脑中的数据写入卡中；</p>
+</li>
+</ul>
+<h3 id="3-2-1-写手机-手环思路"><a href="#3-2-1-写手机-手环思路" class="headerlink" title="3.2.1 写手机/手环思路"></a>3.2.1 写手机/手环思路</h3><p>参考资料：<br><a href="https://lzy-wi.github.io/2018/07/26/proxmark3/" target="_blank" rel="external">Proxmark3 Easy破解门禁卡学习过程</a></p>
 <p>待续……</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
@@ -599,7 +920,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-缘起"><span class="toc-number">1.</span> <span class="toc-text">0. 缘起</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基础知识"><span class="toc-number">2.</span> <span class="toc-text">1. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-ID卡和IC卡"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 ID卡和IC卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-接触式和非接触式IC卡"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 接触式和非接触式IC卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-RFID和NFC"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 RFID和NFC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-ID卡类型"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 ID卡类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-IC卡类型"><span class="toc-number">2.5.</span> <span class="toc-text">1.5 IC卡类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-IC卡详细分析"><span class="toc-number">2.6.</span> <span class="toc-text">1.6 IC卡详细分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-1-IC卡存储器结构"><span class="toc-number">2.6.1.</span> <span class="toc-text">1.6.1 IC卡存储器结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-2-IC卡访问存储器"><span class="toc-number">2.6.2.</span> <span class="toc-text">1.6.2 IC卡访问存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-3-举例说明"><span class="toc-number">2.6.3.</span> <span class="toc-text">1.6.3 举例说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-非加密IC卡和加密IC卡"><span class="toc-number">2.7.</span> <span class="toc-text">1.7 非加密IC卡和加密IC卡</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-手机NFC模拟加密门禁卡"><span class="toc-number">3.</span> <span class="toc-text">2. 手机NFC模拟加密门禁卡</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Proxmark3解密门禁卡"><span class="toc-number">4.</span> <span class="toc-text">3. Proxmark3解密门禁卡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-PM3常用指令"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 PM3常用指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-破解加密门禁卡"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 破解加密门禁卡</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-缘起"><span class="toc-number">1.</span> <span class="toc-text">0. 缘起</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-基础知识"><span class="toc-number">2.</span> <span class="toc-text">1. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-ID卡和IC卡"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 ID卡和IC卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-接触式和非接触式IC卡"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 接触式和非接触式IC卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-RFID和NFC"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 RFID和NFC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-ID卡类型"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 ID卡类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-IC卡类型"><span class="toc-number">2.5.</span> <span class="toc-text">1.5 IC卡类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-IC卡详细分析"><span class="toc-number">2.6.</span> <span class="toc-text">1.6 IC卡详细分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-1-IC卡存储器结构"><span class="toc-number">2.6.1.</span> <span class="toc-text">1.6.1 IC卡存储器结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-2-IC卡访问存储器"><span class="toc-number">2.6.2.</span> <span class="toc-text">1.6.2 IC卡访问存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-3-举例说明"><span class="toc-number">2.6.3.</span> <span class="toc-text">1.6.3 举例说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-非加密IC卡和加密IC卡"><span class="toc-number">2.7.</span> <span class="toc-text">1.7 非加密IC卡和加密IC卡</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-手机NFC模拟加密门禁卡"><span class="toc-number">3.</span> <span class="toc-text">2. 手机NFC模拟加密门禁卡</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Proxmark3解密门禁卡"><span class="toc-number">4.</span> <span class="toc-text">3. Proxmark3解密门禁卡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-PM3常用指令-部分"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 PM3常用指令(部分)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-help主帮助命令"><span class="toc-number">4.1.1.</span> <span class="toc-text">3.1.1 help主帮助命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-2-hw硬件检测相关命令"><span class="toc-number">4.1.2.</span> <span class="toc-text">3.1.2 hw硬件检测相关命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-3-lf低频相关命令"><span class="toc-number">4.1.3.</span> <span class="toc-text">3.1.3 lf低频相关命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-4-hf高频相关命令"><span class="toc-number">4.1.4.</span> <span class="toc-text">3.1.4 hf高频相关命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-破解加密门禁卡"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 破解加密门禁卡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-破解思路"><span class="toc-number">4.2.1.</span> <span class="toc-text">3.2.1 破解思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-写手机-手环思路"><span class="toc-number">4.2.2.</span> <span class="toc-text">3.2.1 写手机/手环思路</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -756,10 +1077,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
@@ -773,6 +1090,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -792,31 +1117,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -828,11 +1129,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -848,7 +1165,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -860,11 +1177,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -872,7 +1189,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -884,15 +1209,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -905,14 +1234,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1008,7 +1329,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;245.4k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;246.5k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
