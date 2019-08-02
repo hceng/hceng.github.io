@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/20.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/21.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-07-28T13:35:52.148Z">
+<meta property="og:updated_time" content="2019-08-02T10:22:42.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFC手机模拟加密门禁卡">
 <meta name="twitter:description" content="记录小米手机NFC模拟加密门禁卡，以及Proxmark3的使用。">
@@ -211,7 +211,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.1k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 8.7k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -219,7 +219,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 25 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 34 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -679,7 +679,7 @@
 <td style="text-align:center">测试MIFARE classic卡的各个区块KEY A/B</td>
 </tr>
 <tr>
-<td style="text-align:center">mifare</td>
+<td style="text-align:center">darkside</td>
 <td style="text-align:center">基于PRNG漏洞，执行mifare “DarkSide”攻击操作</td>
 </tr>
 <tr>
@@ -750,15 +750,31 @@
 </table>
 <p>参考资料：<br><a href="https://pm3.echo.cool/index.php/2018/08/20/pm3%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">PM3常用命令</a></p>
 <h2 id="3-2-破解加密门禁卡"><a href="#3-2-破解加密门禁卡" class="headerlink" title="3.2 破解加密门禁卡"></a>3.2 破解加密门禁卡</h2><h3 id="3-2-1-破解思路"><a href="#3-2-1-破解思路" class="headerlink" title="3.2.1 破解思路"></a>3.2.1 破解思路</h3><ul>
-<li><p>1.获得任意扇区的密钥（使用以下任一方法成功即可）:<br>　a.PRNG 漏洞攻击得0扇区密匙；<br>　b.默认密码扫描获得密匙；<br>　c.探读卡机和卡片交互数据获得密匙；<br>　d.模拟成M1卡刷卡后捕获密匙（挑读卡机，兼容性不好）；</p>
-</li>
-<li><p>2.利用<code>MFOC</code>漏洞，用已知扇区密匙求所有扇区密匙；</p>
-</li>
-<li><p>3.用破解出的密匙把卡片数据读出导入电脑；</p>
-</li>
-<li><p>4.放上UID/CUID空卡，把电脑中的数据写入卡中；</p>
+<li>1.获得任意扇区的密钥（使用以下任一方法成功即可）:<br>　a.PRNG漏洞攻击得0扇区密匙，对应命令：<code>hf mf darkside</code>；<br>　b.默认密码扫描获得密匙，对应命令：<code>hf mf chk *1 ? t d</code>；<br>　c.探读卡机和卡片交互数据获得密匙；<br>　d.模拟成M1卡刷卡后捕获密匙（挑读卡机，兼容性不好）；</li>
+</ul>
+<p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf chk           </div><div class="line">Usage:  hf mf chk [h] &lt;block number&gt;|&lt;*card memory&gt; &lt;key type (A/B/?)&gt; [t|d] [&lt;key (12 hex symbols)&gt;] [&lt;dic (*.dic)&gt;]          </div><div class="line">Options:          </div><div class="line">      h    this help          </div><div class="line">      *    all sectors based on card memory, other values then below defaults to 1k          </div><div class="line">      			0 - MINI(320 bytes)          </div><div class="line">      			1 - 1K          </div><div class="line">      			2 - 2K          </div><div class="line">      			4 - 4K          </div><div class="line">      d    write keys to binary file          </div><div class="line">      t    write keys to emulator memory</div><div class="line">          </div><div class="line">          </div><div class="line">Examples:          </div><div class="line">      hf mf chk 0 A 1234567890ab keys.dic     -- target block 0, Key A          </div><div class="line">      hf mf chk *1 ? t                        -- target all blocks, all keys, 1K, write to emul          </div><div class="line">      hf mf chk *1 ? d                        -- target all blocks, all keys, 1K, write to file </div><div class="line"></div><div class="line">pm3 --&gt; hf mf chk *1 ? t d          </div><div class="line">No key specified, trying default keys          </div><div class="line">[ 0] ffffffffffff          </div><div class="line">[ 1] 000000000000          </div><div class="line">[ 2] a0a1a2a3a4a5          </div><div class="line">[ 3] b0b1b2b3b4b5          </div><div class="line">[ 4] c0c1c2c3c4c5          </div><div class="line">[ 5] d0d1d2d3d4d5          </div><div class="line">[ 6] aabbccddeeff          </div><div class="line">[ 7] 1a2b3c4d5e6f          </div><div class="line">[ 8] 123456789abc          </div><div class="line">[ 9] 010203040506          </div><div class="line">[10] 123456abcdef          </div><div class="line">[11] abcdef123456          </div><div class="line">[12] 4d3a99c351dd          </div><div class="line">[13] 1a982c7e459a          </div><div class="line">[14] d3f7d3f7d3f7          </div><div class="line">[15] 714c5c886e97          </div><div class="line">[16] 587ee5f9350f          </div><div class="line">[17] a0478cc39091          </div><div class="line">[18] 533cb6c723f6          </div><div class="line">[19] 8fd0a4f256e9          </div><div class="line"></div><div class="line">Time in checkkeys: 0 seconds</div><div class="line">          </div><div class="line">testing to read key B...          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">|sec|key A           |res|key B           |res|          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">|000|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|001|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|002|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|003|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|004|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|005|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|006|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|007|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|008|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|009|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|010|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|011|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|012|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|013|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|014|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|015|  ------------  | 0 |  ------------  | 0 |          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">Found keys have been transferred to the emulator memory          </div><div class="line">Printing keys to binary file hf-mf-4033B54A-key.bin...          </div><div class="line">Found keys have been dumped to file hf-mf-4033B54A-key.bin. 0xffffffffffff has been inserted for unknown keys.</div></pre></td></tr></table></figure></p>
+<p><code>hf mf chk *1 ? t d</code>命令会使用默认密码扫描，含义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*1: 第一个为检测块的编号，第二个为IC卡内存大小；</div><div class="line">?: 检测秘钥是A还是B，或者两者；</div><div class="line">t: 保存检测秘钥到Proxmark3内存；</div><div class="line">d: 保存检测到秘钥到文件，默认文件名hf-mf-UID-key.bin</div></pre></td></tr></table></figure></p>
+<ul>
+<li>2.利用<code>MFOC</code>漏洞，用已知扇区密匙求所有扇区密匙；</li>
+</ul>
+<p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt;  hf mf nested          </div><div class="line">Usage:          </div><div class="line"> all sectors:  hf mf nested  &lt;card memory&gt; &lt;block number&gt; &lt;key A/B&gt; &lt;key (12 hex symbols)&gt; [t,d]          </div><div class="line"> one sector:   hf mf nested  o &lt;block number&gt; &lt;key A/B&gt; &lt;key (12 hex symbols)&gt;          </div><div class="line">               &lt;target block number&gt; &lt;target key A/B&gt; [t]          </div><div class="line">Options:          </div><div class="line">      h    this help          </div><div class="line">      card memory - 0 - MINI(320 bytes), 1 - 1K, 2 - 2K, 4 - 4K, &lt;other&gt; - 1K          </div><div class="line">      t    transfer keys into emulator memory          </div><div class="line">      d    write keys to binary file `hf-mf-&lt;UID&gt;-key.bin`          </div><div class="line">          </div><div class="line">Examples:          </div><div class="line">      hf mf nested 1 0 A FFFFFFFFFFFF           </div><div class="line">      hf mf nested 1 0 A FFFFFFFFFFFF t           </div><div class="line">      hf mf nested 1 0 A FFFFFFFFFFFF d           </div><div class="line">      hf mf nested o 0 A FFFFFFFFFFFF 4 A  </div><div class="line">        </div><div class="line">pm3 --&gt; hf mf nested 1 0 A FFFFFFFFFFFF d t          </div><div class="line">[+] Testing known keys. Sector count=16          </div><div class="line"></div><div class="line">[-] Chunk: 0.7s | found 31/32 keys (21)          </div><div class="line">[+] Time to check 20 known keys: 1 seconds</div><div class="line">          </div><div class="line">[+] enter nested attack          </div><div class="line">[+] target block:  4 key type: A  -- found valid key [112233445566]          </div><div class="line"></div><div class="line">[-] Chunk: 0.7s | found 32/32 keys (1)          </div><div class="line">[+] time in nested: 2 seconds</div><div class="line">          </div><div class="line">[+] trying to read key B...          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">|sec|key A           |res|key B           |res|          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">|000|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|001|  112233445566  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|002|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|003|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|004|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|005|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|006|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|007|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|008|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|009|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|010|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|011|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|012|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|013|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|014|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|015|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">[+] saving keys to binary file hf-mf-4033B54A-key.bin...</div></pre></td></tr></table></figure></p>
+<p><code>hf mf nested 1 0 A FFFFFFFFFFFF d t</code>命令用已知扇区密匙求所有扇区密匙，含义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1: IC卡内存大小；</div><div class="line">0: 块编号；</div><div class="line">A: 秘钥类型；</div><div class="line">d: 保存检测到秘钥到文件，默认文件名hf-mf-UID-key.bin</div><div class="line">t: 保存检测秘钥到Proxmark3内存；</div></pre></td></tr></table></figure></p>
+<ul>
+<li>3.用破解出的密匙把卡片数据读出导入电脑；</li>
+</ul>
+<p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf dump          </div><div class="line">|-----------------------------------------|          </div><div class="line">|------ Reading sector access bits...-----|          </div><div class="line">|-----------------------------------------|          </div><div class="line">|-----------------------------------------|          </div><div class="line">|----- Dumping all blocks to file... -----|          </div><div class="line">|-----------------------------------------|          </div><div class="line">[+] successfully read block  0 of sector  0.          </div><div class="line">[+] successfully read block  1 of sector  0.          </div><div class="line">[+] successfully read block  2 of sector  0.          </div><div class="line">[+] successfully read block  3 of sector  0.          </div><div class="line">[+] successfully read block  0 of sector  1.          </div><div class="line">[+] successfully read block  1 of sector  1.          </div><div class="line">[+] successfully read block  2 of sector  1.          </div><div class="line">[+] successfully read block  3 of sector  1.          </div><div class="line">[+] successfully read block  0 of sector  2.          </div><div class="line">[+] successfully read block  1 of sector  2.          </div><div class="line">[+] successfully read block  2 of sector  2.          </div><div class="line">[+] successfully read block  3 of sector  2.          </div><div class="line">[+] successfully read block  0 of sector  3.          </div><div class="line">[+] successfully read block  1 of sector  3.          </div><div class="line">[+] successfully read block  2 of sector  3.          </div><div class="line">[+] successfully read block  3 of sector  3.          </div><div class="line">[+] successfully read block  0 of sector  4.          </div><div class="line">[+] successfully read block  1 of sector  4.          </div><div class="line">[+] successfully read block  2 of sector  4.          </div><div class="line">[+] successfully read block  3 of sector  4.          </div><div class="line">[+] successfully read block  0 of sector  5.          </div><div class="line">[+] successfully read block  1 of sector  5.          </div><div class="line">[+] successfully read block  2 of sector  5.          </div><div class="line">[+] successfully read block  3 of sector  5.          </div><div class="line">[+] successfully read block  0 of sector  6.          </div><div class="line">[+] successfully read block  1 of sector  6.          </div><div class="line">[+] successfully read block  2 of sector  6.          </div><div class="line">[+] successfully read block  3 of sector  6.          </div><div class="line">[+] successfully read block  0 of sector  7.          </div><div class="line">[+] successfully read block  1 of sector  7.          </div><div class="line">[+] successfully read block  2 of sector  7.          </div><div class="line">[+] successfully read block  3 of sector  7.          </div><div class="line">[+] successfully read block  0 of sector  8.          </div><div class="line">[+] successfully read block  1 of sector  8.          </div><div class="line">[+] successfully read block  2 of sector  8.          </div><div class="line">[+] successfully read block  3 of sector  8.          </div><div class="line">[+] successfully read block  0 of sector  9.          </div><div class="line">[+] successfully read block  1 of sector  9.          </div><div class="line">[+] successfully read block  2 of sector  9.          </div><div class="line">[+] successfully read block  3 of sector  9.          </div><div class="line">[+] successfully read block  0 of sector 10.          </div><div class="line">[+] successfully read block  1 of sector 10.          </div><div class="line">[+] successfully read block  2 of sector 10.          </div><div class="line">[+] successfully read block  3 of sector 10.          </div><div class="line">[+] successfully read block  0 of sector 11.          </div><div class="line">[+] successfully read block  1 of sector 11.          </div><div class="line">[+] successfully read block  2 of sector 11.          </div><div class="line">[+] successfully read block  3 of sector 11.          </div><div class="line">[+] successfully read block  0 of sector 12.          </div><div class="line">[+] successfully read block  1 of sector 12.          </div><div class="line">[+] successfully read block  2 of sector 12.          </div><div class="line">[+] successfully read block  3 of sector 12.          </div><div class="line">[+] successfully read block  0 of sector 13.          </div><div class="line">[+] successfully read block  1 of sector 13.          </div><div class="line">[+] successfully read block  2 of sector 13.          </div><div class="line">[+] successfully read block  3 of sector 13.          </div><div class="line">[+] successfully read block  0 of sector 14.          </div><div class="line">[+] successfully read block  1 of sector 14.          </div><div class="line">[+] successfully read block  2 of sector 14.          </div><div class="line">[+] successfully read block  3 of sector 14.          </div><div class="line">[+] successfully read block  0 of sector 15.          </div><div class="line">[+] successfully read block  1 of sector 15.          </div><div class="line">[+] successfully read block  2 of sector 15.          </div><div class="line">[+] successfully read block  3 of sector 15.          </div><div class="line">[+] dumped 64 blocks (1024 bytes) to file hf-mf-4033B54A-data.bin</div></pre></td></tr></table></figure></p>
+<p>因为前面把秘钥保存到Proxmark3内存，这里就不需要指定秘钥文件，最后将生成<code>hf-mf-UID-data.bin</code>文件，里面就是IC卡的所有数据。</p>
+<ul>
+<li>4.放上UID/CUID空卡，把电脑中的数据写入卡中；<br>Proxmark3不能识别、使用bin文件，需要转换成eml格式，可以使用<code>PM3 Universal GUI</code>提供的脚本转换。<br>举例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; script run dumptoemul.lua -i hf-mf-4033B54A-data.bin -o 4033B54A.eml                    </div><div class="line">[+] Executing: dumptoemul.lua, args &apos;-i hf-mf-4033B54A-data.bin -o 4033B54A.eml  &apos;</div><div class="line">          </div><div class="line">Wrote an emulator-dump to the file 4033B54A.eml</div><div class="line">          </div><div class="line">[+] Finished</div></pre></td></tr></table></figure>
 </li>
 </ul>
+<p><code>script run</code>命令将运行<code>scripts</code>目录下对应脚本，后面接的参数由脚本决定，可以打开脚本看说明，<code>dumptoemul.lua</code>脚本参数含义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">i: 指定待转换的bin文件；</div><div class="line">o: 指定生成的eml文件名；</div></pre></td></tr></table></figure></p>
+<p>之后便会得到一个eml文件。</p>
+<p><strong>注意，UID卡和CUID卡读写数据的流程存在差异，这里分开举例。</strong></p>
+<p><strong>写UID卡：</strong><br>UID卡存在后门指令，无需知道秘钥即可实现读写。<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf cload 4033B54A          </div><div class="line">................................................................</div><div class="line">          </div><div class="line">[+] Loaded 64 blocks from file: 4033B54A.eml</div></pre></td></tr></table></figure></p>
+<p>注命令里传入的待写uml文件，不需要文件扩展名。<br>写完之后没有任何回显提示，可以使用<code>hf mf cgetsc 0</code>读出分区数据，再进行对比。</p>
+<p><strong>写CUID卡:</strong><br>hf mf restore 1 k hf-mf-A4BB360E-key.bin f hf-mf-4033B54A-data.bin</p>
+<p>hf mf chk *1 ? t d<br>hf mf nested 1 0 A FFFFFFFFFFFF d t<br>hf mf rdsc 0 A FFFFFFFFFFFF<br>待续……</p>
 <h3 id="3-2-1-写手机-手环思路"><a href="#3-2-1-写手机-手环思路" class="headerlink" title="3.2.1 写手机/手环思路"></a>3.2.1 写手机/手环思路</h3><p>参考资料：<br><a href="https://lzy-wi.github.io/2018/07/26/proxmark3/" target="_blank" rel="external">Proxmark3 Easy破解门禁卡学习过程</a></p>
 <p>待续……</p>
 <hr>
@@ -1077,6 +1093,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
@@ -1093,7 +1113,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1109,14 +1133,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
@@ -1129,11 +1145,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1145,11 +1161,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1165,10 +1181,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -1177,11 +1189,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1209,11 +1225,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1329,7 +1345,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;246.5k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;248.1k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
