@@ -35,8 +35,9 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/19.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/20.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/21.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/22.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-08-02T10:22:42.879Z">
+<meta property="og:updated_time" content="2019-08-03T09:57:19.950Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFC手机模拟加密门禁卡">
 <meta name="twitter:description" content="记录小米手机NFC模拟加密门禁卡，以及Proxmark3的使用。">
@@ -211,7 +212,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 8.7k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 10k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -219,7 +220,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 34 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 39 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -403,10 +404,10 @@
 <h2 id="1-7-非加密IC卡和加密IC卡"><a href="#1-7-非加密IC卡和加密IC卡" class="headerlink" title="1.7 非加密IC卡和加密IC卡"></a>1.7 非加密IC卡和加密IC卡</h2><p>非加密IC卡和加密IC卡的区别就是，非加密IC卡中所有扇区的KEYA和KEYB数值都是默认值FFFFFFFFFFFF；<br>而加密IC卡中，其中有扇区的KEYA和KEYB不等于FFFFFFFFFFFF，部分扇区加密的卡称半加密IC卡，所有扇区都加密的卡称全加密IC卡。</p>
 <p>一般的读卡器，像手机的NFC，是读不到IC卡的加密数据的，需要用专门的工具，比如Proxmark3读取。 </p>
 <p>对于IC卡，除了对卡上数据加密，还有滚动码加密、服务器数据验证等技术。<br>因此，对IC卡的解密，更多的是门禁卡、签到卡、车库卡等的讨论，像公交卡、饭卡等涉及到资金问题的，基本都有服务器定期校验，得先搞定服务器再说，难度高还违法。</p>
-<p>参考资料：<br><a href="https://post.smzdm.com/p/ax08z26d/" target="_blank" rel="external">码农生活 篇二：IC卡门卡模拟探秘</a><br><a href="http://pn532.com/portal.php?mod=view&amp;aid=2" target="_blank" rel="external">IC卡简介【M1/S50，UID，CUID，FUID，UFUID复制卡介绍】</a><br><a href="https://bobylive.com/static/1491" target="_blank" rel="external">谈谈 Mifare Classic 破解</a><br><a href="https://s1.bobylive.com/other/rfid-practice.pdf" target="_blank" rel="external">rfid-practice</a><br><a href="http://yearito.cn/posts/storage-structure-of-typeA.html" target="_blank" rel="external">Type A 卡存储结构与通信</a></p>
+<p>参考资料：<br><a href="https://post.smzdm.com/p/ax08z26d/" target="_blank" rel="external">码农生活 篇二：IC卡门卡模拟探秘</a><br><a href="http://pn532.com/portal.php?mod=view&amp;aid=2" target="_blank" rel="external">IC卡简介【M1/S50，UID，CUID，FUID，UFUID复制卡介绍】</a><br><a href="https://bobylive.com/static/1491" target="_blank" rel="external">谈谈 Mifare Classic 破解</a><br><a href="https://s1.bobylive.com/other/rfid-practice.pdf" target="_blank" rel="external">rfid-practice</a><br><a href="http://yearito.cn/posts/storage-structure-of-typeA.html" target="_blank" rel="external">Type A 卡存储结构与通信</a><br><a href="https://lzy-wi.github.io/2018/07/26/proxmark3/" target="_blank" rel="external">Proxmark3 Easy破解门禁卡学习过程</a></p>
 <h1 id="2-手机NFC模拟加密门禁卡"><a href="#2-手机NFC模拟加密门禁卡" class="headerlink" title="2. 手机NFC模拟加密门禁卡"></a>2. 手机NFC模拟加密门禁卡</h1><p>有了前面的知识，再来看现在我的加密门禁卡情况，手机能识别为加密卡，肯定是IC卡。</p>
 <p>首先，加密卡在目前这个情况下是无法解密的，如果按照下面的操作失败，请参考下一章。<br><strong>部分门禁系统只认证IC卡的UID</strong>，利用这一情况，可以试试复制门禁卡的UID，看运气能否打开门。</p>
-<p>在已root的情况下，直接使用APP <a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="external">NFC卡模拟 </a>便可读取加密卡的UID和非加密数据、并写UID到手机NFC里。<br>在未root的情况下，使用小米系统自带的门卡模拟功能，出于安全考虑，是不能对加密卡进行任何操作。手机的NFC，理论上可以读加密IC卡的UID，因此可以使用第三方软件<a href="https://github.com/ikarus23/MifareClassicTool/releases" target="_blank" rel="external">MifareClassicTool</a>读取UID，因为没有root，不能写手机NFC，但可以写IC卡，因此还<strong>需要一张CUID卡</strong>，某宝上一块多一张，思路就是<strong>先读取加密卡的UID，再读取CUID卡的数据，然后将CUID卡的UID改为加密卡一样的UID，再将修改后的数据写回到CUID卡，最后用小米系统自带的门卡模拟功能，复制未加密的CUID卡即可。</strong></p>
+<p>在已root的情况下，直接使用APP <a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="external">NFC卡模拟 </a>便可读取加密卡的UID和非加密数据、并写UID到手机NFC里。<br>在未root的情况下，使用小米系统自带的门卡模拟功能，出于安全考虑，是不能对加密卡进行任何操作。手机的NFC，理论上可以读加密IC卡的UID，因此可以使用第三方软件<a href="https://github.com/ikarus23/MifareClassicTool/releases" target="_blank" rel="external">MifareClassicTool</a>读取UID，因为没有root，不能写手机NFC，但可以写IC卡，因此还<strong>需要一张CUID卡(不能使用UID卡)</strong>，某宝上一块多一张，思路就是<strong>先读取加密卡的UID，再读取CUID卡的数据，然后将CUID卡的UID改为加密卡一样的UID，再将修改后的数据写回到CUID卡，最后用小米系统自带的门卡模拟功能，复制未加密的CUID卡即可。</strong></p>
 <ul>
 <li><strong>1.读取加密卡的UID</strong><br>打开软件<code>Mifare Classic Tool</code>，将加密门禁卡放到手机的NFC感应区域，识别到IC卡后，点击“工具”-&gt;“显示标签信息”，可以看到加密门禁卡的8个数字，4字节的UID。<br>注意，在16进制里，每个数字为4位(2^4=16)，8位(bits)为一字节(bytes)，即两个数字组成一字节，这里8个数字，即为4字节(Bytes)。<br>前8个数字，每个数字代表4位，8位为一字节，8个数字就是32位，即4字节<br>接着打开“工具”-&gt;“BCC计算器”，输入UID，得到1位BBC(两个数字)校验数据。</li>
 </ul>
@@ -760,7 +761,7 @@
 <p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt;  hf mf nested          </div><div class="line">Usage:          </div><div class="line"> all sectors:  hf mf nested  &lt;card memory&gt; &lt;block number&gt; &lt;key A/B&gt; &lt;key (12 hex symbols)&gt; [t,d]          </div><div class="line"> one sector:   hf mf nested  o &lt;block number&gt; &lt;key A/B&gt; &lt;key (12 hex symbols)&gt;          </div><div class="line">               &lt;target block number&gt; &lt;target key A/B&gt; [t]          </div><div class="line">Options:          </div><div class="line">      h    this help          </div><div class="line">      card memory - 0 - MINI(320 bytes), 1 - 1K, 2 - 2K, 4 - 4K, &lt;other&gt; - 1K          </div><div class="line">      t    transfer keys into emulator memory          </div><div class="line">      d    write keys to binary file `hf-mf-&lt;UID&gt;-key.bin`          </div><div class="line">          </div><div class="line">Examples:          </div><div class="line">      hf mf nested 1 0 A FFFFFFFFFFFF           </div><div class="line">      hf mf nested 1 0 A FFFFFFFFFFFF t           </div><div class="line">      hf mf nested 1 0 A FFFFFFFFFFFF d           </div><div class="line">      hf mf nested o 0 A FFFFFFFFFFFF 4 A  </div><div class="line">        </div><div class="line">pm3 --&gt; hf mf nested 1 0 A FFFFFFFFFFFF d t          </div><div class="line">[+] Testing known keys. Sector count=16          </div><div class="line"></div><div class="line">[-] Chunk: 0.7s | found 31/32 keys (21)          </div><div class="line">[+] Time to check 20 known keys: 1 seconds</div><div class="line">          </div><div class="line">[+] enter nested attack          </div><div class="line">[+] target block:  4 key type: A  -- found valid key [112233445566]          </div><div class="line"></div><div class="line">[-] Chunk: 0.7s | found 32/32 keys (1)          </div><div class="line">[+] time in nested: 2 seconds</div><div class="line">          </div><div class="line">[+] trying to read key B...          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">|sec|key A           |res|key B           |res|          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">|000|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|001|  112233445566  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|002|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|003|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|004|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|005|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|006|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|007|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|008|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|009|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|010|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|011|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|012|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|013|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|014|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|015|  ffffffffffff  | 1 |  ffffffffffff  | 1 |          </div><div class="line">|---|----------------|---|----------------|---|          </div><div class="line">[+] saving keys to binary file hf-mf-4033B54A-key.bin...</div></pre></td></tr></table></figure></p>
 <p><code>hf mf nested 1 0 A FFFFFFFFFFFF d t</code>命令用已知扇区密匙求所有扇区密匙，含义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1: IC卡内存大小；</div><div class="line">0: 块编号；</div><div class="line">A: 秘钥类型；</div><div class="line">d: 保存检测到秘钥到文件，默认文件名hf-mf-UID-key.bin</div><div class="line">t: 保存检测秘钥到Proxmark3内存；</div></pre></td></tr></table></figure></p>
 <ul>
-<li>3.用破解出的密匙把卡片数据读出导入电脑；</li>
+<li>3.用破解出的密匙把卡片数据读出导出电脑；</li>
 </ul>
 <p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf dump          </div><div class="line">|-----------------------------------------|          </div><div class="line">|------ Reading sector access bits...-----|          </div><div class="line">|-----------------------------------------|          </div><div class="line">|-----------------------------------------|          </div><div class="line">|----- Dumping all blocks to file... -----|          </div><div class="line">|-----------------------------------------|          </div><div class="line">[+] successfully read block  0 of sector  0.          </div><div class="line">[+] successfully read block  1 of sector  0.          </div><div class="line">[+] successfully read block  2 of sector  0.          </div><div class="line">[+] successfully read block  3 of sector  0.          </div><div class="line">[+] successfully read block  0 of sector  1.          </div><div class="line">[+] successfully read block  1 of sector  1.          </div><div class="line">[+] successfully read block  2 of sector  1.          </div><div class="line">[+] successfully read block  3 of sector  1.          </div><div class="line">[+] successfully read block  0 of sector  2.          </div><div class="line">[+] successfully read block  1 of sector  2.          </div><div class="line">[+] successfully read block  2 of sector  2.          </div><div class="line">[+] successfully read block  3 of sector  2.          </div><div class="line">[+] successfully read block  0 of sector  3.          </div><div class="line">[+] successfully read block  1 of sector  3.          </div><div class="line">[+] successfully read block  2 of sector  3.          </div><div class="line">[+] successfully read block  3 of sector  3.          </div><div class="line">[+] successfully read block  0 of sector  4.          </div><div class="line">[+] successfully read block  1 of sector  4.          </div><div class="line">[+] successfully read block  2 of sector  4.          </div><div class="line">[+] successfully read block  3 of sector  4.          </div><div class="line">[+] successfully read block  0 of sector  5.          </div><div class="line">[+] successfully read block  1 of sector  5.          </div><div class="line">[+] successfully read block  2 of sector  5.          </div><div class="line">[+] successfully read block  3 of sector  5.          </div><div class="line">[+] successfully read block  0 of sector  6.          </div><div class="line">[+] successfully read block  1 of sector  6.          </div><div class="line">[+] successfully read block  2 of sector  6.          </div><div class="line">[+] successfully read block  3 of sector  6.          </div><div class="line">[+] successfully read block  0 of sector  7.          </div><div class="line">[+] successfully read block  1 of sector  7.          </div><div class="line">[+] successfully read block  2 of sector  7.          </div><div class="line">[+] successfully read block  3 of sector  7.          </div><div class="line">[+] successfully read block  0 of sector  8.          </div><div class="line">[+] successfully read block  1 of sector  8.          </div><div class="line">[+] successfully read block  2 of sector  8.          </div><div class="line">[+] successfully read block  3 of sector  8.          </div><div class="line">[+] successfully read block  0 of sector  9.          </div><div class="line">[+] successfully read block  1 of sector  9.          </div><div class="line">[+] successfully read block  2 of sector  9.          </div><div class="line">[+] successfully read block  3 of sector  9.          </div><div class="line">[+] successfully read block  0 of sector 10.          </div><div class="line">[+] successfully read block  1 of sector 10.          </div><div class="line">[+] successfully read block  2 of sector 10.          </div><div class="line">[+] successfully read block  3 of sector 10.          </div><div class="line">[+] successfully read block  0 of sector 11.          </div><div class="line">[+] successfully read block  1 of sector 11.          </div><div class="line">[+] successfully read block  2 of sector 11.          </div><div class="line">[+] successfully read block  3 of sector 11.          </div><div class="line">[+] successfully read block  0 of sector 12.          </div><div class="line">[+] successfully read block  1 of sector 12.          </div><div class="line">[+] successfully read block  2 of sector 12.          </div><div class="line">[+] successfully read block  3 of sector 12.          </div><div class="line">[+] successfully read block  0 of sector 13.          </div><div class="line">[+] successfully read block  1 of sector 13.          </div><div class="line">[+] successfully read block  2 of sector 13.          </div><div class="line">[+] successfully read block  3 of sector 13.          </div><div class="line">[+] successfully read block  0 of sector 14.          </div><div class="line">[+] successfully read block  1 of sector 14.          </div><div class="line">[+] successfully read block  2 of sector 14.          </div><div class="line">[+] successfully read block  3 of sector 14.          </div><div class="line">[+] successfully read block  0 of sector 15.          </div><div class="line">[+] successfully read block  1 of sector 15.          </div><div class="line">[+] successfully read block  2 of sector 15.          </div><div class="line">[+] successfully read block  3 of sector 15.          </div><div class="line">[+] dumped 64 blocks (1024 bytes) to file hf-mf-4033B54A-data.bin</div></pre></td></tr></table></figure></p>
 <p>因为前面把秘钥保存到Proxmark3内存，这里就不需要指定秘钥文件，最后将生成<code>hf-mf-UID-data.bin</code>文件，里面就是IC卡的所有数据。</p>
@@ -770,13 +771,27 @@
 </ul>
 <p><code>script run</code>命令将运行<code>scripts</code>目录下对应脚本，后面接的参数由脚本决定，可以打开脚本看说明，<code>dumptoemul.lua</code>脚本参数含义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">i: 指定待转换的bin文件；</div><div class="line">o: 指定生成的eml文件名；</div></pre></td></tr></table></figure></p>
 <p>之后便会得到一个eml文件。</p>
-<p><strong>注意，UID卡和CUID卡读写数据的流程存在差异，这里分开举例。</strong></p>
-<p><strong>写UID卡：</strong><br>UID卡存在后门指令，无需知道秘钥即可实现读写。<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf cload 4033B54A          </div><div class="line">................................................................</div><div class="line">          </div><div class="line">[+] Loaded 64 blocks from file: 4033B54A.eml</div></pre></td></tr></table></figure></p>
+<p><strong>注意，UID卡和CUID卡读写数据的流程存在差异，这里分开举例。</strong><br>UID卡存在后门指令，无需知道秘钥即可实现读写。<br>CUID卡没有后门指令，验证对密码后才可修改内容，因此每次写CUID卡前，都需要按前面的方式先破解密码，才能利用密码写数据。<br>另外，如果不小心写错UID号的校验位，导致无法读卡，此时就无法修复，只能做废卡处理。<br>因此，如果是使用IC卡作为中介写到手环/手机，那么UID卡是最好的选择，无论怎么写，就算写错也能利用后门指令修复。如果是复制卡，卡作为最终目标，那么CUID不响应后门指令，可以通过UID防火墙，是不错的选择。</p>
+<p><strong>写UID卡：</strong><br>前面得到了卡数据文件4033B54A.eml，现在将其写到UID卡里。<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf cload 4033B54A          </div><div class="line">................................................................</div><div class="line">          </div><div class="line">[+] Loaded 64 blocks from file: 4033B54A.eml</div></pre></td></tr></table></figure></p>
 <p>注命令里传入的待写uml文件，不需要文件扩展名。<br>写完之后没有任何回显提示，可以使用<code>hf mf cgetsc 0</code>读出分区数据，再进行对比。</p>
-<p><strong>写CUID卡:</strong><br>hf mf restore 1 k hf-mf-A4BB360E-key.bin f hf-mf-4033B54A-data.bin</p>
-<p>hf mf chk *1 ? t d<br>hf mf nested 1 0 A FFFFFFFFFFFF d t<br>hf mf rdsc 0 A FFFFFFFFFFFF<br>待续……</p>
-<h3 id="3-2-1-写手机-手环思路"><a href="#3-2-1-写手机-手环思路" class="headerlink" title="3.2.1 写手机/手环思路"></a>3.2.1 写手机/手环思路</h3><p>参考资料：<br><a href="https://lzy-wi.github.io/2018/07/26/proxmark3/" target="_blank" rel="external">Proxmark3 Easy破解门禁卡学习过程</a></p>
-<p>待续……</p>
+<p><strong>写CUID卡:</strong><br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">pm3 --&gt; hf mf wrbl          </div><div class="line">Usage:  hf mf wrbl    &lt;block number&gt; &lt;key A/B&gt; &lt;key (12 hex symbols)&gt; &lt;block data (32 hex symbols)&gt;          </div><div class="line">Examples:          </div><div class="line">        hf mf wrbl 0 A FFFFFFFFFFFF 000102030405060708090A0B0C0D0E0F</div><div class="line"></div><div class="line">pm3 --&gt; hf mf wrbl 0 A FFFFFFFFFFFF 01020304040804006263646566676869          </div><div class="line">--block no:0, key type:A, key:FF FF FF FF FF FF           </div><div class="line">--data: 01 02 03 04 04 08 04 00 62 63 64 65 66 67 68 69           </div><div class="line">isOk:01</div></pre></td></tr></table></figure></p>
+<p><code>hf mf wrbl</code>命令会根据传入的秘钥，修改数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0: 指定修改第0分区；</div><div class="line">A: 指定秘钥为A类型；</div><div class="line">FFFFFFFFFFFF: 指定该秘钥；</div><div class="line">000102030405060708090A0B0C0D0E0F: 指定修改的数据；</div></pre></td></tr></table></figure></p>
+<p>使用<code>PM3 Universal GUI</code>这样一个一个修改数据，感觉很麻烦，应该有其它方法暂未发现。<br>也可以使用其它客户端软件，有些针对国情修改的傻瓜式操作，使用起来也很方便。<br>这样写完一个分区后，<code>isOk</code>显示为<code>01</code>表示修改成功，全部修改完后，可以重新读取出来，对比数据。</p>
+<h3 id="3-2-1-写手机-手环思路"><a href="#3-2-1-写手机-手环思路" class="headerlink" title="3.2.1 写手机/手环思路"></a>3.2.1 写手机/手环思路</h3><p>前面，利用CUID卡和手机应用MifareClassicTool，实现了手机未root情况下，模拟出加密卡UID号，通过了门禁。<br>有些门禁，不仅检测UID卡号，还检测某分区的加密数据，这就需要往手机NFC里写入加密数据。<br>小米手机自带的门卡模拟功能有两种：一种是模拟实体门卡，只能模拟非加密卡，即就是复制非加密卡的UID；第二种是添加虚拟门卡，会生成一张UID随机的卡，需要去物业处写卡，即物业把该卡UID号加入系统，并写入加密数据。<br>要想复制加密卡到手机，这两种方法都不行，首先排除第二种，系统生成的UID随机的卡，该卡的UID是无法修改的。第一种方法，虽然能复制得到UID，但没法复制加密数据，但至少成功了一半。<br>使用第一种方法模拟出来的卡，虽然系统不能复制加密数据，但可以使用Proxmark3写入加密数据，也就实现了UID号和加密数据的复制。</p>
+<blockquote>
+<p>因此，模拟加密卡的思路：<br>1.使用Proxmark3获取加密卡数据；<br>2.只写UID号到实体UID/CUID卡；<br>3.手机模拟该UID/CUID卡；(实现UID号的复制)<br>4.使用Proxmark3往手机模拟卡写入加密数据；（实现加密数据的复制）</p>
+</blockquote>
+<p><strong>1.使用Proxmark3获取加密卡数据</strong><br>将加密门禁卡放在Proxmark3，参考前面<code>3.2.1 破解思路</code>，先用默认密码扫描，获得任意扇区的密钥，然后用已知扇区密匙求所有扇区密匙，利用所有秘钥得到所有数据并导出，最后转换成eml格式。<br>依次数据以下命令，获取加密卡数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hf mf chk *1 ? t d</div><div class="line">hf mf nested 1 0 A FFFFFFFFFFFF d t</div><div class="line">hf mf dump</div><div class="line">script run dumptoemul.lua -i hf-mf-4033B54A-data.bin -o 4033B54A.eml</div></pre></td></tr></table></figure></p>
+<p>得到三个文件：<br><code>hf-mf-4033B54A-key.bin</code>：秘钥文件；<br><code>hf-mf-4033B54A-data.bin</code>：数据文件；<br><code>4033B54A.eml</code>：数据文件eml格式(非必须)；</p>
+<p><strong>2.只写UID号到实体UID卡</strong><br>将UID卡放在Proxmark3上，建议使用UID卡，写错了也能使用后门指令恢复。<br>用文本查看软件，如<a href="https://notepad-plus-plus.org/download/v7.7.1.html" target="_blank" rel="external">Notepad++</a>打开<code>hf-mf-4033B54A-data.bin</code>或<code>4033B54A.eml</code>，复制第一行数据，我这里为<code>4033b54a8c0804000164efbc1488f31d</code>。<br>输入以下命令，设置UID号到UID卡：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hf mf csetblk 0 4033b54a8c0804000164efbc1488f31d</div></pre></td></tr></table></figure></p>
+<p>输入以下命令，查看是否设置成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hf 14a info</div></pre></td></tr></table></figure></p>
+<p>显示出<code>UID : 40 33 B5 4A</code>，和前面的<code>4033b54a8c0804000164efbc1488f31d</code>对应上了，说明成功。</p>
+<p><strong>3.手机模拟该UID卡</strong><br>使用小米手机自带的模拟实体门卡功能，模拟该UID卡。</p>
+<div align="center"><img width="300" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190712/22.jpg"></div>
+
+<p><strong>4.使用Proxmark3往手机模拟卡写入加密数据</strong><br>手机模拟前面复制的卡，然后放到放在Proxmark3上。<br>输入以下命令，将加密数据写到手机模拟卡里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hf mf restore u 4033B54A</div></pre></td></tr></table></figure></p>
+<p>显示如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Restoring hf-mf-4033B54A-data.bin to card          </div><div class="line">Writing to block   0: 40 33 B5 4A 8C 08 04 00 01 64 EF BC 14 88 F3 1D           </div><div class="line">#db# Cmd Error: 04          </div><div class="line">#db# Write block error          </div><div class="line">isOk:00          </div><div class="line">Writing to block   1: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00           </div><div class="line">isOk:01          </div><div class="line">Writing to block   2: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00           </div><div class="line">isOk:01          </div><div class="line">Writing to block   3: FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF           </div><div class="line">isOk:01          </div><div class="line">Writing to block   4: B5 33 40 50 12 31 23 00 00 01 00 00 23 59 00 00           </div><div class="line">isOk:01          </div><div class="line">Writing to block   5: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00           </div><div class="line">isOk:01          </div><div class="line">Writing to block   6: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 </div><div class="line">……</div></pre></td></tr></table></figure></p>
+<p>可看到第0分区写入失败，其它分区写入成功，既没破坏0分区的UID号，又写入了加密数据，达到了目的。</p>
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -1101,6 +1116,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
@@ -1110,18 +1129,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1173,6 +1180,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -1189,7 +1200,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1201,15 +1216,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1217,7 +1228,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1225,11 +1236,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFC</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1245,15 +1260,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1273,7 +1288,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1281,7 +1296,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1345,7 +1360,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;248.1k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;249.4k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
