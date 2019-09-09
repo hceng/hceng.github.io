@@ -14,12 +14,13 @@
 <meta property="og:url" content="http://yoursite.com/2019/09/05/Buildroot笔记/index.html">
 <meta property="og:site_name" content="hceng blog">
 <meta property="og:description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-09-08T11:25:03.119Z">
+<meta property="og:updated_time" content="2019-09-09T10:41:24.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buildroot笔记">
 <meta name="twitter:description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
   
@@ -190,7 +191,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 6k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.9k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -198,7 +199,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 26 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 34 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -225,9 +226,42 @@
 <p>①：ABI是X86计算机上的，EABI是嵌入式平台上; EABI/EABIhf分别适用于armel和armhf两个不同的架构，armel和armh在对待浮点运算采取了不同的策略(有fpu的arm才能选择EABIhf)；<br>②：ARM浮点体系结构(VFP)，VFPvX为历史各版本，比如浮点运算指定为VFP4(vector floating point4)指令或neon向量浮点指令；</p>
 <h2 id="2-2-Build-options-编译选项"><a href="#2-2-Build-options-编译选项" class="headerlink" title="2.2 Build options(编译选项)"></a>2.2 Build options(编译选项)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">Build options  ---&gt;  </div><div class="line">        Commands  ---&gt;                                           //指定文件操作命令参数选项</div><div class="line">            (wget --passive-ftp -nd -t 3) Wget command //用于常规FTP/HTTP下载压缩包 [被动传输模式;不创建目录;超时重试次数为3]</div><div class="line">            (svn --non-interactive) Subversion (svn) command     //通过SSH下载压缩包 [禁用所有交互式提示]</div><div class="line">            (bzr) Bazaar (bzr) command                           //版本控制工具Bazaa</div><div class="line">            (git) Git command                                    //版本控制工具Git</div><div class="line">            (cvs) CVS command                                    //版本控制工具CVS</div><div class="line">            (cp) Local files retrieval command                   //本地文件拷贝命令</div><div class="line">            (scp) Secure copy (scp) command                      //基于ssh的安全的远程文件拷贝命令</div><div class="line">            (hg) Mercurial (hg) command                          //版本控制工具hg</div><div class="line">            (gzip -d -c) zcat command                            //zip包解压缩查看 [解压zip文件 解压到指定路径，源文件不消失]</div><div class="line">            (bzcat) bzcat command                                //bz2包解压缩查看</div><div class="line">            (xzcat) xzcat command                                //xz包解压缩查看</div><div class="line">            (lzip -d -c) lzcat command                           //lz包解压缩查看</div><div class="line">            ()  Tar options                                      //bz2包解压缩查看</div><div class="line">    (/home/hceng/imx6ul_buildroot/configs/imx6ulevk_defconfig) Location to save buildroot config  //指定配置文件保存路径</div><div class="line">    ($(TOPDIR)/dl) Download dir                                  //指定文件下载保存路径  [./dl/]</div><div class="line">    ($(BASE_DIR)/host) Host dir                                  //指定主机编译所需工具安装目录 [./output/host]</div><div class="line">        Mirrors and Download locations  ---&gt;                     //镜像和下载位置</div><div class="line">            ()  Primary download site</div><div class="line">            (http://sources.buildroot.net) Backup download site</div><div class="line">            (https://cdn.kernel.org/pub) Kernel.org mirror</div><div class="line">            (http://ftpmirror.gnu.org) GNU Software mirror</div><div class="line">            (http://rocks.moonscript.org) LuaRocks mirror</div><div class="line">            (http://cpan.metacpan.org) CPAN mirror (Perl packages)</div><div class="line">    (0) Number of jobs to run simultaneously (0 for auto)         //指定编译时运行的CPU核心数 [0自动]</div><div class="line">    [ ] Enable compiler cache                                     //使能编译器缓存</div><div class="line">    [ ] build packages with debugging symbols                     //启用带调试编译软件包</div><div class="line">    [*] strip target binaries                         //binaries和libraries在打包到target目录的时候会被strip命令裁减掉调试信息</div><div class="line">    ()    executables that should not be stripped                 //剥离时跳过可执行文件</div><div class="line">    ()    directories that should be skipped when stripping       //剥离时跳过的目录</div><div class="line">        gcc optimization level (optimize for size)  ---&gt;          //GCC优化等级 [优化大小]</div><div class="line">    [ ] Enable google-breakpad support                            //启动崩溃日志收集</div><div class="line">        libraries (shared only)  ---&gt;                             //库类型 [只共享库]</div><div class="line">    ($(CONFIG_DIR)/local.mk) location of a package override file  //包覆盖文件的位置</div><div class="line">    ()  global patch directories                                  //全局补丁目录</div><div class="line">        Advanced  ---&gt;</div><div class="line">            [*] paranoid check of library/header paths            //检查库/头文件路径</div><div class="line">            [ ] Force the building of host dependencies           //强制构建主机依赖</div><div class="line">            [ ] Make the build reproducible (experimental)        //构建可重复(实验)</div><div class="line">        *** Security Hardening Options ***                        //安全加固选项</div><div class="line">        Stack Smashing Protection (None)  ---&gt;                    //堆栈粉碎保护 [无]</div><div class="line">        RELRO Protection (None)  ---&gt;                             //RELRO只读重定位(Relocation Read Only)保护 [无]</div><div class="line">        Buffer-overflow Detection (FORTIFY_SOURCE) (None)  ---&gt;   //缓冲区溢出检测(强制源) [无]</div></pre></td></tr></table></figure>
 <h2 id="2-3-Toolchain-工具链"><a href="#2-3-Toolchain-工具链" class="headerlink" title="2.3 Toolchain(工具链)"></a>2.3 Toolchain(工具链)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Toolchain  ---&gt;   </div><div class="line">        Toolchain type (External toolchain)  ---&gt;                 //工具链类型 [外部工具链]</div><div class="line">        *** Toolchain External Options ***                        //外部工具链选项</div><div class="line">        Toolchain (Custom toolchain)  ---&gt;                        //工具链 [自定义工具链]</div><div class="line">        Toolchain origin (Toolchain to be downloaded and installed)  ---&gt;  //工具链来源 [工具链将被下载安装]</div><div class="line">    (https://releases.linaro.org/……) Toolchain URL                //工具链下载链接 ①</div><div class="line">    (bin) Toolchain relative binary path                          //工具链二进制文件相对路径 [bin目录]</div><div class="line">    ($(ARCH)-linux-gnueabihf) Toolchain prefix                    //工具链前缀 [arm-linux-gnueabihf]</div><div class="line">        External toolchain gcc version (6.x)  ---&gt;                //外部工具链GCC版本 [6.x]</div><div class="line">        External toolchain kernel headers series (4.6.x)  ---&gt;    //外部工具链内核头文件系列 [4.6.x]</div><div class="line">        External toolchain C library (glibc/eglibc)  ---&gt;         //外部工具链C库 [glibc/eglibc] ②</div><div class="line">    [*] Toolchain has SSP support?                                //工具链是否支持SSP? ③</div><div class="line">    [*] Toolchain has RPC support?                                //工具链是否支持RPC? ④</div><div class="line">    [*] Toolchain has C++ support?                                //工具链是否支持C++?</div><div class="line">    [*] Toolchain has Fortran support?                            //工具链是否支持Fortran? (一种编程语言)</div><div class="line">    ()  Extra toolchain libraries to be copied to target          //复制额外工具链库到目标</div><div class="line">    [ ] Copy gdb server to the Target                             //复制GDB服务到目标</div><div class="line">        *** Host GDB Options ***                                  //主机GDB选项</div><div class="line">    [ ] Build cross gdb for the host                              //为主机交叉编译GDB</div><div class="line">        *** Toolchain Generic Options ***                         //工具链通用选项</div><div class="line">    [ ] Copy gconv libraries                                      //复制gconv库 (gconv库用于在不同的字符集之间进行转换)</div><div class="line">    [*] Enable MMU support                                        //使能MMU支持</div><div class="line">    ()  Target Optimizations                                      //目标优化 (需设置前面的GCC优化等级)</div><div class="line">    ()  Target linker options                                     //目标链接器选项 (构建目标时传递给链接器的额外选项)</div><div class="line">    [ ] Register toolchain within Eclipse Buildroot plug-in       //在Eclipse Buildroot插件中注册工具链</div></pre></td></tr></table></figure>
-<p>①：受限每行字数，该处完整链接为：<code>https://releases.linaro.org/components/toolchain/binaries/6.2-2016.11/arm-linux-gnueabihf/gcc-linaro-6.2.1-2016.11-x86_64_arm-linux-gnueabihf.tar.xz</code>；<br>②：<br>③：堆栈粉碎保护(Stack Smashing Protection)；<br>④：远程过程调用(Remote Procedure Call)，主要用于NFS；</p>
-<h2 id="2-4-System-configuration-系统配置"><a href="#2-4-System-configuration-系统配置" class="headerlink" title="2.4 System configuration(系统配置)"></a>2.4 System configuration(系统配置)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">System configuration  ---&gt;  系统配置</div><div class="line">        Root FS skeleton (default target skeleton)  ---&gt;          //根文件系统框架 [典型目标框架]</div><div class="line">    (ebf6ull) System hostname                                     //系统主机名字(自取任意) [ebf6ull]</div><div class="line">    (Welcome to ixm6ull Buildroot!) System banner                 //系统开机提示 [Welcome to ixm6ull Buildroot!]</div><div class="line">        Passwords encoding (sha-256)  ---&gt;                        //密码编码 [sha-256]</div><div class="line">        Init system (systemV)  ---&gt;                               //初始化系统方案 [systemV]  ①</div><div class="line">        /dev management (Dynamic using devtmpfs + eudev)  ---&gt;    ///dev管理方案 [Dynamic using devtmpfs + eudev]  ②</div><div class="line">    (system/device_table.txt) Path to the permission tables       //权限表路径 ③ </div><div class="line">    [ ] support extended attributes in device tables              //支持设备表中的扩展属性</div><div class="line">    [ ] Use symlinks to /usr for /bin, /sbin and /lib             //是否将/bin,/sbin,/lib链接到/usr</div><div class="line">    [*] Enable root login with password                           //使能root登陆密码</div><div class="line">    ()    Root password                                           //设置root密码</div><div class="line">        /bin/sh (bash)  ---&gt;                                      //选择shell类型 [bash] ④</div><div class="line">    [*] Run a getty (login prompt) after boot  ---&gt;               //启动后运行getty(登录提示)---&gt;</div><div class="line">        (ttymxc0) TTY port                                        //设置TTY硬件端口</div><div class="line">              Baudrate (keep kernel default)  ---&gt;                //比特率 [与内核保持一致]</div><div class="line">        (vt100) TERM environment variable                         //TERM环境变量 (终端类型xterm、vt100)</div><div class="line">        ()    other options to pass to getty                      //传递给getty的其他选项</div><div class="line">    [*] remount root filesystem read-write during boot            //在引导期间安装根文件系统支持读和写</div><div class="line">    (eth0) Network interface to configure through DHCP            //设置DHCP配置的网络接口  [eth0]</div><div class="line">    (/bin:/sbin:/usr/bin:/usr/sbin) Set the system&apos;s default PATH //设置系统的默认路径  ⑤</div><div class="line">    [*] Purge unwanted locales                                    //清除不需要的区域设置</div><div class="line">    (C en_US) Locales to keep                                     //要保留的语言环境</div><div class="line">    ()  Generate locale data                                      //生成区域设置数据</div><div class="line">    [ ] Enable Native Language Support (NLS)                      //启用本地语言支持（NLS）</div><div class="line">    -*- Install timezone info                                     //安装时区信息</div><div class="line">    (default) timezone list                                       //时区清单 [典型]</div><div class="line">    (Etc/UTC) default local time                                  //用户表的路径</div><div class="line">    ()  Path to the users tables</div><div class="line">    (board/hceng/nxp-imx6ull/rootfs-overlay) Root filesystem overlay directories //根文件系统覆盖目录</div><div class="line">    ()  Custom scripts to run before creating filesystem images //在创建文件系统映像之前运行的自定义脚本</div><div class="line">    ()  Custom scripts to run inside the fakeroot environment //自定义脚本在fakeroot(模拟root权限)环境中运行</div><div class="line">    (board/……) Custom scripts to run after creating filesystem images //创建文件系统映像后运行的自定义脚本 ⑥</div><div class="line">    ()    Extra arguments passed to custom scripts //传递给自定义脚本的额外参数</div></pre></td></tr></table></figure>
-<p>①：<strong>后面深挖补充</strong><br>②：<strong>后面深挖补充</strong><br>③：<strong>后面深挖补充</strong><br>④：<br>⑤：<br>⑥：受限每行字数，该处完整路径为<code>board/hceng/nxp-imx6ull/post-image.sh</code>，内容为：</p>
+<p>①：受限每行字数，该处完整链接为：<code>https://releases.linaro.org/components/toolchain/binaries/6.2-2016.11/arm-linux-gnueabihf/gcc-linaro-6.2.1-2016.11-x86_64_arm-linux-gnueabihf.tar.xz</code>；<br>②：可选的有<code>uClibc/uClibc-ng</code>、<code>glibc/eglibc</code>、<code>musl (experimental)</code>，介绍如下：</p>
+<ul>
+<li><code>glibc(GNU C Library)</code>:常用于桌面、服务器中的GNU/Linux类系统中的C语言标准库，支持多种系统平台，功能齐全，但也相对比较臃肿和庞大;</li>
+<li><code>eglibc(Embedded glibc)</code>:glibc的一种变体，目的在于将glibc用于嵌入式系统;</li>
+<li><code>uClibc/uClibc-ng</code>:uClibc-ng是uClibc的分支，它们都是为嵌入式设计的小型的C语言标准库，适合标准和无MMU的Linux系统上运行;</li>
+<li><code>musl</code>:一个轻量级的C标准库，目前在buildroot里是实验阶段;<br>对比参考：<a href="http://www.etalabs.net/compare_libcs.html" target="_blank" rel="external">Comparison of C/POSIX standard library implementations for Linux</a></li>
+</ul>
+<p>③：堆栈粉碎保护(Stack Smashing Protection)；<br>④：远程过程调用(Remote Procedure Call)，主要用于NFS；</p>
+<h2 id="2-4-System-configuration-系统配置"><a href="#2-4-System-configuration-系统配置" class="headerlink" title="2.4 System configuration(系统配置)"></a>2.4 System configuration(系统配置)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">System configuration  ---&gt;  系统配置</div><div class="line">        Root FS skeleton (default target skeleton)  ---&gt;          //根文件系统框架 [典型目标框架]</div><div class="line">    (ebf6ull) System hostname                                     //系统主机名字(自取任意) [ebf6ull]</div><div class="line">    (Welcome to ixm6ull Buildroot!) System banner                 //系统开机提示 [Welcome to ixm6ull Buildroot!]</div><div class="line">        Passwords encoding (sha-256)  ---&gt;                        //密码编码 [sha-256]</div><div class="line">        Init system (systemV)  ---&gt;                               //初始化系统方案 [systemV]  ①</div><div class="line">        /dev management (Dynamic using devtmpfs + eudev)  ---&gt;    //dev管理方案 [Dynamic using devtmpfs + eudev]  ②</div><div class="line">    (system/device_table.txt) Path to the permission tables       //权限表路径 </div><div class="line">    [ ] support extended attributes in device tables              //支持设备表中的扩展属性</div><div class="line">    [ ] Use symlinks to /usr for /bin, /sbin and /lib             //是否将/bin,/sbin,/lib链接到/usr</div><div class="line">    [*] Enable root login with password                           //使能root登陆密码</div><div class="line">    ()    Root password                                           //设置root密码</div><div class="line">        /bin/sh (bash)  ---&gt;                                      //选择shell类型 [bash] ③</div><div class="line">    [*] Run a getty (login prompt) after boot  ---&gt;               //启动后运行getty(登录提示)---&gt;</div><div class="line">        (ttymxc0) TTY port                                        //设置TTY硬件端口</div><div class="line">              Baudrate (keep kernel default)  ---&gt;                //比特率 [与内核保持一致]</div><div class="line">        (vt100) TERM environment variable                         //TERM环境变量 (终端类型xterm、vt100)</div><div class="line">        ()    other options to pass to getty                      //传递给getty的其他选项</div><div class="line">    [*] remount root filesystem read-write during boot            //在引导期间安装根文件系统支持读和写</div><div class="line">    (eth0) Network interface to configure through DHCP            //设置DHCP配置的网络接口  [eth0]</div><div class="line">    (/bin:/sbin:/usr/bin:/usr/sbin) Set the system&apos;s default PATH //设置系统的默认路径  </div><div class="line">    [*] Purge unwanted locales                                    //清除不需要的区域设置</div><div class="line">    (C en_US) Locales to keep                                     //要保留的语言环境</div><div class="line">    ()  Generate locale data                                      //生成区域设置数据</div><div class="line">    [ ] Enable Native Language Support (NLS)                      //启用本地语言支持（NLS）</div><div class="line">    -*- Install timezone info                                     //安装时区信息</div><div class="line">    (default) timezone list                                       //时区清单 [典型]</div><div class="line">    (Etc/UTC) default local time                                  //用户表的路径</div><div class="line">    ()  Path to the users tables</div><div class="line">    (board/hceng/nxp-imx6ull/rootfs-overlay) Root filesystem overlay directories //根文件系统覆盖目录</div><div class="line">    ()  Custom scripts to run before creating filesystem images //在创建文件系统映像之前运行的自定义脚本</div><div class="line">    ()  Custom scripts to run inside the fakeroot environment //自定义脚本在fakeroot(模拟root权限)环境中运行</div><div class="line">    (board/……) Custom scripts to run after creating filesystem images //创建文件系统映像后运行的自定义脚本 ④</div><div class="line">    ()    Extra arguments passed to custom scripts //传递给自定义脚本的额外参数</div></pre></td></tr></table></figure>
+<p>①：可选选项有<code>BusyBox</code>、<code>systemV</code>、<code>systemd</code>、<code>None</code>：</p>
+<ul>
+<li><p><code>BusyBox init</code>:<br>1.不支持运行等级，设置的运行等级将被忽略，要使用运行等级，请使用sysvinit;<br>2.语法格式：<code>&lt;id&gt;:&lt;runlevels&gt;:&lt;action&gt;:&lt;process&gt;</code><br><code>&lt;id&gt;</code>:process执行所在的tty设备，内容为/dev目录中tty设备的文件名;<br><code>&lt;runlevels&gt;</code>:此字段完全被忽略;<br><code>&lt;action&gt;</code>:支持sysinit、respawn、askfirst、wait、once、restart、ctrlaltdel、shutdown;<br><code>&lt;process&gt;</code>:指定要执行的进程及其命令行;<br>3.BusyBox init程序将在启动时读取<code>/etc/inittab</code>文件，以了解该做什么，默认inittab存储在<code>./package/busybox/inittab</code>;<br>4.inittab除了安装几个重要的文件系统之外，还要启动<code>/etc/init.d/rcS</code>中的shell脚本，并启动一个getty程序(提供一个登录提示);</p>
+</li>
+<li><p><code>systemV</code>:<br>1.使用传统sysvinit程序，之前大多数台式机Linux发行版都使用该方案，现在有些变为了Upstart或Systemd;<br>2.在/ect目录下会生成init.d、rc0.d、rc1.d、rc2.d、rc3.d、rc4.d、rc5.d、rc6.d、rc.loacl;<br>init.d里面包含的是真正的服务脚本;<br>rcN.d里面是链接向init.d里脚本的软链接，N表示运行级别，进入哪个运行级别，就会执行对应rcN.d文件夹的脚本;<br>当所有的当前运行级别的脚本都运行完了之后，会运行rc.local;<br>3.脚本的命名规则：以<code>[S|K]+NN+其它</code>，以S开头的是启动脚本，以K开头的是停止脚本，init进程会按照S或者K后面的数字的顺序来启动或停止服务;<br>4.sysvinit还使用<code>/etc/inittab</code>文件(与BusyBox的语法略有不同)，默认inittab存储在<code>./package/sysvinit/inittab</code>;</p>
+</li>
+<li><p><code>systemd</code>:<br>1.systemd是Linux的新一代init系统，以前的运行级别(runlevel)的概念被新的运行目标(target)所取代;<br>2.支持并行化任务;采用socket式与D-Bus总线式激活服务;按需启动守护进程(daemon);支持快照和系统恢复;<br>3.功能强大的同时，也带来了相当大数量的大型依赖：dbus，udev等;<br><a href="https://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/index.html" target="_blank" rel="external">Systemd 的简介和特点</a></p>
+</li>
+</ul>
+<p>②：/dev设备文件的管理方式，可选选项有四个：</p>
+<ul>
+<li><code>Static using device table</code>: 使用静态的设备表，/dev将根据<code>system/device_table _dev.txt</code>的内容创建设备，进入系统添加或删除设备时，无法自动更新；           </li>
+<li><code>Dynamic using devtmpfs only</code>:在系统启动过程中，会动态生成/dev文件，进入系统添加或删除设备时，无法自动更新；             </li>
+<li><code>Dynamic using devtmpfs + mdev</code>:在前面devtmpfs的基础上加入mdev用户空间实用程序，进入系统添加或删除设备时，可以自动更新，自动创建规则在<code>/etc/mdev.conf</code>;        </li>
+<li><code>Dynamic using devtmpfs + eudev</code>:在前面devtmpfs的基础上加入eudev用户空间守护程序，eudev是udev的独立版本，是Systemd的一部分，提供更多的功能也更占用资源； </li>
+</ul>
+<p>③：在Linux下编写shell脚本文件时，经常会看到在第一行中标注<code>#!/bin/bash</code>，这句话的意思是告诉系统强制用bash，避免出现一些不兼容的问题。因此，除了bash外，还有很多shell工具，比如这里可选busybox自带的shell、小巧但功能很少的dash、高效紧凑的mksh、功能强大体积也稍大的zsh。此外，可以通过<code>ls -l /bin/sh</code>查看当前使用的是何种shell工具。</p>
+<p>④：受限每行字数，该处完整路径为<code>board/freescale/common/imx/post-image.sh</code>。</p>
+<p>这里是<strong>如何产生sdcard.img，用于sd卡启动的原理部分</strong>。<br>针对我现在imx6ull的情况，<code>board/freescale/common/imx</code>目录下有两个文件值得关注：<code>genimage.cfg.template</code>和<code>post-image.sh</code>。<br>先来看<code>genimage.cfg.template</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"># Minimal SD card image for the Freescale boards Template</div><div class="line">#</div><div class="line"># We mimic the .sdcard Freescale&apos;s image format:</div><div class="line"># * the SD card must have 1 kB free space at the beginning,</div><div class="line"># * U-Boot is dumped as is,</div><div class="line"># * a FAT partition at offset 8 MB is containing zImage/uImage and DTB files</div><div class="line"># * a single root filesystem partition is required (ext2, ext3 or ext4)</div><div class="line">#</div><div class="line"></div><div class="line">image boot.vfat &#123;</div><div class="line">  vfat &#123;</div><div class="line">    files = &#123;</div><div class="line">      %FILES%</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  size = 16M</div><div class="line">&#125;</div><div class="line"></div><div class="line">image sdcard.img &#123;</div><div class="line">  hdimage &#123;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  partition u-boot &#123;</div><div class="line">    in-partition-table = &quot;no&quot;</div><div class="line">    image = &quot;%UBOOTBIN%&quot;</div><div class="line">    offset = 1024</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  partition boot &#123;</div><div class="line">    partition-type = 0xC</div><div class="line">    bootable = &quot;true&quot;</div><div class="line">    image = &quot;boot.vfat&quot;</div><div class="line">    offset = 8M</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  partition rootfs &#123;</div><div class="line">    partition-type = 0x83</div><div class="line">    image = &quot;rootfs.ext2&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该配置文件显示会生成两个文件，一个<code>boot.vfat</code>，一个<code>sdcard.img</code>；<br><code>boot.vfat</code>由<code>&quot;%FILES%&quot;</code>所表示内容组成(后面会得知是kernel+dtb);<br><code>sdcard.img</code>有四个分区，第一个是空，第二个是偏移1024字节(1k)后，内容为<code>&quot;%UBOOTBIN%&quot;</code>(u-boot)，第三个为偏移8M后，存放前面生成的<code>boot.vfat</code>(kernel+dtb)，最后存放<code>rootfs.ext2</code>。<br>此时分区情况如下:</p>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/1.jpg"></div>
+
+<p>分区类型和数值的对应关系可通过该文章查询:<a href="https://www.win.tue.nl/~aeb/partitions/partition_types-1.html" target="_blank" rel="external">List of partition identifiers for PCs</a><br>此时将sd卡插入Windows电脑，可以发现只能识别存放<code>boot.vfa</code>t(kernel+dtb)的分区，因为该分区为FAT32格式，Windows可以识别，而存放<code>rootfs.ext2</code>的分区为ext2/3/4，Windows是无法识别的，与生活常识是吻合的。<br>另外，如果想在SD卡创建其它自定义分区，可以再加一个partition：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">partition user &#123;</div><div class="line">  partition-type = 0xC</div><div class="line">  size = 10M</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>再来看看<code>post-image.sh</code>是如何解析<code>genimage.cfg.template</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env bash</div><div class="line"></div><div class="line">#</div><div class="line"># dtb_list extracts the list of DTB files from BR2_LINUX_KERNEL_INTREE_DTS_NAME</div><div class="line"># in $&#123;BR_CONFIG&#125;, then prints the corresponding list of file names for the</div><div class="line"># genimage configuration file</div><div class="line">#</div><div class="line">dtb_list()</div><div class="line">&#123;</div><div class="line">	local DTB_LIST=&quot;$(sed -n &apos;s/^BR2_LINUX_KERNEL_INTREE_DTS_NAME=&quot;\([\/a-z0-9 \-]*\)&quot;$/\1/p&apos; $&#123;BR2_CONFIG&#125;)&quot;</div><div class="line"></div><div class="line">	for dt in $DTB_LIST; do</div><div class="line">		echo -n &quot;\&quot;`basename $dt`.dtb\&quot;, &quot;</div><div class="line">	done</div><div class="line">&#125;</div><div class="line"></div><div class="line">#</div><div class="line"># linux_image extracts the Linux image format from BR2_LINUX_KERNEL_UIMAGE in</div><div class="line"># $&#123;BR_CONFIG&#125;, then prints the corresponding file name for the genimage</div><div class="line"># configuration file</div><div class="line">#</div><div class="line">linux_image()</div><div class="line">&#123;</div><div class="line">	if grep -Eq &quot;^BR2_LINUX_KERNEL_UIMAGE=y$&quot; $&#123;BR2_CONFIG&#125;; then</div><div class="line">		echo &quot;\&quot;uImage\&quot;&quot;</div><div class="line">	elif grep -Eq &quot;^BR2_LINUX_KERNEL_IMAGE=y$&quot; $&#123;BR2_CONFIG&#125;; then</div><div class="line">		echo &quot;\&quot;Image\&quot;&quot;</div><div class="line">	else</div><div class="line">		echo &quot;\&quot;zImage\&quot;&quot;</div><div class="line">	fi</div><div class="line">&#125;</div><div class="line"></div><div class="line">genimage_type()</div><div class="line">&#123;</div><div class="line">	if grep -Eq &quot;^BR2_PACKAGE_FREESCALE_IMX_PLATFORM_IMX8M=y$&quot; $&#123;BR2_CONFIG&#125;; then</div><div class="line">		echo &quot;genimage.cfg.template_imx8&quot;</div><div class="line">	elif grep -Eq &quot;^BR2_TARGET_UBOOT_SPL=y$&quot; $&#123;BR2_CONFIG&#125;; then</div><div class="line">		echo &quot;genimage.cfg.template_spl&quot;</div><div class="line">	else</div><div class="line">		echo &quot;genimage.cfg.template&quot;</div><div class="line">	fi</div><div class="line">&#125;</div><div class="line"></div><div class="line">uboot_image()</div><div class="line">&#123;</div><div class="line">	if grep -Eq &quot;^BR2_TARGET_UBOOT_FORMAT_DTB_IMX=y$&quot; $&#123;BR2_CONFIG&#125;; then</div><div class="line">		echo &quot;u-boot-dtb.imx&quot;</div><div class="line">	elif grep -Eq &quot;^BR2_TARGET_UBOOT_FORMAT_IMX=y$&quot; $&#123;BR2_CONFIG&#125;; then</div><div class="line">		echo &quot;u-boot.imx&quot;</div><div class="line">	fi</div><div class="line">&#125;</div><div class="line"></div><div class="line">main()</div><div class="line">&#123;</div><div class="line">	local FILES=&quot;$(dtb_list) $(linux_image)&quot;</div><div class="line">	local UBOOTBIN=&quot;$(uboot_image)&quot;</div><div class="line">	local GENIMAGE_CFG=&quot;$(mktemp --suffix genimage.cfg)&quot;</div><div class="line">	local GENIMAGE_TMP=&quot;$&#123;BUILD_DIR&#125;/genimage.tmp&quot;</div><div class="line"></div><div class="line">	sed -e &quot;s/%FILES%/$&#123;FILES&#125;/&quot; \</div><div class="line">		-e &quot;s/%UBOOTBIN%/$&#123;UBOOTBIN&#125;/&quot; \</div><div class="line">		board/freescale/common/imx/$(genimage_type) &gt; $&#123;GENIMAGE_CFG&#125;</div><div class="line"></div><div class="line">	rm -rf &quot;$&#123;GENIMAGE_TMP&#125;&quot;</div><div class="line"></div><div class="line">	genimage \</div><div class="line">		--rootpath &quot;$&#123;TARGET_DIR&#125;&quot; \</div><div class="line">		--tmppath &quot;$&#123;GENIMAGE_TMP&#125;&quot; \</div><div class="line">		--inputpath &quot;$&#123;BINARIES_DIR&#125;&quot; \</div><div class="line">		--outputpath &quot;$&#123;BINARIES_DIR&#125;&quot; \</div><div class="line">		--config &quot;$&#123;GENIMAGE_CFG&#125;&quot;</div><div class="line"></div><div class="line">	rm -f $&#123;GENIMAGE_CFG&#125;</div><div class="line"></div><div class="line">	exit $?</div><div class="line">&#125;</div><div class="line"></div><div class="line">main $@</div></pre></td></tr></table></figure>
+<p>可以在<code>main</code>看到，<code>FILES</code>为dtb和kernel，<code>UBOOTBIN</code>为u-boot，再传入配置文件。<br>最后使用<code>genimage</code>生成，<code>genimage</code>在后面<code>2.9Host utilities(主机工具)</code>部分需要勾选上，它的作用是给定根文件系统树，生成多个文件系统和闪存镜像的工具。</p>
 <h2 id="2-5-Kernel-内核配置"><a href="#2-5-Kernel-内核配置" class="headerlink" title="2.5 Kernel(内核配置)"></a>2.5 Kernel(内核配置)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">[*] Linux Kernel                                                              //使能编译内核</div><div class="line">      *** Linux kernel in thumb mode may be broken with binutils &gt;= 2.29 ***  //binutils&gt;=2.29可能会破坏thumb模式下的内核</div><div class="line">      Kernel version (Custom Git repository)  ---&gt;                            //内核版本 [自定义Git仓库]</div><div class="line">(https://git.dev.tencent.com/……) URL of custom repository                     //自定义仓库网址 ①</div><div class="line">(origin/master) Custom repository version                                     //自定义仓库版本</div><div class="line">()    Custom kernel patches                                                   //自定义内核补丁</div><div class="line">      Kernel configuration (Using an in-tree defconfig file)  ---&gt;            //内核配置 [使用项目内defconfig文件]</div><div class="line">(imx_v7_ebf) Defconfig name                                                   //配置文件名字 (不要_defconfig)</div><div class="line">()    Additional configuration fragment files                                 //其他配置片段文件</div><div class="line">()    Custom boot logo file path                                              //自定义启动logo文件路径</div><div class="line">      Kernel binary format (zImage)  ---&gt;                                     //内核二进制文件格式 [zImage] ②</div><div class="line">      Kernel compression format (gzip compression)  ---&gt;                      //内核压缩格式 [gzip压缩]</div><div class="line">[*]   Build a Device Tree Blob (DTB)                                          //构建设备树二进制文件(DTB文件)</div><div class="line">(imx6ull-14x14-evk imx6ull-14x14-ebf) In-tree Device Tree Source file names   //项目里设备树源文件名 (不要.dts)</div><div class="line">()      Out-of-tree Device Tree Source file paths                             //项目外设备树源文件路径</div><div class="line">[ ]     Build Device Tree with overlay support                                //使能设备树文件覆盖支持</div><div class="line">[*]   Install kernel image to /boot in target                                 //安装内核镜像到/boot目录</div><div class="line">[*]   Needs host OpenSSL                                                      //主机需要OpenSSL</div><div class="line">[ ]   Needs host libelf                                                       //主机需要libelf (用于读取，修改或创建ELF文件)</div><div class="line">      Linux Kernel Extensions  ---&gt;                                           //Linux内核扩展</div><div class="line">        [ ] Adeos/Xenomai Real-time patch                                     //Adeos/Xenomai实时时钟补丁</div><div class="line">        [ ] RTAI Real-time patch                                              //RTAI实时时钟补丁</div><div class="line">        [ ] ev3dev Linux drivers                                              //ev3dev Linux驱动</div><div class="line">        [ ] FB TFT drivers                                                    //FB TFT驱动</div><div class="line">        [ ] Aufs Filesystem Module patch                                      //Aufs文件系统模块补丁</div><div class="line">      Linux Kernel Tools  ---&gt;                                                //Linux内核工具</div><div class="line">        [ ] cpupower                                                          //用于检查、调整CPU省电相关功能</div><div class="line">        [ ] gpio                                                              //用于控制、监控GPIO,仅在4.8版本提供 ③</div><div class="line">        [ ] iio                                                               //用于控制、监控iio设备,仅在4.7版本提供</div><div class="line">        [ ] pci                                                               //用于测试特定PCI端点, 仅在4.20版本提供</div><div class="line">        [ ] perf                                                              //用于Linux性能分析</div><div class="line">        [ ] selftests                                                         //用于内核自我测试</div><div class="line">        [ ] tmon                                                              //用于用户访问系统相关的热信息</div></pre></td></tr></table></figure>
 <p>①：受限每行字数，该处完整链接为<code>https://git.dev.tencent.com/weidongshan/imx6ull_kernel.git</code>；<br>②：<strong>后面深挖补充</strong><br>③：使用新的ABI，弃用sysfs；</p>
 <h2 id="2-6-Target-packages-目标包配置"><a href="#2-6-Target-packages-目标包配置" class="headerlink" title="2.6 Target packages(目标包配置)"></a>2.6 Target packages(目标包配置)</h2><p>目标包配置内容有点多，二级目录如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">Target packages  ---&gt;   </div><div class="line">    [*] BusyBox                                                          //使能编译BusyBox</div><div class="line">    (package/busybox/busybox.config) BusyBox configuration file to use?  //设置BusyBox配置文件路径</div><div class="line">    ()    Additional BusyBox configuration fragment files                //其他BusyBox配置片段文件</div><div class="line">    -*-   Show packages that are also provided by busybox                //列出部分busybox也提供的包</div><div class="line">    [ ]   Enable SELinux support                                         //SELinux支持(安全增强型Security-Enhanced Linux)</div><div class="line">    [ ]   Individual binaries                                            //每个应用程序作为单独二进制文件(为SELinux提供支持)</div><div class="line">    [ ]   Install the watchdog daemon startup script                     //在启动脚本安装看门狗守护程序</div><div class="line">        Audio and video applications  ---&gt;                               //音频和视频应用</div><div class="line">        Compressors and decompressors  ---&gt;                              //压缩和解压</div><div class="line">        Debugging, profiling and benchmark  ---&gt;                         //调试、分析和基准测试</div><div class="line">        Development tools  ---&gt;                                          //开发工具</div><div class="line">        Filesystem and flash utilities  ---&gt;                             //文件系统和闪存实用程序</div><div class="line">        Fonts, cursors, icons, sounds and themes  ---&gt;                   //字体，游标，图标，声音和主题</div><div class="line">        Games  ---&gt;                                                      //游戏</div><div class="line">        Graphic libraries and applications (graphic/text)  ---&gt;          //图形库和应用程序(图形/文本)</div><div class="line">        Hardware handling  ---&gt;                                          //硬件处理</div><div class="line">        Interpreter languages and scripting  ---&gt;                        //编程语言和脚本</div><div class="line">        Libraries  ---&gt;                                                  //库</div><div class="line">        Mail  ---&gt;                                                       //邮箱</div><div class="line">        Miscellaneous  ---&gt;                                              //杂项</div><div class="line">        Networking applications  ---&gt;                                    //网络应用</div><div class="line">        Package managers  ---&gt;                                           //安装包管理</div><div class="line">        Real-Time  ---&gt;                                                  //实时时钟</div><div class="line">        Security  ---&gt;                                                   //安全</div><div class="line">        Shell and utilities  ---&gt;                                        //Shell和程序</div><div class="line">        System tools  ---&gt;                                               //系统工具</div><div class="line">        Text editors and viewers  ---&gt;                                   //文版编辑和浏览</div></pre></td></tr></table></figure></p>
@@ -560,19 +594,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -584,7 +610,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,19 +618,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -616,11 +634,47 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -632,30 +686,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -664,11 +694,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -688,11 +726,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -708,22 +746,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
@@ -732,7 +754,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -740,7 +770,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -748,7 +782,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -812,7 +846,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;255.5k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;257.3k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
