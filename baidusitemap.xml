@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/09/05/Buildroot%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-09-09T10:41:24.428Z</lastmod>
+    <lastmod>2019-09-10T01:01:08.917Z</lastmod>
     <data>
         <display>
         <title>Buildroot笔记</title>
@@ -325,13 +325,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -384,9 +384,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>C++</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>C++</tag>
          
          
            
@@ -405,9 +405,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -445,9 +445,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Android基础</tag>
          
          
            
@@ -1033,9 +1033,9 @@
         <title>终端复用软件-Tmux</title>
         <pubTime>2017-03-31T11:50:00.000Z</pubTime>
         
-        <tag>Linux基础</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Linux基础</tag>
          
          
            
@@ -1071,9 +1071,9 @@
         <title>Linux常用命令</title>
         <pubTime>2017-03-12T15:14:00.000Z</pubTime>
         
-        <tag>Linux基础</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Linux基础</tag>
          
          
            
