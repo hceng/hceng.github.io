@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/09/05/Buildroot%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-09-16T07:52:44.615Z</lastmod>
+    <lastmod>2019-09-17T01:08:15.287Z</lastmod>
     <data>
         <display>
         <title>Buildroot笔记</title>
@@ -148,9 +148,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -247,9 +247,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -325,13 +325,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -365,9 +365,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>AM437X</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -405,9 +405,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -938,9 +938,9 @@
         
         <tag>随笔</tag>
          
-        <tag>设计</tag>
-         
         <tag>PCB</tag>
+         
+        <tag>设计</tag>
          
          
            
