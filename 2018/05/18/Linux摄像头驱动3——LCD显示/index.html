@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180518/11.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/180518/10.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2018-11-04T09:35:55.383Z">
+<meta property="og:updated_time" content="2019-09-18T01:56:20.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux摄像头驱动3——LCD显示">
 <meta name="twitter:description" content="Linux摄像头驱动学习第三篇，在Tiny4412的LCD上显示摄像头采集图像。">
@@ -201,7 +201,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.2k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.3k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -209,7 +209,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 30 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 31 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -245,6 +245,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">#</div><div class="line"># Backlight &amp;&amp; LCD &amp;&amp; UVC device configuration</div><div class="line">#</div><div class="line"></div><div class="line">menu &quot;Hceng add driver&quot;</div><div class="line">	config BACKLIGHT</div><div class="line">	tristate &quot;Backlight support&quot;</div><div class="line">	default y  </div><div class="line">	help</div><div class="line">	  This is backlight driver to tiny4412 from hceng.</div><div class="line">	 </div><div class="line">	config LCD</div><div class="line">	tristate &quot;LCD support&quot;</div><div class="line">	depends on BACKLIGHT </div><div class="line">	default y </div><div class="line">	help</div><div class="line">	  This is LCD driver to tiny4412 from hceng. </div><div class="line">	  </div><div class="line">	config UVC</div><div class="line">	tristate &quot;UVC support&quot;</div><div class="line">	depends on BACKLIGHT &amp;&amp; LCD</div><div class="line">	default y </div><div class="line">	help</div><div class="line">	  This is UVC driver to tiny4412 from hceng.</div><div class="line">	  </div><div class="line">endmenu</div></pre></td></tr></table></figure>
 </li>
 </ul>
+<p>注意，<code>endmenu</code>后面必须要<strong>留一空行</strong>，不然会出现<code>&#39;endmenu&#39; in different file than &#39;menu&#39;</code>错误。</p>
 <p>包含在<code>menu</code>/<code>endmenu</code>中的内容会成为<code>Hceng add driver</code>的子菜单；<br>每一个子菜单项都是由<code>config</code>来定义的；<br><code>congfig</code>下方的<code>tristate</code>、<code>depends on</code>、<code>default</code>、<code>help</code>等为<code>config</code>的属性，用于定义该菜单项的类型、依赖项、默认值、帮助信息等；</p>
 <p>编辑<code>Makefile</code>如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">obj-$(CONFIG_BACKLIGHT)	+= backlight_drv.o</div><div class="line">obj-$(CONFIG_LCD)	    += lcd_drv.o</div><div class="line">obj-$(CONFIG_UVC)	    += uvc_drv.o</div></pre></td></tr></table></figure></p>
 <p>根据<code>CONFIG_*</code>是<code>y</code>、<code>m</code>还是<code>n</code>，再决定是否将后面的<code>*.o</code>编译到内核。<br>这里的<code>CONFIG_*</code>就是由最后的<code>.config</code>决定。</p>
@@ -720,6 +721,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
@@ -736,18 +749,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
@@ -760,11 +761,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -776,23 +785,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -804,15 +805,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -820,23 +813,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -848,6 +837,26 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -856,15 +865,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -877,6 +878,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -908,15 +913,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
             
             <div class="clearfix"></div>
@@ -972,7 +973,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;261.7k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;262.2k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
