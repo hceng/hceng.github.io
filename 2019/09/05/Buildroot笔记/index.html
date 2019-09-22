@@ -16,7 +16,7 @@
 <meta property="og:description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/1.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-09-19T08:23:01.829Z">
+<meta property="og:updated_time" content="2019-09-22T15:24:12.747Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buildroot笔记">
 <meta name="twitter:description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
@@ -191,7 +191,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 14.5k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 15.4k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -199,7 +199,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 60 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 63 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -381,7 +381,8 @@
 <p>Makefile参考:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">OBJS = hceng_app.o</div><div class="line">CC = $(CROSS_COMPILE)gcc</div><div class="line">OUT_BIN = hceng_app</div><div class="line">dep_file = .$@.d</div><div class="line"></div><div class="line">all: $(OBJS)</div><div class="line">	$(CC) $(LDFLAGS) -g -o $(OUT_BIN) $^</div><div class="line"></div><div class="line">%.o: %.c</div><div class="line">	$(CC) $(CFLAGS) -Wp,-MD,$(dep_file) -c -o $@ $&lt;</div><div class="line"></div><div class="line">clean:</div><div class="line">	rm -rf *.o</div><div class="line">	rm -rf $(OUT_BIN)</div><div class="line">	rm -f $(shell find -name &quot;*.d&quot;)</div></pre></td></tr></table></figure></p>
 <p>根据自己需求，将这两个文件放在本地(hceng_app.mk指定的路径)或者git仓库。</p>
 <p>⑤：编译<br>执行<code>make menuconfig</code>，勾选上自定义APP<code>Target packages  ---&gt; Private package  ---&gt; [*] hceng_app</code>；<br>然后执行<code>make hceng_app</code>或<code>make all</code>，将编译和安装自定义APP，可以在<code>output/target/usr/bin/</code>下看到安装的自定义APP，最后重新烧写系统，即可使用自定义APP。</p>
-<h1 id="4-buildroot常用命令"><a href="#4-buildroot常用命令" class="headerlink" title="4.buildroot常用命令"></a>4.buildroot常用命令</h1><h1 id="5-样例"><a href="#5-样例" class="headerlink" title="5.样例"></a>5.样例</h1><hr>
+<h1 id="4-buildroot常用命令"><a href="#4-buildroot常用命令" class="headerlink" title="4.buildroot常用命令"></a>4.buildroot常用命令</h1><p>在buildroot根目录执行<code>make help</code>，即可获得buildroot常用命令的提示信息，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line">Cleaning:                            - 清理</div><div class="line">  make lean                          - 删除编译产生的文件</div><div class="line">  make istclean                      - 删除所有非源码文件—(包括.config)</div><div class="line">                                </div><div class="line">Build:                               - 编译</div><div class="line">  make all                           - 编译所有</div><div class="line">  make toolchain                     - 编译工具链</div><div class="line">  make sdk                           - 编译sdk(Software Development Kit)</div><div class="line">                                </div><div class="line">Configuration:                       - 配置</div><div class="line">  make menuconfig                    - 基于curses的buildroot配置界面(常用)</div><div class="line">  make nconfig                       - 基于ncursesbuildroot配置界面  </div><div class="line">  make xconfig                       - 基于Qt的buildroot配置界面  </div><div class="line">  make gconfig                       - 基于GTK的buildroot配置界面 </div><div class="line">  make oldconfig                     - 解决所有.config中未解决的符号问题(symbols)</div><div class="line">  make syncconfig                    - 和oldconfig类似，但会额外更新依赖</div><div class="line">  make olddefconfig                  - 和syncconfig类似，但会将新的symbols设为默认值</div><div class="line">  make randconfig                    - 所有选项随机配置</div><div class="line">  make defconfig                     - 所有选项都询问，如果设置有BR2_DEFCONFIG，则使用它的配置</div><div class="line">  make savedefconfig                 - 把当前配置保存到BR2_DEFCONFIG </div><div class="line">  make update-defconfig              - 类似savedefconfig</div><div class="line">  make allyesconfig                  - 所有配置选项都选择yes</div><div class="line">  make allnoconfig                   - 所有配置选项都选择no</div><div class="line">  make alldefconfig                  - 所有配置选项都选择default</div><div class="line">  make randpackageconfig             - 软件包选项都选择随机</div><div class="line">  make allyespackageconfig           - 软件包选项都选择yes</div><div class="line">  make allnopackageconfig            - 软件包选项都选择no</div><div class="line">                                </div><div class="line">Package-specific:                    - 具体的包操作 </div><div class="line">  make &lt;pkg&gt;                         - 编译、安装该pkg以及其依赖</div><div class="line">  make &lt;pkg&gt;-source                  - 下载该pkg所有文件</div><div class="line">  make &lt;pkg&gt;-extract                 - 解压该pkg(解压后放在output/build/pkg名字目录下)</div><div class="line">  make &lt;pkg&gt;-patch                   - 给该pkg打补丁</div><div class="line">  make &lt;pkg&gt;-depends                 - 编译pkg的依赖</div><div class="line">  make &lt;pkg&gt;-configure               - 编译pkg到配置这一步</div><div class="line">  make &lt;pkg&gt;-build                   - 编译pkg到构造这一步</div><div class="line">  make &lt;pkg&gt;-show-depends            - 显示该pkg的所有依赖</div><div class="line">  make &lt;pkg&gt;-show-rdepends           - 显示依赖该pkg的所有包</div><div class="line">  make &lt;pkg&gt;-show-recursive-depends  - 递归显示该pkg的所有依赖</div><div class="line">  make &lt;pkg&gt;-show-recursive-rdepends - 递归显示依赖该pkg的所有包</div><div class="line">  make &lt;pkg&gt;-graph-depends           - 图形化显示该pkg的所有依赖</div><div class="line">  make &lt;pkg&gt;-graph-rdepends          - 图形化显示依赖该pkg的所有包</div><div class="line">  make &lt;pkg&gt;-dirclean                - 清除该pkg目录(清除解压目录output/build/pkg名字)</div><div class="line">  make &lt;pkg&gt;-reconfigure             - 从配置这一步开始重新编译pkg</div><div class="line">  make &lt;pkg&gt;-rebuild                 - 从构造这一步开始重新编译pkg</div><div class="line">  </div><div class="line">busybox:                             - busybox相关</div><div class="line">  make busybox-menuconfig            - 配置busybox界面</div><div class="line">                                </div><div class="line">uclibc:                              - uclibc相关</div><div class="line">  make uclibc-menuconfig             - 配置uclibc界面</div><div class="line">                                </div><div class="line">linux:                               - linux相关</div><div class="line">  make linux-menuconfig              - 配置linux内核界面</div><div class="line">  make linux-savedefconfig           - 保存linux内核配置</div><div class="line">  make linux-update-defconfig        - 保存配置到BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE指定路径</div><div class="line">                                </div><div class="line">Documentation:                       - 文档</div><div class="line">  make manual                        - 生成各种格式的帮助手册</div><div class="line">  make manual-html                   - 生成HTML格式的帮助手册</div><div class="line">  make manual-split-html             - 生成split HTML格式的帮助手册</div><div class="line">  make manual-pdf                    - 生成PDF格式的帮助手册</div><div class="line">  make manual-text                   - 生成text格式的帮助手册</div><div class="line">  make manual-epub                   - 生成ePub格式的帮助手册</div><div class="line">  make graph-build                   - 生成图形化查看编译时间文件</div><div class="line">  make graph-depends                 - 生成图形化查看所有依赖文件</div><div class="line">  make graph-size                    - 生成图形化查看文件系统大小文件</div><div class="line">  make list-defconfigs               - 显示拥有的默认配置的单板列表</div><div class="line">                                </div><div class="line">Miscellaneous:                       - 杂项</div><div class="line">  make source                        - 下载所有要离线编译的源码到dl路径</div><div class="line">  make external-deps                 - 列出使用的所有外部包(make show-targets的详细版)</div><div class="line">  make legal-info                    - 显示所有包的license合规性</div><div class="line">  make printvars                     - 打印所有内部指定的变量值                              </div><div class="line">  make V=0|1                         - 设置编译打印信息(0:安装编译 1:打印编译信息)</div><div class="line">  make O=dir                         - 指定所有文件(包括.config)输出目录</div></pre></td></tr></table></figure></p>
+<h1 id="5-样例"><a href="#5-样例" class="headerlink" title="5.样例"></a>5.样例</h1><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -697,7 +698,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -717,31 +738,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -753,15 +766,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -777,35 +790,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">shell script</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -817,11 +806,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -833,6 +834,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -841,19 +850,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -873,11 +878,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -885,11 +886,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Buildroot</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color5">Buildroot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -953,7 +954,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;263.9k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;264.8k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
