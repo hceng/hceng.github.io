@@ -8,19 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Buildroot笔记 | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
+  <meta name="description" content="整理Buildroot笔记，包含配置选项注释、目录结构分析、常用命令、构建示例、 使用技巧。 (编写中)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Buildroot笔记">
 <meta property="og:url" content="http://yoursite.com/2019/09/05/Buildroot笔记/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
+<meta property="og:description" content="整理Buildroot笔记，包含配置选项注释、目录结构分析、常用命令、构建示例、 使用技巧。 (编写中)">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/1.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/2.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-10-17T03:30:32.630Z">
+<meta property="og:updated_time" content="2019-10-17T07:04:57.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buildroot笔记">
-<meta name="twitter:description" content="整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)">
+<meta name="twitter:description" content="整理Buildroot笔记，包含配置选项注释、目录结构分析、常用命令、构建示例、 使用技巧。 (编写中)">
 <meta name="twitter:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -192,7 +193,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 18.7k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 19.1k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -200,7 +201,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 77 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 79 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -219,7 +220,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>整理Buildroot笔记，包含配置选项注释、目录结构注释、常用命令、常见问题。 (编写中)<br><a id="more"></a></p>
+        <p>整理Buildroot笔记，包含配置选项注释、目录结构分析、常用命令、构建示例、 使用技巧。 (编写中)<br><a id="more"></a></p>
 <h1 id="1-Buildroot基本介绍"><a href="#1-Buildroot基本介绍" class="headerlink" title="1.Buildroot基本介绍"></a>1.Buildroot基本介绍</h1><p><a href="https://buildroot.org/" target="_blank" rel="external">Buildroot</a>是Linux平台上一个构建嵌入式Linux系统的框架。<br>整个Buildroot是由Makefile(*.mk)脚本和Kconfig(Config.in)配置文件构成的，因此可以像配置Linux内核一样执行<code>make menuconfig</code>进行配置，编译出一个完整的、可以直接烧写到机器上运行的Linux系统文件(包含bootloader、kernel、rootfs以及rootfs中的各种库和应用程序)。<br>告别单独编译U-boot、内核、根文件系统、逐个移植软件。</p>
 <h1 id="2-Buildroot配置选项"><a href="#2-Buildroot配置选项" class="headerlink" title="2.Buildroot配置选项"></a>2.Buildroot配置选项</h1><p>以<code>Buildroot 2019.02.4</code>，<code>imx6ull</code>配置为例，对配置选项进行注释。<br>执行<code>make menuconfig</code>进入一级配置菜单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Target options  ---&gt;                                                                                         </div><div class="line">Build options  ---&gt;                                                                                          </div><div class="line">Toolchain  ---&gt;                                                                                              </div><div class="line">System configuration  ---&gt;                                                                                   </div><div class="line">Kernel  ---&gt;                                                                                                 </div><div class="line">Target packages  ---&gt;                                                                                        </div><div class="line">Filesystem images  ---&gt;                                                                                      </div><div class="line">Bootloaders  ---&gt;                                                                                            </div><div class="line">Host utilities  ---&gt;                                                                                         </div><div class="line">Legacy config options  ---&gt;</div></pre></td></tr></table></figure></p>
 <p>后面将依次对每个子菜单进行注释。约定<code>()</code>内为直接翻译或补充说明，<code>[]</code>内为示例选项含义。</p>
@@ -416,7 +417,7 @@
 <p>注:配置中出现的新目录/文件，后面统一再创建。</p>
 <p>设置制作SD卡启动的脚本配置信息路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">原：(-c board/stmicroelectronics/stm32mp157-dk/genimage.cfg) Extra arguments passed to custom scripts </div><div class="line">新：(-c board/stmicroelectronics/stm32mp157-myir/genimage.cfg) Extra arguments passed to custom scripts</div></pre></td></tr></table></figure></p>
 <ul>
-<li><code>Kernel  ---&gt;</code><br>内核的来源可以有多种，比如从kernel官网自动下载，从自定义github仓库下载，或者使用本地内核包。<br>这里选择本地包的方式，以及设置对应的内核配置文件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">原：      Kernel version (Custom tarball)  ---&gt;                                             </div><div class="line">    ($(call github,STMicroelectronics,linux,v4.19-stm32mp-r1.5)/linux-v4.19-stm32mp-r1.5.tar) URL of custom kernel tarball</div><div class="line">    ()    Custom kernel patches                                                             </div><div class="line">          Kernel configuration (Using a custom (def)config file)  ---&gt;                      </div><div class="line">    (board/stmicroelectronics/stm32mp157-dk/linux.config) Configuration file path</div><div class="line">    ()    Additional configuration fragment files                                 </div><div class="line">    ()    Custom boot logo file path                                              </div><div class="line">          Kernel binary format (zImage)  ---&gt;                                     </div><div class="line">          Kernel compression format (gzip compression)  ---&gt;</div><div class="line"></div><div class="line">新：      Kernel version (Custom tarball)  ---&gt;                                             </div><div class="line">    (dl/linux/linux-stm32mp.tar.gz)/linux-v4.19-stm32mp-r1.5.tar</div><div class="line">    ()    Custom kernel patches                                                             </div><div class="line">          Kernel configuration (Using an in-tree defconfig file)  ---&gt;                      </div><div class="line">    (multi_v7) Defconfig name</div></pre></td></tr></table></figure>
+<li><code>Kernel  ---&gt;</code><br>内核的来源可以有多种，比如从kernel官网自动下载，从自定义github仓库下载，或者使用本地内核包。<br>这里选择本地包的方式，以及设置对应的内核配置文件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">原：      Kernel version (Custom tarball)  ---&gt;                                             </div><div class="line">    ($(call github,STMicroelectronics,linux,v4.19-stm32mp-r1.5)/linux-v4.19-stm32mp-r1.5.tar) URL of custom kernel tarball</div><div class="line">    ()    Custom kernel patches                                                             </div><div class="line">          Kernel configuration (Using a custom (def)config file)  ---&gt;                      </div><div class="line">    (board/stmicroelectronics/stm32mp157-dk/linux.config) Configuration file path</div><div class="line"></div><div class="line">新：      Kernel version (Custom tarball)  ---&gt;                                             </div><div class="line">    (dl/linux/linux-stm32mp.tar.gz)/linux-v4.19-stm32mp-r1.5.tar</div><div class="line">    ()    Custom kernel patches                                                             </div><div class="line">          Kernel configuration (Using an in-tree defconfig file)  ---&gt;                      </div><div class="line">    (multi_v7) Defconfig name</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>以及选择对应设备树文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">原：(stm32mp157c-dk2) In-tree Device Tree Source file names</div><div class="line">新：(stm32mp157c-myir) In-tree Device Tree Source file names</div></pre></td></tr></table></figure></p>
@@ -447,7 +448,22 @@
 <li>准备U-boot和Linux Kernel<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mkdir dl/uboot/</div><div class="line">cp uboot-stm32mp.tar.gz dl/uboot/</div><div class="line"></div><div class="line">mkdir dl/linux/</div><div class="line">cp linux-stm32mp.tar.gz dl/linux/</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="5-4-编译buildroot"><a href="#5-4-编译buildroot" class="headerlink" title="5.4 编译buildroot"></a>5.4 编译buildroot</h2><hr>
+<h2 id="5-4-编译、烧写"><a href="#5-4-编译、烧写" class="headerlink" title="5.4 编译、烧写"></a>5.4 编译、烧写</h2><p>执行<code>make all</code>，编译完后，将在<code>output/images/</code>生成以下文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rootfs.ext2  rootfs.ext4  sdcard.img  stm32mp157c-myir.dtb  u-boot.img  u-boot-spl.stm32  zImage</div></pre></td></tr></table></figure></p>
+<p>随后将SD卡接入Linux主机，将<code>sdcard.img</code>写入SD卡(/dev/sdb)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo dd if=output/images/sdcard.img of=/dev/sdb</div></pre></td></tr></table></figure></p>
+<p>写入完成后，将SD卡插入板子上，启动开关选择SD卡启动，上电即可看到打印输出：</p>
+<div align="center"><img src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/3.jpg"></div>
+
+
+<h1 id="6-使用技巧"><a href="#6-使用技巧" class="headerlink" title="6.使用技巧"></a>6.使用技巧</h1><ul>
+<li><strong>①.添加启动脚本</strong><br>很多时候，需要系统启动后自动运行一些程序，这就需要添加启动脚本。</li>
+</ul>
+<p>在前面的<code>board/stmicroelectronics/stm32mp157-myir/</code>下有个<code>overlay</code>目录，就是切入点。<br>可以利用<code>overlay</code>会覆盖根文件系统相关目录的特性，加上初始化系统方案采用<code>systemV</code>来实现。</p>
+<p>在<code>overlay</code>里创建个<code>etc/init.d</code>目录，再在目录里创建<code>S35app</code>之类的文件，开机后即会自动运行该脚本。</p>
+<ul>
+<li><strong>②.调整根文件系统大小</strong><br>在前面示例里，<code>Filesystem images  ---&gt; (120M) exact size</code>，即根文件系统空间设置的120MB，使用一个8G的SD卡烧写后启动，执行<code>df -h</code>看到整个根文件系统也只是120MB，无法扩展。<br>如果改为<code>Filesystem images  ---&gt; (4096M) exact size</code>，生成的sdcard.img文件也将是4G，烧写会非常的慢。</li>
+</ul>
+<p>一个可行的方案：<br>设置<code>exact size</code>任然为120MB，修改<code>board/stmicroelectronics/stm32mp157-myir/genimage.cfg</code>，将<code>rootfs</code>分区的<code>size</code>改为<code>4096M</code>。<br>这样生成的sdcard.img文件大小不会变太大，进入系统后，执行<code>resize2fs /dev/mmcblk0p4</code>(rootfs在SD卡第4分区)，即可看到系统空间变为了4G。<br>再将<code>resize2fs /dev/mmcblk0p4</code>命令添加到启动脚本里，通过一定的判断，在首次进入系统时执行扩容即可。<br>另外，如果提示没有<code>resize2fs</code>命令，在<code>Target packages  ---&gt;Filesystem and flash utilities  ---&gt;[*] e2fsprogs  ---&gt;[*]   resize2fs</code>勾选上即可。</p>
+<hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -606,7 +622,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Buildroot基本介绍"><span class="toc-number">1.</span> <span class="toc-text">1.Buildroot基本介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Buildroot配置选项"><span class="toc-number">2.</span> <span class="toc-text">2.Buildroot配置选项</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-Target-options-目标选项"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Target options(目标选项)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Build-options-编译选项"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Build options(编译选项)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Toolchain-工具链"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Toolchain(工具链)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-System-configuration-系统配置"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 System configuration(系统配置)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-Kernel-内核配置"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 Kernel(内核配置)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-Target-packages-目标包配置"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 Target packages(目标包配置)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-1-Audio-and-video-applications"><span class="toc-number">2.6.1.</span> <span class="toc-text">2.6.1 Audio and video applications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-2-Compressors-and-decompressors"><span class="toc-number">2.6.2.</span> <span class="toc-text">2.6.2 Compressors and decompressors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-3-Debugging-profiling-and-benchmark"><span class="toc-number">2.6.3.</span> <span class="toc-text">2.6.3 Debugging, profiling and benchmark</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-4-Development-tools"><span class="toc-number">2.6.4.</span> <span class="toc-text">2.6.4 Development tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-5-Filesystem-and-flash-utilities"><span class="toc-number">2.6.5.</span> <span class="toc-text">2.6.5 Filesystem and flash utilities</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-6-Fonts-cursors-icons-sounds-and-themes"><span class="toc-number">2.6.6.</span> <span class="toc-text">2.6.6 Fonts, cursors, icons, sounds and themes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-7-Games"><span class="toc-number">2.6.7.</span> <span class="toc-text">2.6.7 Games</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-8-Graphic-libraries-and-applications-graphic-text"><span class="toc-number">2.6.8.</span> <span class="toc-text">2.6.8 Graphic libraries and applications (graphic/text)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-9-Hardware-handling"><span class="toc-number">2.6.9.</span> <span class="toc-text">2.6.9 Hardware handling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-10-Interpreter-languages-and-scripting"><span class="toc-number">2.6.10.</span> <span class="toc-text">2.6.10 Interpreter languages and scripting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-11-Libraries"><span class="toc-number">2.6.11.</span> <span class="toc-text">2.6.11 Libraries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-12-Mail"><span class="toc-number">2.6.12.</span> <span class="toc-text">2.6.12 Mail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-13-Miscellaneous"><span class="toc-number">2.6.13.</span> <span class="toc-text">2.6.13 Miscellaneous</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-14-Networking-applications"><span class="toc-number">2.6.14.</span> <span class="toc-text">2.6.14 Networking applications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-15-Package-managers"><span class="toc-number">2.6.15.</span> <span class="toc-text">2.6.15 Package managers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-16-Real-Time"><span class="toc-number">2.6.16.</span> <span class="toc-text">2.6.16 Real-Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-17-Security"><span class="toc-number">2.6.17.</span> <span class="toc-text">2.6.17 Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-18-Shell-and-utilities"><span class="toc-number">2.6.18.</span> <span class="toc-text">2.6.18 Shell and utilities</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-19-System-tools"><span class="toc-number">2.6.19.</span> <span class="toc-text">2.6.19 System tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-20-Text-editors-and-viewers"><span class="toc-number">2.6.20.</span> <span class="toc-text">2.6.20 Text editors and viewers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-Filesystem-images-文件系统"><span class="toc-number">2.7.</span> <span class="toc-text">2.7 Filesystem images(文件系统)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-Bootloaders-引导程序"><span class="toc-number">2.8.</span> <span class="toc-text">2.8 Bootloaders(引导程序)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-9-Host-utilities-主机工具"><span class="toc-number">2.9.</span> <span class="toc-text">2.9 Host utilities(主机工具)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-10-Legacy-config-options-旧版配置选项"><span class="toc-number">2.10.</span> <span class="toc-text">2.10 Legacy config options(旧版配置选项)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Buildroot目录结构"><span class="toc-number">3.</span> <span class="toc-text">3.Buildroot目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-board目录"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 board目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-output目录"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 output目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-package目录"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 package目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-buildroot常用命令"><span class="toc-number">4.</span> <span class="toc-text">4.buildroot常用命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-构建示例"><span class="toc-number">5.</span> <span class="toc-text">5.构建示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1准备buildroot"><span class="toc-number">5.1.</span> <span class="toc-text">5.1准备buildroot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2准备交叉编译工具链、U-boot、Linux-Kernel"><span class="toc-number">5.2.</span> <span class="toc-text">5.2准备交叉编译工具链、U-boot、Linux Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3设置buildroot"><span class="toc-number">5.3.</span> <span class="toc-text">5.3设置buildroot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-编译buildroot"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 编译buildroot</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Buildroot基本介绍"><span class="toc-number">1.</span> <span class="toc-text">1.Buildroot基本介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Buildroot配置选项"><span class="toc-number">2.</span> <span class="toc-text">2.Buildroot配置选项</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-Target-options-目标选项"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Target options(目标选项)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Build-options-编译选项"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Build options(编译选项)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Toolchain-工具链"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Toolchain(工具链)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-System-configuration-系统配置"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 System configuration(系统配置)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-Kernel-内核配置"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 Kernel(内核配置)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-Target-packages-目标包配置"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 Target packages(目标包配置)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-1-Audio-and-video-applications"><span class="toc-number">2.6.1.</span> <span class="toc-text">2.6.1 Audio and video applications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-2-Compressors-and-decompressors"><span class="toc-number">2.6.2.</span> <span class="toc-text">2.6.2 Compressors and decompressors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-3-Debugging-profiling-and-benchmark"><span class="toc-number">2.6.3.</span> <span class="toc-text">2.6.3 Debugging, profiling and benchmark</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-4-Development-tools"><span class="toc-number">2.6.4.</span> <span class="toc-text">2.6.4 Development tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-5-Filesystem-and-flash-utilities"><span class="toc-number">2.6.5.</span> <span class="toc-text">2.6.5 Filesystem and flash utilities</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-6-Fonts-cursors-icons-sounds-and-themes"><span class="toc-number">2.6.6.</span> <span class="toc-text">2.6.6 Fonts, cursors, icons, sounds and themes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-7-Games"><span class="toc-number">2.6.7.</span> <span class="toc-text">2.6.7 Games</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-8-Graphic-libraries-and-applications-graphic-text"><span class="toc-number">2.6.8.</span> <span class="toc-text">2.6.8 Graphic libraries and applications (graphic/text)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-9-Hardware-handling"><span class="toc-number">2.6.9.</span> <span class="toc-text">2.6.9 Hardware handling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-10-Interpreter-languages-and-scripting"><span class="toc-number">2.6.10.</span> <span class="toc-text">2.6.10 Interpreter languages and scripting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-11-Libraries"><span class="toc-number">2.6.11.</span> <span class="toc-text">2.6.11 Libraries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-12-Mail"><span class="toc-number">2.6.12.</span> <span class="toc-text">2.6.12 Mail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-13-Miscellaneous"><span class="toc-number">2.6.13.</span> <span class="toc-text">2.6.13 Miscellaneous</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-14-Networking-applications"><span class="toc-number">2.6.14.</span> <span class="toc-text">2.6.14 Networking applications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-15-Package-managers"><span class="toc-number">2.6.15.</span> <span class="toc-text">2.6.15 Package managers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-16-Real-Time"><span class="toc-number">2.6.16.</span> <span class="toc-text">2.6.16 Real-Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-17-Security"><span class="toc-number">2.6.17.</span> <span class="toc-text">2.6.17 Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-18-Shell-and-utilities"><span class="toc-number">2.6.18.</span> <span class="toc-text">2.6.18 Shell and utilities</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-19-System-tools"><span class="toc-number">2.6.19.</span> <span class="toc-text">2.6.19 System tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-20-Text-editors-and-viewers"><span class="toc-number">2.6.20.</span> <span class="toc-text">2.6.20 Text editors and viewers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-Filesystem-images-文件系统"><span class="toc-number">2.7.</span> <span class="toc-text">2.7 Filesystem images(文件系统)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-Bootloaders-引导程序"><span class="toc-number">2.8.</span> <span class="toc-text">2.8 Bootloaders(引导程序)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-9-Host-utilities-主机工具"><span class="toc-number">2.9.</span> <span class="toc-text">2.9 Host utilities(主机工具)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-10-Legacy-config-options-旧版配置选项"><span class="toc-number">2.10.</span> <span class="toc-text">2.10 Legacy config options(旧版配置选项)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Buildroot目录结构"><span class="toc-number">3.</span> <span class="toc-text">3.Buildroot目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-board目录"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 board目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-output目录"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 output目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-package目录"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 package目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-buildroot常用命令"><span class="toc-number">4.</span> <span class="toc-text">4.buildroot常用命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-构建示例"><span class="toc-number">5.</span> <span class="toc-text">5.构建示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1准备buildroot"><span class="toc-number">5.1.</span> <span class="toc-text">5.1准备buildroot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2准备交叉编译工具链、U-boot、Linux-Kernel"><span class="toc-number">5.2.</span> <span class="toc-text">5.2准备交叉编译工具链、U-boot、Linux Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3设置buildroot"><span class="toc-number">5.3.</span> <span class="toc-text">5.3设置buildroot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-编译、烧写"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 编译、烧写</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-使用技巧"><span class="toc-number">6.</span> <span class="toc-text">6.使用技巧</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -807,11 +823,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -831,14 +847,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
@@ -847,15 +855,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -871,6 +883,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
@@ -879,7 +895,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -887,7 +907,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -895,7 +915,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -911,7 +931,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -923,11 +951,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -935,15 +959,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bootloader</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -951,11 +967,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Buildroot</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color5">Buildroot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1019,7 +1035,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;268.2k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;268.6k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
