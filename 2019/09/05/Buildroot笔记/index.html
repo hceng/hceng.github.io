@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/2.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-10-22T14:07:28.643Z">
+<meta property="og:updated_time" content="2019-11-04T10:27:52.024Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buildroot笔记">
 <meta name="twitter:description" content="整理Buildroot笔记，包含配置选项注释、目录结构分析、常用命令、构建示例、 使用技巧。 (编写中)">
@@ -193,7 +193,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 28.9k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 29.4k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -201,7 +201,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 117 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 119 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -306,7 +306,8 @@
 <h3 id="2-6-15-Package-managers"><a href="#2-6-15-Package-managers" class="headerlink" title="2.6.15 Package managers"></a>2.6.15 Package managers</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">    *** ------------------------------------------------------- ***</div><div class="line">    *** Please note:                                            ***</div><div class="line">    *** - Buildroot does *not* generate binary packages,        ***  //Buildroot不会生成二进制软件包</div><div class="line">    *** - Buildroot does *not* install any package database.    ***  //Buildroot不会安装任何软件包数据</div><div class="line">    *** *                                                       ***</div><div class="line">    *** It is up to you to provide those by yourself if you     ***  //如果想使用任何软件包管理器，需要自己提供</div><div class="line">    *** want to use any of those package managers.              ***</div><div class="line">    *** *                                                       ***</div><div class="line">    *** See the manual:                                         ***</div><div class="line">    *** http://buildroot.org/manual.html#faq-no-binary-packages ***</div><div class="line">    *** ------------------------------------------------------- ***</div><div class="line">[ ] opkg                                                             //Opkg是基于ipkg的轻量级软件包管理系统，类似于apt/dpkg</div><div class="line">[ ] rpm                                                              //RPM软件包管理器</div></pre></td></tr></table></figure>
 <h3 id="2-6-16-Real-Time"><a href="#2-6-16-Real-Time" class="headerlink" title="2.6.16 Real-Time"></a>2.6.16 Real-Time</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[ ] Xenomai Userspace        //Linux实时时钟框架</div></pre></td></tr></table></figure>
 <h3 id="2-6-17-Security"><a href="#2-6-17-Security" class="headerlink" title="2.6.17 Security"></a>2.6.17 Security</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[ ] checkpolicy              //SELinux(Security-Enhanced Linux)策略编译器</div><div class="line">[ ] paxtest                  //PaX回归测试套件</div><div class="line">[ ] policycoreutils          //SELinux策略程序的集合(包含load_policy、newrole、run_init、secon、semodule、sestatus等)</div><div class="line">[ ] refpolicy                //一个完整的SELinux策略，可以用作各种系统的系统策略，也可以用作创建其他策略的基础</div><div class="line">[ ] restorecond              //一个守护程序，它监视文件创建，然后为该文件设置默认的SELinux文件上下文</div><div class="line">[*] selinux-python  ---&gt;     //selinux的python模块</div><div class="line">    [ ]   audit2allow        //该模块安装两个程序:audit2allow和audit2why</div><div class="line">    [ ]   sepolgen           //一个Python模块，可让生成初始的SELinux策略模块模板</div><div class="line">[ ] semodule-utils           //包含用于处理selinux模块的工具:semodule_deps、semodule_expand、semodule_link等</div><div class="line">[ ] setools                  //SELinux策略分析软件包：apol、sediff-SELinux、sedta、seinfoflow-SELinux等</div></pre></td></tr></table></figure>
-<h3 id="2-6-18-Shell-and-utilities"><a href="#2-6-18-Shell-and-utilities" class="headerlink" title="2.6.18 Shell and utilities"></a>2.6.18 Shell and utilities</h3><h3 id="2-6-19-System-tools"><a href="#2-6-19-System-tools" class="headerlink" title="2.6.19 System tools"></a>2.6.19 System tools</h3><h3 id="2-6-20-Text-editors-and-viewers"><a href="#2-6-20-Text-editors-and-viewers" class="headerlink" title="2.6.20 Text editors and viewers"></a>2.6.20 Text editors and viewers</h3><h2 id="2-7-Filesystem-images-文件系统"><a href="#2-7-Filesystem-images-文件系统" class="headerlink" title="2.7 Filesystem images(文件系统)"></a>2.7 Filesystem images(文件系统)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Filesystem images  ---&gt;  </div><div class="line">    [ ] axfs root filesystem                                                //XFS格式根文件系统</div><div class="line">    [ ] btrfs root filesystem                                               //btrfs格式根文件系统</div><div class="line">    [ ] cloop root filesystem for the target device                         //clop方式压缩根文件系统</div><div class="line">    [ ] cpio the root filesystem (for use as an initial RAM filesystem)     //cpio方式压缩根文件系统(用作初始RAM文件系统)</div><div class="line">    [ ] cramfs root filesystem                                              //cramf格式根文件系统</div><div class="line">    [*] ext2/3/4 root filesystem                                            //ext2/3/4格式根文件系统</div><div class="line">          ext2/3/4 variant (ext4)  ---&gt;                                     //ext4格式根文件系统</div><div class="line">    ()    filesystem label                                                  //文件系统标签</div><div class="line">    (200M) exact size                                                       //根文件系统空间大小</div><div class="line">    (0)   exact number of inodes (leave at 0 for auto calculation)          //确切的inode数(从0开始自动计算)</div><div class="line">    (5)   reserved blocks percentage                                        //保留块百分比 (保留的供root使用,默认5%)</div><div class="line">    (-O ^64bit) additional mke2fs options                                   //额外的mke2fs选项 [禁用64位文件系统]</div><div class="line">          Compression method (no compression)  ---&gt;                         //压缩方式 [无压缩]</div><div class="line">    [ ] f2fs root filesystem                                                //f2fs格式根文件系统</div><div class="line">    [ ] initial RAM filesystem linked into linux kernel                     //初始RAM文件系统链接到Linux内核</div><div class="line">    [ ] jffs2 root filesystem                                               //jffs2格式根文件系统</div><div class="line">    [ ] romfs root filesystem                                               //romfs格式根文件系统</div><div class="line">    [ ] squashfs root filesystem                                            //squashfs格式根文件系统</div><div class="line">    [*] tar the root filesystem                                             //tar压缩格式根文件系统</div><div class="line">          Compression method (no compression)  ---&gt;                         //压缩方式 [无压缩]</div><div class="line">    ()    other random options to pass to tar                               //传递给tar的其他选项</div><div class="line">    [ ] ubi image containing an ubifs root filesystem                       //ubifs格式根文件系统包含ubi镜像</div><div class="line">    [ ] ubifs root filesystem                                               //ubifs格式根文件系统</div><div class="line">    [ ] yaffs2 root filesystem                                              //yaffs2格式根文件系统</div></pre></td></tr></table></figure>
+<h3 id="2-6-18-Shell-and-utilities"><a href="#2-6-18-Shell-and-utilities" class="headerlink" title="2.6.18 Shell and utilities"></a>2.6.18 Shell and utilities</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">    *** Shells ***              //**命令解析器**</div><div class="line">-*- bash                        //标准的GNU Bourne shell</div><div class="line">[ ] dash                        //非常小的/bin/sh的POSIX兼容shell</div><div class="line">[ ] mksh                        //MirBSD Korn Shell，一个紧凑、快速、可靠、安全、又不断扩展的shell</div><div class="line">[ ] zsh                         //bash、ksh和tcsh的许多有用功能已合并到zsh中，又增加了许多原始功能</div><div class="line">    *** Utilities ***           //**实用工具**</div><div class="line">[ ] at                          //在未来的某个时间点定期执行一次任务(一条/多条命令组合，或脚本)</div><div class="line">[*] bash completion             //添加bash完成基础结构</div><div class="line">[ ] ccrypt                      //用于加密和解密文件和流的程序</div><div class="line">[ ] dialog                      //从shell脚本显示对话框</div><div class="line">[ ] dtach                       //屏幕的分离的功能的工具，可以随意地连接到各会话上</div><div class="line">[ ] easy-rsa                    //RSA证书生成、管理工具</div><div class="line">[ ] file                        //通过扫描二进制数据中的已知模式来识别文件格式的程序</div><div class="line">[ ] gnupg                       //GNU Privacy Guard(GnuPG或GPG)，是包含数字签名和证书的加密工具</div><div class="line">[ ] gnupg2                      //gnupg的新版本</div><div class="line">[ ] inotify-tools               //用于监视文件系统事件并对其采取行动</div><div class="line">[ ] lockfile programs           //锁文件的程序</div><div class="line">[ ] logrotate                   //一个简单的轮转日志的程序</div><div class="line">[ ] logsurfer                   //用于实时监视系统日志并报告事件发生情况的程序</div><div class="line">[ ] pdmenu                      //用于Unix的全屏菜单系统</div><div class="line">[*] pinentry  ---&gt;              //简单的PIN或短语输入对话框的集合</div><div class="line">    -*-   pinentry-ncurses      //pinentry-ncurses工具</div><div class="line">	[ ]   pinentry-gtk2         //pinentry-gtk2工具</div><div class="line">    [ ]   pinentry-qt5          //pinentry-qt5工具</div><div class="line">[ ] ranger                      //支持VI快捷键的控制台文件管理器</div><div class="line">[ ] screen                      //一个终端切换的软件，可用于终端会话恢复</div><div class="line">[ ] sudo                        //旨在允许sysadmin向用户授予有限的root特权并记录root活动</div><div class="line">[ ] time                        //GNU时间程序</div><div class="line">[ ] tini                        //一个简单但有效的初始化二进制文件，可充当容器的PID 1</div><div class="line">[ ] tmux                        //一个终端多路复用软件，使单个终端可以访问和控制多个终端</div><div class="line">[ ] which                       //“which”命令程序</div><div class="line">[ ] xmlstarlet                  //命令行XML工具包</div><div class="line">[ ] xxhash                      //一种非常快速的哈希算法，运行速度受限RAM</div></pre></td></tr></table></figure>
+<h3 id="2-6-19-System-tools"><a href="#2-6-19-System-tools" class="headerlink" title="2.6.19 System tools"></a>2.6.19 System tools</h3><h3 id="2-6-20-Text-editors-and-viewers"><a href="#2-6-20-Text-editors-and-viewers" class="headerlink" title="2.6.20 Text editors and viewers"></a>2.6.20 Text editors and viewers</h3><h2 id="2-7-Filesystem-images-文件系统"><a href="#2-7-Filesystem-images-文件系统" class="headerlink" title="2.7 Filesystem images(文件系统)"></a>2.7 Filesystem images(文件系统)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Filesystem images  ---&gt;  </div><div class="line">    [ ] axfs root filesystem                                                //XFS格式根文件系统</div><div class="line">    [ ] btrfs root filesystem                                               //btrfs格式根文件系统</div><div class="line">    [ ] cloop root filesystem for the target device                         //clop方式压缩根文件系统</div><div class="line">    [ ] cpio the root filesystem (for use as an initial RAM filesystem)     //cpio方式压缩根文件系统(用作初始RAM文件系统)</div><div class="line">    [ ] cramfs root filesystem                                              //cramf格式根文件系统</div><div class="line">    [*] ext2/3/4 root filesystem                                            //ext2/3/4格式根文件系统</div><div class="line">          ext2/3/4 variant (ext4)  ---&gt;                                     //ext4格式根文件系统</div><div class="line">    ()    filesystem label                                                  //文件系统标签</div><div class="line">    (200M) exact size                                                       //根文件系统空间大小</div><div class="line">    (0)   exact number of inodes (leave at 0 for auto calculation)          //确切的inode数(从0开始自动计算)</div><div class="line">    (5)   reserved blocks percentage                                        //保留块百分比 (保留的供root使用,默认5%)</div><div class="line">    (-O ^64bit) additional mke2fs options                                   //额外的mke2fs选项 [禁用64位文件系统]</div><div class="line">          Compression method (no compression)  ---&gt;                         //压缩方式 [无压缩]</div><div class="line">    [ ] f2fs root filesystem                                                //f2fs格式根文件系统</div><div class="line">    [ ] initial RAM filesystem linked into linux kernel                     //初始RAM文件系统链接到Linux内核</div><div class="line">    [ ] jffs2 root filesystem                                               //jffs2格式根文件系统</div><div class="line">    [ ] romfs root filesystem                                               //romfs格式根文件系统</div><div class="line">    [ ] squashfs root filesystem                                            //squashfs格式根文件系统</div><div class="line">    [*] tar the root filesystem                                             //tar压缩格式根文件系统</div><div class="line">          Compression method (no compression)  ---&gt;                         //压缩方式 [无压缩]</div><div class="line">    ()    other random options to pass to tar                               //传递给tar的其他选项</div><div class="line">    [ ] ubi image containing an ubifs root filesystem                       //ubifs格式根文件系统包含ubi镜像</div><div class="line">    [ ] ubifs root filesystem                                               //ubifs格式根文件系统</div><div class="line">    [ ] yaffs2 root filesystem                                              //yaffs2格式根文件系统</div></pre></td></tr></table></figure>
 <p>借此机会，把几个文件系统给记录一下。</p>
 <p><strong>1.什么是文件系统</strong><br>文件系统，就是文件的储存方式。简单说，它就是一个门牌系统，为储存设备划分门牌号，每个文件分配一个门牌，然后就能按照门牌找到文件。<br>没有文件系统的硬盘，就是一块荒地。如果有人住在那里，你只能说那里有人住，精确位置你说不出来。只有划分了路牌，你才能说出，这个人住在”人民路15号”，这样才能精确定位。文件系统就是路牌的划分方法。<br>储存设备都需要指定文件系统，计算机才能读写。所谓”格式化”，就是为硬盘安装文件系统。不同的操作系统有不同的文件系统，Linux使用ext4，OSX使用HFS+，Windows使用NTFS，Solaris和Unix使用ZFS。如果计算机不认识某个文件系统，就会显示这块盘无法读写。</p>
 <p><strong>2.Windows的文件系统</strong><br>Windows里的文件系统主要有三种：FAT32、NTFS、exFAT。<br>FAT32是最老的文件系统，所有操作系统都支持，兼容性最好。但是，它是为32位计算机设计的，单个文件不能超过2的(32-1)次方个字节，也就是不能超过4GB，分区不能超过8TB。也就是为什么一些U盘无法一次性拷贝4G以上的大文件；<br>NTFS是Windows的默认文件系统，用来替换FAT32，Windows的系统盘只能使用这个文件系统；<br>exFAT可以看作是FAT32的64位升级版，ex就是extended的缩写，表示”扩展的FAT32”，功能不如NTFS，但是解决了文件和分区的大小问题，最大分区可以到8PB；</p>
@@ -815,19 +816,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -836,6 +829,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">裸机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -851,7 +852,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -863,19 +872,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -884,6 +881,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -899,15 +900,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -915,11 +908,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -931,23 +940,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -959,6 +956,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
@@ -967,11 +968,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1055,7 +1056,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;278.4k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;278.9k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
