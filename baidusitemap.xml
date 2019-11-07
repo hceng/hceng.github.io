@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2019/09/05/Buildroot%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-11-04T10:27:52.024Z</lastmod>
+    <lastmod>2019-11-07T01:16:27.400Z</lastmod>
     <data>
         <display>
         <title>Buildroot笔记</title>
@@ -308,9 +308,9 @@
         <title>Linux摄像头驱动2——UVC</title>
         <pubTime>2018-04-22T12:18:08.000Z</pubTime>
         
-        <tag>摄像头</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
          
          
            
@@ -348,13 +348,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -428,9 +428,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -529,9 +529,9 @@
         <title>Linux摄像头驱动4——CMOS摄像头</title>
         <pubTime>2018-05-20T08:02:12.000Z</pubTime>
         
-        <tag>摄像头</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
          
         <tag>CMOS</tag>
          
@@ -569,9 +569,9 @@
         <title>Linux摄像头驱动1——vivid</title>
         <pubTime>2018-03-08T07:59:30.000Z</pubTime>
         
-        <tag>摄像头</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>摄像头</tag>
          
          
            
@@ -706,9 +706,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>SD卡</tag>
-         
         <tag>Exynos4412</tag>
+         
+        <tag>SD卡</tag>
          
         <tag>Uboot</tag>
          
