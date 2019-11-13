@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://hceng.cn/2019/11/13/Yocto%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2019-11-13T10:39:52.036Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://hceng.cn/2019/06/23/AM335X%E2%80%94%E2%80%94USB%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
+    
+    <lastmod>2019-11-12T02:46:25.875Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://hceng.cn/2019/09/05/Buildroot%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2019-11-10T14:21:04.765Z</lastmod>
@@ -40,13 +54,6 @@
     <loc>http://hceng.cn/2017/04/06/%E8%BD%AF%E4%BB%B6%E7%99%96/</loc>
     
     <lastmod>2019-07-16T02:45:10.149Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://hceng.cn/2019/06/23/AM335X%E2%80%94%E2%80%94USB%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
-    
-    <lastmod>2019-06-24T03:08:41.408Z</lastmod>
     
   </url>
   
