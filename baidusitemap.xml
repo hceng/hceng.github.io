@@ -4,6 +4,42 @@
 
     
   <url>
+    <loc>http://hceng.cn/2019/09/05/Buildroot%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2019-11-20T01:25:00.937Z</lastmod>
+    <data>
+        <display>
+        <title>Buildroot笔记</title>
+        <pubTime>2019-09-05T06:06:41.000Z</pubTime>
+        
+        <tag>Linux基础</tag>
+         
+        <tag>Buildroot</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/</loc>
+    <lastmod>2019-11-20T01:22:15.777Z</lastmod>
+    <data>
+        <display>
+        <title>黑群晖</title>
+        <pubTime>2019-04-22T08:39:05.000Z</pubTime>
+        
+        <tag>随笔</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2019/11/13/Yocto%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2019-11-13T10:39:52.036Z</lastmod>
     <data>
@@ -35,25 +71,6 @@
         <tag>摄像头</tag>
          
         <tag>UVC</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2019/09/05/Buildroot%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-11-10T14:21:04.765Z</lastmod>
-    <data>
-        <display>
-        <title>Buildroot笔记</title>
-        <pubTime>2019-09-05T06:06:41.000Z</pubTime>
-        
-        <tag>Linux基础</tag>
-         
-        <tag>Buildroot</tag>
          
          
            
@@ -119,23 +136,6 @@
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/</loc>
-    <lastmod>2019-07-24T02:35:30.542Z</lastmod>
-    <data>
-        <display>
-        <title>黑群晖</title>
-        <pubTime>2019-04-22T08:39:05.000Z</pubTime>
-        
-        <tag>随笔</tag>
          
          
            
@@ -367,13 +367,13 @@
         
         <tag>AM335X</tag>
          
+        <tag>SPI</tag>
+         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
-         
-        <tag>SPI</tag>
          
          
            
@@ -447,9 +447,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>Linux驱动</tag>
-         
         <tag>SPI</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -725,9 +725,9 @@
         <title>Exynos4412——SD卡启动</title>
         <pubTime>2017-11-07T10:36:29.000Z</pubTime>
         
-        <tag>Exynos4412</tag>
-         
         <tag>SD卡</tag>
+         
+        <tag>Exynos4412</tag>
          
         <tag>Uboot</tag>
          

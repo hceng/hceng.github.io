@@ -49,8 +49,11 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/33.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/34.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/35.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/36.jpg">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/37.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/38.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-07-24T02:35:30.542Z">
+<meta property="og:updated_time" content="2019-11-20T01:22:15.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="黑群晖">
 <meta name="twitter:description" content="黑群晖折腾记录。">
@@ -225,7 +228,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 5.5k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 6.8k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -233,7 +236,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 20 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 25 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -447,6 +450,38 @@
 <div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/35.jpg"></div>
 
 <p>参考链接：<a href="https://wp.gxnas.com/2618.html" target="_blank" rel="external">自己添加tracker服务器，加快群晖下载速度</a></p>
+<h2 id="4-5-临时作为Windows主机"><a href="#4-5-临时作为Windows主机" class="headerlink" title="4.5 临时作为Windows主机"></a>4.5 临时作为Windows主机</h2><p><strong>20191115：将NAS切换到Windows系统，临时办公使用。</strong></p>
+<p>最近有个需求，晚上在家需要连接公司Linux主机，查看编译结果、简单操作、以及学习Buildroot、Yocto查看大量配置。<br>完成这个需求需要两个条件：</p>
+<ul>
+<li>1.Linux主机实现内网穿透；</li>
+<li>2.需要一台配置要求很低的电脑远程连接Linux主机、以及查阅资料、记笔记；</li>
+</ul>
+<p><strong>1、Linux主机内网穿透</strong><br>对于Linux主机内网穿透，有了前面<code>frp</code>的知识后，很容易实现。<br>使用前面<a href="https://www.waiwang.men/" target="_blank" rel="external">外网门</a>的<code>frps</code>或者自己服务器搭建一个<code>frps</code>，然后在Linux主机上运行<code>frpc</code>即可。<br>Linux主机的操作如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget https://github.com/fatedier/frp/releases/download/v0.29.1/frp_0.29.1_linux_amd64.tar.gz</div><div class="line">tar xf frp_0.29.1_linux_amd64.tar.gz</div><div class="line">cd frp_0.27.1_linux_amd64/</div><div class="line">vim frpc.ini</div></pre></td></tr></table></figure></p>
+<p><code>frpc.ini</code>的配置参考如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[common]</div><div class="line">server_addr = xx.waiwang.men</div><div class="line">server_port = 6666</div><div class="line">token = waiwang.men</div><div class="line"></div><div class="line">[linux_ssh]</div><div class="line">type = tcp</div><div class="line">local_ip = 192.168.1.x</div><div class="line">local_port = 22</div><div class="line">use_encryption = true</div><div class="line">remote_port = 12345</div></pre></td></tr></table></figure></p>
+<p>配置完后，执行<code>./frpc -c frpc.ini</code>即可。</p>
+<p>为了Linux服务器意外重启后能自动运行<code>frpc</code>，针对Ubuntu18.04，进行如下设置：<br>创建<code>/etc/systemd/system/rc-local.service</code>，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[Unit]</div><div class="line">Description=/etc/rc.local Compatibility</div><div class="line">ConditionPathExists=/etc/rc.local</div><div class="line"> </div><div class="line">[Service]</div><div class="line">Type=forking</div><div class="line">ExecStart=/etc/rc.local start</div><div class="line">TimeoutSec=0</div><div class="line">StandardOutput=tty</div><div class="line">RemainAfterExit=yes</div><div class="line">SysVStartPriority=99</div><div class="line"> </div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div></pre></td></tr></table></figure></p>
+<p>创建<code>/etc/rc.local</code>，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh -e</div><div class="line">#/etc/rc.local</div><div class="line">#</div><div class="line"># This script is executed at the end of each multiuser runlevel.</div><div class="line"># Make sure that the script will &quot;exit 0&quot; on success or any other</div><div class="line"># value on error.</div><div class="line">#</div><div class="line"># In order to enable or disable this script just change the execution</div><div class="line"># bits.</div><div class="line">#</div><div class="line"># By default this script does nothing.</div><div class="line">echo &quot;==========hceng: frpc start! ==========&quot; &gt; /usr/local/test.log</div><div class="line"></div><div class="line">/home/hceng/frp/frp_0.27.1_linux_amd64/frpc -c /home/hceng/frp/frp_0.27.1_linux_amd64/frpc.ini &amp;</div><div class="line"></div><div class="line">exit 0</div></pre></td></tr></table></figure></p>
+<p>最后加入<code>systemd</code>系统和服务管理器:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo chmod 755 /etc/rc.local</div><div class="line">sudo systemctl enable rc-local</div><div class="line">sudo systemctl start rc-local.service</div><div class="line">sudo systemctl status rc-local.service</div></pre></td></tr></table></figure></p>
+<p>此外，在实际使用中有个问题。<br>比如，在公司通过<code>mobaxterm</code>的<code>ssh</code>连接Linux主机编译<code>Yocto</code>，运行<code>mobaxterm</code>的Windows主机不能关机，一旦关机<code>ssh</code>断开，编译也就中断。又或者在公司运行编译，在家想查看编译进度、结果，也是无法连接到公司的<code>ssh</code>。<br>在网络上搜索一番后，发现<code>screen</code>能解决以上问题，在Ubuntu里执行<code>sudo apt-get install screen</code>安装。<br>常用的命令或快捷方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">创建一个子界面：screen + 回车</div><div class="line">切换回主界面：Ctrl +  + 松开 + d</div><div class="line">查看子界面列表：screen -list </div><div class="line">切换到某一子界面：screen -r 子界面列表显示的对应编号</div><div class="line">结束子界面：进入子界面后，exit + 回车</div></pre></td></tr></table></figure></p>
+<p><strong>2、实现Windows主机</strong><br>前面配置完了，就可以实现外网<code>ssh</code>登陆Linux主机。<br>此时需要一个设备进行连接，Android手机、Linux主机、Windows主机等可以。<br>最后选择了Windows主机方案，因为要查资料和一些配套的Windows软件。<br>家里没有闲置Windows电脑，刚好双11淘了个500G的固态当系统盘，笔记本上120G的固态也就闲置了下来。</p>
+<p>说到此次换固态，有两个小波折。<br>换固态前，特地看了笔记本自带的SSD接口为mSATA接口，以为笔记本就只支持mSATA接口SSD，就网上按这个接口买。<br>逛着逛着，来回比价，梦游一样，就下单了，顺便买了一个mSATA接口的SSD转USB的硬盘盒，用于转移系统和闲置SSD当U盘用。<br>过了两天，快递到了，将新SSD放入硬盘盒，准备将电脑的C盘克隆出来。换上后插上电脑，发现不对劲，始终读取不出SSD，一度怀疑硬盘盒是坏的。<br>都准备问客服了，看到SSD包装硕大的NVMe，心里一凉，买错了SSD了。想着C盘不到5G的空间，还得继续用几天，心里一阵不爽。<br>想着电脑都带回来了，拆机清个灰吧，于是就参考B站的拆机视频开始拆机玩。<br>拆到硬盘位置，看到字幕说<strong>支持stat和NVME协议</strong>，以为字幕打错了，再去了搜了下，确实有说支持的，加上记得在BISO看到过stat、NVME之类的关键词，感觉应该还有戏。</p>
+<div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/36.jpg"></div>
+
+<p>于是将旧SSD拆下来放入硬盘盒，将新SSD装入电脑，插入U盘PE、硬盘盒，开机进入Biso，选择PE启动，在PE里将旧SSD克隆到新SSD里。<br>这样一番操作后，新SSD可用，买来的mSATA接口硬盘盒也可以用，完美解决问题。</p>
+<p>再来说另一个波折，就是克隆C盘到新SSD。<br>在网上看到不少教程，基本都是傲梅分区助手来实现了，试了一下失败了，最后还是用PE里的<code>Ghost</code>，完美克隆。</p>
+<p>回到目前的情况，有一台amd64架构的Nas，一块USB接口的120G固态，完全可以组成一台运行Windows的电脑。<br>考虑到SSD通过USB进行连接，于是想到了<code>Windows To Go</code>，通过<a href="https://bbs.luobotou.org/thread-761-1-1.html" target="_blank" rel="external">WTG辅助工具</a>将<code>Windows To Go</code>装到SSD上。<br>将SSD插到Nas的USB口，接上鼠标键盘、HDMI显示器，重启Nas，进入Biso，将SSD设置为第一启动顺序，完美启动。<br>实际体验感受了一下，运行<code>mobaxterm</code>连接Linux主机，再打开<code>Notepad++</code>和<code>copytranslator</code>，不时再开一下浏览器查阅下资料，完全没有问题。</p>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/37.png"></div>
+
+<p>播放1080P视频，CPU维持在30%左右。</p>
+<div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/38.png"></div>
+
+
+
+
+
+
+
+
 <hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
@@ -611,7 +646,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件篇"><span class="toc-number">1.</span> <span class="toc-text">1.硬件篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-硬件成本"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 硬件成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-改善噪音"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 改善噪音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统篇"><span class="toc-number">2.</span> <span class="toc-text">2.系统篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-装机思路"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 装机思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-装机准备"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 装机准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-安装引导系统"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 安装引导系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-安装DSM系统"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 安装DSM系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-必要设置"><span class="toc-number">3.</span> <span class="toc-text">3.必要设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-配置存储空间"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 配置存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-内网穿透"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 内网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-动态域名DDNS"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 动态域名DDNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-反向代理frp"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 反向代理frp</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-扩展设置"><span class="toc-number">4.</span> <span class="toc-text">4.扩展设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-自动修改登陆壁纸"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 自动修改登陆壁纸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-将NAS入口添加到博客"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 将NAS入口添加到博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-安装浏览器访问内网"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 安装浏览器访问内网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-加快群晖自带下载器速度"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 加快群晖自带下载器速度</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件篇"><span class="toc-number">1.</span> <span class="toc-text">1.硬件篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-硬件成本"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 硬件成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-改善噪音"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 改善噪音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统篇"><span class="toc-number">2.</span> <span class="toc-text">2.系统篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-装机思路"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 装机思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-装机准备"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 装机准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-安装引导系统"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 安装引导系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-安装DSM系统"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 安装DSM系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-必要设置"><span class="toc-number">3.</span> <span class="toc-text">3.必要设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-配置存储空间"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 配置存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-内网穿透"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 内网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-动态域名DDNS"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 动态域名DDNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-反向代理frp"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 反向代理frp</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-扩展设置"><span class="toc-number">4.</span> <span class="toc-text">4.扩展设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-自动修改登陆壁纸"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 自动修改登陆壁纸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-将NAS入口添加到博客"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 将NAS入口添加到博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-安装浏览器访问内网"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 安装浏览器访问内网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-加快群晖自带下载器速度"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 加快群晖自带下载器速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-临时作为Windows主机"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 临时作为Windows主机</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -768,15 +803,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -788,11 +827,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -800,11 +843,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -816,31 +871,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -848,11 +879,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -864,7 +899,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -873,10 +908,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -892,15 +923,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -916,6 +947,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
@@ -924,15 +959,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -940,7 +967,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -960,15 +987,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3399</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1028,7 +1063,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;284.6k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;287.3k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
