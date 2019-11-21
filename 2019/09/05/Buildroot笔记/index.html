@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/2.jpg">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190905/3.jpg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-11-20T01:25:00.937Z">
+<meta property="og:updated_time" content="2019-11-20T03:37:18.292Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buildroot笔记">
 <meta name="twitter:description" content="整理Buildroot笔记，包含配置选项注释、目录结构分析、常用命令、构建示例、 使用技巧。">
@@ -234,7 +234,7 @@
 </ul>
 </blockquote>
 <p>可以看到构建每个软件包的工作流几乎是相同的，Buildroot主要就是把这些重复操作自动化，用户只需勾选上所需软件包，便自动完成以上所有操作。<br>其次，U-boot、Linux Kernel的编译工作流的差不多，只是配置的自定义参数更多，在Buildroot设置好了，也就一并生成。</p>
-<h1 id="2-Buildroot配置选项"><a href="#2-Buildroot配置选项" class="headerlink" title="2.Buildroot配置选项"></a>2.Buildroot配置选项</h1><p>以<code>Buildroot 2019.02.4</code>，<code>imx6ull</code>配置为例，对配置选项进行注释。<br>执行<code>make menuconfig</code>进入一级配置菜单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Target options  ---&gt;                                                                                         </div><div class="line">Build options  ---&gt;                                                                                          </div><div class="line">Toolchain  ---&gt;                                                                                              </div><div class="line">System configuration  ---&gt;                                                                                   </div><div class="line">Kernel  ---&gt;                                                                                                 </div><div class="line">Target packages  ---&gt;                 //**文件系统**                                                                       </div><div class="line">Filesystem images  ---&gt;                                                                                      </div><div class="line">Bootloaders  ---&gt;                                                                                            </div><div class="line">Host utilities  ---&gt;                                                                                         </div><div class="line">Legacy config options  ---&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="2-Buildroot配置选项"><a href="#2-Buildroot配置选项" class="headerlink" title="2.Buildroot配置选项"></a>2.Buildroot配置选项</h1><p>以<code>Buildroot 2019.02.4</code>，<code>imx6ull</code>配置为例，对配置选项进行注释。<br>执行<code>make menuconfig</code>进入一级配置菜单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Target options  ---&gt;                                                                                         </div><div class="line">Build options  ---&gt;                                                                                          </div><div class="line">Toolchain  ---&gt;                                                                                              </div><div class="line">System configuration  ---&gt;                                                                                   </div><div class="line">Kernel  ---&gt;                                                                                                 </div><div class="line">Target packages  ---&gt;                                                                                </div><div class="line">Filesystem images  ---&gt;                                                                                      </div><div class="line">Bootloaders  ---&gt;                                                                                            </div><div class="line">Host utilities  ---&gt;                                                                                         </div><div class="line">Legacy config options  ---&gt;</div></pre></td></tr></table></figure></p>
 <p>后面将依次对每个子菜单进行注释。约定<code>()</code>内为直接翻译或补充说明，<code>[]</code>内为示例选项含义。</p>
 <h2 id="2-1-Target-options-目标选项"><a href="#2-1-Target-options-目标选项" class="headerlink" title="2.1 Target options(目标选项)"></a>2.1 Target options(目标选项)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Target options  ---&gt; </div><div class="line">    Target Architecture (ARM (little endian))  ---&gt;  //目标处理器的架构和大小端模式 [ARM (little endian)]</div><div class="line">    Target Binary Format (ELF)  ---&gt;                 //目标二进制格式 [ELF]</div><div class="line">    Target Architecture Variant (cortex-A7)  ---&gt;    //目标处理器核心类型 [cortex-A7]</div><div class="line">    Target ABI (EABIhf)  ---&gt;                        //目标应用程序二进制接口(Application Binary Interface) [EABIhf] ①</div><div class="line">    Floating point strategy (NEON/VFPv4)  ---&gt;       //浮点运算策略 [NEON/VFPv4] ②</div><div class="line">    ARM instruction set (ARM)  ---&gt;                  //ARM的指令集设置 [ARM]</div></pre></td></tr></table></figure>
 <p>①：ABI是X86计算机上的，EABI是嵌入式平台上; EABI/EABIhf分别适用于armel和armhf两个不同的架构，armel和armh在对待浮点运算采取了不同的策略(有fpu的arm才能选择EABIhf)；<br>②：ARM浮点体系结构(VFP)，VFPvX为历史各版本，比如浮点运算指定为VFP4(vector floating point4)指令或neon向量浮点指令；</p>
@@ -823,23 +823,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -851,7 +839,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -859,23 +855,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -883,19 +871,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -907,15 +903,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -923,15 +919,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -943,10 +939,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -955,7 +947,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -964,10 +968,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -995,11 +995,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1007,11 +1007,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">

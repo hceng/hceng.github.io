@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/37.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/38.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-11-20T01:22:15.777Z">
+<meta property="og:updated_time" content="2019-11-21T01:00:53.836Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="黑群晖">
 <meta name="twitter:description" content="黑群晖折腾记录。">
@@ -464,16 +464,18 @@
 <p>最后加入<code>systemd</code>系统和服务管理器:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo chmod 755 /etc/rc.local</div><div class="line">sudo systemctl enable rc-local</div><div class="line">sudo systemctl start rc-local.service</div><div class="line">sudo systemctl status rc-local.service</div></pre></td></tr></table></figure></p>
 <p>此外，在实际使用中有个问题。<br>比如，在公司通过<code>mobaxterm</code>的<code>ssh</code>连接Linux主机编译<code>Yocto</code>，运行<code>mobaxterm</code>的Windows主机不能关机，一旦关机<code>ssh</code>断开，编译也就中断。又或者在公司运行编译，在家想查看编译进度、结果，也是无法连接到公司的<code>ssh</code>。<br>在网络上搜索一番后，发现<code>screen</code>能解决以上问题，在Ubuntu里执行<code>sudo apt-get install screen</code>安装。<br>常用的命令或快捷方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">创建一个子界面：screen + 回车</div><div class="line">切换回主界面：Ctrl +  + 松开 + d</div><div class="line">查看子界面列表：screen -list </div><div class="line">切换到某一子界面：screen -r 子界面列表显示的对应编号</div><div class="line">结束子界面：进入子界面后，exit + 回车</div></pre></td></tr></table></figure></p>
 <p><strong>2、实现Windows主机</strong><br>前面配置完了，就可以实现外网<code>ssh</code>登陆Linux主机。<br>此时需要一个设备进行连接，Android手机、Linux主机、Windows主机等可以。<br>最后选择了Windows主机方案，因为要查资料和一些配套的Windows软件。<br>家里没有闲置Windows电脑，刚好双11淘了个500G的固态当系统盘，笔记本上120G的固态也就闲置了下来。</p>
-<p>说到此次换固态，有两个小波折。<br>换固态前，特地看了笔记本自带的SSD接口为mSATA接口，以为笔记本就只支持mSATA接口SSD，就网上按这个接口买。<br>逛着逛着，来回比价，梦游一样，就下单了，顺便买了一个mSATA接口的SSD转USB的硬盘盒，用于转移系统和闲置SSD当U盘用。<br>过了两天，快递到了，将新SSD放入硬盘盒，准备将电脑的C盘克隆出来。换上后插上电脑，发现不对劲，始终读取不出SSD，一度怀疑硬盘盒是坏的。<br>都准备问客服了，看到SSD包装硕大的NVMe，心里一凉，买错了SSD了。想着C盘不到5G的空间，还得继续用几天，心里一阵不爽。<br>想着电脑都带回来了，拆机清个灰吧，于是就参考B站的拆机视频开始拆机玩。<br>拆到硬盘位置，看到字幕说<strong>支持stat和NVME协议</strong>，以为字幕打错了，再去了搜了下，确实有说支持的，加上记得在BISO看到过stat、NVME之类的关键词，感觉应该还有戏。</p>
+<p>说到此次换固态，有两个小波折。<br>换固态前，特地看了笔记本自带的SSD接口为mSATA接口，以为笔记本就只支持mSATA接口SSD，就网上按这个接口买。<br>逛着逛着，来回比价，梦游一样，就下单了，顺便买了一个mSATA接口的SSD转USB的硬盘盒，用于转移系统和闲置SSD当U盘用。<br>过了两天，快递到了，将新SSD放入硬盘盒，准备将电脑的C盘克隆出来。换上后插上电脑，发现不对劲，始终读取不出SSD，一度怀疑硬盘盒是坏的。<br>都准备问客服了，看到SSD包装硕大的NVMe，心里一凉，买错了SSD了。想着C盘不到5G的空间，还得继续用几天，心里一阵不爽。<br>想着电脑都带回来了，拆机清个灰吧，于是就参考B站的拆机视频开始拆机玩。<br>拆到硬盘位置，看到字幕说<strong>支持stat和NVME协议</strong>，以为字幕打错了，再去了搜了下，确实有说支持的，加上记得在Bios看到过stat、NVME之类的关键词，感觉应该还有戏。</p>
 <div align="center"><img width="600" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/36.jpg"></div>
 
-<p>于是将旧SSD拆下来放入硬盘盒，将新SSD装入电脑，插入U盘PE、硬盘盒，开机进入Biso，选择PE启动，在PE里将旧SSD克隆到新SSD里。<br>这样一番操作后，新SSD可用，买来的mSATA接口硬盘盒也可以用，完美解决问题。</p>
+<p>于是将旧SSD拆下来放入硬盘盒，将新SSD装入电脑，插入U盘PE、硬盘盒，开机进入Bios，选择PE启动，在PE里将旧SSD克隆到新SSD里。<br>这样一番操作后，新SSD可用，买来的mSATA接口硬盘盒也可以用，完美解决问题。</p>
 <p>再来说另一个波折，就是克隆C盘到新SSD。<br>在网上看到不少教程，基本都是傲梅分区助手来实现了，试了一下失败了，最后还是用PE里的<code>Ghost</code>，完美克隆。</p>
-<p>回到目前的情况，有一台amd64架构的Nas，一块USB接口的120G固态，完全可以组成一台运行Windows的电脑。<br>考虑到SSD通过USB进行连接，于是想到了<code>Windows To Go</code>，通过<a href="https://bbs.luobotou.org/thread-761-1-1.html" target="_blank" rel="external">WTG辅助工具</a>将<code>Windows To Go</code>装到SSD上。<br>将SSD插到Nas的USB口，接上鼠标键盘、HDMI显示器，重启Nas，进入Biso，将SSD设置为第一启动顺序，完美启动。<br>实际体验感受了一下，运行<code>mobaxterm</code>连接Linux主机，再打开<code>Notepad++</code>和<code>copytranslator</code>，不时再开一下浏览器查阅下资料，完全没有问题。</p>
+<p>回到目前的情况，有一台amd64架构的Nas，一块USB接口的120G固态，完全可以组成一台运行Windows的电脑。<br>考虑到SSD通过USB进行连接，于是想到了<code>Windows To Go</code>，通过<a href="https://bbs.luobotou.org/thread-761-1-1.html" target="_blank" rel="external">WTG辅助工具</a>将<code>Windows To Go</code>装到SSD上。<br>另外，考虑到性能有限，决定使用Windows10 LTSB(Long Term Servicing Branch)版本，精简掉了应用商店等。<br>将SSD插到NAS的USB口，接上鼠标键盘、HDMI显示器，重启NAS，进入Bios，将SSD设置为第一启动顺序，完美启动。<br>实际体验感受了一下，运行<code>mobaxterm</code>连接Linux主机，再打开<code>Notepad++</code>和<code>copytranslator</code>，不时再开一下浏览器查阅下资料，完全没有问题。</p>
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/37.png"></div>
 
-<p>播放1080P视频，CPU维持在30%左右。</p>
+<p>播放1080P视频，CPU维持在50%左右。</p>
 <div align="center"><img width="800" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/38.png"></div>
+
+
 
 
 
@@ -815,23 +817,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">input子系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -843,7 +833,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -851,23 +849,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -875,19 +865,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -899,15 +897,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">网卡驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -915,15 +913,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -935,10 +933,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">QT</a>
               </li>
              
@@ -947,7 +941,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -956,10 +962,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -987,11 +989,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color5">灯光系统</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -999,11 +1001,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
