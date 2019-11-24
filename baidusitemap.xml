@@ -4,6 +4,42 @@
 
     
   <url>
+    <loc>http://hceng.cn/2019/11/24/SS%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2019-11-24T12:40:57.569Z</lastmod>
+    <data>
+        <display>
+        <title>SS笔记</title>
+        <pubTime>2019-11-24T11:58:04.000Z</pubTime>
+        
+        <tag>随笔</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://hceng.cn/2019/11/13/Yocto%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2019-11-24T12:04:30.943Z</lastmod>
+    <data>
+        <display>
+        <title>Yocto笔记</title>
+        <pubTime>2019-11-13T09:23:26.000Z</pubTime>
+        
+        <tag>Linux基础</tag>
+         
+        <tag>Yocto</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://hceng.cn/2019/04/22/%E9%BB%91%E7%BE%A4%E6%99%96/</loc>
     <lastmod>2019-11-21T01:00:53.836Z</lastmod>
     <data>
@@ -31,25 +67,6 @@
         <tag>Linux基础</tag>
          
         <tag>Buildroot</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://hceng.cn/2019/11/13/Yocto%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-11-13T10:39:52.036Z</lastmod>
-    <data>
-        <display>
-        <title>Yocto笔记</title>
-        <pubTime>2019-11-13T09:23:26.000Z</pubTime>
-        
-        <tag>Linux基础</tag>
-         
-        <tag>Yocto</tag>
          
          
            
@@ -426,9 +443,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>C++</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>C++</tag>
          
          
            
@@ -487,9 +504,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Android基础</tag>
          
          
            
