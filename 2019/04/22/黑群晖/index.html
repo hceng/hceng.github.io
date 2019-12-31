@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/37.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/38.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-11-21T01:00:53.836Z">
+<meta property="og:updated_time" content="2019-12-31T13:56:58.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="黑群晖">
 <meta name="twitter:description" content="黑群晖折腾记录。">
@@ -128,7 +128,7 @@
 		        
 					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hceng.cn/activities" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="nas" target="_blank" href="http://nas.hceng.cn:88/" title="nas"><i class="icon-nas"></i></a>
+					<a class="nas" target="_blank" href="http://nas.hceng.cn/" title="nas"><i class="icon-nas"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:huangcheng.job@foxmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -175,7 +175,7 @@
 			        
 						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hceng.cn/activities" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="nas" target="_blank" href="http://nas.hceng.cn:88/" title="nas"><i class="icon-nas"></i></a>
+						<a class="nas" target="_blank" href="http://nas.hceng.cn/" title="nas"><i class="icon-nas"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:huangcheng.job@foxmail.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -228,7 +228,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 6.8k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 7.3k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -236,7 +236,7 @@
       <span style="font-size:15px; color:#9a989b;">| </span> &nbsp
       <span class="icon-clock icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">阅读时长: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 25 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 27 </span> <span style="font-size:15px; color:#9a989b;">分 </span> </span>
       </span>
     </span>
     <!-- 添加完成 -->
@@ -344,7 +344,7 @@
 <div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/12.jpg"></div>
 
 <p>优点：配置简单，成本低；<br>缺点：需要公网IP，公网IP发生变化时可能半小时无法访问；</p>
-<h3 id="3-2-2-反向代理frp"><a href="#3-2-2-反向代理frp" class="headerlink" title="3.2.2 反向代理frp"></a>3.2.2 反向代理frp</h3><p>如果没有公网IP，就只能进行反向代理，反向代理的常见工具有<code>ngrok</code>和<code>frp</code>，其中<code>frp</code>简单一点，这里使用<code>frp</code>。<br><a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="external"><code>frp</code></a>的原理就是，利用有固定IP的VPS(<code>Virtual Private Server</code>)虚拟专用服务器做中转。<br>在外网VPS上搭建服务端<code>frps</code>，在内网服务器上启动客户端<code>frpc</code>，以后访问外网VPS的某个端口，就可以反向代理转发到内网的对应端口上。</p>
+<h3 id="3-2-2-反向代理frp-已有frps"><a href="#3-2-2-反向代理frp-已有frps" class="headerlink" title="3.2.2 反向代理frp(已有frps)"></a>3.2.2 反向代理frp(已有frps)</h3><p>如果没有公网IP，就只能进行反向代理，反向代理的常见工具有<code>ngrok</code>和<code>frp</code>，其中<code>frp</code>简单一点，这里使用<code>frp</code>。<br><a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="external"><code>frp</code></a>的原理就是，利用有固定IP的VPS(<code>Virtual Private Server</code>)虚拟专用服务器做中转。<br>在外网VPS上搭建服务端<code>frps</code>，在内网服务器上启动客户端<code>frpc</code>，以后访问外网VPS的某个端口，就可以反向代理转发到内网的对应端口上。</p>
 <div align="center"><img width="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/190422/13.png"></div>
 
 <p>之前在<a href="https://banwagong.cn/" target="_blank" rel="external">搬瓦工</a>上购买了一个VPS搭建SSR用于”科学上网”，理论上完全可以在上面搭建服务端<code>frps</code>，但因为是和朋友合购的，怕影响性能，就没在VPS上搭建，直接使用现成免费的VPS，以后有机会再补上VPS搭建服务端<code>frps</code>。</p>
@@ -387,6 +387,11 @@
 
 <p>优点：相对稳定，无需公网IP；<br>缺点：需要VPS搭建frps，配置相对复杂；</p>
 <p>参考资料：<br><a href="https://zhuanlan.zhihu.com/p/46580280" target="_blank" rel="external">DDNS简单教程</a><br><a href="http://blog.adiglobal.us/how-ddns-works/" target="_blank" rel="external">How DDNS Works</a><br><a href="https://zhuanlan.zhihu.com/p/57477087" target="_blank" rel="external">内网穿透：在公网访问你家的 NAS</a><br><a href="https://odcn.top/2018/10/27/1156/" target="_blank" rel="external">群晖 Docker版的frp客户端配置详解+免费服务器分享</a></p>
+<h3 id="3-2-3-反向代理frp-没有frps"><a href="#3-2-3-反向代理frp-没有frps" class="headerlink" title="3.2.3 反向代理frp(没有frps)"></a>3.2.3 反向代理frp(没有frps)</h3><p>2019131：补充使用VPS搭建frps<br><strong>1.frp服务器</strong><br>前面在黑群晖里使用的是frpc版本为0.24.1，因此这里fprc也最好选择对应版本。<br>此外，VPS是X64架构，因此从<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="external">GitHub</a>下载<code>frp_0.24.1_linux_amd64.tar.gz</code>。<br>解压，修改<code>frps.ini</code>如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[common]</div><div class="line">bind_port = 7000          #绑定端口</div><div class="line">token = xxxxx             #连接凭证</div><div class="line">max_pool_count = 50       #最大链接池</div><div class="line"></div><div class="line">vhost_http_port = 80      #http访问端口</div><div class="line">custom_domains = hceng.cn #自定义域</div><div class="line"></div><div class="line">dashboard_port = 7500     #控制面板端口</div><div class="line">dashboard_user = hceng    #控制面板用户名</div><div class="line">dashboard_pwd = xxxxx     #控制面板用户密码</div></pre></td></tr></table></figure></p>
+<p>随后执行<code>./frps -c ./frps.ini</code>运行<code>frps</code>。</p>
+<p><strong>2.frp客户端</strong><br>参考前面的内容创建<code>docker</code>，配置<code>frpc.ini</code>如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># frps信息</div><div class="line">[common]</div><div class="line">server_addr = 118.123.x.x           #服务器地址</div><div class="line">server_port = 70000                 #服务器端口</div><div class="line">token = xxxxx                       #连接凭证</div><div class="line">protocol= tcp                       #协议类型</div><div class="line"></div><div class="line"># frpc信息</div><div class="line">[hceng.nas]                         #名字，同一类型的名字不能一样</div><div class="line">type = http                         #类型</div><div class="line">privilege_mode = true               #开启特权模式</div><div class="line">local_ip = 192.168.123.123          #群晖本地IP地址</div><div class="line">local_port = 5000                   #群晖控制界面端口号</div><div class="line">use_encryption = true               #开启加密</div><div class="line">use_compression = true              #开启压缩</div><div class="line">custom_domains = nas.hceng.cn       #绑定的域名</div></pre></td></tr></table></figure></p>
+<p><strong>3.设置DNS</strong><br>参考前面的，将<code>nas.hceng.cn</code>解析到<code>118.123.x.x</code>。<br>在<a href="https://www.dnspod.cn" target="_blank" rel="external">DNSPod</a>里添加一条记录。<br>主机记录：<code>nas</code><br>记录类型：<code>A</code><br>线路类型：默认<br>记录值：<code>118.123.x.x</code> （frp服务器域名）</p>
+<p><strong>4.其它配置</strong><br>前面配置完成后，即可通过<code>nas.hceng.cn</code>直接访问了，因为前面<code>frps</code>里<code>vhost_http_port</code>设置的http端口为80，因此默认可以不显示。<br>最后需要配置<code>frps</code>开机后台自启动。<br>之前在<a href="https://hceng.cn/2019/11/24/SS%E7%AC%94%E8%AE%B0/#1-5-VPS%E5%AE%9A%E6%97%B6%E9%87%8D%E5%90%AF%E8%AE%BE%E7%BD%AE" target="_blank" rel="external">SS笔记</a>里制作了一个自启动脚本<code>/etc/init.d/autostart.sh</code>，这里往脚本添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup /root/frps/frp_0.24.1_linux_amd64/frps -c /root/frps/frp_0.24.1_linux_amd64/frps.ini &gt; /dev/null 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure></p>
 <h1 id="4-扩展设置"><a href="#4-扩展设置" class="headerlink" title="4.扩展设置"></a>4.扩展设置</h1><p>后面这些设置就不是必须的了，以后遇到什么有趣的，就记录下来，不断更新。</p>
 <h2 id="4-1-自动修改登陆壁纸"><a href="#4-1-自动修改登陆壁纸" class="headerlink" title="4.1 自动修改登陆壁纸"></a>4.1 自动修改登陆壁纸</h2><p><strong>实现每日抓取bing美图作为登陆界面壁纸，并替换欢迎信息为美图简介。</strong></p>
 <ul>
@@ -648,7 +653,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件篇"><span class="toc-number">1.</span> <span class="toc-text">1.硬件篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-硬件成本"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 硬件成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-改善噪音"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 改善噪音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统篇"><span class="toc-number">2.</span> <span class="toc-text">2.系统篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-装机思路"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 装机思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-装机准备"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 装机准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-安装引导系统"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 安装引导系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-安装DSM系统"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 安装DSM系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-必要设置"><span class="toc-number">3.</span> <span class="toc-text">3.必要设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-配置存储空间"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 配置存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-内网穿透"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 内网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-动态域名DDNS"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 动态域名DDNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-反向代理frp"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 反向代理frp</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-扩展设置"><span class="toc-number">4.</span> <span class="toc-text">4.扩展设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-自动修改登陆壁纸"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 自动修改登陆壁纸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-将NAS入口添加到博客"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 将NAS入口添加到博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-安装浏览器访问内网"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 安装浏览器访问内网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-加快群晖自带下载器速度"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 加快群晖自带下载器速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-临时作为Windows主机"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 临时作为Windows主机</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-硬件篇"><span class="toc-number">1.</span> <span class="toc-text">1.硬件篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-硬件成本"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 硬件成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-改善噪音"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 改善噪音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-系统篇"><span class="toc-number">2.</span> <span class="toc-text">2.系统篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-装机思路"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 装机思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-装机准备"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 装机准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-安装引导系统"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 安装引导系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-安装DSM系统"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 安装DSM系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-必要设置"><span class="toc-number">3.</span> <span class="toc-text">3.必要设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-配置存储空间"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 配置存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-内网穿透"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 内网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-动态域名DDNS"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 动态域名DDNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-反向代理frp-已有frps"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 反向代理frp(已有frps)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-3-反向代理frp-没有frps"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.2.3 反向代理frp(没有frps)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-扩展设置"><span class="toc-number">4.</span> <span class="toc-text">4.扩展设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-自动修改登陆壁纸"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 自动修改登陆壁纸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-将NAS入口添加到博客"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 将NAS入口添加到博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-安装浏览器访问内网"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 安装浏览器访问内网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-加快群晖自带下载器速度"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 加快群晖自带下载器速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-临时作为Windows主机"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 临时作为Windows主机</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -849,6 +854,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
@@ -858,14 +867,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -882,6 +883,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -905,7 +910,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -913,11 +918,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -925,7 +934,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -937,15 +946,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -957,6 +958,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
@@ -965,15 +970,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1065,7 +1070,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 			<!-- 原内容: <div class="aboutme-wrap" id="js-aboutme">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</div>-->  			
   	  		<span class="aboutme-match" id="js-aboutme" >&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;About me:&lt;br&gt; &amp;nbsp; &amp;nbsp;画过电路板、玩过单片机、学习驱动中;&lt;br&gt; &amp;nbsp; &amp;nbsp;爱好设计、计算机技术;&lt;br&gt; &lt;br&gt; &amp;nbsp; &amp;nbsp;一万小时定律践行者.&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;</span>
 			
-&nbsp;&nbsp; 文章总字数:&nbsp;288.3k <br>
+&nbsp;&nbsp; 文章总字数:&nbsp;288.8k <br>
 
 <span align="center" style="font-size:15px; color:##d0dae4; " id="sitetime"></span>
 
