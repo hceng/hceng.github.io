@@ -330,9 +330,9 @@
     </summary>
     
     
-      <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+    
+      <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -352,9 +352,9 @@
     </summary>
     
     
-      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
-    
       <category term="Android基础" scheme="http://yoursite.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
     
   </entry>
   
