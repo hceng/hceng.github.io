@@ -22,9 +22,9 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/6.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/7.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/8.png">
-<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/1.png">
+<meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/9.png">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-05-09T07:42:27.566Z">
+<meta property="og:updated_time" content="2020-05-09T08:05:17.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STM32MP157——Remoteproc和RPMsg">
 <meta name="twitter:description" content="简单介绍基于STM32MP157的Remoteproc和RPMsg框架。">
@@ -199,7 +199,7 @@
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 1.1k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 1.2k </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -250,19 +250,19 @@
 <p>最后，如图设置下GPIO的属性。</p>
 <div align="center"><img height="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/6.png"></div>
 
-<p>设置完后，在标签栏选择“Project”-&gt;“Generate Code”，即可自动生成相关初始化代码。默认的初始化代码如下图，需要注意的是“main.c”文件，在里面添加LED灯的控制逻辑。还有“stm32mp1xx_hal_gpio.c”，这个是hal库源码，从里面可知hal提供的GPIO相关操作函数，比如这里用到的<code>HAL_GPIO_WritePin()</code>。</p>
+<p>设置完后，在标签栏选择“Project”-&gt;“Generate Code”，即可自动生成相关初始化代码。默认的初始化代码如下图，需要注意的是“main.c”文件，在里面添加LED灯的控制逻辑。还有“stm32mp1xx_hal_gpio.c”，这个是hal库源码，从里面可知hal提供的GPIO相关操作函数，比如这里用到的<code>HAL_GPIO_WritePin()</code>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);</div><div class="line">HAL_Delay(<span class="number">1000</span>);</div><div class="line">HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);</div><div class="line">HAL_Delay(<span class="number">1000</span>);</div></pre></td></tr></table></figure></p>
 <div align="center"><img height="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/7.png"></div>
 
 <p>添加完LED的控制逻辑代码后，在标签栏选择“Project”-&gt;“Build Project”即可编译工程，得到<code>GPIO_LED_CM4.elf</code>。该文件就是M4的固件，包含Cortex-A7和Cortex-M4都可以访问的资源表(<code>.resource_table</code>)和LED的控制程序等。</p>
 <div align="center"><img height="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/8.png"></div>
 
+<p>在Linux里，使用<code>readelf -a GPIO_LED_CM4.elf</code>命令，可以获取ELF文件的更多信息。</p>
+<h1 id="2-Remoteproc框架"><a href="#2-Remoteproc框架" class="headerlink" title="2.Remoteproc框架"></a>2.Remoteproc框架</h1><p>Remoteproc(Remote Processor Framework)，主要作用就是对远程处理器的生命周期进行管理，即启动、停止远程处理器。<br>以STM32MP157为例，Cortex-A内核先启动，然后使用Linux RemoteProc框架进行加载Cortex-M4固件，启动M4内核。</p>
+<div align="center"><img height="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/9.png"></div>
 
-<h1 id="1-Remoteproc框架"><a href="#1-Remoteproc框架" class="headerlink" title="1.Remoteproc框架"></a>1.Remoteproc框架</h1><p>Remoteproc(Remote Processor Framework)，主要作用就是对远程处理器的生命周期进行管理，即启动、停止远程处理器。<br>以STM32MP157为例，Cortex-A内核先启动，然后使用Linux RemoteProc框架进行加载Cortex-M4固件，启动M4内核。</p>
-<div align="center"><img height="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/1.png"></div>
-
-<p>ST官方提供的内核已经默认配置了Remoteproc，进入系统后，首先将要运行的M4固件放在<code>/lib/firmware/</code>目录下，然后将固件名字写到<code>/sys/class/remoteproc/remoteproc0/firmware</code>，再操作<code>/sys/class/remoteproc/remoteproc0/state</code>启动、停止M4处理器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@stm32mp157:~]# ls /lib/firmware/</div><div class="line">DEMO_LED_CM4.elf  </div><div class="line">[root@stm32mp157:~]# echo DEMO_LED_CM4.elf &gt; /sys/class/remoteproc/remoteproc0/firmware</div><div class="line">[root@stm32mp157:~]# cat /sys/class/remoteproc/remoteproc0/state</div><div class="line">offline</div><div class="line">[root@stm32mp157:~]# echo start &gt; /sys/class/remoteproc/remoteproc0/state</div><div class="line">[ 8563.622332] remoteproc remoteproc0: powering up m4</div><div class="line">[ 8563.630712] remoteproc remoteproc0: Booting fw image DEMO_LED_CM4.elf, size 2236124</div><div class="line">[ 8563.663244] remoteproc remoteproc0: remote processor m4 is now up</div><div class="line">[root@stm32mp157:~]# echo stop &gt; /sys/class/remoteproc/remoteproc0/state</div><div class="line">[ 8543.281782] remoteproc remoteproc0: warning: remote FW shutdown without ack</div><div class="line">[ 8543.287372] remoteproc remoteproc0: stopped remote processor m4</div></pre></td></tr></table></figure></p>
-<p>除了在Linux的用户态控制M4内核的生命周期，还能在Linux内核态使用API控制(参考<code>linux-origin_master/Documentation/remoteproc.txt</code>)，甚至U-boot中K控制。</p>
-<h1 id="2-RPMsg框架"><a href="#2-RPMsg框架" class="headerlink" title="2.RPMsg框架"></a>2.RPMsg框架</h1><h2 id="2-1-用户态的通信"><a href="#2-1-用户态的通信" class="headerlink" title="2.1 用户态的通信"></a>2.1 用户态的通信</h2><h2 id="2-2-内核的通信"><a href="#2-2-内核的通信" class="headerlink" title="2.2 内核的通信"></a>2.2 内核的通信</h2><hr>
+<p>ST官方提供的内核已经默认配置了Remoteproc，进入系统后，首先将要运行的M4固件放在<code>/lib/firmware/</code>目录下，然后将固件名字写到<code>/sys/class/remoteproc/remoteproc0/firmware</code>，再操作<code>/sys/class/remoteproc/remoteproc0/state</code>启动、停止M4处理器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@stm32mp157:~]# ls /lib/firmware/</div><div class="line">DEMO_LED_CM4.elf  </div><div class="line">[root@stm32mp157:~]# echo GPIO_LED_CM4.elf &gt; /sys/class/remoteproc/remoteproc0/firmware</div><div class="line">[root@stm32mp157:~]# cat /sys/class/remoteproc/remoteproc0/state</div><div class="line">offline</div><div class="line">[root@stm32mp157:~]# echo start &gt; /sys/class/remoteproc/remoteproc0/state</div><div class="line">[22683.222322] remoteproc remoteproc0: powering up m4</div><div class="line">[22683.229097] remoteproc remoteproc0: Booting fw image GPIO_LED_CM4.elf, size 1899976</div><div class="line">[22683.235549] remoteproc remoteproc0: header-less resource table</div><div class="line">[22683.241235] remoteproc remoteproc0: not resource table found for this firmware</div><div class="line">[22683.248749] remoteproc remoteproc0: header-less resource table</div><div class="line">[22683.254414] remoteproc remoteproc0: remote processor m4 is now up</div><div class="line">[root@stm32mp157:~]# echo stop &gt; /sys/class/remoteproc/remoteproc0/state</div><div class="line">[22709.281733] remoteproc remoteproc0: warning: remote FW shutdown without ack</div><div class="line">[22709.287325] remoteproc remoteproc0: stopped remote processor m4</div></pre></td></tr></table></figure></p>
+<p>除了在Linux的用户态控制M4内核的生命周期，还能在Linux内核态使用API控制(参考<code>linux-origin_master/Documentation/remoteproc.txt</code>)，甚至U-boot中控制。</p>
+<h1 id="3-RPMsg框架"><a href="#3-RPMsg框架" class="headerlink" title="3.RPMsg框架"></a>3.RPMsg框架</h1><h2 id="3-1-用户态的通信"><a href="#3-1-用户态的通信" class="headerlink" title="3.1 用户态的通信"></a>3.1 用户态的通信</h2><h2 id="3-2-内核的通信"><a href="#3-2-内核的通信" class="headerlink" title="3.2 内核的通信"></a>3.2 内核的通信</h2><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -429,7 +429,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-生成M4固件"><span class="toc-number">1.</span> <span class="toc-text">1.生成M4固件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Remoteproc框架"><span class="toc-number">2.</span> <span class="toc-text">1.Remoteproc框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-RPMsg框架"><span class="toc-number">3.</span> <span class="toc-text">2.RPMsg框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-用户态的通信"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 用户态的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-内核的通信"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 内核的通信</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-生成M4固件"><span class="toc-number">1.</span> <span class="toc-text">1.生成M4固件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Remoteproc框架"><span class="toc-number">2.</span> <span class="toc-text">2.Remoteproc框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-RPMsg框架"><span class="toc-number">3.</span> <span class="toc-text">3.RPMsg框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-用户态的通信"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 用户态的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-内核的通信"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 内核的通信</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -594,14 +594,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
@@ -626,15 +618,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Exynos4412</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -654,19 +646,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -678,6 +674,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">环境搭建</a>
               </li>
              
@@ -686,11 +686,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,7 +710,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -718,19 +718,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">QT</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,7 +742,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color3">QT</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -766,15 +762,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
