@@ -18,8 +18,8 @@
   
   <entry>
     <title>STM32MP157——Remoteproc和RPMsg</title>
-    <link href="http://yoursite.com/2020/05/09/STM32MP157%E2%80%94%E2%80%94Remoteproc%E5%92%8CRPMsg1/"/>
-    <id>http://yoursite.com/2020/05/09/STM32MP157——Remoteproc和RPMsg1/</id>
+    <link href="http://yoursite.com/2020/05/09/STM32MP157%E2%80%94%E2%80%94Remoteproc%E5%92%8CRPMsg/"/>
+    <id>http://yoursite.com/2020/05/09/STM32MP157——Remoteproc和RPMsg/</id>
     <published>2020-05-09T02:57:28.000Z</published>
     <updated>2020-05-09T07:42:27.566Z</updated>
     
@@ -326,13 +326,13 @@
     
       <category term="AM335X" scheme="http://yoursite.com/tags/AM335X/"/>
     
+      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
+    
       <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
     
       <category term="hwmon子系统" scheme="http://yoursite.com/tags/hwmon%E5%AD%90%E7%B3%BB%E7%BB%9F/"/>
     
       <category term="input子系统" scheme="http://yoursite.com/tags/input%E5%AD%90%E7%B3%BB%E7%BB%9F/"/>
-    
-      <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
     
   </entry>
   
@@ -354,9 +354,9 @@
     
       <category term="AM335X" scheme="http://yoursite.com/tags/AM335X/"/>
     
-      <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
-    
       <category term="SPI" scheme="http://yoursite.com/tags/SPI/"/>
+    
+      <category term="Linux驱动" scheme="http://yoursite.com/tags/Linux%E9%A9%B1%E5%8A%A8/"/>
     
   </entry>
   
