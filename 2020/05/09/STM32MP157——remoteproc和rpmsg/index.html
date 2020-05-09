@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>STM32MP157——remoteproc和rpmsg | hceng blog</title>
+  <title>STM32MP157——Remoteproc和RPMsg | hceng blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简单介绍基于STM32MP157的remoteproc(Remote Processor Framework)和rpmsg（Remote Processor Messaging Framework)。">
+  <meta name="description" content="简单介绍基于STM32MP157的Remoteproc和RPMsg框架。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="STM32MP157——remoteproc和rpmsg">
-<meta property="og:url" content="http://yoursite.com/2020/05/09/STM32MP157——remoteproc和rpmsg/index.html">
+<meta property="og:title" content="STM32MP157——Remoteproc和RPMsg">
+<meta property="og:url" content="http://yoursite.com/2020/05/09/STM32MP157——Remoteproc和RPMsg/index.html">
 <meta property="og:site_name" content="hceng blog">
-<meta property="og:description" content="简单介绍基于STM32MP157的remoteproc(Remote Processor Framework)和rpmsg（Remote Processor Messaging Framework)。">
+<meta property="og:description" content="简单介绍基于STM32MP157的Remoteproc和RPMsg框架。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-05-09T03:24:02.014Z">
+<meta property="og:updated_time" content="2020-05-09T03:39:39.131Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="STM32MP157——remoteproc和rpmsg">
-<meta name="twitter:description" content="简单介绍基于STM32MP157的remoteproc(Remote Processor Framework)和rpmsg（Remote Processor Messaging Framework)。">
+<meta name="twitter:title" content="STM32MP157——Remoteproc和RPMsg">
+<meta name="twitter:description" content="简单介绍基于STM32MP157的Remoteproc和RPMsg框架。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="hceng blog" type="application/atom+xml">
@@ -169,7 +169,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-STM32MP157——remoteproc和rpmsg" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-STM32MP157——Remoteproc和RPMsg" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -177,20 +177,20 @@
         
   
     <h1 class="article-title" itemprop="name">
-      STM32MP157——remoteproc和rpmsg
+      STM32MP157——Remoteproc和RPMsg
     </h1>
   
 
 		
         
         <a 
-    href="/2020/05/09/STM32MP157——remoteproc和rpmsg/" class="archive-article-date">
+    href="/2020/05/09/STM32MP157——Remoteproc和RPMsg/" class="archive-article-date">
     
     <!-- 开始添加字数统计-->   
      <span class="post-time">
       <span class="icon-word icon" style="color:#9a989b">
         <span class="post-meta-item-text">  <span style="font-size:15px; color:#9a989b;">字数统计: </span> </span>
-        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 287 </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
+        <span class="post-count"> <span style="font-size:15px; color:#9a989b;"> 285 </span> <span style="font-size:15px; color:#9a989b;">字 </span> </span>
       </span>
     </span>
 
@@ -217,10 +217,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>简单介绍基于STM32MP157的remoteproc(Remote Processor Framework)和rpmsg（Remote Processor Messaging Framework)。<br><a id="more"></a><br>STM32MP1系列产品，是STM32进军Linux的首款微处理器，采用MCU+MPU的组合，集成两颗主频为650MHz的Cortex-A7应用处理器内核和一颗主频为209MHz的Cortex-M4微控制器内核。</p>
+        <p>简单介绍基于STM32MP157的Remoteproc和RPMsg框架。<br><a id="more"></a><br>STM32MP1系列产品，是STM32进军Linux的首款微处理器，采用MCU+MPU的组合，集成两颗主频为650MHz的Cortex-A7应用处理器内核和一颗主频为209MHz的Cortex-M4微控制器内核。</p>
 <p>非对称多处理Asymmetric Multiprocessing(AMP)虽然目前在嵌入式还不是主流，但未来肯定是趋势。将多媒体处理扔给专用的MCU，亦或将对控制延时敏感的传感器交给MCU实时控制，更多的组合提供更多的遐想。</p>
 <p>对于非对称多核架构，不同的核心是如何启动运行，又是如何进行通信？这些疑惑在上手STM32MP157后，逐渐明朗，记录下心得。</p>
-<h1 id="1-remoteproc框架"><a href="#1-remoteproc框架" class="headerlink" title="1.remoteproc框架"></a>1.remoteproc框架</h1><h1 id="2-rpmsg框架"><a href="#2-rpmsg框架" class="headerlink" title="2.rpmsg框架"></a>2.rpmsg框架</h1><h2 id="2-1-用户态的通信"><a href="#2-1-用户态的通信" class="headerlink" title="2.1 用户态的通信"></a>2.1 用户态的通信</h2><h2 id="2-2-内核的通信"><a href="#2-2-内核的通信" class="headerlink" title="2.2 内核的通信"></a>2.2 内核的通信</h2><hr>
+<h1 id="1-Remoteproc框架"><a href="#1-Remoteproc框架" class="headerlink" title="1.Remoteproc框架"></a>1.Remoteproc框架</h1><p>remoteproc(Remote Processor Framework)</p>
+<h1 id="2-RPMsg框架"><a href="#2-RPMsg框架" class="headerlink" title="2.RPMsg框架"></a>2.RPMsg框架</h1><h2 id="2-1-用户态的通信"><a href="#2-1-用户态的通信" class="headerlink" title="2.1 用户态的通信"></a>2.1 用户态的通信</h2><h2 id="2-2-内核的通信"><a href="#2-2-内核的通信" class="headerlink" title="2.2 内核的通信"></a>2.2 内核的通信</h2><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
 
       
@@ -344,7 +345,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/09/STM32MP157——remoteproc和rpmsg/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/09/STM32MP157——Remoteproc和RPMsg/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -387,7 +388,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-remoteproc框架"><span class="toc-number">1.</span> <span class="toc-text">1.remoteproc框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-rpmsg框架"><span class="toc-number">2.</span> <span class="toc-text">2.rpmsg框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-用户态的通信"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 用户态的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-内核的通信"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 内核的通信</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Remoteproc框架"><span class="toc-number">1.</span> <span class="toc-text">1.Remoteproc框架</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-RPMsg框架"><span class="toc-number">2.</span> <span class="toc-text">2.RPMsg框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-用户态的通信"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 用户态的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-内核的通信"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 内核的通信</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -544,23 +545,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">AM335X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -572,6 +561,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hwmon子系统</a>
               </li>
              
@@ -580,11 +573,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">裸机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,15 +589,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -612,7 +609,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -621,6 +618,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -652,27 +653,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电源管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -680,7 +661,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -708,15 +709,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android应用</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Android驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -728,11 +729,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">TCP/UDP</a>
               </li>
              
               <li class="article-tag-list-item">
