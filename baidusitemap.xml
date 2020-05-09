@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2020/05/09/STM32MP157%E2%80%94%E2%80%94Remoteproc%E5%92%8CRPMsg/</loc>
-    <lastmod>2020-05-09T08:20:03.178Z</lastmod>
+    <lastmod>2020-05-09T09:24:36.362Z</lastmod>
     <data>
         <display>
         <title>STM32MP157——Remoteproc和RPMsg</title>
@@ -247,9 +247,9 @@
         <title>AM437x——RTC驱动</title>
         <pubTime>2017-08-27T08:47:02.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -346,9 +346,9 @@
         <title>AM437x——LED驱动</title>
         <pubTime>2017-08-12T08:06:46.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
@@ -464,9 +464,9 @@
         <title>AM437x——I2C驱动</title>
         <pubTime>2017-09-11T06:30:36.000Z</pubTime>
         
-        <tag>AM437X</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>AM437X</tag>
          
          
            
