@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/13.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/14.png">
 <meta property="og:image" content="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/others/creativecommons_88x31.png">
-<meta property="og:updated_time" content="2020-05-10T07:25:08.818Z">
+<meta property="og:updated_time" content="2020-05-10T07:29:44.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STM32MP157——Remoteproc和RPMsg">
 <meta name="twitter:description" content="简单介绍基于STM32MP157的Remoteproc和RPMsg框架。">
@@ -307,7 +307,7 @@
 </ul>
 <p>然后还需要设置虚拟串口<code>/dev/ttyRPMSG0</code>。<br><code>-onlcr</code>是不将<code>NL</code>字符映射为<code>CR-NL</code>字符，就是说发送给M4的数据，不会自动加上回车，不然这里发送<code>led_on</code>，M4收到的为<code>led_on\n\r</code>，正确的应该是收到<code>*led_on\r</code>。<br><code>-echo</code>是禁止回显，以方便查看接收的字符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">stty -onlcr -echo -F /dev/ttyRPMSG0</div><div class="line">cat /dev/ttyRPMSG0 &amp;</div></pre></td></tr></table></figure></p>
 <p>最后，向<code>/dev/ttyRPMSG0</code>写入预定义的指令，M4收到指令便会控制LED灯，并发送结果给A7。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo &quot;*led_on&quot; &gt; /dev/ttyRPMSG0</div><div class="line">echo &quot;*led_off&quot; &gt; /dev/ttyRPMSG0</div></pre></td></tr></table></figure></p>
-<div align="center"><img height="500" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/13.png"></div>
+<div align="center"><img height="300" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/13.png"></div>
 
 <ul>
 <li>2.测试A7和M4休眠唤醒<br>接着前面，启动M4后。<br>首先设置虚拟串口<code>/dev/ttyRPMSG1</code>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">stty -onlcr -echo -F /dev/ttyRPMSG1</div><div class="line">cat /dev/ttyRPMSG1 &amp;</div></pre></td></tr></table></figure>
@@ -315,7 +315,7 @@
 </ul>
 <p>然后向<code>/dev/ttyRPMSG1</code>写入<code>*stop</code>，M4随后卡在打印<code>Going to CStop mode</code>后，接着向<code>/dev/ttyRPMSG1</code>写入<code>wakeup</code>(任意字符即可)，M4随后打印<code>Leaving CStop mode</code>。即实现了A7控制M4的休眠和唤醒。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo &quot;*stop&quot; &gt; /dev/ttyRPMSG1</div><div class="line">echo &quot;wakeup&quot; &gt;/dev/ttyRPMSG1</div></pre></td></tr></table></figure></p>
 <p>再测试M4唤醒A7。<br>先使能A7唤醒，然后向<code>/dev/ttyRPMSG1</code>写入<code>*delay</code>，M4收到指令后，20S后会向A7发数据，从而唤醒A7。<br>此时控制A7进入休眠状态，20S后，A7被唤醒。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">echo enabled &gt; /sys/devices/platform/soc/4c001000.mailbox/power/wakeup</div><div class="line">echo &quot;*delay&quot; &gt; /dev/ttyRPMSG1</div><div class="line">echo mem &gt; /sys/power/state</div></pre></td></tr></table></figure></p>
-<div align="center"><img height="400" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/14.png"></div>
+<div align="center"><img width="1200" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/blog_image/200509/14.png"></div>
 
 <h2 id="3-2-内核态的通信"><a href="#3-2-内核态的通信" class="headerlink" title="3.2 内核态的通信"></a>3.2 内核态的通信</h2><hr>
 <p><div align="center"><a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://blog-image-1257972744.cos.ap-chongqing.myqcloud.com/hceng/others/creativecommons_88x31.png"></a><br>本文采用<a rel="external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://hceng.cn/" target="_blank" rel="external">hceng blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></p>
@@ -649,11 +649,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
+                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -669,11 +665,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SPI</a>
+                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">AM437X</a>
+                <a href="javascript:void(0)" class="js-tag color4">摄像头</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UVC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -685,27 +685,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -717,27 +705,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">触摸屏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">内核移植</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">音频驱动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">驱动相关</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Linux基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SD卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Uboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -757,15 +749,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+                <a href="javascript:void(0)" class="js-tag color5">Linux环境编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
+                <a href="javascript:void(0)" class="js-tag color5">CMOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -773,11 +765,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
+                <a href="javascript:void(0)" class="js-tag color4">Makefile</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PCB</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux应用</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">NFC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Photoshop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -786,6 +786,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -801,7 +805,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">RK3288</a>
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -813,19 +821,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">i.MX6ULL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">WiFi网卡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -837,7 +837,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -845,7 +845,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
