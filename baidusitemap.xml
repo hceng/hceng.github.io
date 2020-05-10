@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2020/05/09/STM32MP157%E2%80%94%E2%80%94Remoteproc%E5%92%8CRPMsg/</loc>
-    <lastmod>2020-05-10T06:32:21.217Z</lastmod>
+    <lastmod>2020-05-10T07:04:23.835Z</lastmod>
     <data>
         <display>
         <title>STM32MP157——Remoteproc和RPMsg</title>
@@ -424,13 +424,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -504,9 +504,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
