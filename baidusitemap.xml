@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://hceng.cn/2020/05/09/STM32MP157%E2%80%94%E2%80%94Remoteproc%E5%92%8CRPMsg/</loc>
-    <lastmod>2020-05-10T07:04:23.835Z</lastmod>
+    <lastmod>2020-05-10T07:25:08.818Z</lastmod>
     <data>
         <display>
         <title>STM32MP157——Remoteproc和RPMsg</title>
@@ -285,9 +285,9 @@
         <title>U-Boot分析、移植及使用</title>
         <pubTime>2017-03-26T10:39:00.000Z</pubTime>
         
-        <tag>Uboot</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Uboot</tag>
          
         <tag>环境搭建</tag>
          
@@ -384,9 +384,9 @@
         <title>Linux摄像头驱动2——UVC</title>
         <pubTime>2018-04-22T12:18:08.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -424,13 +424,13 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
          
         <tag>hwmon子系统</tag>
          
         <tag>input子系统</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -483,9 +483,9 @@
         <title>C++学习笔记</title>
         <pubTime>2018-09-24T12:46:52.000Z</pubTime>
         
-        <tag>C++</tag>
-         
         <tag>Android基础</tag>
+         
+        <tag>C++</tag>
          
          
            
@@ -504,9 +504,9 @@
         
         <tag>AM335X</tag>
          
-        <tag>SPI</tag>
-         
         <tag>Linux驱动</tag>
+         
+        <tag>SPI</tag>
          
          
            
@@ -544,9 +544,9 @@
         <title>JAVA学习笔记</title>
         <pubTime>2018-09-12T14:48:34.000Z</pubTime>
         
-        <tag>Android基础</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Android基础</tag>
          
          
            
@@ -605,9 +605,9 @@
         <title>Linux摄像头驱动4——CMOS摄像头</title>
         <pubTime>2018-05-20T08:02:12.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>Linux驱动</tag>
          
         <tag>CMOS</tag>
          
@@ -645,9 +645,9 @@
         <title>Linux摄像头驱动1——vivid</title>
         <pubTime>2018-03-08T07:59:30.000Z</pubTime>
         
-        <tag>Linux驱动</tag>
-         
         <tag>摄像头</tag>
+         
+        <tag>Linux驱动</tag>
          
          
            
@@ -1014,9 +1014,9 @@
         
         <tag>随笔</tag>
          
-        <tag>PCB</tag>
-         
         <tag>设计</tag>
+         
+        <tag>PCB</tag>
          
          
            
@@ -1069,9 +1069,9 @@
         <title>自己写bootloader</title>
         <pubTime>2017-04-13T00:35:55.000Z</pubTime>
         
-        <tag>Uboot</tag>
-         
         <tag>驱动相关</tag>
+         
+        <tag>Uboot</tag>
          
         <tag>bootloader</tag>
          
